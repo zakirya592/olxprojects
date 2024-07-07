@@ -28,7 +28,7 @@ const Hadersilder = () => {
 
   return (
     <div className="relative h-auto w-full bg-white border-b mt-4 mb-20">
-      <div className="relative h-[420px] w-full">
+      <div className="relative  w-full">
         <Swiper
           spaceBetween={30}
           centeredSlides={true}
@@ -56,16 +56,16 @@ const Hadersilder = () => {
           ) : ( */}
           {/* // slidersData.map((item) => ( */}
           <SwiperSlide>
-            <div className="relative  w-full h-[420px]">
+            <div className="relative  w-100 ">
               <img
                 // src={imageLiveUrl(item?.image)}
                 src={silder1}
-                className="w-full h-full object-cover"
+                className="w-full h-full object-contain"
                 alt="Slide 1"
               />
-              <h2 className="sm:text-5xl text-lg font-sans font-bold text-center text-secondary">
+              {/* <h2 className="sm:text-5xl text-lg font-sans font-bold text-center text-secondary">
                 title
-              </h2>
+              </h2> */}
               {/* <div
                 className={`absolute sm:top-1/4 top-2.5 sm:left-10 left-3 text-white max-w-6xl`}
               >
@@ -99,12 +99,46 @@ const Hadersilder = () => {
             </div>
           </SwiperSlide>
           <SwiperSlide>
-            <div className="relative  w-full h-[420px]">
+            <div className="relative  w-100">
               <img
+                // src={imageLiveUrl(item?.image)}
                 src={silder1}
-                className="w-full h-full object-cover"
+                className="w-full h-full object-contain"
                 alt="Slide 1"
               />
+              {/* <h2 className="sm:text-5xl text-lg font-sans font-bold text-center text-secondary">
+                title
+              </h2> */}
+              {/* <div
+                className={`absolute sm:top-1/4 top-2.5 sm:left-10 left-3 text-white max-w-6xl`}
+              >
+                {/* <h2 className="sm:text-5xl text-3xl font-sans font-bold mb-4">
+                  title
+                </h2>
+                <p className="sm:text-2xl text-xl font-thin">
+                  {/* {item?.description} */}
+              {/* description_ar */}
+              {/* </p> */}
+
+              {/* <Link
+                    // to={`/${item?.link}`}
+                    >
+                      <Button
+                        variant="contained"
+                        // type="submit"
+                        style={{
+                          backgroundColor: "#1F0567",
+                          color: "#ffffff",
+                          marginTop: "2rem",
+                        }}
+                        className="bg-[#B6BAD6]"
+                        endIcon={<ArrowRightAltIcon />}
+                      >
+                        {/* {item?.caption} */}
+              {/* caption */}
+              {/* </Button>
+                    </Link> */}
+              {/* </div> */}
             </div>
           </SwiperSlide>
           {/* )) */}
