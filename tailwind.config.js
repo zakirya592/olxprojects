@@ -17,13 +17,16 @@ export default {
         serif: ['Merriweather', 'serif'],
         mono: ['ui-monospace', 'SFMono-Regular'],
         display: ['Oswald', 'sans-serif'],
-        body: ['Open Sans', 'sans-serif']
+        body: ['Open Sans', 'sans-serif'],
       },
       colors: {
         primary: '#FF693A',
         secondary: '#021F69',
         border_color: '#8E9CAB',
-        headingcolor:'#002f34'
+        headingcolor:'#002f34',
+        viewmorebutton:'#3a77ff',
+        detailscolor:'#002f34',
+        loactioncolor:'#406367'
       }
     }
   },
