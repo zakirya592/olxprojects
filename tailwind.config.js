@@ -26,7 +26,8 @@ export default {
         headingcolor:'#002f34',
         viewmorebutton:'#3a77ff',
         detailscolor:'#002f34',
-        loactioncolor:'#406367'
+        loactioncolor:'#406367',
+        texthover:'#00a49f'
       }
     }
   },

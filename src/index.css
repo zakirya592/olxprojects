@@ -13,3 +13,13 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+.customgradient {
+  background: -webkit-gradient(linear, left top, left bottom, from(rgba(0, 47, 52, 0.16)), color-stop(81.77%, rgba(0, 47, 52, 0.01)), to(rgba(0, 47, 52, 0.01)));
+  background: linear-gradient(180deg, rgba(0, 47, 52, 0.16), rgba(0, 47, 52, 0.01) 81.77%, rgba(0, 47, 52, 0.01));
+}
+
+/* Add this to your CSS file (e.g., styles.css) */
+.gradient-border {
+  background: linear-gradient(to right, #f59e0b, #3b82f6, #10b981);
+}
