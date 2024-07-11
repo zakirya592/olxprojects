@@ -2,8 +2,10 @@ import React, { useState } from 'react';
 import { FaCarAlt } from "react-icons/fa";
 import { MdOutlineHomeWork } from "react-icons/md";
 import { FaSearch, FaCommentDots, FaBell, FaMapMarkerAlt, FaLocationArrow } from "react-icons/fa";
+import { useNavigate } from 'react-router-dom';
 
 function Header() {
+    const navigator =useNavigate()
     const [selectedLocation, setSelectedLocation] = useState("");
     const handleLocationChange = (event) => {
         const selectedValue = event.target.value;
@@ -88,7 +90,7 @@ function Header() {
                 alt="Profile"
                 className="w-10 h-10 rounded-full object-cover cursor-pointer"
               />
-              <div className="gradient-border p-1 rounded-full">
+              <div className="gradient-border p-1 rounded-full" onClick={()=>navigator('/Post')}>
                 <button className="text-gray-800 border-none bg-white px-4 py-2 rounded-full">
                   + SELL
                 </button>
