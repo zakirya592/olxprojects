@@ -55,7 +55,7 @@ function Sellpage() {
       <div className="flex items-center p-4 bg-gray-100 rounded-lg shadow-md hover:bg-gray-100">
         <div
           className="cursor-pointer flex my-auto"
-          onClick={() => navigator("/Post")}
+          onClick={() => navigator("/")}
         >
           <IoMdArrowBack size={24} />
           <p className="text-lg font-bold text-center ms-3 my-auto">OLX</p>
