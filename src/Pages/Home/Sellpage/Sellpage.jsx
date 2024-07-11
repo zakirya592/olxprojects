@@ -3,21 +3,6 @@ import { IoMdArrowBack } from "react-icons/io";
 import { useNavigate } from "react-router-dom";
 import { GrNext } from "react-icons/gr";
 
-import Mobliceimg from "../../../assets/Images/mobiles.png";
-import vehicles from "../../../assets/Images/vehicles.png";
-import PropertyforSale from "../../../assets/Images/PropertyforSale.png";
-import PropertyForRent from "../../../assets/Images/property-for-rent.png";
-import electronicshome from "../../../assets/Images/electronics-home-appliances.png";
-import Bikes from "../../../assets/Images/bikes.png";
-import BusinessIndustrialAgriculture from "../../../assets/Images/business-industrial-agriculture.png";
-import Services from "../../../assets/Images/services.png";
-import Jobs from "../../../assets/Images/jobs.png";
-import Animals from "../../../assets/Images/animals.png";
-import FurnitureHomeDecor from "../../../assets/Images/furniture-home-decor.png";
-import FashionBeauty from "../../../assets/Images/fashion-beauty.png";
-import BooksSportsHobbies from "../../../assets/Images/books-sports-hobbies.png";
-import Kids from "../../../assets/Images/kids.png";
-
 function Sellpage() {
   const navigator = useNavigate();
   const categories = [
