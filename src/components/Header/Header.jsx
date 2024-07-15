@@ -48,7 +48,7 @@ function Header() {
 
               <h6
                 className="text-xl ms-2 font-bold my-auto cursor-pointer"
-                onClick={() => navigator("Admin/Home")}
+                onClick={() => navigator("/Admin/Category")}
               >
                 Admin
               </h6>

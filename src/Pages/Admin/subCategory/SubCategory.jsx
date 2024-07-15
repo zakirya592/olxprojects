@@ -8,6 +8,8 @@ import { AdminSubCategory } from "../../../../utils/Datatablesource";
 import NewRequest from "../../../../utils/NewRequest";
 import Swal from "sweetalert2";
 import { toast } from "react-toastify";
+import AddSubCategory from "./AddSubCategory";
+import UpdateSubCategory from "./UpdateSubCategory";
 
 const SubCategory = () => {
   const [isLoading, setIsLoading] = useState(false);
@@ -55,12 +57,12 @@ const SubCategory = () => {
     }).then(async (result) => {
       if (result.isConfirmed) {
         try {
-          const isDeleted = await NewRequest.delete("subCategory" + row?._id);
+          const isDeleted = await NewRequest.delete("subCategory/" + row?._id);
           if (isDeleted) {
             toast.success(`SubCategory has been deleted successfully!`);
 
             // filter out the deleted user from the data
-            const filteredData = data.filter((item) => item?.id !== row?.id);
+            const filteredData = data.filter((item) => item?._id !== row?._id);
             setData(filteredData);
           } else {
             // Handle any additional logic if the user was not deleted successfully
@@ -82,7 +84,6 @@ const SubCategory = () => {
 
   const handleRowClickInParent = (item) => {
     if (!item || item?.length === 0) {
-      // setFilteredData(data)
       return;
     }
   };
@@ -143,13 +144,21 @@ const SubCategory = () => {
             </div>
           </div>
         </div>
-        {/* {isCreatePopupVisible && (
-                    <Addsilders isVisible={isCreatePopupVisible} setVisibility={setCreatePopupVisibility} refreshBrandData={refreshcitiesData} />
-                )}
-         
-                {isUpdatePopupVisible && (
-                    <Updatasilder isVisible={isUpdatePopupVisible} setVisibility={setUpdatePopupVisibility} refreshBrandData={refreshcitiesData} />
-                )} */}
+        {isCreatePopupVisible && (
+          <AddSubCategory
+            isVisible={isCreatePopupVisible}
+            setVisibility={setCreatePopupVisibility}
+            refreshBrandData={fetchData}
+          />
+        )}
+
+        {isUpdatePopupVisible && (
+          <UpdateSubCategory
+            isVisible={isUpdatePopupVisible}
+            setVisibility={setUpdatePopupVisibility}
+            refreshBrandData={fetchData}
+          />
+        )}
       </div>
     </div>
   );

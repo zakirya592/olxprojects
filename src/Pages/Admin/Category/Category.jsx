@@ -49,7 +49,6 @@ const Category = () => {
   };
 
   const handleDelete = async (row) => {
-    console.log(row?._id);
     Swal.fire({
       title: "Are you sure to delete this record?",
       text: "You will not be able to recover this",
