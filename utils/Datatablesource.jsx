@@ -23,7 +23,6 @@ export const AdminUsersColumn = [
           width: "90%",
           height: "90%",
           objectFit: "contain",
-          cursor: "pointer",
         }}
       />
     ),
@@ -35,16 +34,18 @@ export const AdminUsersColumn = [
     renderCell: (params) => (
       <div
         style={{
-          padding: "5px",
-          paddingLeft: "10px",
-          paddingRight: "10px",
-          borderRadius: "20px",
+          padding: "4px 8px",
+          borderRadius: "10px",
           border: "2px solid",
-          borderColor: params.row.status === 1 ? "green" : "red",
-          color: params.row.status === 1 ? "green" : "red",
+          background: params.value === 1 ? "green" : "red",
+          color: "white",
+          textAlign: "center",
+          width: "80px", // Fixed width for consistency
+          height: "30px", // Fixed height for consistency
+          lineHeight: "22px", // Vertically center the text
         }}
       >
-        {params.row.status === 1 ? "Active" : "Inactive"}
+        {params.value === 1 ? "Active" : "Inactive"}
       </div>
     ),
   },
@@ -52,10 +53,8 @@ export const AdminUsersColumn = [
     field: "createdAt",
     headerName: "Created At",
     width: 200,
-
     type: "dateTime",
     valueGetter: (params) => {
-      // Convert the string date to a Date object
       return params.value ? new Date(params.value) : null;
     },
   },
@@ -65,7 +64,6 @@ export const AdminUsersColumn = [
     width: 200,
     type: "dateTime",
     valueGetter: (params) => {
-      // Convert the string date to a Date object
       return params.value ? new Date(params.value) : null;
     },
   },

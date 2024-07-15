@@ -8,6 +8,8 @@ import { AdminUsersColumn } from "../../../../utils/Datatablesource";
 import NewRequest from "../../../../utils/NewRequest";
 import Swal from "sweetalert2";
 import { toast } from "react-toastify";
+import Addcategories from "./Addcategories";
+import UpdataCategories from "./UpdataCategories";
 
 const Category = () => {
   const [isLoading, setIsLoading] = useState(false);
@@ -47,6 +49,7 @@ const Category = () => {
   };
 
   const handleDelete = async (row) => {
+    console.log(row?._id);
     Swal.fire({
       title: "Are you sure to delete this record?",
       text: "You will not be able to recover this",
@@ -60,14 +63,14 @@ const Category = () => {
     }).then(async (result) => {
       if (result.isConfirmed) {
         try {
-          const isDeleted = await NewRequest.delete("category" + row?._id);
+          const isDeleted = await NewRequest.delete("category/" + row?._id);
           if (isDeleted) {
             toast.success(
               `category has been deleted successfully!`
             );
 
             // filter out the deleted user from the data
-            const filteredData = data.filter((item) => item?.id !== row?.id);
+            const filteredData = data.filter((item) => item?._id !== row?._id);
             setData(filteredData);
           } else {
             // Handle any additional logic if the user was not deleted successfully
@@ -103,7 +106,7 @@ const Category = () => {
               <div className={`flex px-3 flex-row justify-start`}>
                 <button
                   onClick={handleShowCreatePopup}
-                  className="rounded-full bg-secondary font-body px-5 py-1 text-sm mb-3 text-white transition duration-200 hover:bg-primary"
+                  className="rounded-full bg-loactioncolor font-body px-5 py-1 text-sm mb-3 text-white transition duration-200 hover:bg-primary"
                 >
                   <i className="fas fa-plus mr-2"></i>Add Category
                 </button>
@@ -150,13 +153,21 @@ const Category = () => {
             </div>
           </div>
         </div>
-        {/* {isCreatePopupVisible && (
-                    <Addsilders isVisible={isCreatePopupVisible} setVisibility={setCreatePopupVisibility} refreshBrandData={refreshcitiesData} />
-                )}
-         
-                {isUpdatePopupVisible && (
-                    <Updatasilder isVisible={isUpdatePopupVisible} setVisibility={setUpdatePopupVisibility} refreshBrandData={refreshcitiesData} />
-                )} */}
+        {isCreatePopupVisible && (
+          <Addcategories
+            isVisible={isCreatePopupVisible}
+            setVisibility={setCreatePopupVisibility}
+            refreshBrandData={fetchData}
+          />
+        )}
+
+        {isUpdatePopupVisible && (
+          <UpdataCategories
+            isVisible={isUpdatePopupVisible}
+            setVisibility={setUpdatePopupVisibility}
+            refreshBrandData={fetchData}
+          />
+        )}
       </div>
     </div>
   );
