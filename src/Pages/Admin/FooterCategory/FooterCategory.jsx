@@ -8,10 +8,13 @@ import { AdminFooterCategory } from "../../../../utils/Datatablesource";
 import NewRequest from "../../../../utils/NewRequest";
 import Swal from "sweetalert2";
 import { toast } from "react-toastify";
+import AddfooterCategory from "./AddfooterCategory";
+import UpdatefooterCategory from "./UpdatefooterCategory";
 
 const FooterCategory = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [data, setData] = useState([]);
+  const navigate = useNavigate();
 
   const [isCreatePopupVisible, setCreatePopupVisibility] = useState(false);
   const [isUpdatePopupVisible, setUpdatePopupVisibility] = useState(false);
@@ -22,7 +25,6 @@ const FooterCategory = () => {
     setUpdatePopupVisibility(true);
     sessionStorage.setItem("updateFooterCategory", JSON.stringify(row));
   };
-  const navigate = useNavigate();
 
   const fetchData = async () => {
     setIsLoading(true);
@@ -55,12 +57,12 @@ const FooterCategory = () => {
     }).then(async (result) => {
       if (result.isConfirmed) {
         try {
-          const isDeleted = await NewRequest.delete("footerCategory" + row?._id);
+          const isDeleted = await NewRequest.delete("/footerCategory/" + row?._id);
           if (isDeleted) {
             toast.success(`FooterCategory has been deleted successfully!`);
 
             // filter out the deleted user from the data
-            const filteredData = data.filter((item) => item?.id !== row?.id);
+            const filteredData = data.filter((item) => item?._id !== row?._id);
             setData(filteredData);
           } else {
             // Handle any additional logic if the user was not deleted successfully
@@ -143,13 +145,21 @@ const FooterCategory = () => {
             </div>
           </div>
         </div>
-        {/* {isCreatePopupVisible && (
-                    <Addsilders isVisible={isCreatePopupVisible} setVisibility={setCreatePopupVisibility} refreshBrandData={refreshcitiesData} />
-                )}
-         
-                {isUpdatePopupVisible && (
-                    <Updatasilder isVisible={isUpdatePopupVisible} setVisibility={setUpdatePopupVisibility} refreshBrandData={refreshcitiesData} />
-                )} */}
+        {isCreatePopupVisible && (
+          <AddfooterCategory
+            isVisible={isCreatePopupVisible}
+            setVisibility={setCreatePopupVisibility}
+            refreshBrandData={fetchData}
+          />
+        )}
+
+        {isUpdatePopupVisible && (
+          <UpdatefooterCategory
+            isVisible={isUpdatePopupVisible}
+            setVisibility={setUpdatePopupVisibility}
+            refreshBrandData={fetchData}
+          />
+        )}
       </div>
     </div>
   );
