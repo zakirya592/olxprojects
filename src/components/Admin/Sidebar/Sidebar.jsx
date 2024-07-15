@@ -4,7 +4,10 @@ import { useNavigate } from "react-router-dom";
 // import dashboard from "../../Images/dashboard.png";
 // import internal from "../../Images/internal.png";
 import logout from "../../../assets/Images/logout.png";
-import profile from "../../../assets/Images/profile.png"
+import Megamenu from "../../../assets/Images/Megamenu.png";
+import Footericon from "../../../assets/Images/Footericon.png";
+import categories from "../../../assets/Images/categories.png";
+import profile from "../../../assets/Images/profile.png";
 import { toast } from "react-toastify";
 
 const SideBar = () => {
@@ -103,10 +106,8 @@ const SideBar = () => {
               <span>
                 <p
                   className="text-white font-sans mr-5 hover:text-primary"
-                  onClick={() => handleItemClickGs1website("/member/dashboard")}
-                  onContextMenu={(event) =>
-                    handleContextMenu(event, "/member/dashboard")
-                  }
+                  onClick={() => handleItemClickGs1website("/")}
+                  onContextMenu={(event) => handleContextMenu(event, "/")}
                 >
                   OLX Website
                 </p>
@@ -153,15 +154,15 @@ const SideBar = () => {
 
           <div
             className={`main-images-container ${
-              selectedItem === "/member/dashboard" ? "selected-item" : ""
+              selectedItem === "/Admin/Category" ? "selected-item" : ""
             } flex-row justify-start`}
-            onClick={() => handleItemClick("/member/dashboard")}
+            onClick={() => handleItemClick("/Admin/Category")}
             onContextMenu={(event) =>
-              handleContextMenu(event, "/member/dashboard")
+              handleContextMenu(event, "/Admin/Category")
             }
           >
             <img
-              //   src={dashboard}
+              src={categories}
               className="main-inside-image bg-white rounded-full"
               alt=""
             />
@@ -170,15 +171,15 @@ const SideBar = () => {
 
           <div
             className={`main-images-container ${
-              selectedItem === "/member/dashboard" ? "selected-item" : ""
+              selectedItem === "/Admin/subcategory" ? "selected-item" : ""
             } flex-row justify-start`}
-            onClick={() => handleItemClick("/member/dashboard")}
+            onClick={() => handleItemClick("/Admin/subcategory")}
             onContextMenu={(event) =>
-              handleContextMenu(event, "/member/dashboard")
+              handleContextMenu(event, "/Admin/subcategory")
             }
           >
             <img
-              //   src={dashboard}
+              src={Megamenu}
               className="main-inside-image bg-white rounded-full"
               alt=""
             />
@@ -187,15 +188,15 @@ const SideBar = () => {
 
           <div
             className={`main-images-container ${
-              selectedItem === "/member/dashboard" ? "selected-item" : ""
+              selectedItem === "/Admin/footerCategory" ? "selected-item" : ""
             } flex-row justify-start`}
-            onClick={() => handleItemClick("/member/dashboard")}
+            onClick={() => handleItemClick("/Admin/footerCategory")}
             onContextMenu={(event) =>
-              handleContextMenu(event, "/member/dashboard")
+              handleContextMenu(event, "/Admin/footerCategory")
             }
           >
             <img
-              //   src={dashboard}
+              src={Footericon}
               className="main-inside-image bg-white rounded-full"
               alt=""
             />

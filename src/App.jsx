@@ -6,6 +6,8 @@ import Sellpage from "./Pages/Home/Sellpage/Sellpage";
 import { QueryClient, QueryClientProvider, useQuery } from "react-query";
 import Sidebar from "./components/Admin/Sidebar/Sidebar";
 import Category from "./Pages/Admin/Category/Category";
+import SubCategory from "./Pages/Admin/subCategory/SubCategory";
+import FooterCategory from "./Pages/Admin/FooterCategory/FooterCategory";
 
 const queryClient = new QueryClient();
 
@@ -31,7 +33,9 @@ function App() {
             <MainLayout>
               <QueryClientProvider client={queryClient}>
                 <Routes>
-                  <Route path="Home" element={<Category />} />
+                  <Route path="/Category" element={<Category />} />
+                  <Route path="/subcategory" element={<SubCategory />} />
+                  <Route path="/footerCategory" element={<FooterCategory />} />
                 </Routes>
               </QueryClientProvider>
             </MainLayout>
