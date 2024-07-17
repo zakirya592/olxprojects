@@ -8,6 +8,7 @@ import Sidebar from "./components/Admin/Sidebar/Sidebar";
 import Category from "./Pages/Admin/Category/Category";
 import SubCategory from "./Pages/Admin/subCategory/SubCategory";
 import FooterCategory from "./Pages/Admin/FooterCategory/FooterCategory";
+import Megamenu from "./Pages/Megamenu/Megamenu";
 
 const queryClient = new QueryClient();
 
@@ -36,6 +37,7 @@ function App() {
                   <Route path="/Category" element={<Category />} />
                   <Route path="/subcategory" element={<SubCategory />} />
                   <Route path="/footerCategory" element={<FooterCategory />} />
+                  <Route path="/Megamenu" element={<Megamenu />} />
                 </Routes>
               </QueryClientProvider>
             </MainLayout>
