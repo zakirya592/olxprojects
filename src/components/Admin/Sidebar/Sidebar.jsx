@@ -9,11 +9,11 @@ import Footericon from "../../../assets/Images/Footericon.png";
 import categories from "../../../assets/Images/categories.png";
 import profile from "../../../assets/Images/profile.png";
 import { toast } from "react-toastify";
-import masterdata from "../../../assets/Images/masterdata.png"
+import frontend from "../../../assets/Images/frontend.png"
 import catalog from "../../../assets/Images/catalog.png";
 import { FaChevronUp } from "react-icons/fa";
 import { FaChevronDown } from "react-icons/fa6";
-
+import masterdata from "../../../assets/Images/masterdata.png";
 const SideBar = () => {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const sidebarRef = useRef(null);
@@ -25,8 +25,8 @@ const SideBar = () => {
   });
   const [selectedPath, setSelectedPath] = useState("");
 
-  const [showmasterData, setshowmasterData] = useState(false);
-
+  const [showfrontend, setshowfrontend] = useState(false);
+ const [showmasterData, setshowmasterData] = useState(false);
   useEffect(() => {
     const handleOutsideClick = (event) => {
       if (sidebarRef.current && !sidebarRef.current.contains(event.target)) {
@@ -153,16 +153,16 @@ const SideBar = () => {
 
           <div
             className={`main-images-container flex-row justify-start`}
-            onClick={() => setshowmasterData(!showmasterData)}
+            onClick={() => setshowfrontend(!showfrontend)}
           >
             <img
-              src={masterdata}
+              src={frontend}
               className="main-inside-image bg-white rounded-full"
               alt=""
             />
-            <p className="sidebar-text">Master Data</p>
+            <p className="sidebar-text">Front End</p>
             <div className={`ml-auto mr-2`}>
-              {showmasterData ? (
+              {showfrontend ? (
                 // <i className="fas fa-solid fa-chevron-up text-black"></i>
                 <FaChevronUp />
               ) : (
@@ -172,7 +172,7 @@ const SideBar = () => {
             </div>
           </div>
 
-          {showmasterData && (
+          {showfrontend && (
             <div>
               <div
                 className={`main-images-container ${
@@ -229,9 +229,7 @@ const SideBar = () => {
 
               <div
                 className={`main-images-container ${
-                  selectedItem === "/Admin/Megamenu"
-                    ? "selected-item"
-                    : ""
+                  selectedItem === "/Admin/Megamenu" ? "selected-item" : ""
                 } flex-row justify-start`}
                 onClick={() => handleItemClick("/Admin/Megamenu")}
                 onContextMenu={(event) =>
@@ -247,6 +245,28 @@ const SideBar = () => {
               </div>
             </div>
           )}
+
+          <div
+            className={`main-images-container flex-row justify-start`}
+            onClick={() => setshowmasterData(!showmasterData)}
+          >
+            <img
+              src={masterdata}
+              className="main-inside-image bg-white rounded-full"
+              alt=""
+            />
+            <p className="sidebar-text">Master Data</p>
+            <div className={`ml-auto mr-2`}>
+              {showmasterData ? (
+                // <i className="fas fa-solid fa-chevron-up text-black"></i>
+                <FaChevronUp />
+              ) : (
+                // <i className="fas fa-solid fa-chevron-down text-black"></i>
+                <FaChevronDown />
+              )}
+            </div>
+          </div>
+
           <div
             className={`main-images-container flex-row justify-start`}
             onClick={() => navigate("/")}

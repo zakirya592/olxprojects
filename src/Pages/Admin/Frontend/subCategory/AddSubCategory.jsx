@@ -1,47 +1,48 @@
 import { useState, useEffect } from "react";
 import { toast } from "react-toastify";
-import NewRequest from "../../../../utils/NewRequest";
+import NewRequest from "../../../../../utils/NewRequest";
+// import "./Categories.css";
 
-const AddfooterCategory = ({ isVisible, setVisibility, refreshBrandData }) => {
+const AddSubCategory = ({ isVisible, setVisibility, refreshBrandData }) => {
   const [name, setname] = useState("");
   const [Page, setPage] = useState("");
 
+  
   const [Category, setCategory] = useState("");
   const [Categorydropdown, setCategorydropdown] = useState([]);
 
-  const getpagedata = async () => {
-    try {
-      const response = await NewRequest.get("/subCategory");
-      setCategorydropdown(response?.data || []);
-    } catch (error) {
-      // console.log(error);
-    }
-  };
-  useEffect(() => {
-    getpagedata();
-  }, []);
-
+   const getpagedata = async () => {
+     try {
+       const response = await NewRequest.get("/category");
+       setCategorydropdown(response?.data || []);
+     } catch (error) {
+       // console.log(error);
+     }
+   };
+   useEffect(() => {
+     getpagedata()
+   }, [])
+   
   const handleCloseCreatePopup = () => {
     setVisibility(false);
   };
 
+
   const handleAddCompany = async () => {
+    console.log(Category);
     try {
-      const response = await NewRequest.post(
-        "/footerCategory",
+      const response = await NewRequest.post("/subCategory", 
         {
-          name: name,
-          subCategory: Category,
-          status: Page,
-        },
-        {
-          // headers: {
-          //   "Content-Type": "application/json",
-          // },
-        }
-      );
+        name: name,
+        categoryId: Category,
+        status: Page,
+      }, {
+        // headers: {
+        //   "Content-Type": "application/json",
+        // },
+      });
       console.log(response);
-      toast.success(`Footer Category has been added successfully".`, {
+      toast.success(`SubCategory has been added successfully".`, {
         position: "top-right",
         autoClose: 2000,
         hideProgressBar: false,
@@ -84,7 +85,7 @@ const AddfooterCategory = ({ isVisible, setVisibility, refreshBrandData }) => {
                 <h2
                   className={`text-loactioncolor font-sans font-semibold text-2xl`}
                 >
-                  Add Footer Category
+                  Add SubCategory
                 </h2>
                 <div className="flex flex-col sm:gap-3 gap-3 mt-5">
                   <div className="w-full font-body sm:text-base text-sm flex flex-col gap-2">
@@ -153,7 +154,7 @@ const AddfooterCategory = ({ isVisible, setVisibility, refreshBrandData }) => {
                     onClick={handleAddCompany}
                     className="px-5 py-2 rounded-sm w-[70%] bg-loactioncolor text-white font-body text-sm ml-2"
                   >
-                    Add Footer Category
+                    Add SubCategory
                   </button>
                 </div>
               </form>
@@ -165,4 +166,4 @@ const AddfooterCategory = ({ isVisible, setVisibility, refreshBrandData }) => {
   );
 };
 
-export default AddfooterCategory;
+export default AddSubCategory;

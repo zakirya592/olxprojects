@@ -1,20 +1,19 @@
 import React, { useEffect, useState } from "react";
-import DataTable from "../../../components/DataTable/DataTable";
+import DataTable from "../../../../components/DataTable/DataTable";
 import VisibilityIcon from "@mui/icons-material/Visibility";
 import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/Delete";
 import { useNavigate } from "react-router-dom";
-import { AdminFooterCategory } from "../../../../utils/Datatablesource";
-import NewRequest from "../../../../utils/NewRequest";
+import { AdminSubCategory } from "../../../../../utils/Datatablesource";
+import NewRequest from "../../../../../utils/NewRequest";
 import Swal from "sweetalert2";
 import { toast } from "react-toastify";
-import AddfooterCategory from "./AddfooterCategory";
-import UpdatefooterCategory from "./UpdatefooterCategory";
+import AddSubCategory from "./AddSubCategory";
+import UpdateSubCategory from "./UpdateSubCategory";
 
-const FooterCategory = () => {
+const SubCategory = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [data, setData] = useState([]);
-  const navigate = useNavigate();
 
   const [isCreatePopupVisible, setCreatePopupVisibility] = useState(false);
   const [isUpdatePopupVisible, setUpdatePopupVisibility] = useState(false);
@@ -23,14 +22,14 @@ const FooterCategory = () => {
   };
   const handleShowUpdatePopup = (row) => {
     setUpdatePopupVisibility(true);
-    sessionStorage.setItem("updateFooterCategory", JSON.stringify(row));
+    sessionStorage.setItem("updateSubCategory", JSON.stringify(row));
   };
+  const navigate = useNavigate();
 
   const fetchData = async () => {
     setIsLoading(true);
     try {
-      const response = await NewRequest.get("/footerCategory");
-      console.log(response);
+      const response = await NewRequest.get("/subCategory");
       setData(response?.data || []);
       setIsLoading(false);
     } catch (err) {
@@ -57,13 +56,14 @@ const FooterCategory = () => {
     }).then(async (result) => {
       if (result.isConfirmed) {
         try {
-          const isDeleted = await NewRequest.delete("/footerCategory/" + row?._id);
+          const isDeleted = await NewRequest.delete("subCategory/" + row?._id);
           if (isDeleted) {
-            toast.success(`FooterCategory has been deleted successfully!`);
+            toast.success(`SubCategory has been deleted successfully!`);
 
             // filter out the deleted user from the data
-            const filteredData = data.filter((item) => item?._id !== row?._id);
-            setData(filteredData);
+            // const filteredData = data.filter((item) => item?._id !== row?._id);
+            // setData(filteredData);
+            fetchData()
           } else {
             // Handle any additional logic if the user was not deleted successfully
             toast.error("Failed to delete user");
@@ -84,7 +84,6 @@ const FooterCategory = () => {
 
   const handleRowClickInParent = (item) => {
     if (!item || item?.length === 0) {
-      // setFilteredData(data)
       return;
     }
   };
@@ -100,7 +99,7 @@ const FooterCategory = () => {
                   onClick={handleShowCreatePopup}
                   className="rounded-full bg-secondary font-body px-5 py-1 text-sm mb-3 text-white transition duration-200 hover:bg-primary"
                 >
-                  <i className="fas fa-plus mr-2"></i>Add FooterCategory
+                  <i className="fas fa-plus mr-2"></i>Add SubCategory
                 </button>
               </div>
 
@@ -108,8 +107,8 @@ const FooterCategory = () => {
               <div style={{ marginLeft: "-11px", marginRight: "-11px" }}>
                 <DataTable
                   data={data}
-                  title="FooterCategory"
-                  columnsName={AdminFooterCategory}
+                  title="SubCategory"
+                  columnsName={AdminSubCategory}
                   loading={isLoading}
                   secondaryColor="secondary"
                   //   checkboxSelection={"disabled"}
@@ -146,7 +145,7 @@ const FooterCategory = () => {
           </div>
         </div>
         {isCreatePopupVisible && (
-          <AddfooterCategory
+          <AddSubCategory
             isVisible={isCreatePopupVisible}
             setVisibility={setCreatePopupVisibility}
             refreshBrandData={fetchData}
@@ -154,7 +153,7 @@ const FooterCategory = () => {
         )}
 
         {isUpdatePopupVisible && (
-          <UpdatefooterCategory
+          <UpdateSubCategory
             isVisible={isUpdatePopupVisible}
             setVisibility={setUpdatePopupVisibility}
             refreshBrandData={fetchData}
@@ -165,4 +164,4 @@ const FooterCategory = () => {
   );
 };
 
-export default FooterCategory;
+export default SubCategory;

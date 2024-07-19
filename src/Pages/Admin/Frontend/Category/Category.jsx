@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from "react";
-import DataTable from "../../../components/DataTable/DataTable";
+import DataTable from "../../../../components/DataTable/DataTable";
 import VisibilityIcon from "@mui/icons-material/Visibility";
 import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/Delete";
 import { useNavigate } from "react-router-dom";
-import { AdminUsersColumn } from "../../../../utils/Datatablesource";
-import NewRequest from "../../../../utils/NewRequest";
+import { AdminUsersColumn } from "../../../../../utils/Datatablesource";
+import NewRequest from "../../../../../utils/NewRequest";
 import Swal from "sweetalert2";
 import { toast } from "react-toastify";
 import Addcategories from "./Addcategories";

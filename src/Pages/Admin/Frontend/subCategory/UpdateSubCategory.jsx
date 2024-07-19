@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { toast } from "react-toastify";
-import NewRequest from "../../../../utils/NewRequest";
+import NewRequest from "../../../../../utils/NewRequest";
 // import "./Categories.css";
 
 const UpdateSubCategory = ({ isVisible, setVisibility, refreshBrandData }) => {

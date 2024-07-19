@@ -5,10 +5,10 @@ import Home from "./Pages/Home/Home";
 import Sellpage from "./Pages/Home/Sellpage/Sellpage";
 import { QueryClient, QueryClientProvider, useQuery } from "react-query";
 import Sidebar from "./components/Admin/Sidebar/Sidebar";
-import Category from "./Pages/Admin/Category/Category";
-import SubCategory from "./Pages/Admin/subCategory/SubCategory";
-import FooterCategory from "./Pages/Admin/FooterCategory/FooterCategory";
-import Megamenu from "./Pages/Megamenu/Megamenu";
+import Category from "./Pages/Admin/Frontend/Category/Category";
+import SubCategory from "./Pages/Admin/Frontend/subCategory/SubCategory";
+import FooterCategory from "./Pages/Admin/Frontend/FooterCategory/FooterCategory";
+import Megamenu from "./Pages/Admin/Frontend/Megamenu/Megamenu";
 
 const queryClient = new QueryClient();
 

@@ -1,12 +1,10 @@
 import { useState, useEffect } from "react";
 import { toast } from "react-toastify";
-import NewRequest from "../../../../utils/NewRequest";
+import NewRequest from "../../../../../utils/NewRequest";
 
-const UpdatefooterCategory = ({ isVisible, setVisibility, refreshBrandData }) => {
-    
-  const updateBrandData = JSON.parse(sessionStorage.getItem("updateFooterCategory"));
-  const [name, setname] = useState(updateBrandData?.name || '');
-  const [Page, setPage] = useState(updateBrandData?.status || 1);
+const AddfooterCategory = ({ isVisible, setVisibility, refreshBrandData }) => {
+  const [name, setname] = useState("");
+  const [Page, setPage] = useState("");
 
   const [Category, setCategory] = useState("");
   const [Categorydropdown, setCategorydropdown] = useState([]);
@@ -29,7 +27,8 @@ const UpdatefooterCategory = ({ isVisible, setVisibility, refreshBrandData }) =>
 
   const handleAddCompany = async () => {
     try {
-      const response = await NewRequest.put(`footerCategory/${updateBrandData?._id}`,
+      const response = await NewRequest.post(
+        "/footerCategory",
         {
           name: name,
           subCategory: Category,
@@ -42,7 +41,7 @@ const UpdatefooterCategory = ({ isVisible, setVisibility, refreshBrandData }) =>
         }
       );
       console.log(response);
-      toast.success(`Footer Category has been update successfully".`, {
+      toast.success(`Footer Category has been added successfully".`, {
         position: "top-right",
         autoClose: 2000,
         hideProgressBar: false,
@@ -57,7 +56,7 @@ const UpdatefooterCategory = ({ isVisible, setVisibility, refreshBrandData }) =>
       handleCloseCreatePopup();
     } catch (error) {
       console.log(error);
-      toast.error(error?.response || "Error", {
+      toast.error(error?.response?.data?.error || "Error", {
         position: "top-right",
         autoClose: 2000,
         hideProgressBar: false,
@@ -85,7 +84,7 @@ const UpdatefooterCategory = ({ isVisible, setVisibility, refreshBrandData }) =>
                 <h2
                   className={`text-loactioncolor font-sans font-semibold text-2xl`}
                 >
-                  Update Footer Category
+                  Add Footer Category
                 </h2>
                 <div className="flex flex-col sm:gap-3 gap-3 mt-5">
                   <div className="w-full font-body sm:text-base text-sm flex flex-col gap-2">
@@ -154,7 +153,7 @@ const UpdatefooterCategory = ({ isVisible, setVisibility, refreshBrandData }) =>
                     onClick={handleAddCompany}
                     className="px-5 py-2 rounded-sm w-[70%] bg-loactioncolor text-white font-body text-sm ml-2"
                   >
-                    Update Footer Category
+                    Add Footer Category
                   </button>
                 </div>
               </form>
@@ -166,4 +165,4 @@ const UpdatefooterCategory = ({ isVisible, setVisibility, refreshBrandData }) =>
   );
 };
 
-export default UpdatefooterCategory;
+export default AddfooterCategory;

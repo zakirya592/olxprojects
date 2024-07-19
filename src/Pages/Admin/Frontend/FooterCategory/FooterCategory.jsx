@@ -1,15 +1,17 @@
 import React, { useEffect, useState } from "react";
+import DataTable from "../../../../components/DataTable/DataTable";
 import VisibilityIcon from "@mui/icons-material/Visibility";
 import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/Delete";
 import { useNavigate } from "react-router-dom";
-import NewRequest from "../../../utils/NewRequest";
+import { AdminFooterCategory } from "../../../../../utils/Datatablesource";
+import NewRequest from "../../../../../utils/NewRequest";
 import Swal from "sweetalert2";
 import { toast } from "react-toastify";
-import DataTable from "../../components/DataTable/DataTable";
-import { AdminMegaMenu } from "../../../utils/Datatablesource";
+import AddfooterCategory from "./AddfooterCategory";
+import UpdatefooterCategory from "./UpdatefooterCategory";
 
-const Megamenu = () => {
+const FooterCategory = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [data, setData] = useState([]);
   const navigate = useNavigate();
@@ -27,7 +29,7 @@ const Megamenu = () => {
   const fetchData = async () => {
     setIsLoading(true);
     try {
-      const response = await NewRequest.get("/footerCategory/megamenu");
+      const response = await NewRequest.get("/footerCategory");
       console.log(response);
       setData(response?.data || []);
       setIsLoading(false);
@@ -55,11 +57,9 @@ const Megamenu = () => {
     }).then(async (result) => {
       if (result.isConfirmed) {
         try {
-          const isDeleted = await NewRequest.delete(
-            "/footerCategory/" + row?._id
-          );
+          const isDeleted = await NewRequest.delete("/footerCategory/" + row?._id);
           if (isDeleted) {
-            toast.success(`Mega Menu has been deleted successfully!`);
+            toast.success(`FooterCategory has been deleted successfully!`);
 
             // filter out the deleted user from the data
             const filteredData = data.filter((item) => item?._id !== row?._id);
@@ -96,24 +96,24 @@ const Megamenu = () => {
           <div className="h-auto w-[97%] px-0 pt-4">
             <div className="h-auto w-full p-4 bg-white shadow-xl rounded-md">
               <div className={`flex px-3 flex-row justify-start`}>
-                {/* <button
+                <button
                   onClick={handleShowCreatePopup}
                   className="rounded-full bg-secondary font-body px-5 py-1 text-sm mb-3 text-white transition duration-200 hover:bg-primary"
                 >
-                  <i className="fas fa-plus mr-2"></i>Add Mega Menu
-                </button> */}
+                  <i className="fas fa-plus mr-2"></i>Add FooterCategory
+                </button>
               </div>
 
               {/* DataGrid */}
               <div style={{ marginLeft: "-11px", marginRight: "-11px" }}>
                 <DataTable
                   data={data}
-                  title="Mega Menu"
-                  columnsName={AdminMegaMenu}
+                  title="FooterCategory"
+                  columnsName={AdminFooterCategory}
                   loading={isLoading}
                   secondaryColor="secondary"
                   //   checkboxSelection={"disabled"}
-                  actionColumnVisibility={false}
+                  // actionColumnVisibility={false}
                   handleRowClickInParent={handleRowClickInParent}
                   dropDownOptions={[
                     {
@@ -145,7 +145,7 @@ const Megamenu = () => {
             </div>
           </div>
         </div>
-        {/* {isCreatePopupVisible && (
+        {isCreatePopupVisible && (
           <AddfooterCategory
             isVisible={isCreatePopupVisible}
             setVisibility={setCreatePopupVisibility}
@@ -159,10 +159,10 @@ const Megamenu = () => {
             setVisibility={setUpdatePopupVisibility}
             refreshBrandData={fetchData}
           />
-        )} */}
+        )}
       </div>
     </div>
   );
 };
 
-export default Megamenu;
+export default FooterCategory;

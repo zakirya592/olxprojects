@@ -1,48 +1,48 @@
 import { useState, useEffect } from "react";
 import { toast } from "react-toastify";
-import NewRequest from "../../../../utils/NewRequest";
-// import "./Categories.css";
+import NewRequest from "../../../../../utils/NewRequest";
 
-const AddSubCategory = ({ isVisible, setVisibility, refreshBrandData }) => {
-  const [name, setname] = useState("");
-  const [Page, setPage] = useState("");
+const UpdatefooterCategory = ({ isVisible, setVisibility, refreshBrandData }) => {
+    
+  const updateBrandData = JSON.parse(sessionStorage.getItem("updateFooterCategory"));
+  const [name, setname] = useState(updateBrandData?.name || '');
+  const [Page, setPage] = useState(updateBrandData?.status || 1);
 
-  
   const [Category, setCategory] = useState("");
   const [Categorydropdown, setCategorydropdown] = useState([]);
 
-   const getpagedata = async () => {
-     try {
-       const response = await NewRequest.get("/category");
-       setCategorydropdown(response?.data || []);
-     } catch (error) {
-       // console.log(error);
-     }
-   };
-   useEffect(() => {
-     getpagedata()
-   }, [])
-   
+  const getpagedata = async () => {
+    try {
+      const response = await NewRequest.get("/subCategory");
+      setCategorydropdown(response?.data || []);
+    } catch (error) {
+      // console.log(error);
+    }
+  };
+  useEffect(() => {
+    getpagedata();
+  }, []);
+
   const handleCloseCreatePopup = () => {
     setVisibility(false);
   };
 
-
   const handleAddCompany = async () => {
-    console.log(Category);
     try {
-      const response = await NewRequest.post("/subCategory", 
+      const response = await NewRequest.put(`footerCategory/${updateBrandData?._id}`,
         {
-        name: name,
-        categoryId: Category,
-        status: Page,
-      }, {
-        // headers: {
-        //   "Content-Type": "application/json",
-        // },
-      });
+          name: name,
+          subCategory: Category,
+          status: Page,
+        },
+        {
+          // headers: {
+          //   "Content-Type": "application/json",
+          // },
+        }
+      );
       console.log(response);
-      toast.success(`SubCategory has been added successfully".`, {
+      toast.success(`Footer Category has been update successfully".`, {
         position: "top-right",
         autoClose: 2000,
         hideProgressBar: false,
@@ -57,7 +57,7 @@ const AddSubCategory = ({ isVisible, setVisibility, refreshBrandData }) => {
       handleCloseCreatePopup();
     } catch (error) {
       console.log(error);
-      toast.error(error?.response?.data?.error || "Error", {
+      toast.error(error?.response || "Error", {
         position: "top-right",
         autoClose: 2000,
         hideProgressBar: false,
@@ -85,7 +85,7 @@ const AddSubCategory = ({ isVisible, setVisibility, refreshBrandData }) => {
                 <h2
                   className={`text-loactioncolor font-sans font-semibold text-2xl`}
                 >
-                  Add SubCategory
+                  Update Footer Category
                 </h2>
                 <div className="flex flex-col sm:gap-3 gap-3 mt-5">
                   <div className="w-full font-body sm:text-base text-sm flex flex-col gap-2">
@@ -154,7 +154,7 @@ const AddSubCategory = ({ isVisible, setVisibility, refreshBrandData }) => {
                     onClick={handleAddCompany}
                     className="px-5 py-2 rounded-sm w-[70%] bg-loactioncolor text-white font-body text-sm ml-2"
                   >
-                    Add SubCategory
+                    Update Footer Category
                   </button>
                 </div>
               </form>
@@ -166,4 +166,4 @@ const AddSubCategory = ({ isVisible, setVisibility, refreshBrandData }) => {
   );
 };
 
-export default AddSubCategory;
+export default UpdatefooterCategory;
