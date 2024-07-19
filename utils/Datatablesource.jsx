@@ -288,3 +288,72 @@ export const AdminMegaMenu = [
     },
   },
 ];
+
+// Master data
+export const AdminBrand = [
+  {
+    field: "name",
+    headerName: "Name",
+    width: 180,
+  },
+  {
+    field: "subCategory",
+    headerName: "Sub Category",
+    width: 180,
+    // valueGetter: (params) => {
+    //   const catagory = params;
+    //   return catagory && catagory.name ? catagory.name : null;
+    // },
+  },
+  {
+    field: "footerCategory",
+    headerName: "Footer Category",
+    width: 180,
+    // valueGetter: (params) => {
+    //   const catagory = params;
+    //   return catagory && catagory.name ? catagory.name : null;
+    // },
+  },
+
+  {
+    field: "status",
+    headerName: "Status",
+    width: 120,
+    renderCell: (params) => (
+      <div
+        style={{
+          padding: "4px 8px",
+          borderRadius: "10px",
+          border: "2px solid",
+          background: params.value === 1 ? "green" : "red",
+          color: "white",
+          textAlign: "center",
+          width: "80px", // Fixed width for consistency
+          height: "30px", // Fixed height for consistency
+          lineHeight: "22px", // Vertically center the text
+        }}
+      >
+        {params.value === 1 ? "Active" : "Inactive"}
+      </div>
+    ),
+  },
+  {
+    field: "createdAt",
+    headerName: "Created At",
+    width: 200,
+
+    type: "dateTime",
+    valueGetter: (params) => {
+      return params ? new Date(params) : null;
+    },
+  },
+  {
+    field: "updatedAt",
+    headerName: "Updated At",
+    width: 200,
+    type: "dateTime",
+    valueGetter: (params) => {
+      return params ? new Date(params) : null;
+    },
+  },
+];

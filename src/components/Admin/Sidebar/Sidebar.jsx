@@ -14,6 +14,8 @@ import catalog from "../../../assets/Images/catalog.png";
 import { FaChevronUp } from "react-icons/fa";
 import { FaChevronDown } from "react-icons/fa6";
 import masterdata from "../../../assets/Images/masterdata.png";
+import Condition from "../../../assets/Images/Declaration.jpg"
+import brand from "../../../assets/Images/brands.png"
 const SideBar = () => {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const sidebarRef = useRef(null);
@@ -266,6 +268,80 @@ const SideBar = () => {
               )}
             </div>
           </div>
+
+          {showmasterData && (
+            <div>
+              <div
+                className={`main-images-container ${
+                  selectedItem === "/Admin/Brand" ? "selected-item" : ""
+                } flex-row justify-start`}
+                onClick={() => handleItemClick("/Admin/Brand")}
+                onContextMenu={(event) =>
+                  handleContextMenu(event, "/Admin/Brand")
+                }
+              >
+                <img
+                  src={brand}
+                  className="main-inside-image bg-white rounded-full"
+                  alt=""
+                />
+                <p className="sidebar-text">Brand</p>
+              </div>
+
+              <div
+                className={`main-images-container ${
+                  selectedItem === "/Admin/Condition" ? "selected-item" : ""
+                } flex-row justify-start`}
+                onClick={() => handleItemClick("/Admin/Condition")}
+                onContextMenu={(event) =>
+                  handleContextMenu(event, "/Admin/Condition")
+                }
+              >
+                <img
+                  src={Condition}
+                  className="main-inside-image bg-white rounded-full"
+                  alt=""
+                />
+                <p className="sidebar-text">Condition</p>
+              </div>
+
+              <div
+                className={`main-images-container ${
+                  selectedItem === "/Admin/footerCategory"
+                    ? "selected-item"
+                    : ""
+                } flex-row justify-start`}
+                onClick={() => handleItemClick("/Admin/footerCategory")}
+                onContextMenu={(event) =>
+                  handleContextMenu(event, "/Admin/footerCategory")
+                }
+              >
+                <img
+                  src={Footericon}
+                  className="main-inside-image bg-white rounded-full"
+                  alt=""
+                />
+                <p className="sidebar-text">Footer Category</p>
+              </div>
+
+              <div
+                className={`main-images-container ${
+                  selectedItem === "/Admin/Megamenu" ? "selected-item" : ""
+                } flex-row justify-start`}
+                onClick={() => handleItemClick("/Admin/Megamenu")}
+                onContextMenu={(event) =>
+                  handleContextMenu(event, "/Admin/Megamenu")
+                }
+              >
+                <img
+                  src={catalog}
+                  className="main-inside-image bg-white rounded-full"
+                  alt=""
+                />
+                <p className="sidebar-text">Mega Menu</p>
+              </div>
+            </div>
+          )}
 
           <div
             className={`main-images-container flex-row justify-start`}

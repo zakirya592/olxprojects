@@ -539,7 +539,7 @@ const DataTable = ({
                     getRowId={(row) => row.no}
                     rowSelectionModel={rowSelectionModel}
                     onRowSelectionModelChange={(newRowSelectionModel) => {
-                        setRowSelectionModel(newRowSelectionModel); // Set the state with selected row ids
+                        // setRowSelectionModel(newRowSelectionModel); // Set the state with selected row ids
                         // console.log(newRowSelectionModel); // Logs the ids of selected rows
                         const selectedRows = filteredData.filter((row) =>
                             newRowSelectionModel.includes(row.no)

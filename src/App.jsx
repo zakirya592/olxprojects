@@ -9,6 +9,8 @@ import Category from "./Pages/Admin/Frontend/Category/Category";
 import SubCategory from "./Pages/Admin/Frontend/subCategory/SubCategory";
 import FooterCategory from "./Pages/Admin/Frontend/FooterCategory/FooterCategory";
 import Megamenu from "./Pages/Admin/Frontend/Megamenu/Megamenu";
+import Brand from "./Pages/Admin/MasterData/Brand/Brand";
+import Condition from "./Pages/Admin/MasterData/Condition/Condition";
 
 const queryClient = new QueryClient();
 
@@ -34,10 +36,14 @@ function App() {
             <MainLayout>
               <QueryClientProvider client={queryClient}>
                 <Routes>
+                  {/* Frontend */}
                   <Route path="/Category" element={<Category />} />
                   <Route path="/subcategory" element={<SubCategory />} />
                   <Route path="/footerCategory" element={<FooterCategory />} />
                   <Route path="/Megamenu" element={<Megamenu />} />
+                  {/* Masterdata */}
+                  <Route path="/Brand" element={<Brand />} />
+                  <Route path="/Condition" element={<Condition />} />
                 </Routes>
               </QueryClientProvider>
             </MainLayout>
