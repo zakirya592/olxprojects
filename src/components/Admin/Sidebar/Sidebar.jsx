@@ -16,6 +16,10 @@ import { FaChevronDown } from "react-icons/fa6";
 import masterdata from "../../../assets/Images/masterdata.png";
 import Condition from "../../../assets/Images/Declaration.jpg"
 import brand from "../../../assets/Images/brands.png"
+import devicetype from "../../../assets/Images/devicetype2.png"
+import typesicon from "../../../assets/Images/types.webp"
+import makeicon from "../../../assets/Images/make.jpg"
+
 const SideBar = () => {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const sidebarRef = useRef(null);
@@ -307,38 +311,53 @@ const SideBar = () => {
 
               <div
                 className={`main-images-container ${
-                  selectedItem === "/Admin/footerCategory"
-                    ? "selected-item"
-                    : ""
+                  selectedItem === "/Admin/DeviceType" ? "selected-item" : ""
                 } flex-row justify-start`}
-                onClick={() => handleItemClick("/Admin/footerCategory")}
+                onClick={() => handleItemClick("/Admin/DeviceType")}
                 onContextMenu={(event) =>
-                  handleContextMenu(event, "/Admin/footerCategory")
+                  handleContextMenu(event, "/Admin/DeviceType")
                 }
               >
                 <img
-                  src={Footericon}
+                  src={devicetype}
                   className="main-inside-image bg-white rounded-full"
                   alt=""
                 />
-                <p className="sidebar-text">Footer Category</p>
+                <p className="sidebar-text">Device Type</p>
               </div>
 
               <div
                 className={`main-images-container ${
-                  selectedItem === "/Admin/Megamenu" ? "selected-item" : ""
+                  selectedItem === "/Admin/types" ? "selected-item" : ""
                 } flex-row justify-start`}
-                onClick={() => handleItemClick("/Admin/Megamenu")}
+                onClick={() => handleItemClick("/Admin/types")}
                 onContextMenu={(event) =>
-                  handleContextMenu(event, "/Admin/Megamenu")
+                  handleContextMenu(event, "/Admin/types")
                 }
               >
                 <img
-                  src={catalog}
+                  src={typesicon}
                   className="main-inside-image bg-white rounded-full"
                   alt=""
                 />
-                <p className="sidebar-text">Mega Menu</p>
+                <p className="sidebar-text">Type</p>
+              </div>
+
+              <div
+                className={`main-images-container ${
+                  selectedItem === "/Admin/types" ? "selected-item" : ""
+                } flex-row justify-start`}
+                onClick={() => handleItemClick("/Admin/make")}
+                onContextMenu={(event) =>
+                  handleContextMenu(event, "/Admin/make")
+                }
+              >
+                <img
+                  src={makeicon}
+                  className="main-inside-image bg-white rounded-full"
+                  alt=""
+                />
+                <p className="sidebar-text">Make</p>
               </div>
             </div>
           )}

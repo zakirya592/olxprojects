@@ -11,6 +11,9 @@ import FooterCategory from "./Pages/Admin/Frontend/FooterCategory/FooterCategory
 import Megamenu from "./Pages/Admin/Frontend/Megamenu/Megamenu";
 import Brand from "./Pages/Admin/MasterData/Brand/Brand";
 import Condition from "./Pages/Admin/MasterData/Condition/Condition";
+import DeviceType from "./Pages/Admin/MasterData/DeviceType/DeviceType";
+import Type from "./Pages/Admin/MasterData/Type/Type";
+import Make from "./Pages/Admin/MasterData/Make/Make";
 
 const queryClient = new QueryClient();
 
@@ -44,6 +47,9 @@ function App() {
                   {/* Masterdata */}
                   <Route path="/Brand" element={<Brand />} />
                   <Route path="/Condition" element={<Condition />} />
+                  <Route path="/DeviceType" element={<DeviceType />} />
+                  <Route path="/types" element={<Type />} />
+                  <Route path="/make" element={<Make />} />
                 </Routes>
               </QueryClientProvider>
             </MainLayout>

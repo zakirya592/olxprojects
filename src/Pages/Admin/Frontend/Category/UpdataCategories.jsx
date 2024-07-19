@@ -33,7 +33,6 @@ const UpdataCategories = ({ isVisible, setVisibility, refreshBrandData }) => {
     formData.append("image", imageshow);
     formData.append("icon", imageshow_ar);
     formData.append("status", Page);
-    console.log(formData);
     try {
       const response = await NewRequest.put(`/category/${updateBrandData._id}`, formData, {
         headers: {
