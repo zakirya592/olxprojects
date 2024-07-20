@@ -19,6 +19,8 @@ import brand from "../../../assets/Images/brands.png"
 import devicetype from "../../../assets/Images/devicetype2.png"
 import typesicon from "../../../assets/Images/types.webp"
 import makeicon from "../../../assets/Images/make.jpg"
+import Bedroomicon from "../../../assets/Images/Bedroom.png"
+import Furnishedicon from "../../../assets/Images/Furnished.jpg"
 
 const SideBar = () => {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
@@ -345,7 +347,7 @@ const SideBar = () => {
 
               <div
                 className={`main-images-container ${
-                  selectedItem === "/Admin/types" ? "selected-item" : ""
+                  selectedItem === "/Admin/make" ? "selected-item" : ""
                 } flex-row justify-start`}
                 onClick={() => handleItemClick("/Admin/make")}
                 onContextMenu={(event) =>
@@ -358,6 +360,40 @@ const SideBar = () => {
                   alt=""
                 />
                 <p className="sidebar-text">Make</p>
+              </div>
+
+              <div
+                className={`main-images-container ${
+                  selectedItem === "/Admin/Furnished" ? "selected-item" : ""
+                } flex-row justify-start`}
+                onClick={() => handleItemClick("/Admin/Furnished")}
+                onContextMenu={(event) =>
+                  handleContextMenu(event, "/Admin/Furnished")
+                }
+              >
+                <img
+                  src={Furnishedicon}
+                  className="main-inside-image bg-white rounded-full"
+                  alt=""
+                />
+                <p className="sidebar-text">Furnished</p>
+              </div>
+
+              <div
+                className={`main-images-container ${
+                  selectedItem === "/Admin/Bedroom" ? "selected-item" : ""
+                } flex-row justify-start`}
+                onClick={() => handleItemClick("/Admin/Bedroom")}
+                onContextMenu={(event) =>
+                  handleContextMenu(event, "/Admin/Bedroom")
+                }
+              >
+                <img
+                  src={Bedroomicon}
+                  className="main-inside-image bg-white rounded-full"
+                  alt=""
+                />
+                <p className="sidebar-text">Bed Room</p>
               </div>
             </div>
           )}

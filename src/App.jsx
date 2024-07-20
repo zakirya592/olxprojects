@@ -14,6 +14,7 @@ import Condition from "./Pages/Admin/MasterData/Condition/Condition";
 import DeviceType from "./Pages/Admin/MasterData/DeviceType/DeviceType";
 import Type from "./Pages/Admin/MasterData/Type/Type";
 import Make from "./Pages/Admin/MasterData/Make/Make";
+import Furnished from "./Pages/Admin/MasterData/Furnished/Furnished";
 
 const queryClient = new QueryClient();
 
@@ -50,6 +51,7 @@ function App() {
                   <Route path="/DeviceType" element={<DeviceType />} />
                   <Route path="/types" element={<Type />} />
                   <Route path="/make" element={<Make />} />
+                  <Route path="/Furnished" element={<Furnished />} />
                 </Routes>
               </QueryClientProvider>
             </MainLayout>

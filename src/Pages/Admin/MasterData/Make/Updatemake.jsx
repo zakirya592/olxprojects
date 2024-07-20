@@ -12,7 +12,7 @@ const Updatemake = ({ isVisible, setVisibility, refreshBrandData }) => {
     const [footerCategorydropdown, setfooterCategorydropdown] = useState([]);
     const [selectedFile, setSelectedFile] = useState(null);
     const [imageshow, setimageshow] = useState(updateBrandData?.image);
-
+console.log(updateBrandData?.footerCategory);
     function handleChangeback(e) {
         setSelectedFile(e.target.files[0]);
         setimageshow(e.target.files[0]);
