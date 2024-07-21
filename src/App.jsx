@@ -31,6 +31,7 @@ function App() {
 
   return (
     <BrowserRouter>
+        <QueryClientProvider client={queryClient}>
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/Post" element={<Sellpage />} />
@@ -39,7 +40,6 @@ function App() {
           path="/Admin/*"
           element={
             <MainLayout>
-              <QueryClientProvider client={queryClient}>
                 <Routes>
                   {/* Frontend */}
                   <Route path="/Category" element={<Category />} />
@@ -55,11 +55,11 @@ function App() {
                   <Route path="/Furnished" element={<Furnished />} />
                   <Route path="/Bedroom" element={<Bedroom />} />
                 </Routes>
-              </QueryClientProvider>
             </MainLayout>
           }
         />
       </Routes>
+              </QueryClientProvider>
     </BrowserRouter>
   );
 }
