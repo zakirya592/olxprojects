@@ -5,7 +5,7 @@ import NewRequest from "../../../../../utils/NewRequest";
 const UpdateFurnished = ({ isVisible, setVisibility, refreshBrandData }) => {
   const updateBrandData = JSON.parse(sessionStorage.getItem("updatefurnished"));
   const [name, setname] = useState(updateBrandData?.name || "");
-  const [status, setstatus] = useState(updateBrandData?.status || 1);
+  const [status, setstatus] = useState(updateBrandData?.status || 0);
   console.log(updateBrandData);
 
   const [subCategory, setsubCategory] = useState("");

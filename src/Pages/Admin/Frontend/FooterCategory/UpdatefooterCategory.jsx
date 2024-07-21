@@ -6,7 +6,7 @@ const UpdatefooterCategory = ({ isVisible, setVisibility, refreshBrandData }) =>
     
   const updateBrandData = JSON.parse(sessionStorage.getItem("updateFooterCategory"));
   const [name, setname] = useState(updateBrandData?.name || '');
-  const [Page, setPage] = useState(updateBrandData?.status || 1);
+  const [status, setstatus] = useState(updateBrandData?.status || 0);
 
   const [Category, setCategory] = useState("");
   const [Categorydropdown, setCategorydropdown] = useState([]);
@@ -33,7 +33,7 @@ const UpdatefooterCategory = ({ isVisible, setVisibility, refreshBrandData }) =>
         {
           name: name,
           subCategory: Category,
-          status: Page,
+          status: status,
         },
         {
           // headers: {
@@ -130,11 +130,10 @@ const UpdatefooterCategory = ({ isVisible, setVisibility, refreshBrandData }) =>
                     </label>
                     <select
                       id="status"
-                      value={Page}
-                      onChange={(e) => setPage(e.target.value)}
+                      value={status}
+                      onChange={(e) => setstatus(e.target.value)}
                       className={`border-1 w-full rounded-sm border-[#8E9CAB] p-2 mb-3`}
                     >
-                      <option value="0"> status </option>
                       <option value="1">Active</option>
                       <option value="0">InActive</option>
                     </select>

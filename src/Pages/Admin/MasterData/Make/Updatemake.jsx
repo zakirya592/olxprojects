@@ -5,7 +5,7 @@ import NewRequest from "../../../../../utils/NewRequest";
 const Updatemake = ({ isVisible, setVisibility, refreshBrandData }) => {
     const updateBrandData = JSON.parse(sessionStorage.getItem("updatemake"));
     const [name, setname] = useState(updateBrandData?.name || "");
-    const [status, setstatus] = useState(updateBrandData?.status || 1);
+    const [status, setstatus] = useState(updateBrandData?.status || 0);
     const [subCategory, setsubCategory] = useState("");
     const [subCategorydropdown, setsubCategorydropdown] = useState([]);
     const [footerCategory, setfooterCategory] = useState("");
