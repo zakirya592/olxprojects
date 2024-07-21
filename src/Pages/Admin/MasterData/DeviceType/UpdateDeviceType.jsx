@@ -6,7 +6,6 @@ const UpdateDeviceType = ({ isVisible, setVisibility, refreshBrandData }) => {
   const updateBrandData = JSON.parse(sessionStorage.getItem("updateDeviceType"));
   const [name, setname] = useState(updateBrandData?.name || "");
   const [status, setstatus] = useState(updateBrandData?.status || 0);
-  console.log(updateBrandData?.status);
 
   const [subCategory, setsubCategory] = useState("");
   const [subCategorydropdown, setsubCategorydropdown] = useState([]);
@@ -29,10 +28,43 @@ const UpdateDeviceType = ({ isVisible, setVisibility, refreshBrandData }) => {
       // console.log(error);
     }
   };
+  const getiddata = async () => {
+      try {
+        const response = await NewRequest.get(`/brand/devicetype/${updateBrandData._id}`);
+        setsubCategory({
+          name: response?.data?.subCategory?.name || "",
+          _id: response?.data?.subCategory?._id || "",
+        });
+        setfooterCategory({
+          name: response?.data?.footerCategory?.name || "",
+          _id: response?.data?.footerCategory?._id || "",
+        });
+      } catch (error) {
+        // console.log(error);
+      }
+    };
   useEffect(() => {
     getpagedata();
     footerCategorydata();
+    getiddata()
   }, []);
+
+   const handleSubCategoryChange = (e) => {
+     const value = e.target.value;
+     setsubCategory({ _id: value });
+     if (value) {
+       setfooterCategory(""); // Clear footerCategory when subCategory is selected
+     }
+   };
+
+   const handleFooterCategoryChange = (e) => {
+     const value = e.target.value;
+     setfooterCategory({ _id: value });
+     if (value) {
+       setsubCategory(""); // Clear subCategory when footerCategory is selected
+     }
+   };
+
 
   const handleCloseCreatePopup = () => {
     setVisibility(false);
@@ -118,8 +150,9 @@ const UpdateDeviceType = ({ isVisible, setVisibility, refreshBrandData }) => {
                     </label>
                     <select
                       id="subCategory"
-                      value={subCategory}
-                      onChange={(e) => setsubCategory(e.target.value)}
+                      value={subCategory._id}
+                      onChange={handleSubCategoryChange}
+                      // onChange={(e) => setsubCategory(e.target.value)}
                       className={`border-1 w-full rounded-sm border-[#8E9CAB] p-2 mb-3`}
                     >
                       <option value="0"> Select </option>
@@ -143,8 +176,9 @@ const UpdateDeviceType = ({ isVisible, setVisibility, refreshBrandData }) => {
                     </label>
                     <select
                       id="footerCategory"
-                      value={footerCategory}
-                      onChange={(e) => setfooterCategory(e.target.value)}
+                      value={footerCategory._id}
+                      onChange={handleFooterCategoryChange}
+                      // onChange={(e) => setfooterCategory(e.target.value)}
                       className={`border-1 w-full rounded-sm border-[#8E9CAB] p-2 mb-3`}
                     >
                       <option value="0"> Select </option>
