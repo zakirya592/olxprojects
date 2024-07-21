@@ -51,6 +51,22 @@ const Updatebrand = ({ isVisible, setVisibility, refreshBrandData }) => {
     getiddata()
   }, []);
 
+   const handleSubCategoryChange = (e) => {
+     const value = e.target.value;
+     setsubCategory({ _id: value });
+     if (value) {
+       setfooterCategory(""); // Clear footerCategory when subCategory is selected
+     }
+   };
+
+   const handleFooterCategoryChange = (e) => {
+     const value = e.target.value;
+     setfooterCategory({ _id: value });
+     if (value) {
+       setsubCategory(""); // Clear subCategory when footerCategory is selected
+     }
+   };
+
   const handleCloseCreatePopup = () => {
     setVisibility(false);
   };
@@ -142,10 +158,11 @@ const Updatebrand = ({ isVisible, setVisibility, refreshBrandData }) => {
                     <select
                       id="subCategory"
                       value={subCategory._id}
-                      onChange={(e) => setsubCategory(e.target.value)}
+                      // onChange={(e) => setsubCategory(e.target.value)}
+                      onChange={handleSubCategoryChange}
                       className={`border-1 w-full rounded-sm border-[#8E9CAB] p-2 mb-3`}
                     >
-                      <option > Select </option>
+                      <option> Select </option>
                       {subCategorydropdown &&
                         subCategorydropdown.map((itme, index) => {
                           return (
@@ -167,10 +184,11 @@ const Updatebrand = ({ isVisible, setVisibility, refreshBrandData }) => {
                     <select
                       id="footerCategory"
                       value={footerCategory._id}
-                      onChange={(e) => setfooterCategory(e.target.value)}
+                      // onChange={(e) => setfooterCategory(e.target.value)}
+                      onChange={handleFooterCategoryChange}
                       className={`border-1 w-full rounded-sm border-[#8E9CAB] p-2 mb-3`}
                     >
-                      <option > Select </option>
+                      <option> Select </option>
                       {footerCategorydropdown &&
                         footerCategorydropdown.map((itme, index) => {
                           return (
