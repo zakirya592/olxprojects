@@ -146,11 +146,15 @@ export const AdminFooterCategory = [
     headerName: "Name",
     width: 180,
   },
-  // {
-  //   field: "catagory",
-  //   headerName: "Catagory",
-  //   width: 180,
-  // },
+  {
+    field: "subCategory",
+    headerName: "Catagory",
+    width: 180,
+    valueGetter: (params) => {
+      const catagory = params;
+      return catagory && catagory.name ? catagory.name : null;
+    },
+  },
 
   {
     field: "status",
@@ -236,16 +240,17 @@ export const AdminMegaMenu = [
       />
     ),
   },
-  // {
-  //   field: "subCategories",
-  //   headerName: "subCategories",
-  //   width: 180,
-  //   valueGetter: (params) => {
-  //     const subCategories = params;
-  //     console.log(subCategories);
-  //     // return subCategories && subCategories.catagory ? subCategories.catagory : null;
-  //   },
-  // },
+  {
+    field: "subCategories",
+    headerName: "Sub Catagory",
+    width: 180,
+    valueGetter: (params) => {
+      const subCategories = params;
+      return subCategories && subCategories.length > 0
+        ? subCategories.map((sub) => sub.name).join(", ")
+        : "";
+    },
+  },
   {
     field: "status",
     headerName: "Status",

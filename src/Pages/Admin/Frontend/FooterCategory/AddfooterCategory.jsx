@@ -103,7 +103,7 @@ const AddfooterCategory = ({ isVisible, setVisibility, refreshBrandData }) => {
 
                   <div className="w-full font-body sm:text-base text-sm flex flex-col gap-2">
                     <label htmlFor="Category" className={`text-loactioncolor`}>
-                      Category
+                     Sub Category
                     </label>
                     <select
                       id="Category"

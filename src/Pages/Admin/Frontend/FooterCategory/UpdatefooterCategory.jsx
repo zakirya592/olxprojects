@@ -8,9 +8,11 @@ const UpdatefooterCategory = ({ isVisible, setVisibility, refreshBrandData }) =>
   const [name, setname] = useState(updateBrandData?.name || '');
   const [status, setstatus] = useState(updateBrandData?.status || 0);
 
-  const [Category, setCategory] = useState("");
+  const [Category, setCategory] = useState({
+    name: updateBrandData?.subCategory?.name || '',
+    _id: updateBrandData?.subCategory?._id || '',
+  });
   const [Categorydropdown, setCategorydropdown] = useState([]);
-
   const getpagedata = async () => {
     try {
       const response = await NewRequest.get("/subCategory");
@@ -104,11 +106,11 @@ const UpdatefooterCategory = ({ isVisible, setVisibility, refreshBrandData }) =>
 
                   <div className="w-full font-body sm:text-base text-sm flex flex-col gap-2">
                     <label htmlFor="Category" className={`text-loactioncolor`}>
-                      Category
+                     Sub Category
                     </label>
                     <select
                       id="Category"
-                      value={Category}
+                      value={Category._id}
                       onChange={(e) => setCategory(e.target.value)}
                       className={`border-1 w-full rounded-sm border-[#8E9CAB] p-2 mb-3`}
                     >

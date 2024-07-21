@@ -4,10 +4,15 @@ import NewRequest from "../../../../../utils/NewRequest";
 // import "./Categories.css";
 
 const UpdateSubCategory = ({ isVisible, setVisibility, refreshBrandData }) => {
-  const updateBrandData = JSON.parse(sessionStorage.getItem("updateSubCategory"));
-  const [name, setname] = useState(updateBrandData?.name ||"");
+  const updateBrandData = JSON.parse(
+    sessionStorage.getItem("updateSubCategory")
+  );
+  const [name, setname] = useState(updateBrandData?.name || "");
   const [status, setstatus] = useState(updateBrandData?.status || 0);
-  const [Category, setCategory] = useState("");
+  const [Category, setCategory] = useState({
+    name: updateBrandData?.catagory?.name || '',
+    _id: updateBrandData?.catagory?._id || '',
+  });
   const [Categorydropdown, setCategorydropdown] = useState([]);
 
   const getpagedata = async () => {
@@ -18,6 +23,7 @@ const UpdateSubCategory = ({ isVisible, setVisibility, refreshBrandData }) => {
       // console.log(error);
     }
   };
+
   useEffect(() => {
     getpagedata();
   }, []);
@@ -28,13 +34,16 @@ const UpdateSubCategory = ({ isVisible, setVisibility, refreshBrandData }) => {
 
   const handleAddCompany = async () => {
     try {
-      const response = await NewRequest.put(`subCategory/${updateBrandData?._id}`, {
-        name: name,
-        categoryId: Category,
-        status: status,
-      });
+      const response = await NewRequest.put(
+        `subCategory/${updateBrandData?._id}`,
+        {
+          name: name,
+          categoryId: Category, // Use the _id from Category
+          status: status,
+        }
+      );
       console.log(response);
-      toast.success(`SubCategory has been Update successfully".`, {
+      toast.success(`SubCategory has been updated successfully`, {
         position: "top-right",
         autoClose: 2000,
         hideProgressBar: false,
@@ -44,7 +53,6 @@ const UpdateSubCategory = ({ isVisible, setVisibility, refreshBrandData }) => {
         progress: undefined,
         theme: "light",
       });
-      // console.log(response.data);
       refreshBrandData();
       handleCloseCreatePopup();
     } catch (error) {
@@ -59,13 +67,18 @@ const UpdateSubCategory = ({ isVisible, setVisibility, refreshBrandData }) => {
         progress: undefined,
         theme: "light",
       });
-      // console.log(error);
     }
+  };
+
+  const handleCategoryChange = (e) => {
+    const selectedCategory = Categorydropdown.find(
+      (item) => item._id === e.target.value
+    );
+    setCategory(selectedCategory);
   };
 
   return (
     <div>
-      {/* create the post api popup */}
       {isVisible && (
         <div className="popup-overlay z-50 ">
           <div className="popup-container bg-gray-100 h-auto sm:w-[45%] justify-center w-full">
@@ -100,25 +113,23 @@ const UpdateSubCategory = ({ isVisible, setVisibility, refreshBrandData }) => {
                     </label>
                     <select
                       id="Category"
-                      value={Category}
-                      onChange={(e) => setCategory(e.target.value)}
+                      value={Category._id}
+                      onChange={handleCategoryChange}
                       className={`border-1 w-full rounded-sm border-[#8E9CAB] p-2 mb-3`}
                     >
-                      <option value="0"> Select </option>
+                      <option> Select </option>
                       {Categorydropdown &&
-                        Categorydropdown.map((itme, index) => {
-                          return (
-                            <option key={index} value={itme._id}>
-                              {itme.name}
-                            </option>
-                          );
-                        })}
+                        Categorydropdown.map((item) => (
+                          <option key={item._id} value={item._id}>
+                            {item.name}
+                          </option>
+                        ))}
                     </select>
                   </div>
 
                   <div className="w-full font-body sm:text-base text-sm flex flex-col gap-2">
                     <label htmlFor="status" className={`text-loactioncolor`}>
-                      status
+                      Status
                     </label>
                     <select
                       id="status"
