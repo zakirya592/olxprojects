@@ -20,6 +20,23 @@ const Updatebrand = ({ isVisible, setVisibility, refreshBrandData }) => {
       // console.log(error);
     }
   };
+
+   const getiddata = async () => {
+     try {
+       const response = await NewRequest.get(`/brand/${updateBrandData._id}`);
+        setsubCategory({
+          name: response?.data?.subCategory?.name || "",
+          _id: response?.data?.subCategory?._id || "",
+        });
+         setfooterCategory({
+           name: response?.data?.footerCategory?.name || "",
+           _id: response?.data?.footerCategory?._id || "",
+         });
+      //  console.log(response?.data?.footerCategory?.name);
+     } catch (error) {
+       // console.log(error);
+     }
+   };
   const footerCategorydata = async () => {
     try {
       const response = await NewRequest.get("/footerCategory");
@@ -31,6 +48,7 @@ const Updatebrand = ({ isVisible, setVisibility, refreshBrandData }) => {
   useEffect(() => {
     getpagedata();
     footerCategorydata();
+    getiddata()
   }, []);
 
   const handleCloseCreatePopup = () => {
@@ -123,11 +141,11 @@ const Updatebrand = ({ isVisible, setVisibility, refreshBrandData }) => {
                     </label>
                     <select
                       id="subCategory"
-                      value={subCategory}
+                      value={subCategory._id}
                       onChange={(e) => setsubCategory(e.target.value)}
                       className={`border-1 w-full rounded-sm border-[#8E9CAB] p-2 mb-3`}
                     >
-                      <option value="0"> Select </option>
+                      <option > Select </option>
                       {subCategorydropdown &&
                         subCategorydropdown.map((itme, index) => {
                           return (
@@ -148,11 +166,11 @@ const Updatebrand = ({ isVisible, setVisibility, refreshBrandData }) => {
                     </label>
                     <select
                       id="footerCategory"
-                      value={footerCategory}
+                      value={footerCategory._id}
                       onChange={(e) => setfooterCategory(e.target.value)}
                       className={`border-1 w-full rounded-sm border-[#8E9CAB] p-2 mb-3`}
                     >
-                      <option value="0"> Select </option>
+                      <option > Select </option>
                       {footerCategorydropdown &&
                         footerCategorydropdown.map((itme, index) => {
                           return (
