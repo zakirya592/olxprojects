@@ -15,6 +15,7 @@ import DeviceType from "./Pages/Admin/MasterData/DeviceType/DeviceType";
 import Type from "./Pages/Admin/MasterData/Type/Type";
 import Make from "./Pages/Admin/MasterData/Make/Make";
 import Furnished from "./Pages/Admin/MasterData/Furnished/Furnished";
+import Bedroom from "./Pages/Admin/MasterData/Bedroom/Bedroom";
 
 const queryClient = new QueryClient();
 
@@ -52,6 +53,7 @@ function App() {
                   <Route path="/types" element={<Type />} />
                   <Route path="/make" element={<Make />} />
                   <Route path="/Furnished" element={<Furnished />} />
+                  <Route path="/Bedroom" element={<Bedroom />} />
                 </Routes>
               </QueryClientProvider>
             </MainLayout>
