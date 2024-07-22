@@ -11,13 +11,13 @@ function Home() {
   return (
     <div>
       {/* <h1>Home</h1> */}
-      <div className="fixed top-0 left-0 right-0 z-50">
-        <Header />
-      </div>
-      <hr className="lg:px-10 mt-40" />
-      
-      <div className="px-10 smm:px-3 ">
-        <DropDownSelection/>
+      {/* <div className=""> */}
+      <Header />
+      {/* </div> */}
+      <hr className="lg:px-10 mt-5 lg:mt-40 sm:mt-2" />
+
+      <div className="px-2 sm:px-2 lg:px-10 smm:px-3 ">
+        <DropDownSelection />
         <Hadersilder />
         <Categories />
         <MoreinKidscard />

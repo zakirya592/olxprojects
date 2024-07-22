@@ -56,106 +56,36 @@ const Hadersilder = () => {
           ) : ( */}
           {/* // slidersData.map((item) => ( */}
           <SwiperSlide>
-            <div className="relative  w-100 ">
+            <div className="relative w-100">
               <img
-                // src={imageLiveUrl(item?.image)}
-                src={silder1}
-                className="w-full h-full object-contain"
-                alt="Slide 1"
+                src="https://images.olx.com.pk/thumbnails/467455216-800x600.webp"
+                className="w-full h-full object-contain block lg:hidden"
+                alt="Small Screen Slide"
               />
-              {/* <h2 className="sm:text-5xl text-lg font-sans font-bold text-center text-secondary">
-                title
-              </h2> */}
-              {/* <div
-                className={`absolute sm:top-1/4 top-2.5 sm:left-10 left-3 text-white max-w-6xl`}
-              >
-                {/* <h2 className="sm:text-5xl text-3xl font-sans font-bold mb-4">
-                  title
-                </h2>
-                <p className="sm:text-2xl text-xl font-thin">
-                  {/* {item?.description} */}
-              {/* description_ar */}
-              {/* </p> */}
-
-              {/* <Link
-                    // to={`/${item?.link}`}
-                    >
-                      <Button
-                        variant="contained"
-                        // type="submit"
-                        style={{
-                          backgroundColor: "#1F0567",
-                          color: "#ffffff",
-                          marginTop: "2rem",
-                        }}
-                        className="bg-[#B6BAD6]"
-                        endIcon={<ArrowRightAltIcon />}
-                      >
-                        {/* {item?.caption} */}
-              {/* caption */}
-              {/* </Button>
-                    </Link> */}
-              {/* </div> */}
+              <img
+                src={silder1}
+                className="w-full h-full object-contain hidden lg:block"
+                alt="Large Screen Slide"
+              />
             </div>
           </SwiperSlide>
           <SwiperSlide>
-            <div className="relative  w-100">
+            <div className="relative w-100">
               <img
-                // src={imageLiveUrl(item?.image)}
-                src={silder1}
-                className="w-full h-full object-contain"
-                alt="Slide 1"
+                src="https://images.olx.com.pk/thumbnails/467455216-800x600.webp"
+                className="w-full h-full object-contain block lg:hidden"
+                alt="Small Screen Slide"
               />
-              {/* <h2 className="sm:text-5xl text-lg font-sans font-bold text-center text-secondary">
-                title
-              </h2> */}
-              {/* <div
-                className={`absolute sm:top-1/4 top-2.5 sm:left-10 left-3 text-white max-w-6xl`}
-              >
-                {/* <h2 className="sm:text-5xl text-3xl font-sans font-bold mb-4">
-                  title
-                </h2>
-                <p className="sm:text-2xl text-xl font-thin">
-                  {/* {item?.description} */}
-              {/* description_ar */}
-              {/* </p> */}
-
-              {/* <Link
-                    // to={`/${item?.link}`}
-                    >
-                      <Button
-                        variant="contained"
-                        // type="submit"
-                        style={{
-                          backgroundColor: "#1F0567",
-                          color: "#ffffff",
-                          marginTop: "2rem",
-                        }}
-                        className="bg-[#B6BAD6]"
-                        endIcon={<ArrowRightAltIcon />}
-                      >
-                        {/* {item?.caption} */}
-              {/* caption */}
-              {/* </Button>
-                    </Link> */}
-              {/* </div> */}
+              <img
+                src={silder1}
+                className="w-full h-full object-contain hidden lg:block"
+                alt="Large Screen Slide"
+              />
             </div>
           </SwiperSlide>
           {/* )) */}
           {/* //   )} */}
         </Swiper>
-        {/* <div
-          id="swiper-button-prev"
-          className="absolute bottom-0 z-20 -translate-y-1/2 transform right-20"
-        >
-          <IoIosArrowDropleftCircle className="cursor-pointer rounded-full text-5xl text-white opacity-80 hover:opacity-100" />
-        </div>
-        <div
-          id="swiper-button-next"
-          className="absolute bottom-0 z-20 -translate-y-1/2 transform right-6"
-        >
-          <IoIosArrowDroprightCircle className="cursor-pointer rounded-full text-5xl text-white opacity-80 hover:opacity-100" />
-        </div> */}
       </div>
     </div>
   );

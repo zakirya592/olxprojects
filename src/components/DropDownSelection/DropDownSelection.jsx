@@ -2,8 +2,8 @@ import React from 'react'
 
 function DropDownSelection() {
   return (
-    <div>
-      <ul className="flex gap-5 mt-4">
+    <div className='hidden lg:block'>
+      <ul className="flex gap-5 mt-4 ">
         <li className='text-detailscolor text-mg hover:text-texthover cursor-pointer'>Mobile Phones</li>
         <li className='text-detailscolor text-mg hover:text-texthover cursor-pointer'>Cars</li>
         <li className='text-detailscolor text-mg hover:text-texthover cursor-pointer'>Motorcycles</li>
