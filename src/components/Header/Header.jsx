@@ -57,12 +57,12 @@ function Header() {
                 <h6 className="text-xl ms-2 font-bold my-auto">Property</h6>
               </div>
             </div>
-            <h6
+            {/* <h6
               className="text-xl ms-2 font-bold my-auto cursor-pointer"
               onClick={() => navigator("/Admin/Category")}
             >
               Admin
-            </h6>
+            </h6> */}
           </div>
           <header className="flex py-2 w-full flex-col sm:flex-row justify-between">
             <div className="flex items-center w-full flex-col sm:flex-row">
@@ -104,19 +104,26 @@ function Header() {
             <div className="flex items-center space-x-4 w-full justify-center lg:justify-end sm:justify-start smm:justify-normal mt-2 lg:mt-0 sm:mt-2">
               <div className="flex items-center space-x-4">
                 <FaCommentDots
-                  className="text-gray-500 cursor-pointer hidden lg:block"
+                  className="text-gray-500 cursor-pointer hidden " //lg:block
                   size={25}
                 />
                 <FaBell
-                  className="text-gray-500 cursor-pointer hidden lg:block"
+                  className="text-gray-500 cursor-pointer hidden " //lg:block
                   size={25}
                 />
                 <img
                   src="https://via.placeholder.com/40" // Replace with the actual profile image URL
                   alt="Profile"
-                  className="w-10 h-10 rounded-full object-cover cursor-pointer hidden lg:block"
+                  className="w-10 h-10 rounded-full object-cover cursor-pointer hidden " //lg:block
                 />
               </div>
+              <h6
+                // className="text-xl ms-2 font-bold my-auto cursor-pointer"
+                className="text-blue-500 text-xl border-b border-blue-500 cursor-pointer"
+                onClick={() => navigator("/Admin/Category")}
+              >
+                Staff Login
+              </h6>
               <div
                 className="gradient-border p-1 rounded-full hidden lg:block mt-2 sm:mt-0"
                 onClick={() => navigator("/Post")}
@@ -129,17 +136,17 @@ function Header() {
           </header>
         </div>
       </div>
-      <div className='w-full flex justify-center'>
-      <div className="fixed justify-center text-center w-fit items-center z-50 bottom-0 bg-white sm:hidden">
-        <div className="flex justify-center gradient-border border rounded-full p-1">
-          <button
-            className=" p-2 rounded-full bg-white text-gray-800 border-none"
-            onClick={() => navigator("/Post")}
-          >
-            + SELL
-          </button>
+      <div className="w-full flex justify-center">
+        <div className="fixed justify-center text-center w-fit items-center z-50 bottom-0 bg-white sm:hidden">
+          <div className="flex justify-center gradient-border border rounded-full p-1">
+            <button
+              className=" p-2 rounded-full bg-white text-gray-800 border-none"
+              onClick={() => navigator("/Post")}
+            >
+              + SELL
+            </button>
+          </div>
         </div>
-      </div>
       </div>
     </>
   );
