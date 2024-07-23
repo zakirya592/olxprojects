@@ -39,7 +39,7 @@ function Header() {
                 <img
                   src={log}
                   alt="Logo"
-                  className="h-12 sm:h-12 lg:h-14 w-auto cursor-pointer"
+                  className="h-14 w-auto cursor-pointer"
                 />
               </div>
               <div className="flex mx-5 lg:mx-5 sm:mx-1 smm:mx-0 cursor-pointer text-black hover:text-secondary my-auto">
