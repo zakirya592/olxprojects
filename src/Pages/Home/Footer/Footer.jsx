@@ -210,17 +210,17 @@ const Footer = () => {
                   <img
                     src={Googleplay}
                     alt="Google Play"
-                    className="w-1/3 h-30 object-contain mx-2"
+                    className="w-1/3 h-30 object-contain mx-0 lg:mx-2 sm:mx-0"
                   />
                   <img
                     src={appstore}
                     alt="App Store"
-                    className="w-1/3 h-30 object-contain mx-2"
+                    className="w-1/3 h-30 object-contain  mx-0 lg:mx-2 sm:mx-0"
                   />
                   <img
                     src={Appgallery}
                     alt="App Gallery"
-                    className="w-1/3 h-30 object-contain mx-2"
+                    className="w-1/3 h-30 object-contain  mx-0 lg:mx-2 sm:mx-0"
                   />
                 </div>
               </div>
