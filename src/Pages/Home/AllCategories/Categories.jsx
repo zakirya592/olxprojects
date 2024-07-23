@@ -1,5 +1,5 @@
 import React from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import Mobliceimg from "../../../assets/Images/mobiles.png";
 import vehicles from "../../../assets/Images/vehicles.png";
 import PropertyforSale from "../../../assets/Images/PropertyforSale.png";
@@ -26,7 +26,7 @@ function Categories() {
     error,
     data: eventsData,
   } = useQuery("category", fetchUpcomingEventsData);
-
+const navigator =useNavigate()
   async function fetchUpcomingEventsData() {
     const response = await NewRequest.get("/category");
     return response?.data.filter((item) => item.status === 1) || [];
@@ -38,7 +38,10 @@ function Categories() {
         <h6 className="text-headingcolor text-3xl font-bold overflow-hidden">
           All categories
         </h6>
-        <div className="text-viewmorebutton text-xl flex cursor-pointer my-auto">
+        <div
+          className="text-viewmorebutton text-xl flex cursor-pointer my-auto"
+          onClick={() => navigator("/Post")}
+        >
           <span>View more</span> <MdOutlineNavigateNext size={30} />
         </div>
       </div>
