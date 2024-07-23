@@ -4,7 +4,7 @@ import { useNavigate } from "react-router-dom";
 import { GrNext } from "react-icons/gr";
 import NewRequest from "../../../../utils/NewRequest";
 import { useQuery } from "react-query";
-
+import log from "../../../assets/Images/logo1.png"
 function Sellpage() {
   const navigate = useNavigate();
 
@@ -46,8 +46,11 @@ function Sellpage() {
           className="cursor-pointer flex my-auto"
           onClick={() => navigate("/")}
         >
-          <IoMdArrowBack size={24} />
-          <p className="text-lg font-bold text-center ms-3 my-auto">OLX</p>
+          <IoMdArrowBack size={24} className="my-auto"/>
+          {/* <p className="text-lg font-bold text-center ms-3 my-auto">OLX</p> */}
+          <div className="logo my-auto">
+            <img src={log} alt="Logo" className="h-10 w-auto cursor-pointer" />
+          </div>
         </div>
       </div>
       <div className="bg-white">
