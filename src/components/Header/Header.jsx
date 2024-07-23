@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { FaCarAlt, FaSearch, FaCommentDots, FaBell, FaMapMarkerAlt, FaLocationArrow } from "react-icons/fa";
 import { MdOutlineHomeWork } from "react-icons/md";
 import { useNavigate } from 'react-router-dom';
-import log from "../../assets/Images/logo.jpg";
+import log from "../../assets/Images/logo1.png";
 
 function Header() {
   const navigator = useNavigate();
