@@ -101,7 +101,7 @@ function Header() {
                 </span>
               </div>
             </div>
-            <div className="flex items-center space-x-4 w-full justify-center lg:justify-end sm:justify-start smm:justify-normal mt-2 lg:mt-0 sm:mt-2">
+            <div className="flex items-center space-x-4 w-1/2 justify-center lg:justify-end sm:justify-start smm:justify-normal mt-2 lg:mt-0 sm:mt-2">
               <div className="flex items-center space-x-4">
                 <FaCommentDots
                   className="text-gray-500 cursor-pointer hidden " //lg:block
