@@ -2,49 +2,38 @@ import React, { useState } from "react";
 import { IoMdArrowBack } from "react-icons/io";
 import { useNavigate } from "react-router-dom";
 import { GrNext } from "react-icons/gr";
+import NewRequest from "../../../../utils/NewRequest";
+import { useQuery } from "react-query";
 
 function Sellpage() {
-  const navigator = useNavigate();
-  const categories = [
-    { name: "Mobiles", icon: "📱", subcategories: [] },
-    {
-      name: "Vehicles",
-      icon: "🚗",
-      subcategories: [
-        "Cars",
-        "Cars on Installments",
-        "Car Accessories",
-        "Spare Parts",
-        "Buses, Vans & Trucks",
-        "Rickshaw & Chingchi",
-        "Other Vehicles",
-        "Boats",
-        "Tractors & Trailers",
-      ],
-    },
-    { name: "Property for Sale", icon: "🏠", subcategories: [] },
-    { name: "Property for Rent", icon: "🔑", subcategories: [] },
-    { name: "Electronics & Home Appliances", icon: "📷", subcategories: [] },
-    { name: "Bikes", icon: "🏍️", subcategories: [] },
-    {
-      name: "Business, Industrial & Agriculture",
-      icon: "🚜",
-      subcategories: [],
-    },
-    { name: "Services", icon: "🛠️", subcategories: [] },
-    { name: "Jobs", icon: "💼", subcategories: [] },
-    { name: "Animals", icon: "🐶", subcategories: [] },
-    { name: "Furniture & Home Decor", icon: "🛋️", subcategories: [] },
-    { name: "Fashion & Beauty", icon: "👗", subcategories: [] },
-    { name: "Books, Sports & Hobbies", icon: "📚", subcategories: [] },
-    { name: "Kids", icon: "🧸", subcategories: [] },
-  ];
+  const navigate = useNavigate();
+
+  const {
+    isLoading,
+    error,
+    data: eventsData,
+  } = useQuery("footerCategory/megamenu", fetchUpcomingEventsData);
+
+  async function fetchUpcomingEventsData() {
+    const response = await NewRequest.get("/footerCategory/megamenu");
+    return response?.data.filter((item) => item.status === 1) || [];
+  }
+
+  console.log(eventsData);
 
   const [selectedCategory, setSelectedCategory] = useState(null);
+   const [selectedfooter, setselectedfooter] = useState(null);
 
   const handleCategoryClick = (category) => {
-    setSelectedCategory(category);
+    setSelectedCategory(category); 
+    setselectedfooter(null);
   };
+
+
+   const handlefooterCategoryClick = (sub) => {
+     setselectedfooter(sub);
+     console.log(sub);
+   };
 
   const handleBackClick = () => {
     setSelectedCategory(null);
@@ -55,7 +44,7 @@ function Sellpage() {
       <div className="flex items-center p-4 bg-gray-100 rounded-lg shadow-md hover:bg-gray-100">
         <div
           className="cursor-pointer flex my-auto"
-          onClick={() => navigator("/")}
+          onClick={() => navigate("/")}
         >
           <IoMdArrowBack size={24} />
           <p className="text-lg font-bold text-center ms-3 my-auto">OLX</p>
@@ -64,50 +53,145 @@ function Sellpage() {
       <div className="bg-white">
         <div className="mx-10">
           <h1 className="text-3xl font-bold mb-10 text-center">Post Your Ad</h1>
-          {selectedCategory ? (
-            <div>
-              <button
-                className="mb-4 flex items-center text-lg font-semibold text-gray-600"
-                onClick={handleBackClick}
-              >
-                <IoMdArrowBack size={20} className="mr-2" />
-                Back
-              </button>
-              <h2 className="text-2xl font-bold mb-4">
-                {selectedCategory.name}
-              </h2>
-              <div className="w-full border rounded-sm">
-                {selectedCategory.subcategories.map((sub, index) => (
-                  <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 w-full">
-                    <p key={index} className="p-3 border-b justify-between border-r flex my-auto bg-transparent hover:bg-[#c8f8f6] active:bg-[#c8f8f6]  ">
-                      {sub}
-                       <GrNext size={24} className="my-auto" />
-                    </p>
-                    <p key={index} className="border-b p-3 justify-center border-r">
-                      {sub}
-                    </p>
-                  
-                  </div>
-                ))}
-              </div>
-            </div>
+          {isLoading ? (
+            <div>Loading...</div>
+          ) : error ? (
+            ""
           ) : (
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 w-full">
-              {categories.map((category) => (
-                <div
-                  key={category.name}
-                  className="flex border border-black rounded-lg py-3 justify-between my-auto bg-transparent hover:bg-[#c8f8f6] cursor-pointer"
-                  onClick={() => handleCategoryClick(category)}
-                >
-                  <div className="flex">
-                    <span className="text-2xl mr-4">{category.icon}</span>
-                    <span className="text-lg font-semibold">
-                      {category.name}
-                    </span>
+            <div>
+              {selectedCategory ? (
+                <div>
+                  <button
+                    className="mb-4 flex items-center text-lg font-semibold text-gray-600"
+                    onClick={handleBackClick}
+                  >
+                    <IoMdArrowBack size={20} className="mr-2" />
+                    Back
+                  </button>
+                  <h2 className="text-2xl font-bold mb-4">Choose a category</h2>
+
+                  <div className="w-full border rounded-sm">
+                    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 w-full">
+                      <div className="border-r">
+                        {eventsData.map((category) => (
+                          <div
+                            key={category._id}
+                            className={`flex border-b py-1 justify-between my-auto cursor-pointer ${
+                              selectedCategory._id === category._id
+                                ? "bg-[#c8f8f6]"
+                                : "bg-transparent hover:bg-[#c8f8f6] active:bg-[#c8f8f6]"
+                            }`}
+                            onClick={() => handleCategoryClick(category)}
+                          >
+                            <div className="flex my-auto">
+                              {category.icon ? (
+                                <img
+                                  src={category.icon}
+                                  alt="icon"
+                                  className="h-10 mt-1 mx-2"
+                                />
+                              ) : (
+                                <div className="mt-1 flex justify-center items-center mx-2">
+                                  <div className="w-10 h-10 border border-gray-300 rounded-full"></div>
+                                </div>
+                              )}
+                              <div className="w-full my-auto">
+                                <p className="text-lg font-semibold ">
+                                  {category.name}
+                                </p>
+                              </div>
+                            </div>
+                            <GrNext size={24} className="my-auto" />
+                          </div>
+                        ))}
+                      </div>
+                      <div className="border-r">
+                        {selectedCategory.subCategories &&
+                        selectedCategory.subCategories.length > 0 ? (
+                          selectedCategory.subCategories.map((sub, index) => (
+                            <div
+                              key={index}
+                              className=""
+                              onClick={() => handlefooterCategoryClick(sub)}
+                            >
+                              <p
+                                className={`p-3 border-b py-4 justify-between cursor-pointer flex my-auto ${
+                                  selectedfooter &&
+                                  selectedfooter._id === sub._id
+                                    ? "bg-[#c8f8f6]"
+                                    : "bg-transparent hover:bg-[#c8f8f6] active:bg-[#c8f8f6]"
+                                }`}
+                              >
+                                {sub.name}
+                                {sub.footerCategories &&
+                                  sub.footerCategories.length > 0 && (
+                                    <GrNext size={24} className="my-auto" />
+                                  )}
+                              </p>
+                            </div>
+                          ))
+                        ) : (
+                          <p>No subcategories available.</p>
+                        )}
+                      </div>
+                      <div className="border-r">
+                        {selectedfooter &&
+                        selectedfooter.footerCategories &&
+                        selectedfooter.footerCategories.length > 0 ? (
+                          selectedfooter.footerCategories.map(
+                            (footer, index) => (
+                              <div
+                                key={index}
+                                // className="flex border-b py-3 justify-between my-auto bg-transparent hover:bg-[#c8f8f6] cursor-pointer"
+                              >
+                                <div className="flex my-auto">
+                                  <div className="w-full my-auto">
+                                    <p className="p-3 border-b py-4 justify-between  cursor-pointer flex my-auto bg-transparent hover:bg-[#c8f8f6] active:bg-[#c8f8f6]">
+                                      {footer.name}
+                                    </p>
+                                  </div>
+                                </div>
+                              </div>
+                            )
+                          )
+                        ) : (
+                          <p></p>
+                        )}
+                      </div>
+                    </div>
                   </div>
-                  <GrNext size={24} className="my-auto" />
                 </div>
-              ))}
+              ) : (
+                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 w-full">
+                  {eventsData.map((category) => (
+                    <div
+                      key={category._id}
+                      className="flex border border-black rounded-lg py-3 justify-between my-auto bg-transparent hover:bg-[#c8f8f6] cursor-pointer"
+                      onClick={() => handleCategoryClick(category)}
+                    >
+                      <div className="flex my-auto">
+                        {category.icon ? (
+                          <img
+                            src={category.icon}
+                            alt="icon"
+                            className="h-10 mt-1 mx-2"
+                          />
+                        ) : (
+                          <div className="mt-1 flex justify-center items-center mx-2">
+                            <div className="w-10 h-10 border border-gray-300 rounded-full"></div>
+                          </div>
+                        )}
+                        <div className="w-full my-auto">
+                          <p className="text-lg font-semibold ">
+                            {category.name}
+                          </p>
+                        </div>
+                      </div>
+                      <GrNext size={24} className="my-auto" />
+                    </div>
+                  ))}
+                </div>
+              )}
             </div>
           )}
         </div>
