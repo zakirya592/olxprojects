@@ -8,6 +8,7 @@ import Login from "./Login";
 import { MdOutlineMailOutline } from "react-icons/md";
 import { RxCross2 } from "react-icons/rx";
 import Singup from "./Singup";
+import { FaGoogle } from "react-icons/fa6";
 
 const Firstloginsinup = ({ isVisible, setVisibility }) => {
   const [name, setname] = useState("");
@@ -141,6 +142,18 @@ const Firstloginsinup = ({ isVisible, setVisibility }) => {
                     <MdOutlineMailOutline size={24} className="my-auto" />
                     <p className="text-[#002f34] p-3 my-auto text-lg">
                       Login with Email
+                    </p>
+                  </div>
+                </div>
+
+                <div className="flex w-full justify-center items-center text-center my-10">
+                  <div
+                    className="border flex border-[#002f34] hover:shadow-lg justify-center cursor-pointer items-center text-center w-full rounded-md hover:border-3 my-auto"
+                    onClick={handleShowCreatePopuppoplogin}
+                  >
+                    <FaGoogle size={24} className="my-auto" />
+                    <p className="text-[#002f34] p-3 my-auto text-lg">
+                      Login with Goolge
                     </p>
                   </div>
                 </div>
