@@ -5,8 +5,10 @@ import PhoneInput from "react-phone-input-2";
 import "react-phone-input-2/lib/style.css";
 import "./Login.css";
 import { RxCross2 } from "react-icons/rx";
+import Login from "./Login";
 
-const Singup = ({ isVisiblepop, setVisibilitypop }) => {
+const Singup = ({ isVisiblepop, setVisibilitypop }) => { 
+  const [isCreatePopupVisiblepoplogin, setCreatePopupVisibilitypoplogin] = useState(false);
   const [name, setname] = useState("");
   const [email, setemail] = useState("");
   const [password, setpassword] = useState("");
@@ -43,7 +45,7 @@ const Singup = ({ isVisiblepop, setVisibilitypop }) => {
       // Check for maximum length (12 digits including country code)
       if (value.length > 12) {
         setCompanyLandlineError(
-          `${t("Number must be a maximum of 12 digits")}`
+          "Number must be a maximum of 12 digits"
         );
       }
     }
@@ -68,6 +70,7 @@ const Singup = ({ isVisiblepop, setVisibilitypop }) => {
           "Content-Type": "multipart/form-data",
         },
       });
+       setCreatePopupVisibilitypoplogin(true);
       console.log(response);
       toast.success(`Sign Up has been successfully".`, {
         position: "top-right",
@@ -79,9 +82,10 @@ const Singup = ({ isVisiblepop, setVisibilitypop }) => {
         progress: undefined,
         theme: "light",
       });
+      
       handleCloseCreatePopup();
     } catch (error) {
-      console.log(error);
+      setCreatePopupVisibilitypoplogin(false);
       toast.error(error?.response?.data?.error || "Error", {
         position: "top-right",
         autoClose: 2000,
@@ -293,6 +297,13 @@ const Singup = ({ isVisiblepop, setVisibilitypop }) => {
             </div>
           </div>
         </div>
+      )}
+      {isCreatePopupVisiblepoplogin && (
+        <Login
+          isVisiblepop={isCreatePopupVisiblepoplogin}
+          setVisibilitypop={setCreatePopupVisibilitypoplogin}
+          // refreshBrandData={fetchData}
+        />
       )}
     </div>
   );

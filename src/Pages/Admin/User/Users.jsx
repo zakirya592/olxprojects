@@ -2,15 +2,13 @@ import React, { useEffect, useState } from "react";
 import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/Delete";
 import { useNavigate } from "react-router-dom";
-import { AdminBrand } from "../../../../utils/Datatablesource";
+import { Adminuser } from "../../../../utils/Datatablesource";
 import Swal from "sweetalert2";
 import { toast } from "react-toastify";
 import DataTable from "../../../components/DataTable/DataTable";
 import NewRequest from "../../../../utils/NewRequest";
 import Adduser from "./Adduser";
 import Updateuser from "./Updateuser";
-// import AddBedRoom from "./AddBedRoom";
-// import UpdateBedRoom from "./UpdateBedRoom";
 
 const Users = () => {
   const [isLoading, setIsLoading] = useState(false);
@@ -23,14 +21,18 @@ const Users = () => {
   };
   const handleShowUpdatePopup = (row) => {
     setUpdatePopupVisibility(true);
-    sessionStorage.setItem("updateBedroom", JSON.stringify(row));
+    sessionStorage.setItem("updateuserdata", JSON.stringify(row));
   };
-  const navigate = useNavigate();
 
    const fetchData = async () => {
      setIsLoading(true);
+     const token = localStorage.getItem("authToken"); 
      try {
-       const response = await NewRequest.get("/users");
+       const response = await NewRequest.get("/users",{
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
        console.log(response);
        setData(response?.data || []);
        setIsLoading(false);
@@ -107,7 +109,7 @@ const Users = () => {
                 <DataTable
                   data={data}
                   title="User"
-                  columnsName={AdminBrand}
+                  columnsName={Adminuser}
                   loading={isLoading}
                   secondaryColor="secondary"
                   //   checkboxSelection={"disabled"}

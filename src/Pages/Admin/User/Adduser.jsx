@@ -6,7 +6,7 @@ import "react-phone-input-2/lib/style.css";
 // import "./Login.css";
 import { RxCross2 } from "react-icons/rx";
 
-const Adduser = ({ isVisible, setVisibility }) => {
+const Adduser = ({ isVisible, setVisibility, refreshBrandData }) => {
   const [name, setname] = useState("");
   const [email, setemail] = useState("");
   const [password, setpassword] = useState("");
@@ -80,6 +80,7 @@ const Adduser = ({ isVisible, setVisibility }) => {
         theme: "light",
       });
       handleCloseCreatePopup();
+      refreshBrandData()
     } catch (error) {
       console.log(error);
       toast.error(error?.response?.data?.error || "Error", {

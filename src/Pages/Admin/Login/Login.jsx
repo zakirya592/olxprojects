@@ -4,8 +4,10 @@ import NewRequest from "../../../../utils/NewRequest";
 import { AiOutlineEye, AiOutlineEyeInvisible } from "react-icons/ai"; // Import icons
 import "./Login.css";
 import { RxCross2 } from "react-icons/rx";
+import { useNavigate } from "react-router-dom";
 
 const Login = ({ isVisiblepop, setVisibilitypop }) => {
+  const navigator =useNavigate()
     const [email, setemail] = useState("");
     const [password, setpassword] = useState("");
     const [showPassword, setShowPassword] = useState(false); // State for password visibility
@@ -20,8 +22,23 @@ const Login = ({ isVisiblepop, setVisibilitypop }) => {
                 email: email,
                 password: password,
             });
-            console.log(response);
-            toast.success(`Login has been successful.`, {
+           
+            const userstatus = response.data.user.status;
+            if (userstatus === 1) {
+              navigator("/admin/user");
+               toast.success(`Login has been successful.`, {
+                 position: "top-right",
+                 autoClose: 2000,
+                 hideProgressBar: false,
+                 closeOnClick: true,
+                 pauseOnHover: true,
+                 draggable: true,
+                 progress: undefined,
+                 theme: "light",
+               });
+                 handleCloseCreatePopup();
+            } else {
+              toast.error("Your account is not Active.", {
                 position: "top-right",
                 autoClose: 2000,
                 hideProgressBar: false,
@@ -30,10 +47,11 @@ const Login = ({ isVisiblepop, setVisibilitypop }) => {
                 draggable: true,
                 progress: undefined,
                 theme: "light",
-            });
-            handleCloseCreatePopup();
+              });
+            }
+            localStorage.setItem("authToken", response.data.token);
+          
         } catch (error) {
-            console.log(error);
             toast.error(error?.response?.data?.error || "Error", {
                 position: "top-right",
                 autoClose: 2000,

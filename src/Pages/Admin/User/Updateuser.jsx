@@ -6,23 +6,30 @@ import "react-phone-input-2/lib/style.css";
 // import "./Login.css";
 import { RxCross2 } from "react-icons/rx";
 
-const Updateuser = ({ isVisible, setVisibility }) => {
-  const [name, setname] = useState("");
-  const [email, setemail] = useState("");
+const Updateuser = ({ isVisible, setVisibility, refreshBrandData }) => {
+  const updateBrandData = JSON.parse(sessionStorage.getItem("updateuserdata"));
+  const [name, setname] = useState(updateBrandData?.username || "");
+  const [email, setemail] = useState(updateBrandData?.email || "");
   const [password, setpassword] = useState("");
-  const [dateOfBirth, setdateOfBirth] = useState("");
-  const [address, setaddress] = useState("");
-  const [aboutMe, setaboutMe] = useState("");
-  const [companyLandLine, setCompanyLandLine] = useState("");
+  const [dateOfBirth, setdateOfBirth] = useState(
+    updateBrandData?.dateOfBirth || ""
+  );
+  const [address, setaddress] = useState(updateBrandData?.address || "");
+  const [aboutMe, setaboutMe] = useState(updateBrandData?.aboutMe || "");
+  const [companyLandLine, setCompanyLandLine] = useState(
+    updateBrandData?.phone || ""
+  );
 
+  const [status, setstatus] = useState(updateBrandData?.status || 0);
   const [companyLandlineError, setCompanyLandlineError] = useState("");
+  const [loading, setloading] = useState(false)
 
   const handleCloseCreatePopup = () => {
     setVisibility(false);
   };
 
   const [selectedFile, setSelectedFile] = useState(null);
-  const [imageshow, setimageshow] = useState("");
+  const [imageshow, setimageshow] = useState(updateBrandData?.image || "");
 
   function handleChangeback(e) {
     setSelectedFile(e.target.files[0]);
@@ -53,6 +60,7 @@ const Updateuser = ({ isVisible, setVisibility }) => {
   };
 
   const handleAddCompany = async () => {
+    setloading(true)
     const formData = new FormData();
     formData.append("username", name);
     formData.append("email", email);
@@ -61,14 +69,20 @@ const Updateuser = ({ isVisible, setVisibility }) => {
     formData.append("aboutMe", aboutMe);
     formData.append("phone", companyLandLine);
     formData.append("address", address);
+    formData.append("status", status);
     formData.append("image", imageshow);
     try {
-      const response = await NewRequest.post("/users", formData, {
-        headers: {
-          "Content-Type": "multipart/form-data",
-        },
-      });
+      const response = await NewRequest.put(
+        `/users/${updateBrandData?._id}`,
+        formData,
+        {
+          headers: {
+            "Content-Type": "multipart/form-data",
+          },
+        }
+      );
       console.log(response);
+      setloading(false);
       toast.success(`Sign Up has been successfully".`, {
         position: "top-right",
         autoClose: 2000,
@@ -80,8 +94,10 @@ const Updateuser = ({ isVisible, setVisibility }) => {
         theme: "light",
       });
       handleCloseCreatePopup();
+      refreshBrandData()
     } catch (error) {
       console.log(error);
+       setloading(false);
       toast.error(error?.response?.data?.error || "Error", {
         position: "top-right",
         autoClose: 2000,
@@ -117,7 +133,7 @@ const Updateuser = ({ isVisible, setVisibility }) => {
                 <h2
                   className={`text-loactioncolor font-sans font-semibold text-2xl`}
                 >
-                  Update  User
+                  Update User
                 </h2>
                 <div className="flex flex-col sm:gap-3 gap-3 mt-5">
                   {/* Username */}
@@ -220,6 +236,20 @@ const Updateuser = ({ isVisible, setVisibility }) => {
                       className={`border-1 w-full rounded-sm border-[#8E9CAB] p-2 mb-3`}
                     />
                   </div>
+                  <div className="w-full font-body sm:text-base text-sm flex flex-col gap-2">
+                    <label htmlFor="status" className={`text-loactioncolor`}>
+                      status
+                    </label>
+                    <select
+                      id="status"
+                      value={status}
+                      onChange={(e) => setstatus(e.target.value)}
+                      className={`border-1 w-full rounded-sm border-[#8E9CAB] p-2 mb-3`}
+                    >
+                      <option value="0">Inactive</option>
+                      <option value="1">Active</option>
+                    </select>
+                  </div>
                   {/* aboutMe */}
                   <div className="w-full font-body sm:text-base text-sm flex flex-col gap-2">
                     <label htmlFor="aboutMe" className={`text-loactioncolor`}>
@@ -286,7 +316,7 @@ const Updateuser = ({ isVisible, setVisibility }) => {
                     onClick={handleAddCompany}
                     className="px-5 py-2 rounded-sm w-[70%] bg-loactioncolor text-white font-body text-sm ml-2"
                   >
-                    Update User
+                     {loading?'Loading....': 'Update User'}
                   </button>
                 </div>
               </form>

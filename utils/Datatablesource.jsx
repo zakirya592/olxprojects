@@ -447,3 +447,77 @@ export const AdminMake = [
     },
   },
 ];
+
+export const Adminuser = [
+  {
+    field: "username",
+    headerName: "UserName",
+    width: 180,
+  },
+  {
+    field: "email",
+    headerName: "Email",
+    width: 180,
+  },
+  {
+    field: "address",
+    headerName: "Address",
+    width: 180,
+  },
+  {
+    field: "dateOfBirth",
+    headerName: "Date Of Birth",
+    width: 180,
+  },
+  {
+    field: "aboutMe",
+    headerName: "About Me",
+    width: 250,
+  },
+  {
+    field: "phone",
+    headerName: "Phone",
+    width: 180,
+  },
+
+  {
+    field: "image",
+    headerName: "Image",
+    width: 180,
+    editable: true,
+    renderCell: (params) => (
+      <img
+        src={params.row.image}
+        // src={backendUrl + "/" + params.row.address_image}
+        alt="address_image"
+        style={{
+          width: "90%",
+          height: "90%",
+          objectFit: "contain",
+        }}
+      />
+    ),
+  },
+  {
+    field: "status",
+    headerName: "Status",
+    width: 120,
+    renderCell: (params) => (
+      <div
+        style={{
+          padding: "4px 8px",
+          borderRadius: "10px",
+          border: "2px solid",
+          background: params.value === 1 ? "green" : "red",
+          color: "white",
+          textAlign: "center",
+          width: "80px", // Fixed width for consistency
+          height: "30px", // Fixed height for consistency
+          lineHeight: "22px", // Vertically center the text
+        }}
+      >
+        {params.value === 1 ? "Active" : "Inactive"}
+      </div>
+    ),
+  },
+];
