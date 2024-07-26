@@ -6,6 +6,7 @@ import "react-phone-input-2/lib/style.css";
 import "./Login.css";
 import { RxCross2 } from "react-icons/rx";
 import Login from "./Login";
+import logo from "../../../assets/Images/logo1.png";
 
 const Singup = ({ isVisiblepop, setVisibilitypop }) => { 
   const [isCreatePopupVisiblepoplogin, setCreatePopupVisibilitypoplogin] = useState(false);
@@ -117,12 +118,15 @@ const Singup = ({ isVisiblepop, setVisibilitypop }) => {
                   className="cursor-pointer"
                 />
               </div>
-              <form className="w-full">
+              <div className="flex flex-col justify-center items-center">
+                <img src={logo} alt="" className="h-24 w-auto cursor-pointer" />
                 <h2
-                  className={`text-loactioncolor font-sans font-semibold text-2xl`}
+                  className={`text-loactioncolor font-sans font-semibold mt-6 text-2xl`}
                 >
                   Create a new account
                 </h2>
+              </div>
+              <form className="w-full">
                 <div className="flex flex-col sm:gap-3 gap-3 mt-5">
                   {/* Username */}
                   <div className="w-full font-body sm:text-base text-sm flex flex-col gap-2">

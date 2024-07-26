@@ -7,6 +7,7 @@ import { RxCross2 } from "react-icons/rx";
 import Singup from "./Singup";
 import { FaGoogle } from "react-icons/fa6";
 import Firstsinguppop from "./Firstsinguppop";
+import logo from "../../../assets/Images/logo1.png";
 
 const Firstloginsinup = ({ isVisible, setVisibility }) => {
   const handleCloseCreatePopup = () => {
@@ -41,6 +42,9 @@ const Firstloginsinup = ({ isVisible, setVisibility }) => {
                 />
               </div>
               <form className="w-full">
+                 <div className="flex justify-center items-center mb-10">
+                <img src={logo} alt="" className="h-24 w-auto cursor-pointer" />
+                </div>
                 <h2
                   className={`text-loactioncolor font-sans font-semibold text-2xl`}
                 >
