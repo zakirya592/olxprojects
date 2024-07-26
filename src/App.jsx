@@ -16,6 +16,7 @@ import Type from "./Pages/Admin/MasterData/Type/Type";
 import Make from "./Pages/Admin/MasterData/Make/Make";
 import Furnished from "./Pages/Admin/MasterData/Furnished/Furnished";
 import Bedroom from "./Pages/Admin/MasterData/Bedroom/Bedroom";
+import Users from "./Pages/Admin/User/Users";
 
 const queryClient = new QueryClient();
 
@@ -31,15 +32,15 @@ function App() {
 
   return (
     <BrowserRouter>
-        <QueryClientProvider client={queryClient}>
-      <Routes>
-        <Route path="/" element={<Home />} />
-        <Route path="/Post" element={<Sellpage />} />
+      <QueryClientProvider client={queryClient}>
+        <Routes>
+          <Route path="/" element={<Home />} />
+          <Route path="/Post" element={<Sellpage />} />
 
-        <Route
-          path="/Admin/*"
-          element={
-            <MainLayout>
+          <Route
+            path="/Admin/*"
+            element={
+              <MainLayout>
                 <Routes>
                   {/* Frontend */}
                   <Route path="/Category" element={<Category />} />
@@ -54,12 +55,14 @@ function App() {
                   <Route path="/make" element={<Make />} />
                   <Route path="/Furnished" element={<Furnished />} />
                   <Route path="/Bedroom" element={<Bedroom />} />
+
+                  <Route path="/user" element={<Users />} />
                 </Routes>
-            </MainLayout>
-          }
-        />
-      </Routes>
-              </QueryClientProvider>
+              </MainLayout>
+            }
+          />
+        </Routes>
+      </QueryClientProvider>
     </BrowserRouter>
   );
 }

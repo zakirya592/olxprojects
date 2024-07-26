@@ -21,6 +21,8 @@ import typesicon from "../../../assets/Images/types.webp"
 import makeicon from "../../../assets/Images/make.jpg"
 import Bedroomicon from "../../../assets/Images/Bedroom.png"
 import Furnishedicon from "../../../assets/Images/Furnished.jpg"
+import usericon from "../../../assets/Images/usersicon.png"
+import logonmm from "../../../assets/Images/logo1.png"
 
 const SideBar = () => {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
@@ -34,7 +36,7 @@ const SideBar = () => {
   const [selectedPath, setSelectedPath] = useState("");
 
   const [showfrontend, setshowfrontend] = useState(false);
- const [showmasterData, setshowmasterData] = useState(false);
+  const [showmasterData, setshowmasterData] = useState(false);
   useEffect(() => {
     const handleOutsideClick = (event) => {
       if (sidebarRef.current && !sidebarRef.current.contains(event.target)) {
@@ -119,18 +121,18 @@ const SideBar = () => {
             <div className="flex justify-end items-center px-0 mr-4">
               <span>
                 <p
-                  className="text-white font-sans mr-5 hover:text-primary"
+                  className="text-white mt-2 font-sans mr-5 hover:text-primary"
                   onClick={() => handleItemClickGs1website("/")}
                   onContextMenu={(event) => handleContextMenu(event, "/")}
                 >
-                  OLX Website
+                   Website
                 </p>
               </span>
             </div>
             <img
               // onClick={() => navigate("/member/member-profile")}
               src={profile}
-              className="h-7 w-7 bg-white rounded-full transition transform hover:scale-125"
+              className="h-7 w-7 mt-2 bg-white rounded-full transition transform hover:scale-125"
               alt=""
             />
           </div>
@@ -139,9 +141,8 @@ const SideBar = () => {
 
       <aside
         id="logo-sidebar"
-        className={`fixed top-0 z-40 w-64 sm:w-72 h-screen transition-transform left-0 ${
-          isSidebarOpen ? "translate-x-0" : "-translate-x-full"
-        } sm:translate-x-0 `}
+        className={`fixed top-0 z-40 w-64 sm:w-72 h-screen transition-transform left-0 ${isSidebarOpen ? "translate-x-0" : "-translate-x-full"
+          } sm:translate-x-0 `}
         aria-label="Sidebar"
         ref={sidebarRef}
       >
@@ -151,13 +152,30 @@ const SideBar = () => {
             // onClick={() => navigate("/track")}
             onClick={handleLogoClick}
           >
-            {/* <img
-              src={gs1logowhite}
-              className="h-auto w-44 rounded-md "
+            <img
+              src={logonmm}
+              className="h-auto w-32 rounded-md "
               alt=""
-            /> */}
+            />
           </div>
           <hr />
+
+          
+           <div
+                className={`main-images-container ${selectedItem === "/Admin/user" ? "selected-item" : ""
+                  } flex-row justify-start`}
+                onClick={() => handleItemClick("/Admin/user")}
+                onContextMenu={(event) =>
+                  handleContextMenu(event, "/Admin/user")
+                }
+              >
+                <img
+                  src={usericon}
+                  className="main-inside-image bg-white rounded-full"
+                  alt=""
+                />
+                <p className="sidebar-text">User</p>
+              </div>
 
           <div
             className={`main-images-container flex-row justify-start`}
@@ -172,10 +190,10 @@ const SideBar = () => {
             <div className={`ml-auto mr-2`}>
               {showfrontend ? (
                 // <i className="fas fa-solid fa-chevron-up text-black"></i>
-                <FaChevronUp />
+                <FaChevronUp className="text-white"/>
               ) : (
                 // <i className="fas fa-solid fa-chevron-down text-black"></i>
-                <FaChevronDown />
+                <FaChevronDown className="text-white"/>
               )}
             </div>
           </div>
@@ -183,9 +201,8 @@ const SideBar = () => {
           {showfrontend && (
             <div>
               <div
-                className={`main-images-container ${
-                  selectedItem === "/Admin/Category" ? "selected-item" : ""
-                } flex-row justify-start`}
+                className={`main-images-container ${selectedItem === "/Admin/Category" ? "selected-item" : ""
+                  } flex-row justify-start`}
                 onClick={() => handleItemClick("/Admin/Category")}
                 onContextMenu={(event) =>
                   handleContextMenu(event, "/Admin/Category")
@@ -200,9 +217,8 @@ const SideBar = () => {
               </div>
 
               <div
-                className={`main-images-container ${
-                  selectedItem === "/Admin/subcategory" ? "selected-item" : ""
-                } flex-row justify-start`}
+                className={`main-images-container ${selectedItem === "/Admin/subcategory" ? "selected-item" : ""
+                  } flex-row justify-start`}
                 onClick={() => handleItemClick("/Admin/subcategory")}
                 onContextMenu={(event) =>
                   handleContextMenu(event, "/Admin/subcategory")
@@ -217,11 +233,10 @@ const SideBar = () => {
               </div>
 
               <div
-                className={`main-images-container ${
-                  selectedItem === "/Admin/footerCategory"
+                className={`main-images-container ${selectedItem === "/Admin/footerCategory"
                     ? "selected-item"
                     : ""
-                } flex-row justify-start`}
+                  } flex-row justify-start`}
                 onClick={() => handleItemClick("/Admin/footerCategory")}
                 onContextMenu={(event) =>
                   handleContextMenu(event, "/Admin/footerCategory")
@@ -236,9 +251,8 @@ const SideBar = () => {
               </div>
 
               <div
-                className={`main-images-container ${
-                  selectedItem === "/Admin/Megamenu" ? "selected-item" : ""
-                } flex-row justify-start`}
+                className={`main-images-container ${selectedItem === "/Admin/Megamenu" ? "selected-item" : ""
+                  } flex-row justify-start`}
                 onClick={() => handleItemClick("/Admin/Megamenu")}
                 onContextMenu={(event) =>
                   handleContextMenu(event, "/Admin/Megamenu")
@@ -267,10 +281,10 @@ const SideBar = () => {
             <div className={`ml-auto mr-2`}>
               {showmasterData ? (
                 // <i className="fas fa-solid fa-chevron-up text-black"></i>
-                <FaChevronUp />
+                <FaChevronUp className="text-white"/>
               ) : (
                 // <i className="fas fa-solid fa-chevron-down text-black"></i>
-                <FaChevronDown />
+                <FaChevronDown className="text-white"/>
               )}
             </div>
           </div>
@@ -278,9 +292,8 @@ const SideBar = () => {
           {showmasterData && (
             <div>
               <div
-                className={`main-images-container ${
-                  selectedItem === "/Admin/Brand" ? "selected-item" : ""
-                } flex-row justify-start`}
+                className={`main-images-container ${selectedItem === "/Admin/Brand" ? "selected-item" : ""
+                  } flex-row justify-start`}
                 onClick={() => handleItemClick("/Admin/Brand")}
                 onContextMenu={(event) =>
                   handleContextMenu(event, "/Admin/Brand")
@@ -295,9 +308,8 @@ const SideBar = () => {
               </div>
 
               <div
-                className={`main-images-container ${
-                  selectedItem === "/Admin/Condition" ? "selected-item" : ""
-                } flex-row justify-start`}
+                className={`main-images-container ${selectedItem === "/Admin/Condition" ? "selected-item" : ""
+                  } flex-row justify-start`}
                 onClick={() => handleItemClick("/Admin/Condition")}
                 onContextMenu={(event) =>
                   handleContextMenu(event, "/Admin/Condition")
@@ -312,9 +324,8 @@ const SideBar = () => {
               </div>
 
               <div
-                className={`main-images-container ${
-                  selectedItem === "/Admin/DeviceType" ? "selected-item" : ""
-                } flex-row justify-start`}
+                className={`main-images-container ${selectedItem === "/Admin/DeviceType" ? "selected-item" : ""
+                  } flex-row justify-start`}
                 onClick={() => handleItemClick("/Admin/DeviceType")}
                 onContextMenu={(event) =>
                   handleContextMenu(event, "/Admin/DeviceType")
@@ -329,9 +340,8 @@ const SideBar = () => {
               </div>
 
               <div
-                className={`main-images-container ${
-                  selectedItem === "/Admin/types" ? "selected-item" : ""
-                } flex-row justify-start`}
+                className={`main-images-container ${selectedItem === "/Admin/types" ? "selected-item" : ""
+                  } flex-row justify-start`}
                 onClick={() => handleItemClick("/Admin/types")}
                 onContextMenu={(event) =>
                   handleContextMenu(event, "/Admin/types")
@@ -346,9 +356,8 @@ const SideBar = () => {
               </div>
 
               <div
-                className={`main-images-container ${
-                  selectedItem === "/Admin/make" ? "selected-item" : ""
-                } flex-row justify-start`}
+                className={`main-images-container ${selectedItem === "/Admin/make" ? "selected-item" : ""
+                  } flex-row justify-start`}
                 onClick={() => handleItemClick("/Admin/make")}
                 onContextMenu={(event) =>
                   handleContextMenu(event, "/Admin/make")
@@ -363,9 +372,8 @@ const SideBar = () => {
               </div>
 
               <div
-                className={`main-images-container ${
-                  selectedItem === "/Admin/Furnished" ? "selected-item" : ""
-                } flex-row justify-start`}
+                className={`main-images-container ${selectedItem === "/Admin/Furnished" ? "selected-item" : ""
+                  } flex-row justify-start`}
                 onClick={() => handleItemClick("/Admin/Furnished")}
                 onContextMenu={(event) =>
                   handleContextMenu(event, "/Admin/Furnished")
@@ -380,9 +388,8 @@ const SideBar = () => {
               </div>
 
               <div
-                className={`main-images-container ${
-                  selectedItem === "/Admin/Bedroom" ? "selected-item" : ""
-                } flex-row justify-start`}
+                className={`main-images-container ${selectedItem === "/Admin/Bedroom" ? "selected-item" : ""
+                  } flex-row justify-start`}
                 onClick={() => handleItemClick("/Admin/Bedroom")}
                 onContextMenu={(event) =>
                   handleContextMenu(event, "/Admin/Bedroom")
@@ -397,6 +404,7 @@ const SideBar = () => {
               </div>
             </div>
           )}
+
 
           <div
             className={`main-images-container flex-row justify-start`}
