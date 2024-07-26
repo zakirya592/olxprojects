@@ -181,7 +181,7 @@ function Sellpage() {
                           />
                         ) : (
                           <div className="mt-1 flex justify-center items-center mx-2">
-                            <div className="w-10 h-10 border border-gray-300 rounded-full"></div>
+                            <div className="w-8 h-8 border border-gray-300 rounded-full"></div>
                           </div>
                         )}
                         <div className="w-full my-auto">
