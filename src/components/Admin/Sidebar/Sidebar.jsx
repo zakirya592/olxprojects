@@ -85,7 +85,7 @@ const SideBar = () => {
 
   return (
     <div>
-      <div className={`h-10 mb-6 bg-[#c8f8f6] sm:ml-72`}>
+      <div className={`h-10 mb-6 bg-loactioncolor sm:ml-72`}>
         <div className={`flex justify-between items-center flex-row`}>
           <div className="flex items-center">
             <button
@@ -93,7 +93,7 @@ const SideBar = () => {
               data-drawer-toggle="logo-sidebar"
               aria-controls="logo-sidebar"
               type="button"
-              className="inline-flex items-center p-2 ml-3 text-sm text-white rounded-lg sm:hidden hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-200"
+              className="inline-flex items-center p-2 ml-3 text-sm text-black rounded-lg sm:hidden hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-200"
               onClick={toggleSidebar}
             >
               <span className="sr-only">Open sidebar</span>
@@ -145,7 +145,7 @@ const SideBar = () => {
         aria-label="Sidebar"
         ref={sidebarRef}
       >
-        <div className="h-full px-3 py-2 overflow-y-auto bg-[#c8f8f6]">
+        <div className="h-full px-3 py-2 overflow-y-auto bg-loactioncolor">
           <div
             className="flex justify-center items-center mb-3 cursor-pointer"
             // onClick={() => navigate("/track")}
@@ -420,7 +420,7 @@ const SideBar = () => {
         {/* This two icons  */}
         <div>
           <div
-            className={`flex justify-between w-[95%] px-2 absolute bottom-0 bg-[#c8f8f6] flex-row`}
+            className={`flex justify-between w-[95%] px-2 absolute bottom-0 bg-loactioncolor flex-row`}
           >
             <div className="main-images-container">
               {/* <img src={isoicon} className="main-inside-image-gs1logo" alt="" /> */}

@@ -3,11 +3,17 @@ import { FaCarAlt, FaSearch, FaCommentDots, FaBell, FaMapMarkerAlt, FaLocationAr
 import { MdOutlineHomeWork } from "react-icons/md";
 import { useNavigate } from 'react-router-dom';
 import log from "../../assets/Images/logo1.png";
+import Login from '../../Pages/Admin/Login/Login';
+import Firstloginsinup from '../../Pages/Admin/Login/Firstloginsinup';
 
 function Header() {
   const navigator = useNavigate();
   const [selectedLocation, setSelectedLocation] = useState("");
 
+ const [isCreatePopupVisible, setCreatePopupVisibility] = useState(false);
+   const handleShowCreatePopup = () => {
+     setCreatePopupVisibility(true);
+   };
   const handleLocationChange = (event) => {
     const selectedValue = event.target.value;
     if (selectedValue === "current_location") {
@@ -120,7 +126,8 @@ function Header() {
               <h6
                 // className="text-xl ms-2 font-bold my-auto cursor-pointer"
                 className="text-blue-500 text-xl border-b border-blue-500 cursor-pointer"
-                onClick={() => navigator("/Admin/Category")}
+                // onClick={() => navigator("/Admin/Category")}
+                onClick={handleShowCreatePopup}
               >
                 Staff Login
               </h6>
@@ -148,6 +155,14 @@ function Header() {
           </div>
         </div>
       </div>
+
+      {isCreatePopupVisible && (
+        <Firstloginsinup
+          isVisible={isCreatePopupVisible}
+          setVisibility={setCreatePopupVisibility}
+          // refreshBrandData={fetchData}
+        />
+      )}
     </>
   );
 }

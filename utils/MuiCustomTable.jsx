@@ -21,8 +21,8 @@ function customCheckbox(theme) {
       display: "none",
     },
     "& .MuiCheckbox-root.Mui-checked:not(.MuiCheckbox-indeterminate) svg": {
-      backgroundColor: "#c8f8f6",
-      borderColor: "#c8f8f6",
+      backgroundColor: "#406367",
+      borderColor: "#406367",
     },
     "& .MuiCheckbox-root.Mui-checked .MuiIconButton-label:after": {
       position: "absolute",
@@ -43,7 +43,7 @@ function customCheckbox(theme) {
       {
         width: 8,
         height: 8,
-        backgroundColor: "#c8f8f6",
+        backgroundColor: "#406367",
         transform: "none",
         top: "39%",
         border: 0,
@@ -77,20 +77,20 @@ export const MuiCustomTable = styled(DataGrid)(({ theme, secondaryColor }) => {
   const colorOptions = {
     primary: defaultColors,
     secondary: {
-      oddRow: "#c8f8f6",
-      oddRowHover: alpha("#c8f8f6", 0.5),
-      oddRowSelected: alpha("#c8f8f6", 0.8),
+      oddRow: "#406367",
+      oddRowHover: alpha("#406367", 0.5),
+      oddRowSelected: alpha("#406367", 0.8),
       evenRow: "#000000",
       evenRowHover: alpha("#F8F6F4", 1),
-      evenRowSelected: alpha("#c8f8f6", 0.8),
-      columnHeader: "#c8f8f6",
+      evenRowSelected: alpha("#406367", 0.8),
+      columnHeader: "#406367",
 
-      columnHeaderText: "#000000",
-      columnMenuIcon: "#000000",
-      iconButton: "#000000",
-      sortIcon: "#000000",
+      columnHeaderText: "#feffff",
+      columnMenuIcon: "#feffff",
+      iconButton: "#feffff",
+      sortIcon: "#feffff",
       columnsContainer: theme.palette.mode === "light" ? "#1d1d1d" : "#1d1d1d",
-      cellBorderBottom: "1px solid #c8f8f6",
+      cellBorderBottom: "1px solid #406367",
       cellText: "rgba(0,0,0,.85)",
       paginationItem: {
         borderRadius: 0,
