@@ -6,27 +6,28 @@ import { MdOutlineMailOutline } from "react-icons/md";
 import { RxCross2 } from "react-icons/rx";
 import Singup from "./Singup";
 import { FaGoogle } from "react-icons/fa6";
-import Firstsinguppop from "./Firstsinguppop";
+import Firstloginsinup from "./Firstloginsinup";
 
-const Firstloginsinup = ({ isVisible, setVisibility }) => {
+const Firstsinguppop = ({ isVisiblesinuppage, setVisibilitysinuppage }) => {
   const handleCloseCreatePopup = () => {
-    setVisibility(false);
+    setVisibilitysinuppage(false);
   };
 
-   const [isCreatePopupVisiblepopfirstsinguppage, setisCreatePopupVisiblepopfirstsinguppage] = useState(false);
-   const handleShowCreatePopuppopfirstsinguppage = () => {
-     setisCreatePopupVisiblepopfirstsinguppage(true);
-   };
+  const [isCreatePopupVisiblepop, setCreatePopupVisibilitypop] =
+    useState(false);
+  const handleShowCreatePopuppop = () => {
+    setCreatePopupVisibilitypop(true);
+  };
 
-      const [isCreatePopupVisiblepoplogin, setCreatePopupVisibilitypoplogin] = useState(false);
-   const handleShowCreatePopuppoplogin = () => {
-     setCreatePopupVisibilitypoplogin(true);
+   const [isCreatePopupVisible, setCreatePopupVisibility] = useState(false);
+   const handleShowCreatePopup = () => {
+     setCreatePopupVisibility(true);
    };
 
   return (
     <div>
       {/* create the post api popup */}
-      {isVisible && (
+      {isVisiblesinuppage && (
         <div className="popup-overlay z-50 text-center justify-center">
           <div className="popup-container bg-gray-100  h-auto sm:w-[40%] justify-center w-full">
             <div
@@ -44,17 +45,17 @@ const Firstloginsinup = ({ isVisible, setVisibility }) => {
                 <h2
                   className={`text-loactioncolor font-sans font-semibold text-2xl`}
                 >
-                  Login into your account
+                  Create a new account
                 </h2>
 
                 <div className="flex w-full justify-center items-center text-center my-10">
                   <div
                     className="border flex border-[#002f34] hover:shadow-lg justify-center cursor-pointer items-center text-center w-full rounded-md hover:border-3 my-auto"
-                    onClick={handleShowCreatePopuppoplogin}
+                    onClick={handleShowCreatePopuppop}
                   >
                     <MdOutlineMailOutline size={24} className="my-auto" />
                     <p className="text-[#002f34] p-3 my-auto text-lg">
-                      Login with Email
+                      Join with Email
                     </p>
                   </div>
                 </div>
@@ -62,20 +63,20 @@ const Firstloginsinup = ({ isVisible, setVisibility }) => {
                 <div className="flex w-full justify-center items-center text-center my-10">
                   <div
                     className="border flex border-[#002f34] hover:shadow-lg justify-center cursor-pointer items-center text-center w-full rounded-md hover:border-3 my-auto"
-                    onClick={handleShowCreatePopuppoplogin}
+                    // onClick={handleShowCreatePopuppoplogin}
                   >
                     <FaGoogle size={24} className="my-auto" />
                     <p className="text-[#002f34] p-3 my-auto text-lg">
-                      Login with Goolge
+                      Join with Goolge
                     </p>
                   </div>
                 </div>
 
                 <p
                   className="cursor-pointer text-indigo-500 "
-                  onClick={handleShowCreatePopuppopfirstsinguppage}
+                  onClick={handleShowCreatePopup}
                 >
-                  Create an account
+                  Already have an account? Log in
                 </p>
               </form>
             </div>
@@ -83,17 +84,18 @@ const Firstloginsinup = ({ isVisible, setVisibility }) => {
         </div>
       )}
 
-      {isCreatePopupVisiblepopfirstsinguppage && (
-        <Firstsinguppop
-          isVisiblesinuppage={isCreatePopupVisiblepopfirstsinguppage}
-          setVisibilitysinuppage={setisCreatePopupVisiblepopfirstsinguppage}
+      {isCreatePopupVisiblepop && (
+        <Singup
+          isVisiblepop={isCreatePopupVisiblepop}
+          setVisibilitypop={setCreatePopupVisibilitypop}
           // refreshBrandData={fetchData}
         />
       )}
-      {isCreatePopupVisiblepoplogin && (
-        <Login
-          isVisiblepop={isCreatePopupVisiblepoplogin}
-          setVisibilitypop={setCreatePopupVisibilitypoplogin}
+
+      {isCreatePopupVisible && (
+        <Firstloginsinup
+          isVisible={isCreatePopupVisible}
+          setVisibility={setCreatePopupVisibility}
           // refreshBrandData={fetchData}
         />
       )}
@@ -101,4 +103,4 @@ const Firstloginsinup = ({ isVisible, setVisibility }) => {
   );
 };
 
-export default Firstloginsinup;
+export default Firstsinguppop;
