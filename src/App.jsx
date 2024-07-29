@@ -17,6 +17,8 @@ import Make from "./Pages/Admin/MasterData/Make/Make";
 import Furnished from "./Pages/Admin/MasterData/Furnished/Furnished";
 import Bedroom from "./Pages/Admin/MasterData/Bedroom/Bedroom";
 import Users from "./Pages/Admin/User/Users";
+import Bathroom from "./Pages/Admin/MasterData/Bathroom/Bathroom";
+import Storey from "./Pages/Admin/MasterData/Storey/Storey";
 
 const queryClient = new QueryClient();
 
@@ -55,6 +57,8 @@ function App() {
                   <Route path="/make" element={<Make />} />
                   <Route path="/Furnished" element={<Furnished />} />
                   <Route path="/Bedroom" element={<Bedroom />} />
+                  <Route path="/Bathroom" element={<Bathroom />} />
+                  <Route path="/Storey" element={<Storey />} />
 
                   <Route path="/user" element={<Users />} />
                 </Routes>

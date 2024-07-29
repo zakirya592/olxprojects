@@ -402,6 +402,39 @@ const SideBar = () => {
                 />
                 <p className="sidebar-text">Bed Room</p>
               </div>
+
+                <div
+                className={`main-images-container ${selectedItem === "/Admin/Bathroom" ? "selected-item" : ""
+                  } flex-row justify-start`}
+                onClick={() => handleItemClick("/Admin/Bathroom")}
+                onContextMenu={(event) =>
+                  handleContextMenu(event, "/Admin/Bathroom")
+                }
+              >
+                <img
+                  src={Bedroomicon}
+                  className="main-inside-image bg-white rounded-full"
+                  alt=""
+                />
+                <p className="sidebar-text">Bath Room</p>
+              </div>
+
+              <div
+                className={`main-images-container ${selectedItem === "/Admin/Storey" ? "selected-item" : ""
+                  } flex-row justify-start`}
+                onClick={() => handleItemClick("/Admin/Storey")}
+                onContextMenu={(event) =>
+                  handleContextMenu(event, "/Admin/Storey")
+                }
+              >
+                <img
+                  src={Bedroomicon}
+                  className="main-inside-image bg-white rounded-full"
+                  alt=""
+                />
+                <p className="sidebar-text">Storey</p>
+              </div>
+
             </div>
           )}
 
