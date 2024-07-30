@@ -23,6 +23,11 @@ import Construction from "./Pages/Admin/MasterData/Construction/Construction";
 import Feature from "./Pages/Admin/MasterData/Feature/Feature";
 import Areaunit from "./Pages/Admin/MasterData/Areaunit/Areaunit";
 import ConstructionState from "./Pages/Admin/MasterData/ConstructionState/ConstructionState";
+import OperatingSystem from "./Pages/Admin/MasterData/OperatingSystem/OperatingSystem";
+import HardDriveType from "./Pages/Admin/MasterData/HardDriveType/HardDriveType";
+import FunctionType from "./Pages/Admin/MasterData/FunctionType/FunctionType";
+import SensorSize from "./Pages/Admin/MasterData/SensorSize/SensorSize";
+import Wifi from "./Pages/Admin/MasterData/Wifi/Wifi";
 
 const queryClient = new QueryClient();
 
@@ -67,7 +72,18 @@ function App() {
                   <Route path="/construction" element={<Construction />} />
                   <Route path="/Feature" element={<Feature />} />
                   <Route path="/Areaunit" element={<Areaunit />} />
-                  <Route path="/ConstructionState" element={<ConstructionState />} />
+                  <Route
+                    path="/ConstructionState"
+                    element={<ConstructionState />}
+                  />
+                  <Route
+                    path="/OperatingSystem"
+                    element={<OperatingSystem />}
+                  />
+                  <Route path="/HardDriveType" element={<HardDriveType />} />
+                  <Route path="/FunctionType" element={<FunctionType />} />
+                  <Route path="/SensorSize" element={<SensorSize />} />
+                  <Route path="/Wifi" element={<Wifi />} />
                 </Routes>
               </MainLayout>
             }
