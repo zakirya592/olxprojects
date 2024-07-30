@@ -19,6 +19,10 @@ import Bedroom from "./Pages/Admin/MasterData/Bedroom/Bedroom";
 import Users from "./Pages/Admin/User/Users";
 import Bathroom from "./Pages/Admin/MasterData/Bathroom/Bathroom";
 import Storey from "./Pages/Admin/MasterData/Storey/Storey";
+import Construction from "./Pages/Admin/MasterData/Construction/Construction";
+import Feature from "./Pages/Admin/MasterData/Feature/Feature";
+import Areaunit from "./Pages/Admin/MasterData/Areaunit/Areaunit";
+import ConstructionState from "./Pages/Admin/MasterData/ConstructionState/ConstructionState";
 
 const queryClient = new QueryClient();
 
@@ -44,6 +48,7 @@ function App() {
             element={
               <MainLayout>
                 <Routes>
+                  <Route path="/user" element={<Users />} />
                   {/* Frontend */}
                   <Route path="/Category" element={<Category />} />
                   <Route path="/subcategory" element={<SubCategory />} />
@@ -59,8 +64,10 @@ function App() {
                   <Route path="/Bedroom" element={<Bedroom />} />
                   <Route path="/Bathroom" element={<Bathroom />} />
                   <Route path="/Storey" element={<Storey />} />
-
-                  <Route path="/user" element={<Users />} />
+                  <Route path="/construction" element={<Construction />} />
+                  <Route path="/Feature" element={<Feature />} />
+                  <Route path="/Areaunit" element={<Areaunit />} />
+                  <Route path="/ConstructionState" element={<ConstructionState />} />
                 </Routes>
               </MainLayout>
             }
