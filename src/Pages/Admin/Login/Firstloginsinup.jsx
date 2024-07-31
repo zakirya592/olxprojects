@@ -17,10 +17,11 @@ const Firstloginsinup = ({ isVisible, setVisibility }) => {
    const [isCreatePopupVisiblepopfirstsinguppage, setisCreatePopupVisiblepopfirstsinguppage] = useState(false);
    const handleShowCreatePopuppopfirstsinguppage = () => {
      setisCreatePopupVisiblepopfirstsinguppage(true);
+     setCreatePopupVisibilitypoplogin(false)
    };
 
       const [isCreatePopupVisiblepoplogin, setCreatePopupVisibilitypoplogin] = useState(false);
-   const handleShowCreatePopuppoplogin = () => {
+   const handleShowCreatePopuppoplogin = () => { 
      setCreatePopupVisibilitypoplogin(true);
    };
 

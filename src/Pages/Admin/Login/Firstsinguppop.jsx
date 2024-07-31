@@ -10,19 +10,20 @@ import Firstloginsinup from "./Firstloginsinup";
 import logo from "../../../assets/Images/logo1.png"
 
 const Firstsinguppop = ({ isVisiblesinuppage, setVisibilitysinuppage }) => {
+    const [isCreatePopupVisiblepop, setCreatePopupVisibilitypop] =useState(false);
+      const [isCreatePopupVisible, setCreatePopupVisibility] = useState(false);
   const handleCloseCreatePopup = () => {
     setVisibilitysinuppage(false);
+    setCreatePopupVisibilitypop(false);
+    setCreatePopupVisibility(false);
   };
-
-  const [isCreatePopupVisiblepop, setCreatePopupVisibilitypop] =
-    useState(false);
-  const handleShowCreatePopuppop = () => {
-    setCreatePopupVisibilitypop(true);
-  };
-
-   const [isCreatePopupVisible, setCreatePopupVisibility] = useState(false);
+    const handleShowCreatePopuppop = () => {
+      setCreatePopupVisibilitypop(true);
+      setCreatePopupVisibility(false)
+    };
    const handleShowCreatePopup = () => {
      setCreatePopupVisibility(true);
+     setCreatePopupVisibilitypop(false)
    };
 
   return (
