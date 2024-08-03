@@ -609,6 +609,95 @@ const SideBar = () => {
                 />
                 <p className="sidebar-text"> Wifi</p>
               </div>
+
+              <div
+                className={`main-images-container ${
+                  selectedItem === "/Admin/Resolution" ? "selected-item" : ""
+                } flex-row justify-start`}
+                onClick={() => handleItemClick("/Admin/Resolution")}
+                onContextMenu={(event) =>
+                  handleContextMenu(event, "/Admin/Resolution")
+                }
+              >
+                <img
+                  src={Wifiicon}
+                  className="main-inside-image bg-white rounded-full"
+                  alt=""
+                />
+                <p className="sidebar-text"> Resolution</p>
+              </div>
+
+              <div
+                className={`main-images-container ${
+                  selectedItem === "/Admin/EngineType" ? "selected-item" : ""
+                } flex-row justify-start`}
+                onClick={() => handleItemClick("/Admin/EngineType")}
+                onContextMenu={(event) =>
+                  handleContextMenu(event, "/Admin/EngineType")
+                }
+              >
+                <img
+                  src={Wifiicon}
+                  className="main-inside-image bg-white rounded-full"
+                  alt=""
+                />
+                <p className="sidebar-text"> EngineType</p>
+              </div>
+
+              <div
+                className={`main-images-container ${
+                  selectedItem === "/Admin/EngineCapacity"
+                    ? "selected-item"
+                    : ""
+                } flex-row justify-start`}
+                onClick={() => handleItemClick("/Admin/EngineCapacity")}
+                onContextMenu={(event) =>
+                  handleContextMenu(event, "/Admin/EngineCapacity")
+                }
+              >
+                <img
+                  src={Wifiicon}
+                  className="main-inside-image bg-white rounded-full"
+                  alt=""
+                />
+                <p className="sidebar-text"> EngineCapacity</p>
+              </div>
+
+              <div
+                className={`main-images-container ${
+                  selectedItem === "/Admin/ScreenSize" ? "selected-item" : ""
+                } flex-row justify-start`}
+                onClick={() => handleItemClick("/Admin/ScreenSize")}
+                onContextMenu={(event) =>
+                  handleContextMenu(event, "/Admin/ScreenSize")
+                }
+              >
+                <img
+                  src={Wifiicon}
+                  className="main-inside-image bg-white rounded-full"
+                  alt=""
+                />
+                <p className="sidebar-text"> ScreenSize</p>
+              </div>
+
+              <div
+                className={`main-images-container ${
+                  selectedItem === "/Admin/MaxAperatureRange"
+                    ? "selected-item"
+                    : ""
+                } flex-row justify-start`}
+                onClick={() => handleItemClick("/Admin/MaxAperatureRange")}
+                onContextMenu={(event) =>
+                  handleContextMenu(event, "/Admin/MaxAperatureRange")
+                }
+              >
+                <img
+                  src={Wifiicon}
+                  className="main-inside-image bg-white rounded-full"
+                  alt=""
+                />
+                <p className="sidebar-text"> MaxAperature Range</p>
+              </div>
             </div>
           )}
 

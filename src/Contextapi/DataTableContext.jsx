@@ -1,6 +1,14 @@
 import React, { createContext, useState } from 'react';
 
-export const DataTableContext = createContext();
+export const DataTableContext = createContext({
+  rowSelectionModel: [],
+  setRowSelectionModel: () => {},
+  tableSelectedRows: [],
+  setTableSelectedRows: () => {},
+  tableSelectedExportRows: [],
+  setTableSelectedExportRows: () => {},
+});
+
 
 const DataTableProvider = ({ children }) => {
     const [rowSelectionModel, setRowSelectionModel] = useState([]);

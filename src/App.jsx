@@ -28,6 +28,11 @@ import HardDriveType from "./Pages/Admin/MasterData/HardDriveType/HardDriveType"
 import FunctionType from "./Pages/Admin/MasterData/FunctionType/FunctionType";
 import SensorSize from "./Pages/Admin/MasterData/SensorSize/SensorSize";
 import Wifi from "./Pages/Admin/MasterData/Wifi/Wifi";
+import Resolution from "./Pages/Admin/MasterData/Resolution/Resolution";
+import EngineType from "./Pages/Admin/MasterData/EngineType/EngineType";
+import EngineCapacity from "./Pages/Admin/MasterData/EngineCapacity/EngineCapacity";
+import ScreenSize from "./Pages/Admin/MasterData/ScreenSize/ScreenSize";
+import MaxAperatureRange from "./Pages/Admin/MasterData/MaxAperatureRange/MaxAperatureRange";
 
 const queryClient = new QueryClient();
 
@@ -84,6 +89,11 @@ function App() {
                   <Route path="/FunctionType" element={<FunctionType />} />
                   <Route path="/SensorSize" element={<SensorSize />} />
                   <Route path="/Wifi" element={<Wifi />} />
+                  <Route path="/Resolution" element={<Resolution />} />
+                  <Route path="/EngineType" element={<EngineType />} />
+                  <Route path="/EngineCapacity" element={<EngineCapacity />} />
+                  <Route path="/ScreenSize" element={<ScreenSize />} />
+                  <Route path="/MaxAperatureRange" element={<MaxAperatureRange />} />
                 </Routes>
               </MainLayout>
             }
