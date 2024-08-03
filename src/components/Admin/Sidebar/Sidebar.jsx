@@ -698,6 +698,63 @@ const SideBar = () => {
                 />
                 <p className="sidebar-text"> MaxAperature Range</p>
               </div>
+
+              <div
+                className={`main-images-container ${
+                  selectedItem === "/Admin/MinFocalLengthRange"
+                    ? "selected-item"
+                    : ""
+                } flex-row justify-start`}
+                onClick={() => handleItemClick("/Admin/MinFocalLengthRange")}
+                onContextMenu={(event) =>
+                  handleContextMenu(event, "/Admin/MinFocalLengthRange")
+                }
+              >
+                <img
+                  src={Wifiicon}
+                  className="main-inside-image bg-white rounded-full"
+                  alt=""
+                />
+                <p className="sidebar-text"> MinFocal Length Range</p>
+              </div>
+
+              <div
+                className={`main-images-container ${
+                  selectedItem === "/Admin/MaxFocalLengthRange"
+                    ? "selected-item"
+                    : ""
+                } flex-row justify-start`}
+                onClick={() => handleItemClick("/Admin/MaxFocalLengthRange")}
+                onContextMenu={(event) =>
+                  handleContextMenu(event, "/Admin/MaxFocalLengthRange")
+                }
+              >
+                <img
+                  src={Wifiicon}
+                  className="main-inside-image bg-white rounded-full"
+                  alt=""
+                />
+                <p className="sidebar-text"> MaxFocal Length Range</p>
+              </div>
+
+              <div
+                className={`main-images-container ${
+                  selectedItem === "/Admin/RegistrationCity"
+                    ? "selected-item"
+                    : ""
+                } flex-row justify-start`}
+                onClick={() => handleItemClick("/Admin/RegistrationCity")}
+                onContextMenu={(event) =>
+                  handleContextMenu(event, "/Admin/RegistrationCity")
+                }
+              >
+                <img
+                  src={Wifiicon}
+                  className="main-inside-image bg-white rounded-full"
+                  alt=""
+                />
+                <p className="sidebar-text"> Registration City</p>
+              </div>
             </div>
           )}
 

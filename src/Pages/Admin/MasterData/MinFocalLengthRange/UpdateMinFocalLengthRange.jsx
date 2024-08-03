@@ -2,9 +2,13 @@ import { useState, useEffect } from "react";
 import { toast } from "react-toastify";
 import NewRequest from "../../../../../utils/NewRequest";
 
-const UpdateMaxAperatureRange = ({ isVisible, setVisibility, refreshBrandData }) => {
+const UpdateMinFocalLengthRange = ({
+  isVisible,
+  setVisibility,
+  refreshBrandData,
+}) => {
   const updateBrandData = JSON.parse(
-    sessionStorage.getItem("updateMaxAperatureRange")
+    sessionStorage.getItem("updateMinFocalLengthRange")
   );
   const [name, setname] = useState(updateBrandData?.name || "");
   const [status, setstatus] = useState(updateBrandData?.status || 0);
@@ -34,7 +38,7 @@ const UpdateMaxAperatureRange = ({ isVisible, setVisibility, refreshBrandData })
   const getiddata = async () => {
     try {
       const response = await NewRequest.get(
-        `/brand/MaxAperatureRange/${updateBrandData._id}`
+        `/brand/MinFocalLengthRange/${updateBrandData._id}`
       );
       setsubCategory({
         name: response?.data?.subCategory?.name || "",
@@ -75,7 +79,7 @@ const UpdateMaxAperatureRange = ({ isVisible, setVisibility, refreshBrandData })
   const handleAddCompany = async () => {
     try {
       const response = await NewRequest.put(
-        `/brand/MaxAperatureRange/${updateBrandData?._id}`,
+        `/brand/MinFocalLengthRange/${updateBrandData?._id}`,
         {
           name: name,
           subCategory: subCategory,
@@ -83,7 +87,7 @@ const UpdateMaxAperatureRange = ({ isVisible, setVisibility, refreshBrandData })
           status: Number(status),
         }
       );
-      toast.success(`MaxAperature Range has been update successfully".`, {
+      toast.success(`MinFocal Length Range has been update successfully".`, {
         position: "top-right",
         autoClose: 2000,
         hideProgressBar: false,
@@ -126,7 +130,7 @@ const UpdateMaxAperatureRange = ({ isVisible, setVisibility, refreshBrandData })
                 <h2
                   className={`text-loactioncolor font-sans font-semibold text-2xl`}
                 >
-                  Update MaxAperature Range
+                  Update MinFocal Length Range
                 </h2>
                 <div className="flex flex-col sm:gap-3 gap-3 mt-5">
                   <div className="w-full font-body sm:text-base text-sm flex flex-col gap-2">
@@ -223,7 +227,7 @@ const UpdateMaxAperatureRange = ({ isVisible, setVisibility, refreshBrandData })
                     onClick={handleAddCompany}
                     className="px-5 py-2 rounded-sm w-[70%] bg-loactioncolor text-white font-body text-sm ml-2"
                   >
-                    Update MaxAperature Range
+                    Update MinFocal Length Range
                   </button>
                 </div>
               </form>
@@ -235,4 +239,4 @@ const UpdateMaxAperatureRange = ({ isVisible, setVisibility, refreshBrandData })
   );
 };
 
-export default UpdateMaxAperatureRange;
+export default UpdateMinFocalLengthRange;

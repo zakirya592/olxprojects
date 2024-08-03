@@ -33,6 +33,7 @@ import EngineType from "./Pages/Admin/MasterData/EngineType/EngineType";
 import EngineCapacity from "./Pages/Admin/MasterData/EngineCapacity/EngineCapacity";
 import ScreenSize from "./Pages/Admin/MasterData/ScreenSize/ScreenSize";
 import MaxAperatureRange from "./Pages/Admin/MasterData/MaxAperatureRange/MaxAperatureRange";
+import MinFocalLengthRange from "./Pages/Admin/MasterData/MinFocalLengthRange/MinFocalLengthRange";
 
 const queryClient = new QueryClient();
 
@@ -94,6 +95,7 @@ function App() {
                   <Route path="/EngineCapacity" element={<EngineCapacity />} />
                   <Route path="/ScreenSize" element={<ScreenSize />} />
                   <Route path="/MaxAperatureRange" element={<MaxAperatureRange />} />
+                  <Route path="/MinFocalLengthRange" element={<MinFocalLengthRange />} />
                 </Routes>
               </MainLayout>
             }
