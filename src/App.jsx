@@ -35,6 +35,7 @@ import ScreenSize from "./Pages/Admin/MasterData/ScreenSize/ScreenSize";
 import MaxAperatureRange from "./Pages/Admin/MasterData/MaxAperatureRange/MaxAperatureRange";
 import MinFocalLengthRange from "./Pages/Admin/MasterData/MinFocalLengthRange/MinFocalLengthRange";
 import RegistrationCity from "./Pages/Admin/MasterData/RegistrationCity/RegistrationCity";
+import HiringPerson from "./Pages/Admin/MasterData/HiringPerson/HiringPerson";
 
 const queryClient = new QueryClient();
 
@@ -98,6 +99,7 @@ function App() {
                   <Route path="/MaxAperatureRange" element={<MaxAperatureRange />} />
                   <Route path="/MinFocalLengthRange" element={<MinFocalLengthRange />} />
                   <Route path="/RegistrationCity" element={<RegistrationCity/>} />
+                  <Route path="/HiringPerson" element={<HiringPerson/>} />
                 </Routes>
               </MainLayout>
             }
