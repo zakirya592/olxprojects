@@ -5,6 +5,7 @@ import { GrNext } from "react-icons/gr";
 import NewRequest from "../../../../utils/NewRequest";
 import { useQuery } from "react-query";
 import log from "../../../assets/Images/logo1.png"
+import Headerpost from "../Headeepost/Headerpost";
 function Sellpage() {
   const navigate = useNavigate();
 
@@ -19,21 +20,18 @@ function Sellpage() {
     return response?.data.filter((item) => item.status === 1) || [];
   }
 
-  console.log(eventsData);
-
   const [selectedCategory, setSelectedCategory] = useState(null);
-   const [selectedfooter, setselectedfooter] = useState(null);
+  const [selectedfooter, setselectedfooter] = useState(null);
 
   const handleCategoryClick = (category) => {
-    setSelectedCategory(category); 
+    setSelectedCategory(category);
     setselectedfooter(null);
   };
 
 
-   const handlefooterCategoryClick = (sub) => {
-     setselectedfooter(sub);
-     console.log(sub);
-   };
+  const handlefooterCategoryClick = (sub) => {
+    setselectedfooter(sub);
+  };
 
   const handleBackClick = () => {
     setSelectedCategory(null);
@@ -41,18 +39,7 @@ function Sellpage() {
 
   return (
     <div>
-      <div className="flex items-center p-4 bg-gray-100 rounded-lg shadow-md hover:bg-gray-100">
-        <div
-          className="cursor-pointer flex my-auto"
-          onClick={() => navigate("/")}
-        >
-          <IoMdArrowBack size={24} className="my-auto" />
-          {/* <p className="text-lg font-bold text-center ms-3 my-auto">OLX</p> */}
-          <div className="logo my-auto">
-            <img src={log} alt="Logo" className="h-10 w-auto cursor-pointer" />
-          </div>
-        </div>
-      </div>
+      <Headerpost />
       <div className="bg-white">
         <div className="mx-10">
           <h1 className="text-3xl font-bold mb-10 text-center">Post Your Ad</h1>
@@ -79,11 +66,10 @@ function Sellpage() {
                         {eventsData.map((category) => (
                           <div
                             key={category._id}
-                            className={`flex border-b py-1 justify-between my-auto cursor-pointer ${
-                              selectedCategory._id === category._id
+                            className={`flex border-b py-1 justify-between my-auto cursor-pointer ${selectedCategory._id === category._id
                                 ? "bg-[#406367] text-white"
                                 : "bg-transparent hover:bg-[#406367]  active:bg-[#406367] text-[#406367] hover:text-white active:text-white"
-                            }`}
+                              }`}
                             onClick={() => handleCategoryClick(category)}
                           >
                             <div className="flex my-auto">
@@ -110,7 +96,7 @@ function Sellpage() {
                       </div>
                       <div className="border-r">
                         {selectedCategory.subCategories &&
-                        selectedCategory.subCategories.length > 0 ? (
+                          selectedCategory.subCategories.length > 0 ? (
                           selectedCategory.subCategories.map((sub, index) => (
                             <div
                               key={index}
@@ -118,12 +104,11 @@ function Sellpage() {
                               onClick={() => handlefooterCategoryClick(sub)}
                             >
                               <p
-                                className={`p-3 border-b py-4 justify-between cursor-pointer flex my-auto ${
-                                  selectedfooter &&
-                                  selectedfooter._id === sub._id
+                                className={`p-3 border-b py-4 justify-between cursor-pointer flex my-auto ${selectedfooter &&
+                                    selectedfooter._id === sub._id
                                     ? "bg-[#406367] text-white"
                                     : "bg-transparent hover:bg-[#406367]  active:bg-[#406367] text-[#406367] hover:text-white active:text-white"
-                                }`}
+                                  }`}
                               >
                                 {sub.name}
                                 {sub.footerCategories &&
@@ -139,17 +124,22 @@ function Sellpage() {
                       </div>
                       <div className="border-r">
                         {selectedfooter &&
-                        selectedfooter.footerCategories &&
-                        selectedfooter.footerCategories.length > 0 ? (
+                          selectedfooter.footerCategories &&
+                          selectedfooter.footerCategories.length > 0 ? (
                           selectedfooter.footerCategories.map(
                             (footer, index) => (
                               <div
                                 key={index}
-                                // className="flex border-b py-3 justify-between my-auto bg-transparent hover:bg-[#406367] cursor-pointer"
+                              // className="flex border-b py-3 justify-between my-auto bg-transparent hover:bg-[#406367] cursor-pointer"
                               >
                                 <div className="flex my-auto">
                                   <div className="w-full my-auto">
-                                    <p className="p-3 border-b py-4 justify-between  cursor-pointer flex my-auto bg-transparent hover:bg-[#406367] active:bg-[#406367]">
+                                    <p
+                                      className="p-3 border-b py-4 justify-between  cursor-pointer flex my-auto bg-transparent hover:bg-[#406367] active:bg-[#406367]"
+                                      onClick={() =>
+                                        navigate("/Post/Attributes")
+                                      }
+                                    >
                                       {footer.name}
                                     </p>
                                   </div>
