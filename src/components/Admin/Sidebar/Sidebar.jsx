@@ -33,6 +33,21 @@ import HardDriveTypeicon from "../../../assets/Images/HardDrive.png";
 import OperatingSystemicon from "../../../assets/Images/Operating System.jpg";
 import FunctionTypeicon from "../../../assets/Images/Function.png";
 import SensorSizeicon from "../../../assets/Images/sensor.png";
+import Language from "../../../assets/Images/language.png";
+import Origin from "../../../assets/Images/Origin.jpg";
+import HandMade from "../../../assets/Images/HandMade.jpg";
+import Sex from "../../../assets/Images/Sex.png";
+import TypeofAd from "../../../assets/Images/TypeofAd.jpg";
+import postiontypes from "../../../assets/Images/postiontypes.webp";
+import CareerLevel from "../../../assets/Images/CareerLevel.jpg";
+import HiringPerson from "../../../assets/Images/HiringPerson.jpg";
+import RegistrationCity from "../../../assets/Images/RegistrationCity.png";
+import MaxFocalLengthRange from "../../../assets/Images/MaxFocalLengthRange.jpg";
+import MaxAperatureRange from "../../../assets/Images/MaxAperature Range.jpg";
+import Resolution from "../../../assets/Images/Resolution.png";
+import EngineType from "../../../assets/Images/EngineType.jpg";
+import EngineCapacity from "../../../assets/Images/EngineCapacity.png";
+import ScreenSize from "../../../assets/Images/Screen Size.jpg";
 
 const SideBar = () => {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
@@ -620,7 +635,7 @@ const SideBar = () => {
                 }
               >
                 <img
-                  src={Wifiicon}
+                  src={Resolution}
                   className="main-inside-image bg-white rounded-full"
                   alt=""
                 />
@@ -637,7 +652,7 @@ const SideBar = () => {
                 }
               >
                 <img
-                  src={Wifiicon}
+                  src={EngineType}
                   className="main-inside-image bg-white rounded-full"
                   alt=""
                 />
@@ -656,7 +671,7 @@ const SideBar = () => {
                 }
               >
                 <img
-                  src={Wifiicon}
+                  src={EngineCapacity}
                   className="main-inside-image bg-white rounded-full"
                   alt=""
                 />
@@ -673,7 +688,7 @@ const SideBar = () => {
                 }
               >
                 <img
-                  src={Wifiicon}
+                  src={ScreenSize}
                   className="main-inside-image bg-white rounded-full"
                   alt=""
                 />
@@ -692,7 +707,7 @@ const SideBar = () => {
                 }
               >
                 <img
-                  src={Wifiicon}
+                  src={MaxAperatureRange}
                   className="main-inside-image bg-white rounded-full"
                   alt=""
                 />
@@ -711,7 +726,7 @@ const SideBar = () => {
                 }
               >
                 <img
-                  src={Wifiicon}
+                  src={MaxFocalLengthRange}
                   className="main-inside-image bg-white rounded-full"
                   alt=""
                 />
@@ -730,7 +745,7 @@ const SideBar = () => {
                 }
               >
                 <img
-                  src={Wifiicon}
+                  src={MaxFocalLengthRange}
                   className="main-inside-image bg-white rounded-full"
                   alt=""
                 />
@@ -749,7 +764,7 @@ const SideBar = () => {
                 }
               >
                 <img
-                  src={Wifiicon}
+                  src={RegistrationCity}
                   className="main-inside-image bg-white rounded-full"
                   alt=""
                 />
@@ -766,7 +781,7 @@ const SideBar = () => {
                 }
               >
                 <img
-                  src={Wifiicon}
+                  src={HiringPerson}
                   className="main-inside-image bg-white rounded-full"
                   alt=""
                 />
@@ -783,7 +798,7 @@ const SideBar = () => {
                 }
               >
                 <img
-                  src={Wifiicon}
+                  src={CareerLevel}
                   className="main-inside-image bg-white rounded-full"
                   alt=""
                 />
@@ -800,7 +815,7 @@ const SideBar = () => {
                 }
               >
                 <img
-                  src={Wifiicon}
+                  src={postiontypes}
                   className="main-inside-image bg-white rounded-full"
                   alt=""
                 />
@@ -817,7 +832,7 @@ const SideBar = () => {
                 }
               >
                 <img
-                  src={Wifiicon}
+                  src={TypeofAd}
                   className="main-inside-image bg-white rounded-full"
                   alt=""
                 />
@@ -851,7 +866,7 @@ const SideBar = () => {
                 }
               >
                 <img
-                  src={Wifiicon}
+                  src={Sex}
                   className="main-inside-image bg-white rounded-full"
                   alt=""
                 />
@@ -885,7 +900,7 @@ const SideBar = () => {
                 }
               >
                 <img
-                  src={Wifiicon}
+                  src={HandMade}
                   className="main-inside-image bg-white rounded-full"
                   alt=""
                 />
@@ -902,7 +917,7 @@ const SideBar = () => {
                 }
               >
                 <img
-                  src={Wifiicon}
+                  src={Origin}
                   className="main-inside-image bg-white rounded-full"
                   alt=""
                 />
@@ -919,7 +934,7 @@ const SideBar = () => {
                 }
               >
                 <img
-                  src={Wifiicon}
+                  src={Language}
                   className="main-inside-image bg-white rounded-full"
                   alt=""
                 />

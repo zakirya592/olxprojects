@@ -45,6 +45,7 @@ import Materialtype from "./Pages/Admin/MasterData/Materialtype/Materialtype";
 import Handmade from "./Pages/Admin/MasterData/Handmade/Handmade";
 import Origin from "./Pages/Admin/MasterData/Origin/Origin";
 import Language from "./Pages/Admin/MasterData/Language/Language";
+import MaxFocalLengthRange from "./Pages/Admin/MasterData/MaxFocalLengthRange/MaxFocalLengthRange";
 
 const queryClient = new QueryClient();
 
@@ -117,6 +118,7 @@ function App() {
                     path="/RegistrationCity"
                     element={<RegistrationCity />}
                   />
+                  <Route path="/MaxFocalLengthRange" element={<MaxFocalLengthRange />} />
                   <Route path="/HiringPerson" element={<HiringPerson />} />
                   <Route path="/CareerLevel" element={<CareerLevel />} />
                   <Route path="/PositionType" element={<PositionType />} />
