@@ -755,6 +755,176 @@ const SideBar = () => {
                 />
                 <p className="sidebar-text"> Registration City</p>
               </div>
+
+              <div
+                className={`main-images-container ${
+                  selectedItem === "/Admin/HiringPerson" ? "selected-item" : ""
+                } flex-row justify-start`}
+                onClick={() => handleItemClick("/Admin/HiringPerson")}
+                onContextMenu={(event) =>
+                  handleContextMenu(event, "/Admin/HiringPerson")
+                }
+              >
+                <img
+                  src={Wifiicon}
+                  className="main-inside-image bg-white rounded-full"
+                  alt=""
+                />
+                <p className="sidebar-text"> Hiring Person</p>
+              </div>
+
+              <div
+                className={`main-images-container ${
+                  selectedItem === "/Admin/CareerLevel" ? "selected-item" : ""
+                } flex-row justify-start`}
+                onClick={() => handleItemClick("/Admin/CareerLevel")}
+                onContextMenu={(event) =>
+                  handleContextMenu(event, "/Admin/CareerLevel")
+                }
+              >
+                <img
+                  src={Wifiicon}
+                  className="main-inside-image bg-white rounded-full"
+                  alt=""
+                />
+                <p className="sidebar-text"> Career Level</p>
+              </div>
+
+              <div
+                className={`main-images-container ${
+                  selectedItem === "/Admin/PositionType" ? "selected-item" : ""
+                } flex-row justify-start`}
+                onClick={() => handleItemClick("/Admin/PositionType")}
+                onContextMenu={(event) =>
+                  handleContextMenu(event, "/Admin/PositionType")
+                }
+              >
+                <img
+                  src={Wifiicon}
+                  className="main-inside-image bg-white rounded-full"
+                  alt=""
+                />
+                <p className="sidebar-text"> Position Type</p>
+              </div>
+
+              <div
+                className={`main-images-container ${
+                  selectedItem === "/Admin/TypeofAd" ? "selected-item" : ""
+                } flex-row justify-start`}
+                onClick={() => handleItemClick("/Admin/TypeofAd")}
+                onContextMenu={(event) =>
+                  handleContextMenu(event, "/Admin/TypeofAd")
+                }
+              >
+                <img
+                  src={Wifiicon}
+                  className="main-inside-image bg-white rounded-full"
+                  alt=""
+                />
+                <p className="sidebar-text"> Type of Ad</p>
+              </div>
+
+              <div
+                className={`main-images-container ${
+                  selectedItem === "/Admin/Breed" ? "selected-item" : ""
+                } flex-row justify-start`}
+                onClick={() => handleItemClick("/Admin/Breed")}
+                onContextMenu={(event) =>
+                  handleContextMenu(event, "/Admin/Breed")
+                }
+              >
+                <img
+                  src={Wifiicon}
+                  className="main-inside-image bg-white rounded-full"
+                  alt=""
+                />
+                <p className="sidebar-text"> Breed</p>
+              </div>
+
+              <div
+                className={`main-images-container ${
+                  selectedItem === "/Admin/Sex" ? "selected-item" : ""
+                } flex-row justify-start`}
+                onClick={() => handleItemClick("/Admin/Sex")}
+                onContextMenu={(event) =>
+                  handleContextMenu(event, "/Admin/Sex")
+                }
+              >
+                <img
+                  src={Wifiicon}
+                  className="main-inside-image bg-white rounded-full"
+                  alt=""
+                />
+                <p className="sidebar-text"> Sex</p>
+              </div>
+
+              <div
+                className={`main-images-container ${
+                  selectedItem === "/Admin/Materialtype" ? "selected-item" : ""
+                } flex-row justify-start`}
+                onClick={() => handleItemClick("/Admin/Materialtype")}
+                onContextMenu={(event) =>
+                  handleContextMenu(event, "/Admin/Materialtype")
+                }
+              >
+                <img
+                  src={Wifiicon}
+                  className="main-inside-image bg-white rounded-full"
+                  alt=""
+                />
+                <p className="sidebar-text"> Material Type</p>
+              </div>
+
+              <div
+                className={`main-images-container ${
+                  selectedItem === "/Admin/Handmade" ? "selected-item" : ""
+                } flex-row justify-start`}
+                onClick={() => handleItemClick("/Admin/Handmade")}
+                onContextMenu={(event) =>
+                  handleContextMenu(event, "/Admin/Handmade")
+                }
+              >
+                <img
+                  src={Wifiicon}
+                  className="main-inside-image bg-white rounded-full"
+                  alt=""
+                />
+                <p className="sidebar-text"> Hand Made</p>
+              </div>
+
+              <div
+                className={`main-images-container ${
+                  selectedItem === "/Admin/Origin" ? "selected-item" : ""
+                } flex-row justify-start`}
+                onClick={() => handleItemClick("/Admin/Origin")}
+                onContextMenu={(event) =>
+                  handleContextMenu(event, "/Admin/Origin")
+                }
+              >
+                <img
+                  src={Wifiicon}
+                  className="main-inside-image bg-white rounded-full"
+                  alt=""
+                />
+                <p className="sidebar-text"> Origin</p>
+              </div>
+
+              <div
+                className={`main-images-container ${
+                  selectedItem === "/Admin/Language" ? "selected-item" : ""
+                } flex-row justify-start`}
+                onClick={() => handleItemClick("/Admin/Language")}
+                onContextMenu={(event) =>
+                  handleContextMenu(event, "/Admin/Language")
+                }
+              >
+                <img
+                  src={Wifiicon}
+                  className="main-inside-image bg-white rounded-full"
+                  alt=""
+                />
+                <p className="sidebar-text"> Language</p>
+              </div>
             </div>
           )}
 

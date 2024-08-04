@@ -36,6 +36,15 @@ import MaxAperatureRange from "./Pages/Admin/MasterData/MaxAperatureRange/MaxApe
 import MinFocalLengthRange from "./Pages/Admin/MasterData/MinFocalLengthRange/MinFocalLengthRange";
 import RegistrationCity from "./Pages/Admin/MasterData/RegistrationCity/RegistrationCity";
 import HiringPerson from "./Pages/Admin/MasterData/HiringPerson/HiringPerson";
+import CareerLevel from "./Pages/Admin/MasterData/CareerLevel/CareerLevel";
+import PositionType from "./Pages/Admin/MasterData/PositionType/PositionType";
+import TypeofAd from "./Pages/Admin/MasterData/TypeofAd/TypeofAd";
+import Breed from "./Pages/Admin/MasterData/Breed/Breed";
+import Sex from "./Pages/Admin/MasterData/Sex/Sex";
+import Materialtype from "./Pages/Admin/MasterData/Materialtype/Materialtype";
+import Handmade from "./Pages/Admin/MasterData/Handmade/Handmade";
+import Origin from "./Pages/Admin/MasterData/Origin/Origin";
+import Language from "./Pages/Admin/MasterData/Language/Language";
 
 const queryClient = new QueryClient();
 
@@ -96,10 +105,28 @@ function App() {
                   <Route path="/EngineType" element={<EngineType />} />
                   <Route path="/EngineCapacity" element={<EngineCapacity />} />
                   <Route path="/ScreenSize" element={<ScreenSize />} />
-                  <Route path="/MaxAperatureRange" element={<MaxAperatureRange />} />
-                  <Route path="/MinFocalLengthRange" element={<MinFocalLengthRange />} />
-                  <Route path="/RegistrationCity" element={<RegistrationCity/>} />
-                  <Route path="/HiringPerson" element={<HiringPerson/>} />
+                  <Route
+                    path="/MaxAperatureRange"
+                    element={<MaxAperatureRange />}
+                  />
+                  <Route
+                    path="/MinFocalLengthRange"
+                    element={<MinFocalLengthRange />}
+                  />
+                  <Route
+                    path="/RegistrationCity"
+                    element={<RegistrationCity />}
+                  />
+                  <Route path="/HiringPerson" element={<HiringPerson />} />
+                  <Route path="/CareerLevel" element={<CareerLevel />} />
+                  <Route path="/PositionType" element={<PositionType />} />
+                  <Route path="/TypeofAd" element={<TypeofAd />} />
+                  <Route path="/Breed" element={<Breed />} />
+                  <Route path="/Sex" element={<Sex />} />
+                  <Route path="/Materialtype" element={<Materialtype />} />
+                  <Route path="/Handmade" element={<Handmade />} />
+                  <Route path="/Origin" element={<Origin />} />
+                  <Route path="/Language" element={<Language />} />
                 </Routes>
               </MainLayout>
             }
