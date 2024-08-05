@@ -13,13 +13,17 @@ const PostAttributes = () => {
     showPhoneNumber: false,
   });
 
-  const handleChange = (e) => {
-    const { name, value, type, checked } = e.target;
-    setForm((prevForm) => ({
-      ...prevForm,
-      [name]: type === "checkbox" ? checked : value,
-    }));
-  };
+    const [images, setImages] = useState(Array(6).fill(null));
+
+    const handleImageChange = (e, index) => {
+      const file = e.target.files[0];
+      if (file) {
+        const newImages = [...images];
+        newImages[index] = URL.createObjectURL(file);
+        setImages(newImages);
+      }
+    };
+
 
   return (
     <>
@@ -29,17 +33,35 @@ const PostAttributes = () => {
       </h2>
       <div className="w-full sm:w-1/2 lg:w-[900px] my-10 mx-auto bg-white border border-bordderscolor shadow-md rounded-lg">
         <form>
-          <div className="mb-4 flex items-center">
-            <label className="w-1/4 mb-1 font-semibold">Upload Images</label>
-            <div className="w-3/4 p-2 flex space-x-2">
-              {[...Array(6)].map((_, index) => (
-                <div
-                  key={index}
-                  className="w-16 h-16 bg-gray-200 border border-dashed border-gray-400 flex items-center justify-center"
-                >
-                  <span className="text-gray-400">+</span>
-                </div>
-              ))}
+          <div className="border-t border-b border-bordderscolor p-6">
+            <div className="mb-4 flex items-center">
+              <label className="w-1/4 mb-1 font-semibold">Upload Images</label>
+              <div className="w-3/4 p-2 flex space-x-2">
+                {images.map((image, index) => (
+                  <div key={index} className="relative">
+                    <input
+                      type="file"
+                      accept="image/*"
+                      className="hidden"
+                      id={`image-upload-${index}`}
+                      onChange={(e) => handleImageChange(e, index)}
+                    />
+                    <label htmlFor={`image-upload-${index}`}>
+                      <div className="w-16 h-16 bg-gray-200 border border-dashed border-gray-400 flex items-center justify-center cursor-pointer">
+                        {image ? (
+                          <img
+                            src={image}
+                            alt={`Uploaded ${index}`}
+                            className="w-full h-full object-cover"
+                          />
+                        ) : (
+                          <span className="text-gray-400">+</span>
+                        )}
+                      </div>
+                    </label>
+                  </div>
+                ))}
+              </div>
             </div>
           </div>
 
