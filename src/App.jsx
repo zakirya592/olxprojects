@@ -47,6 +47,7 @@ import Origin from "./Pages/Admin/MasterData/Origin/Origin";
 import Language from "./Pages/Admin/MasterData/Language/Language";
 import MaxFocalLengthRange from "./Pages/Admin/MasterData/MaxFocalLengthRange/MaxFocalLengthRange";
 import PostAttributes from "./Pages/Home/PostAttributes/PostAttributes";
+import SelectionDataProvider from "./Contextapi/Selectioncardcontext";
 
 const queryClient = new QueryClient();
 
@@ -63,82 +64,90 @@ function App() {
   return (
     <BrowserRouter>
       <QueryClientProvider client={queryClient}>
-        <Routes>
-          <Route path="/" element={<Home />} />
-          <Route path="/Post" element={<Sellpage />} />
-          <Route path="/Post/Attributes" element={<PostAttributes />} />
+        <SelectionDataProvider>
+          <Routes>
+            <Route path="/" element={<Home />} />
+            <Route path="/Post" element={<Sellpage />} />
+            <Route path="/Post/Attributes" element={<PostAttributes />} />
 
-          <Route
-            path="/Admin/*"
-            element={
-              <MainLayout>
-                <Routes>
-                  <Route path="/user" element={<Users />} />
-                  {/* Frontend */}
-                  <Route path="/Category" element={<Category />} />
-                  <Route path="/subcategory" element={<SubCategory />} />
-                  <Route path="/footerCategory" element={<FooterCategory />} />
-                  <Route path="/Megamenu" element={<Megamenu />} />
-                  {/* Masterdata */}
-                  <Route path="/Brand" element={<Brand />} />
-                  <Route path="/Condition" element={<Condition />} />
-                  <Route path="/DeviceType" element={<DeviceType />} />
-                  <Route path="/types" element={<Type />} />
-                  <Route path="/make" element={<Make />} />
-                  <Route path="/Furnished" element={<Furnished />} />
-                  <Route path="/Bedroom" element={<Bedroom />} />
-                  <Route path="/Bathroom" element={<Bathroom />} />
-                  <Route path="/Storey" element={<Storey />} />
-                  <Route path="/construction" element={<Construction />} />
-                  <Route path="/Feature" element={<Feature />} />
-                  <Route path="/Areaunit" element={<Areaunit />} />
-                  <Route
-                    path="/ConstructionState"
-                    element={<ConstructionState />}
-                  />
-                  <Route
-                    path="/OperatingSystem"
-                    element={<OperatingSystem />}
-                  />
-                  <Route path="/HardDriveType" element={<HardDriveType />} />
-                  <Route path="/FunctionType" element={<FunctionType />} />
-                  <Route path="/SensorSize" element={<SensorSize />} />
-                  <Route path="/Wifi" element={<Wifi />} />
-                  <Route path="/Resolution" element={<Resolution />} />
-                  <Route path="/EngineType" element={<EngineType />} />
-                  <Route path="/EngineCapacity" element={<EngineCapacity />} />
-                  <Route path="/ScreenSize" element={<ScreenSize />} />
-                  <Route
-                    path="/MaxAperatureRange"
-                    element={<MaxAperatureRange />}
-                  />
-                  <Route
-                    path="/MinFocalLengthRange"
-                    element={<MinFocalLengthRange />}
-                  />
-                  <Route
-                    path="/RegistrationCity"
-                    element={<RegistrationCity />}
-                  />
-                  <Route
-                    path="/MaxFocalLengthRange"
-                    element={<MaxFocalLengthRange />}
-                  />
-                  <Route path="/HiringPerson" element={<HiringPerson />} />
-                  <Route path="/CareerLevel" element={<CareerLevel />} />
-                  <Route path="/PositionType" element={<PositionType />} />
-                  <Route path="/TypeofAd" element={<TypeofAd />} />
-                  <Route path="/Breed" element={<Breed />} />
-                  <Route path="/Sex" element={<Sex />} />
-                  <Route path="/Materialtype" element={<Materialtype />} />
-                  <Route path="/Handmade" element={<Handmade />} />
-                  <Route path="/Origin" element={<Origin />} />
-                  <Route path="/Language" element={<Language />} />
-                </Routes>
-              </MainLayout>
-            }
-          />
-        </Routes>
+            <Route
+              path="/Admin/*"
+              element={
+                <MainLayout>
+                  <Routes>
+                    <Route path="/user" element={<Users />} />
+                    {/* Frontend */}
+                    <Route path="/Category" element={<Category />} />
+                    <Route path="/subcategory" element={<SubCategory />} />
+                    <Route
+                      path="/footerCategory"
+                      element={<FooterCategory />}
+                    />
+                    <Route path="/Megamenu" element={<Megamenu />} />
+                    {/* Masterdata */}
+                    <Route path="/Brand" element={<Brand />} />
+                    <Route path="/Condition" element={<Condition />} />
+                    <Route path="/DeviceType" element={<DeviceType />} />
+                    <Route path="/types" element={<Type />} />
+                    <Route path="/make" element={<Make />} />
+                    <Route path="/Furnished" element={<Furnished />} />
+                    <Route path="/Bedroom" element={<Bedroom />} />
+                    <Route path="/Bathroom" element={<Bathroom />} />
+                    <Route path="/Storey" element={<Storey />} />
+                    <Route path="/construction" element={<Construction />} />
+                    <Route path="/Feature" element={<Feature />} />
+                    <Route path="/Areaunit" element={<Areaunit />} />
+                    <Route
+                      path="/ConstructionState"
+                      element={<ConstructionState />}
+                    />
+                    <Route
+                      path="/OperatingSystem"
+                      element={<OperatingSystem />}
+                    />
+                    <Route path="/HardDriveType" element={<HardDriveType />} />
+                    <Route path="/FunctionType" element={<FunctionType />} />
+                    <Route path="/SensorSize" element={<SensorSize />} />
+                    <Route path="/Wifi" element={<Wifi />} />
+                    <Route path="/Resolution" element={<Resolution />} />
+                    <Route path="/EngineType" element={<EngineType />} />
+                    <Route
+                      path="/EngineCapacity"
+                      element={<EngineCapacity />}
+                    />
+                    <Route path="/ScreenSize" element={<ScreenSize />} />
+                    <Route
+                      path="/MaxAperatureRange"
+                      element={<MaxAperatureRange />}
+                    />
+                    <Route
+                      path="/MinFocalLengthRange"
+                      element={<MinFocalLengthRange />}
+                    />
+                    <Route
+                      path="/RegistrationCity"
+                      element={<RegistrationCity />}
+                    />
+                    <Route
+                      path="/MaxFocalLengthRange"
+                      element={<MaxFocalLengthRange />}
+                    />
+                    <Route path="/HiringPerson" element={<HiringPerson />} />
+                    <Route path="/CareerLevel" element={<CareerLevel />} />
+                    <Route path="/PositionType" element={<PositionType />} />
+                    <Route path="/TypeofAd" element={<TypeofAd />} />
+                    <Route path="/Breed" element={<Breed />} />
+                    <Route path="/Sex" element={<Sex />} />
+                    <Route path="/Materialtype" element={<Materialtype />} />
+                    <Route path="/Handmade" element={<Handmade />} />
+                    <Route path="/Origin" element={<Origin />} />
+                    <Route path="/Language" element={<Language />} />
+                  </Routes>
+                </MainLayout>
+              }
+            />
+          </Routes>
+        </SelectionDataProvider>
       </QueryClientProvider>
     </BrowserRouter>
   );

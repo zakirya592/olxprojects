@@ -8,7 +8,7 @@ const UpdateHiringPerson = ({
   refreshBrandData,
 }) => {
   const updateBrandData = JSON.parse(
-    sessionStorage.getItem("UpdateHiringPerson")
+    sessionStorage.getItem("updateHiringPerson")
   );
   const [name, setname] = useState(updateBrandData?.name || "");
   const [status, setstatus] = useState(updateBrandData?.status || 0);
