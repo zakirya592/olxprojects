@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState,useEffect, useRef } from "react";
 import { FaCarAlt, FaSearch, FaCommentDots, FaBell, FaMapMarkerAlt, FaLocationArrow } from "react-icons/fa";
 import { MdOutlineHomeWork } from "react-icons/md";
 import { useNavigate } from 'react-router-dom';
@@ -34,6 +34,42 @@ function Header() {
       setSelectedLocation(currentLocation);
     });
   };
+
+
+
+   const inputRef = useRef(null);
+  const autocompleteRef = useRef(null);
+
+  useEffect(() => {
+    const loadScript = (url, callback) => {
+      let script = document.createElement('script');
+      script.type = 'text/javascript';
+      script.src = url;
+      script.onload = callback;
+      document.head.appendChild(script);
+    };
+
+    const handleScriptLoad = () => {
+      autocompleteRef.current = new window.google.maps.places.Autocomplete(inputRef.current, {
+        types: ['geocode'],
+        componentRestrictions: { country: 'pk' }, // Restrict to Pakistan
+      });
+
+      autocompleteRef.current.addListener('place_changed', handlePlaceSelect);
+    };
+
+    const handlePlaceSelect = () => {
+      const place = autocompleteRef.current.getPlace();
+      console.log(place);
+    };
+      // const apiKey = process.env.REACT_APP_API_KEY;
+
+    if (!window.google) {
+      loadScript(`https://maps.googleapis.com/maps/api/js?key=AIzaSyBG8etTblNJ8UdyC_Z-M28InEGeVvPD72o=places`, handleScriptLoad);
+    } else {
+      handleScriptLoad();
+    }
+  }, []);
 
   return (
     <>
@@ -73,7 +109,9 @@ function Header() {
           <header className="flex py-2 w-full flex-col sm:flex-row justify-between">
             <div className="flex items-center w-full flex-col sm:flex-row">
               <div className="flex items-center w-full px-2">
-                <select
+      <input ref={inputRef} id="location" type="text"   className="outline-none text-gray-700 py-2 px-3 border rounded-md bg-white w-full" placeholder="Enter a location" />
+   
+                {/* <select
                   className="outline-none text-gray-700 py-2 border rounded-md bg-white w-full"
                   onChange={handleLocationChange}
                 >
@@ -88,8 +126,7 @@ function Header() {
                     Current Location
                     <FaLocationArrow className="text-gray-500 inline-block align-middle" />
                   </option>
-                  {/* Add other options here */}
-                </select>
+                </select> */}
                 <span className="ml-2 border-l border-gray-300"></span>
                 <FaBell
                   className="text-gray-500 cursor-pointer lg:hidden"
