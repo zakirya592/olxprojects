@@ -79,8 +79,8 @@ function Sellpage() {
                             key={category._id}
                             className={`flex border-b py-1 justify-between my-auto cursor-pointer ${
                               selectedCategory._id === category._id
-                                ? "bg-[#406367] text-white"
-                                : "bg-transparent hover:bg-[#406367]  active:bg-[#406367] text-[#406367] hover:text-white active:text-white"
+                                ? "bg-headingcolor text-white"
+                                : "bg-transparent hover:bg-[#406367]  active:bg-[#406367] text-headingcolor hover:text-white active:text-white"
                             }`}
                             onClick={() => handleCategoryClick(category)}
                           >
@@ -129,8 +129,8 @@ function Sellpage() {
                                 className={`p-3 border-b py-4 justify-between cursor-pointer flex my-auto ${
                                   selectedfooter &&
                                   selectedfooter._id === sub._id
-                                    ? "bg-[#406367] text-white"
-                                    : "bg-transparent hover:bg-[#406367]  active:bg-[#406367] text-[#406367] hover:text-white active:text-white"
+                                    ? "bg-headingcolor text-white"
+                                    : "bg-transparent hover:bg-[#406367]  active:bg-[#406367] text-headingcolor hover:text-white active:text-white"
                                 }`}
                               >
                                 {sub.name}
@@ -158,7 +158,7 @@ function Sellpage() {
                                 <div className="flex my-auto">
                                   <div className="w-full my-auto">
                                     <p
-                                      className="p-3 border-b py-4 justify-between  cursor-pointer flex my-auto bg-transparent hover:bg-[#406367] active:bg-[#406367]"
+                                      className="p-3 border-b py-4 justify-between  cursor-pointer flex my-auto bg-transparent text-headingcolor hover:text-white hover:bg-headingcolor active:bg-headingcolor"
                                       onClick={() => handleClick(footer)}
                                     >
                                       {footer.name}

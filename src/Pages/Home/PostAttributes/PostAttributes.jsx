@@ -7,12 +7,12 @@ import "react-phone-input-2/lib/style.css";
 import { Autocomplete, TextField } from "@mui/material";
 import { toast } from "react-toastify";
 import { DotLoader } from "react-spinners";
+import { useNavigate } from "react-router-dom";
 const PostAttributes = () => {
   const { DataSelectionModel } = useContext(Selectioncardcontext);
 
+  const navigate = useNavigate();
 const rawUserData = localStorage.getItem("userdata") ;
-console.log(rawUserData);
-
   const [form, setForm] = useState({
     brand: "",
     condition: "",
@@ -115,9 +115,9 @@ console.log(rawUserData);
     handleChange("Condition", name);
   };
 
-  const handleDeviceTypeChange = (id) => {
-    setSelectedDeviceType(id);
-    handleChange("deviceType", id);
+  const handleDeviceTypeChange = (name) => {
+    setSelectedDeviceType(name);
+    handleChange("DeviceType", name);
   };
 
   const CustomRadioButton = ({ options, selectedOption, onChange }) => {
@@ -198,7 +198,7 @@ console.log(rawUserData);
         progress: undefined,
         theme: "light",
       });
-      console.log(response.data);
+      navigate("/Post");
     } catch (error) {
       console.log(error);
 
