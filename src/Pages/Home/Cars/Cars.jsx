@@ -126,7 +126,7 @@ const Cars = () => {
                         </p>
                         <FaRegHeart />
                       </div>
-                      <p className="px-3 mt-3 text-detailscolor font-normal">
+                      <p className="px-3 mt-3 text-headingcolor font-normal">
                         {card.description}
                       </p>
                       <div className="px-3 pt-1 text-loactioncolor font-normal flex my-auto">
@@ -136,7 +136,7 @@ const Cars = () => {
                       <p className="px-3 mt-3 text-loactioncolor font-normal">
                         {card.location}
                       </p>
-                      <span className="px-3 text-loactioncolor font-light mb-7 text-sm">
+                      <span className="px-3 text-headingcolor font-light mb-7 text-sm">
                         {card.daysAgo}
                       </span>
                     </div>

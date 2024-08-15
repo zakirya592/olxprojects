@@ -152,7 +152,7 @@ const Hadersilder = () => {
                   />
                   <div className="w-full">
                     <div className="px-3 flex flex-row mt-5 justify-between gap-2">
-                      <p className="text-secondary sm:text-lg text-base">
+                      <p className="text-headingcolor sm:text-lg text-base">
                         {card.price}
                       </p>
                       <FaRegHeart />
@@ -160,7 +160,7 @@ const Hadersilder = () => {
                     <p className="px-3 mt-3 text-detailscolor font-normal">
                       {card.description}
                     </p>
-                    <p className="px-3 mt-3 text-loactioncolor font-normal">
+                    <p className="px-3 mt-3 text-headingcolor font-normal">
                       {card.location}
                     </p>
                     <span className="px-3 text-loactioncolor font-light mb-7 text-sm">
