@@ -25,6 +25,7 @@ const rawUserData = localStorage.getItem("userdata") ;
   });
   const [phoneNumber, setphoneNumber] = useState("");
   const updateBrandData = JSON.parse(sessionStorage.getItem("footer"));
+
   const [images, setImages] = useState(Array(6).fill(null));
   const [isLoading, setIsLoading] = useState(false);
   const [fields, setFields] = useState([]);

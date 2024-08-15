@@ -24,6 +24,7 @@ function Sellpage() {
    const { setDataSelectionModel } = useContext(Selectioncardcontext);
 
    const handleClick = (footer) => {
+     console.log(footer);
     //  setDataSelectionModel((prev) => [...prev, footer]);
       sessionStorage.setItem("footer", JSON.stringify(footer));
      navigate("/Post/Attributes");
@@ -34,12 +35,15 @@ function Sellpage() {
 
   const handleCategoryClick = (category) => {
     setSelectedCategory(category);
+    sessionStorage.setItem("category", JSON.stringify(category));
     setselectedfooter(null);
   };
 
 
   const handlefooterCategoryClick = (sub) => {
     setselectedfooter(sub);
+   sessionStorage.setItem("subCategories", sub);
+    
   };
 
   const handleBackClick = () => {
@@ -112,7 +116,6 @@ function Sellpage() {
                           selectedCategory.subCategories.map((sub, index) => (
                             <div
                               key={index}
-                              className=""
                               // onClick={() => handlefooterCategoryClick(sub)}
                               onClick={() => {
                                 if (
