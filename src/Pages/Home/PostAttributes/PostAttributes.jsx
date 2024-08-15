@@ -90,7 +90,7 @@ const PostAttributes = () => {
 
     const handleChange = (model, value) => {
         const selectedData = fields.find(field => field.model === model)?.data.find(item => item.name === value);
-    console.log("Selected Data:", selectedData);
+    console.log("Selected Data:", selectedData._id,);
 
         setForm((prevForm) => ({
           ...prevForm,
@@ -99,10 +99,9 @@ const PostAttributes = () => {
         
     };
 
-    const handleConditionChange = (name, _id) => {
+    const handleConditionChange = (name) => {
       setSelectedCondition(name);
       handleChange("Condition", name);
-      console.log("Condition Changed:", _id);
     };
 
     const handleDeviceTypeChange = (id) => {
@@ -137,7 +136,13 @@ const PostAttributes = () => {
 
     const handlefilter = (event, newValue) => {
         setselecteddropdowndata(newValue);
+        setfilterdata(newValue);
         console.log(newValue._id);
+        
+         setForm((prevForm) => ({
+           ...prevForm,
+           [selecteddropdowndata]: newValue?._id || "", // Update the form state with selected _id
+         }));
     };
 
 
@@ -161,11 +166,12 @@ const PostAttributes = () => {
           }
         });
 
-      //  fields.forEach((field) => {
-      //    if (field.model) {
-      //      formData.append(field.model, form[field.model]);
-      //    }
-      //  });
+
+       fields.forEach((field) => {
+         if (field.model) {
+           formData.append(field.model, form[field.model]);
+         }
+       });
 
         try {
           const response = await NewRequest.post("/product", formData);
@@ -182,6 +188,8 @@ const PostAttributes = () => {
           });
           console.log(response.data);
         } catch (error) {
+          console.log(error);
+          
           setIsLoading(false);
           toast.error(error?.response?.data?.error || "Error", {
             position: "top-right",

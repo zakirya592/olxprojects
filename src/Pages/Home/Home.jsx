@@ -17,7 +17,7 @@ function Home() {
       <hr className="lg:px-10 mt-5 lg:mt-40 sm:mt-2" />
 
       <div className="px-2 sm:px-2 lg:px-10 smm:px-3 container justify-center mx-auto">
-        <DropDownSelection />
+        {/* <DropDownSelection /> */}
         <Hadersilder />
         <Categories />
         <MoreinKidscard />

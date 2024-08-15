@@ -10,18 +10,18 @@ import Googleplay from "../../../assets/Images/Googleplay.svg";
 const Footer = () => {
     return (
       <div>
-        <div className="py-4 gap-2 sm:px-16 px-8 3xl::h-[300px] 2xl:h-[300px] xl:h-[300px] lg:h-[300px] h-auto w-full bg-[#ebeeef] relative">
+        <div className="py-4 gap-2 sm:px-16 px-8 3xl::h-[300px] 2xl:h-[300px] xl:h-[300px] lg:h-[300px] h-auto w-full bg-[#000000] text-white relative">
           <div className="w-full grid 2xl:grid-cols-5 lg:grid-cols-5 grid-cols-1">
             <div className={`h-auto w-full flex flex-col gap-8 relative `}>
-              <h2 className="text-xl uppercase font-semibold text-start relative">
+              <h2 className="text-xl uppercase font-semibold text-start relativ e">
                 POPULAR CATEGORIES
               </h2>
-              <div className={`text-gray-300 flex flex-col gap-1 `}>
+              <div className={`text-white flex flex-col gap-1 `}>
                 <a
                   // href="#"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="text-loactioncolor duration-300 hover:text-black cursor-pointer"
+                  className="text-white duration-300 hover:text-white cursor-pointer"
                 >
                   {" "}
                   Cars
@@ -30,7 +30,7 @@ const Footer = () => {
                   // href="#"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="text-loactioncolor duration-300 hover:text-black cursor-pointer"
+                  className="text-white duration-300 hover:text-white cursor-pointer"
                 >
                   Flats for rent
                 </a>
@@ -38,7 +38,7 @@ const Footer = () => {
                   // href="#"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="text-loactioncolor duration-300 hover:text-black cursor-pointer"
+                  className="text-white duration-300 hover:text-white cursor-pointer"
                 >
                   Mobile Phones
                 </a>
@@ -46,7 +46,7 @@ const Footer = () => {
                   // href="#"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="text-loactioncolor duration-300 hover:text-black cursor-pointer"
+                  className="text-white duration-300 hover:text-white cursor-pointer"
                 >
                   jobs
                 </a>
@@ -57,12 +57,12 @@ const Footer = () => {
               <h2 className="text-xl uppercase font-semibold text-start relative">
                 TRENDING SEARCHES
               </h2>
-              <div className={`text-gray-300 flex flex-col gap-1`}>
+              <div className={`text-white flex flex-col gap-1`}>
                 <a
                   // href="#"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="text-loactioncolor duration-300 hover:text-black cursor-pointer"
+                  className="text-white duration-300 hover:text-white cursor-pointer"
                 >
                   {" "}
                   Bikes
@@ -71,7 +71,7 @@ const Footer = () => {
                   // href="#"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="text-loactioncolor duration-300 hover:text-black cursor-pointer"
+                  className="text-white duration-300 hover:text-white cursor-pointer"
                 >
                   {" "}
                   Watches
@@ -80,7 +80,7 @@ const Footer = () => {
                   // href="#"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="text-loactioncolor duration-300 hover:text-black cursor-pointer"
+                  className="text-white duration-300 hover:text-white cursor-pointer"
                 >
                   {" "}
                   Books
@@ -89,7 +89,7 @@ const Footer = () => {
                   // href="#"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="text-loactioncolor duration-300 hover:text-black cursor-pointer"
+                  className="text-white duration-300 hover:text-white cursor-pointer"
                 >
                   {" "}
                   Dogs
@@ -101,12 +101,12 @@ const Footer = () => {
               <h2 className="text-xl uppercase font-semibold text-start relative">
                 ABOUT US
               </h2>
-              <div className={`text-gray-300 flex flex-col gap-1 `}>
+              <div className={`text-white flex flex-col gap-1 `}>
                 <a
                   // href="#"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="text-loactioncolor duration-300 hover:text-black cursor-pointer"
+                  className="text-white duration-300 hover:text-white cursor-pointer"
                 >
                   {" "}
                   About Dubizzle Group
@@ -115,7 +115,7 @@ const Footer = () => {
                   // href="#"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="text-loactioncolor duration-300 hover:text-black cursor-pointer"
+                  className="text-white duration-300 hover:text-white cursor-pointer"
                 >
                   OLX Blog
                 </a>
@@ -123,7 +123,7 @@ const Footer = () => {
                   // href="#"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="text-loactioncolor duration-300 hover:text-black cursor-pointer"
+                  className="text-white duration-300 hover:text-white cursor-pointer"
                 >
                   {" "}
                   Contact Us
@@ -132,7 +132,7 @@ const Footer = () => {
                   // href="#"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="text-loactioncolor duration-300 hover:text-black cursor-pointer"
+                  className="text-white duration-300 hover:text-white cursor-pointer"
                 >
                   {" "}
                   OLX for Businesses
@@ -144,12 +144,12 @@ const Footer = () => {
               <h2 className="text-xl uppercase font-semibold text-start relative">
                 OLX
               </h2>
-              <div className={`text-gray-300 flex flex-col gap-1 `}>
+              <div className={`text-white flex flex-col gap-1 `}>
                 <a
                   // href="#"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="text-loactioncolor duration-300 hover:text-black cursor-pointer"
+                  className="text-white duration-300 hover:text-white cursor-pointer"
                 >
                   {" "}
                   Help
@@ -158,7 +158,7 @@ const Footer = () => {
                   // href="#"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="text-loactioncolor duration-300 hover:text-black cursor-pointer"
+                  className="text-white duration-300 hover:text-white cursor-pointer"
                 >
                   Sitemap
                 </a>
@@ -166,7 +166,7 @@ const Footer = () => {
                   // href="#"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="text-loactioncolor duration-300 hover:text-black cursor-pointer"
+                  className="text-white duration-300 hover:text-white cursor-pointer"
                 >
                   {" "}
                   Terms of use
@@ -175,7 +175,7 @@ const Footer = () => {
                   // href="#"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="text-loactioncolor duration-300 hover:text-black cursor-pointer"
+                  className="text-white duration-300 hover:text-white cursor-pointer"
                 >
                   {" "}
                   Privacy Policy
@@ -187,7 +187,7 @@ const Footer = () => {
               <h2 className="text-xl uppercase font-semibold text-start relative">
                 FOLLOW US
               </h2>
-              <div className={`text-gray-300 flex flex-col gap-1 `}>
+              <div className={`text-white flex flex-col gap-1 `}>
                 <div className="flex flex-row">
                   <TiSocialTwitterCircular
                     size={40}
@@ -227,7 +227,7 @@ const Footer = () => {
             </div>
           </div>
         </div>
-        <div className={`bg-[#002f34] text-white `}>
+        <div className={`bg-[#2D6A3C] text-white `}>
           <h2 className="text-end font-normal sm:font-semibold mb-2 sm:mb-0 p-5">
             Free Classifieds in Pakistan . © 2006-2024 OLX
           </h2>
