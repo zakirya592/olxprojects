@@ -1,23 +1,33 @@
-import React, { useState,useEffect, useRef } from "react";
-import { FaCarAlt, FaSearch, FaCommentDots, FaBell, FaMapMarkerAlt, FaLocationArrow } from "react-icons/fa";
+import React, { useState, useEffect, useRef } from "react";
+import { FaCarAlt, FaSearch, FaCommentDots, FaBell } from "react-icons/fa";
 import { MdOutlineHomeWork } from "react-icons/md";
-import { useNavigate } from 'react-router-dom';
+import { useNavigate } from "react-router-dom";
 import log from "../../assets/Images/logo1.png";
-import Login from '../../Pages/Admin/Login/Login';
-import Firstloginsinup from '../../Pages/Admin/Login/Firstloginsinup';
+import Firstloginsinup from "../../Pages/Admin/Login/Firstloginsinup";
 
 function Header() {
-  const navigator = useNavigate();
+  const navigate = useNavigate();
   const [selectedLocation, setSelectedLocation] = useState("");
+  const [isCreatePopupVisible, setCreatePopupVisibility] = useState(false);
+  const [isUserLoggedIn, setIsUserLoggedIn] = useState(false);
 
- const [isCreatePopupVisible, setCreatePopupVisibility] = useState(false);
-   const handleShowCreatePopup = () => {
-     setCreatePopupVisibility(true);
-   };
+  useEffect(() => {
+    const authToken = sessionStorage.getItem("authToken");
+    setIsUserLoggedIn(!!authToken);
+  }, [isCreatePopupVisible]); // Add isCreatePopupVisible to the dependency array
+
+  const handleLogout = () => {
+    sessionStorage.removeItem("authToken");
+    setIsUserLoggedIn(false); // Set user as logged out
+  };
+
+  const handleShowCreatePopup = () => {
+    setCreatePopupVisibility(true);
+  };
+
   const handleLocationChange = (event) => {
     const selectedValue = event.target.value;
     if (selectedValue === "current_location") {
-      // Implement logic to get current location and set it
       navigator.geolocation.getCurrentPosition((position) => {
         const { latitude, longitude } = position.coords;
         setSelectedLocation(`Current Location (${latitude}, ${longitude})`);
@@ -27,49 +37,52 @@ function Header() {
     }
   };
 
-  const selectCurrentLocation = () => {
-    navigator.geolocation.getCurrentPosition((position) => {
-      const { latitude, longitude } = position.coords;
-      const currentLocation = `Current Location (${latitude}, ${longitude})`;
-      setSelectedLocation(currentLocation);
-    });
-  };
-
-
-
-   const inputRef = useRef(null);
+  const inputRef = useRef(null);
   const autocompleteRef = useRef(null);
 
   useEffect(() => {
     const loadScript = (url, callback) => {
-      let script = document.createElement('script');
-      script.type = 'text/javascript';
+      let script = document.createElement("script");
+      script.type = "text/javascript";
       script.src = url;
       script.onload = callback;
       document.head.appendChild(script);
     };
 
     const handleScriptLoad = () => {
-      autocompleteRef.current = new window.google.maps.places.Autocomplete(inputRef.current, {
-        types: ['geocode'],
-        componentRestrictions: { country: 'pk' }, // Restrict to Pakistan
-      });
+      autocompleteRef.current = new window.google.maps.places.Autocomplete(
+        inputRef.current,
+        {
+          types: ["geocode"],
+          componentRestrictions: { country: "pk" },
+        }
+      );
 
-      autocompleteRef.current.addListener('place_changed', handlePlaceSelect);
+      autocompleteRef.current.addListener("place_changed", handlePlaceSelect);
     };
 
     const handlePlaceSelect = () => {
       const place = autocompleteRef.current.getPlace();
       console.log(place);
     };
-      // const apiKey = process.env.REACT_APP_API_KEY;
 
     if (!window.google) {
-      loadScript(`https://maps.googleapis.com/maps/api/js?key=AIzaSyBG8etTblNJ8UdyC_Z-M28InEGeVvPD72o=places`, handleScriptLoad);
+      loadScript(
+        `https://maps.googleapis.com/maps/api/js?key=YOUR_API_KEY&libraries=places`,
+        handleScriptLoad
+      );
     } else {
       handleScriptLoad();
     }
   }, []);
+
+   const handleSellButtonClick = () => {
+     if (isUserLoggedIn) {
+       navigate("/Post");
+     } else {
+       handleShowCreatePopup();
+     }
+   };
 
   return (
     <>
@@ -82,6 +95,7 @@ function Header() {
                   src={log}
                   alt="Logo"
                   className="h-14 w-auto cursor-pointer"
+                  onClick={() => navigate("/")}
                 />
               </div>
               <div className="flex mx-5 lg:mx-5 sm:mx-1 smm:mx-0 cursor-pointer text-black hover:text-secondary my-auto">
@@ -99,39 +113,24 @@ function Header() {
                 <h6 className="text-xl ms-2 font-bold my-auto">Property</h6>
               </div>
             </div>
-            {/* <h6
-              className="text-xl ms-2 font-bold my-auto cursor-pointer"
-              onClick={() => navigator("/Admin/Category")}
-            >
-              Admin
-            </h6> */}
           </div>
           <header className="flex py-2 w-full flex-col sm:flex-row justify-between">
             <div className="flex items-center w-full flex-col sm:flex-row">
               <div className="flex items-center w-full px-2">
-      <input ref={inputRef} id="location" type="text"   className="outline-none text-gray-700 py-2 px-3 border rounded-md bg-white w-full" placeholder="Enter a location" />
-   
-                {/* <select
-                  className="outline-none text-gray-700 py-2 border rounded-md bg-white w-full"
-                  onChange={handleLocationChange}
-                >
-                  <option value="Pakistan">
-                    <FaMapMarkerAlt className="text-gray-500 inline-block align-middle" />{" "}
-                    Pakistan
-                  </option>
-                  <option
-                    value={selectedLocation}
-                    onClick={selectCurrentLocation}
-                  >
-                    Current Location
-                    <FaLocationArrow className="text-gray-500 inline-block align-middle" />
-                  </option>
-                </select> */}
-                <span className="ml-2 border-l border-gray-300"></span>
-                <FaBell
-                  className="text-gray-500 cursor-pointer lg:hidden"
-                  size={25}
+                <input
+                  ref={inputRef}
+                  id="location"
+                  type="text"
+                  className="outline-none text-gray-700 py-2 px-3 border rounded-md bg-white w-full"
+                  placeholder="Enter a location"
                 />
+                <span className="ml-2 border-l border-gray-300"></span>
+                {isUserLoggedIn && (
+                  <FaBell
+                    className="text-gray-500 cursor-pointer lg:hidden"
+                    size={25}
+                  />
+                )}
               </div>
               <div className="flex w-full mt-2 lg:mt-0 sm:mt-2 px-2">
                 <input
@@ -146,31 +145,37 @@ function Header() {
             </div>
             <div className="flex items-center space-x-4 w-1/2 justify-center lg:justify-end sm:justify-start smm:justify-normal mt-2 lg:mt-0 sm:mt-2">
               <div className="flex items-center space-x-4">
-                <FaCommentDots
-                  className="text-gray-500 cursor-pointer hidden " //lg:block
-                  size={25}
-                />
-                <FaBell
-                  className="text-gray-500 cursor-pointer hidden " //lg:block
-                  size={25}
-                />
-                <img
-                  src="https://via.placeholder.com/40" // Replace with the actual profile image URL
-                  alt="Profile"
-                  className="w-10 h-10 rounded-full object-cover cursor-pointer hidden " //lg:block
-                />
+                {isUserLoggedIn && (
+                  <>
+                    <FaCommentDots
+                      className="text-gray-500 cursor-pointer hidden lg:block"
+                      size={25}
+                    />
+                    <FaBell
+                      className="text-gray-500 cursor-pointer hidden lg:block"
+                      size={25}
+                    />
+                    <button
+                      onClick={handleLogout}
+                      className="text-blue-500 text-xl border-b border-blue-500 cursor-pointer"
+                    >
+                      Logout
+                    </button>
+                  </>
+                )}
               </div>
-              <h6
-                // className="text-xl ms-2 font-bold my-auto cursor-pointer"
-                className="text-blue-500 text-xl border-b border-blue-500 cursor-pointer"
-                // onClick={() => navigator("/Admin/Category")}
-                onClick={handleShowCreatePopup}
-              >
-                Staff Login
-              </h6>
+
+              {!isUserLoggedIn && (
+                <h6
+                  className="text-blue-500 text-xl border-b border-blue-500 cursor-pointer"
+                  onClick={handleShowCreatePopup}
+                >
+                  Staff Login
+                </h6>
+              )}
               <div
                 className="gradient-border p-1 rounded-full hidden lg:block mt-2 sm:mt-0"
-                onClick={() => navigator("/Post")}
+                onClick={handleSellButtonClick}
               >
                 <button className="text-gray-800 border-none bg-white px-4 py-2 rounded-full">
                   + SELL
@@ -185,7 +190,7 @@ function Header() {
           <div className="flex justify-center gradient-border border rounded-full p-1">
             <button
               className=" p-2 rounded-full bg-white text-gray-800 border-none"
-              onClick={() => navigator("/Post")}
+              onClick={handleSellButtonClick}
             >
               + SELL
             </button>
@@ -197,7 +202,6 @@ function Header() {
         <Firstloginsinup
           isVisible={isCreatePopupVisible}
           setVisibility={setCreatePopupVisibility}
-          // refreshBrandData={fetchData}
         />
       )}
     </>

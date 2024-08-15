@@ -43,8 +43,12 @@ const Firstloginsinup = ({ isVisible, setVisibility }) => {
                 />
               </div>
               <form className="w-full">
-                 <div className="flex justify-center items-center mb-10">
-                <img src={logo} alt="" className="h-24 w-auto cursor-pointer" />
+                <div className="flex justify-center items-center mb-10">
+                  <img
+                    src={logo}
+                    alt=""
+                    className="h-24 w-auto cursor-pointer"
+                  />
                 </div>
                 <h2
                   className={`text-loactioncolor font-sans font-semibold text-2xl`}
@@ -100,6 +104,7 @@ const Firstloginsinup = ({ isVisible, setVisibility }) => {
           isVisiblepop={isCreatePopupVisiblepoplogin}
           setVisibilitypop={setCreatePopupVisibilitypoplogin}
           // refreshBrandData={fetchData}
+          setParentVisibility={setVisibility}
         />
       )}
     </div>
