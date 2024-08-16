@@ -48,6 +48,7 @@ import Resolution from "../../../assets/Images/Resolution.png";
 import EngineType from "../../../assets/Images/EngineType.jpg";
 import EngineCapacity from "../../../assets/Images/EngineCapacity.png";
 import ScreenSize from "../../../assets/Images/Screen Size.jpg";
+import productsimage from "../../../assets/Images/products.png"
 
 const SideBar = () => {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
@@ -942,6 +943,18 @@ const SideBar = () => {
               </div>
             </div>
           )}
+
+          <div
+            className={`main-images-container flex-row justify-start`}
+            onClick={() => navigate("/Admin/Product")}
+          >
+            <img
+              src={productsimage}
+              className="main-inside-image bg-white rounded-full"
+              alt=""
+            />
+            <p className="sidebar-text">Product</p>
+          </div>
 
           <div
             className={`main-images-container flex-row justify-start`}

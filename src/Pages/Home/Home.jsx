@@ -21,7 +21,7 @@ function Home() {
         <Hadersilder />
         <Categories />
         <MoreinKidscard />
-        <Cars />
+        {/* <Cars /> */}
       </div>
       <Footer />
     </div>

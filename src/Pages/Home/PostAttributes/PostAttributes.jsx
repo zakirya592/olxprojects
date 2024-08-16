@@ -12,7 +12,9 @@ const PostAttributes = () => {
   const { DataSelectionModel } = useContext(Selectioncardcontext);
 
   const navigate = useNavigate();
-const rawUserData = localStorage.getItem("userdata") ;
+  const storedUserResponseString = sessionStorage.getItem("userResponse");
+  const storedUserResponse = JSON.parse(storedUserResponseString);
+  const loginuserdata = storedUserResponse.data.user;
   const [form, setForm] = useState({
     brand: "",
     condition: "",
@@ -20,10 +22,9 @@ const rawUserData = localStorage.getItem("userdata") ;
     description: "",
     Location: "",
     price: "",
-    user: "",
-    // Userdata?.username || Userdata?.phone ||
+    user: loginuserdata?.username || "",
   });
-  const [phoneNumber, setphoneNumber] = useState("");
+  const [phoneNumber, setphoneNumber] = useState(loginuserdata?.phone || "");
   const updateBrandData = JSON.parse(sessionStorage.getItem("footer"));
 
   const [images, setImages] = useState(Array(6).fill(null));
@@ -103,7 +104,6 @@ const rawUserData = localStorage.getItem("userdata") ;
     const selectedData = fields
       .find((field) => field.model === model)
       ?.data.find((item) => item.name === value);
-    console.log("Selected Data:", selectedData);
 
     setForm((prevForm) => ({
       ...prevForm,
@@ -147,28 +147,33 @@ const rawUserData = localStorage.getItem("userdata") ;
     setphoneNumber(value);
   };
 
- const handlefilter = (event, newValue, model) => {
-   setselecteddropdowndata(newValue);
-   console.log(newValue._id);
+  const handlefilter = (event, newValue, model) => {
+    setselecteddropdowndata(newValue);
 
-   setForm((prevForm) => ({
-     ...prevForm,
-     [model]: newValue || "", // Use the field model as the key
-   }));
- };
-
+    setForm((prevForm) => ({
+      ...prevForm,
+      [model]: newValue || "", // Use the field model as the key
+    }));
+  };
 
   // Post api herer
+  const Categorydataget = sessionStorage.getItem("category");
+  const categoryResponse = JSON.parse(Categorydataget);
+  const categorydata = categoryResponse?._id || "";
+
+  const subCategoriesdataget = sessionStorage.getItem("subCategories");
+  const subCategoriesResponse = JSON.parse(subCategoriesdataget);
   const handleAddCompany = async (e) => {
+    
     setIsLoading(true);
     const formData = new FormData();
     formData.append("name", form.title);
     formData.append("description", form.description);
     formData.append("price", form.price);
     formData.append("location", form.Location);
-    formData.append("User", "66a0a60182059f7e3fea2966");
-    formData.append("Category", updateBrandData?._id);
-    formData.append("SubCategory", updateBrandData?._id);
+    formData.append("User", loginuserdata._id);
+    formData.append("Category", categorydata);
+    formData.append("SubCategory", subCategoriesResponse._id);
     formData.append("FooterCategory", updateBrandData?._id);
     // For the image append
     images.forEach((image, index) => {
@@ -177,12 +182,10 @@ const rawUserData = localStorage.getItem("userdata") ;
       }
     });
 
-
     fields.forEach((field) => {
       if (field.model) {
-        formData.append(field.model, form[field.model]._id);     
-       console.log(field.model, form[field.model]._id);
-       
+        formData.append(field.model, form[field.model]._id);
+        console.log(field.model, form[field.model]._id);
       }
     });
 

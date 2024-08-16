@@ -1,66 +1,80 @@
 import React from "react";
 import { Swiper, SwiperSlide } from "swiper/react";
+import { toast } from "react-toastify";
 import "swiper/css";
 import "swiper/css/pagination";
 import "swiper/css/navigation";
 import { Autoplay, Pagination, Navigation, Keyboard, Scrollbar } from "swiper/modules";
-import { IoIosArrowDroprightCircle, IoIosArrowDropleftCircle } from "react-icons/io";
 import Button from "@mui/material/Button";
 import ArrowRightAltIcon from "@mui/icons-material/ArrowRightAlt";
 import { useQuery } from "react-query";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { CircularProgress } from "@mui/material";
 import imagecard from "../../../assets/Images/imagecard.webp";
 import { FaRegHeart } from "react-icons/fa";
 import { MdOutlineNavigateNext } from "react-icons/md";
 import useMediaQuery from "@mui/material/useMediaQuery";
+import NewRequest from "../../../../utils/NewRequest";
 
 const Hadersilder = () => {
   const isSmallScreen = useMediaQuery("(max-width: 425px)");
 
-  const cards = [
-    {
-      id: 1,
-      price: "Rs,350",
-      description:
-        "Sony xperia5 Mark 2 5Mark 3 XZ3 Fujitsu F52 F51 Balmuda LG velvet",
-      location: "Gulberg 3, Lahore",
-      daysAgo: "5 day ago",
-      link: "#",
-      image: imagecard,
-    },
-    {
-      id: 2,
-      price: "Rs,350",
-      description:
-        "Sony xperia5 Mark 2 5Mark 3 XZ3 Fujitsu F52 F51 Balmuda LG velvet",
-      location: "Gulberg 3, Lahore",
-      daysAgo: "5 day ago",
-      link: "#",
-      image: imagecard,
-    },
-    {
-      id: 3,
-      price: "Rs,350",
-      description:
-        "Sony xperia5 Mark 2 5Mark 3 XZ3 Fujitsu F52 F51 Balmuda LG velvet",
-      location: "Gulberg 3, Lahore",
-      daysAgo: "5 day ago",
-      link: "#",
-      image: imagecard,
-    },
-    {
-      id: 4,
-      price: "Rs,350",
-      description:
-        "Sony xperia5 Mark 2 5Mark 3 XZ3 Fujitsu F52 F51 Balmuda LG velvet",
-      location: "Gulberg 3, Lahore",
-      daysAgo: "5 day ago",
-      link: "#",
-      image: imagecard,
-    },
-    // Add more card objects as needed
-  ];
+  // Fetch data and filter based on status and category
+  async function fetchproductData() {
+    const response = await NewRequest.get("/product/getcategoryproduct");
+
+    // Find the "Mobiles" category and filter products with status === 1
+    const mobilesCategory = response?.data.find(
+      (item) => item.category.name === "Mobiles"
+    );
+
+return mobilesCategory;
+    
+  }
+
+  // Use the data in your component
+  const { isLoading, error, data: productsdata } = useQuery("productgetcategoryproduct", fetchproductData);
+
+  if (isLoading) return <p>Loading...</p>;
+  if (error) return <p>Error loading products</p>;
+
+const storedUserResponseString = sessionStorage.getItem("userResponse");
+const storedUserResponse = JSON.parse(storedUserResponseString);
+
+const loginuserid = storedUserResponse?.data?.user?._id || "";
+  const postcard = (Product) => {
+    try {
+      const response = NewRequest.post(`/wishlist/${loginuserid}`,{
+        productId:Product
+      });
+      console.log(response);
+      toast.success(`Product has been added successfully".`, {
+        position: "top-right",
+        autoClose: 2000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "light",
+      });
+    } catch (error) {
+      console.log(error);
+      toast.error(error?.response?.data?.error || "Error", {
+        position: "top-right",
+        autoClose: 2000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "light",
+      });
+    }
+  };
+
+
+
 
   return (
     <div className="relative h-auto w-full bg-white border-b mt-10 mb-20">
@@ -100,7 +114,7 @@ const Hadersilder = () => {
             modules={[Keyboard, Scrollbar, Navigation, Pagination]}
             className="mySwiper"
           >
-            {cards.map((card) => (
+            {productsdata.products.map((card) => (
               <SwiperSlide key={card.id}>
                 <div className="h-auto w-full py-1 border border-gray-300 rounded-md shadow-lg transition-transform transform hover:scale-110">
                   <Link
@@ -108,14 +122,14 @@ const Hadersilder = () => {
                     className="font-semibold text-secondary sm:text-lg text-base hover:text-primary mt-3"
                   >
                     <img
-                      src={card.image}
+                      src={card.images[0]}
                       alt=""
                       className="w-full h-44 object-cover"
                     />
                     <div className="w-full">
                       <div className="px-3 flex flex-row mt-5 justify-between gap-2">
                         <p className="text-secondary sm:text-lg text-base">
-                          {card.price}
+                         Rs {card.price}
                         </p>
                         <FaRegHeart />
                       </div>
@@ -125,9 +139,9 @@ const Hadersilder = () => {
                       <p className="px-3 mt-3 text-loactioncolor font-normal">
                         {card.location}
                       </p>
-                      <span className="px-3 text-loactioncolor font-light mb-7 text-sm">
+                      {/* <span className="px-3 text-loactioncolor font-light mb-7 text-sm">
                         {card.daysAgo}
-                      </span>
+                      </span> */}
                     </div>
                   </Link>
                 </div>
@@ -136,26 +150,29 @@ const Hadersilder = () => {
           </Swiper>
         ) : (
           <div className="grid 2xl:grid-cols-4 xl:grid-cols-4 gap-7 lg:grid-cols-3 md:grid-cols-3 grid-cols-1 sm:px-2 px-2 mb-3">
-            {cards.map((card) => (
+            {productsdata.products.map((card) => (
               <div
                 key={card.id}
                 className="h-auto w-full py-1 border my-3 border-gray-300 rounded-md shadow-lg transition-transform transform hover:scale-110"
               >
-                <Link
-                  to={card.link}
+                <div
+                  // to={card.link}
                   className="font-semibold text-secondary sm:text-lg text-base hover:text-primary mt-3"
                 >
                   <img
-                    src={card.image}
+                    src={card.images[0]}
                     alt=""
                     className="w-full h-44 object-cover"
                   />
                   <div className="w-full">
                     <div className="px-3 flex flex-row mt-5 justify-between gap-2">
+                      {/* <p className="text-headingcolor sm:text-lg text-base">
+                        {card.name}
+                      </p> */}
                       <p className="text-headingcolor sm:text-lg text-base">
-                        {card.price}
+                        Rs {card.price}
                       </p>
-                      <FaRegHeart />
+                      <FaRegHeart className="cursor-pointer" onClick={()=>postcard(card.User)}/>
                     </div>
                     <p className="px-3 mt-3 text-detailscolor font-normal">
                       {card.description}
@@ -163,11 +180,11 @@ const Hadersilder = () => {
                     <p className="px-3 mt-3 text-headingcolor font-normal">
                       {card.location}
                     </p>
-                    <span className="px-3 text-loactioncolor font-light mb-7 text-sm">
+                    {/* <span className="px-3 text-loactioncolor font-light mb-7 text-sm">
                       {card.daysAgo}
-                    </span>
+                    </span> */}
                   </div>
-                </Link>
+                </div>
               </div>
             ))}
           </div>

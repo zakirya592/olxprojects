@@ -28,10 +28,15 @@ const Login = ({ isVisiblepop, setVisibilitypop, setParentVisibility }) => {
       if (userstatus === 1) {
         navigator("/");
 
-        console.log(response.data.user);
+        console.log(response.data);
         sessionStorage.setItem("authToken", response.data.token);
         // Correct way to store an object in sessionStorage
-        localStorage.setItem("userdata", response.data.user);
+        localStorage.setItem("userdata", response.data);
+        // Convert the object to a JSON string
+        const userResponseString = JSON.stringify(response);
+        // Store the JSON string in sessionStorage
+        sessionStorage.setItem("userResponse", userResponseString);
+        
         toast.success(`Login has been successful.`, {
           position: "top-right",
           autoClose: 2000,

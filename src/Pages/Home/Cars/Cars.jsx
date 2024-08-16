@@ -17,10 +17,32 @@ import { FaRegHeart } from "react-icons/fa";
 import { MdOutlineNavigateNext } from "react-icons/md";
 import useMediaQuery from "@mui/material/useMediaQuery";
 import { SlSpeedometer } from "react-icons/sl";
+import NewRequest from "../../../../utils/NewRequest";
+import { useQuery } from "react-query";
 
 
 const Cars = () => {
   const isSmallScreen = useMediaQuery("(max-width: 425px)");
+
+    // Fetch data and filter based on status and category
+  async function fetchproductData() {
+    const response = await NewRequest.get("/product/getcategoryproduct");
+
+    // Find the "Mobiles" category and filter products with status === 1
+    const mobilesCategory = response?.data.find(
+      (item) => item.category.name === "Vichels"
+    );
+
+return mobilesCategory;
+    
+  }
+
+  // Use the data in your component
+  const { isLoading, error, data: productsdataVichels } = useQuery("productgetcategoryproductVichels", fetchproductData);
+console.log(productsdataVichels);
+
+  if (isLoading) return <p>Loading...</p>;
+  if (error) return <p>Error loading products</p>;
 
   const cards = [
     {
