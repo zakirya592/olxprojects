@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import NewRequest from "../../../utils/NewRequest";
 
 const Chat = () => {
@@ -29,6 +29,30 @@ const Chat = () => {
       console.error("Error sending message:", error);
     }
   };
+
+    const handleKeyDown = (e) => {
+      if (e.key === "Enter") {
+        e.preventDefault(); // Prevent the default action of the enter key (which is usually submitting a form)
+        handleSendMessage();
+      }
+    };
+
+ useEffect(() => {
+   // Fetch the chat history when the component mounts
+   const fetchChatHistory = async () => {
+     try {
+       const response = await NewRequest.get( `/chat/getmychat?userId=${senderId}`
+       );
+       console.log(response.data);
+       setChatHistory(response.data);
+     } catch (error) {
+       console.error("Error fetching chat history:", error);
+     }
+   };
+
+   fetchChatHistory();
+ }, [senderId]);
+    
 
   return (
     <div className="flex flex-col sm:flex-col lg:flex-row  h-screen">
@@ -61,7 +85,7 @@ const Chat = () => {
       <div className="flex-1 p-5">
         <div className="border border-gray-300 p-4 h-full flex flex-col justify-between">
           <div className="max-h-72 overflow-y-auto mb-5 flex-grow">
-            {chatHistory.map((chat, index) => (
+            {/* {chatHistory.map((chat, index) => (
               <div
                 key={index}
                 className={`mb-3 flex ${
@@ -69,7 +93,22 @@ const Chat = () => {
                 }`}
               >
                 <strong>You:</strong> {chat.content}{" "}
-                {/* Adjust this if the response data structure is different */}
+              </div>
+            ))} */}
+            {chatHistory.map((chat, index) => (
+              <div
+                key={index}
+                className={`mb-3 flex ${
+                  chat.senderId === senderId ? "directionrtl" : "directionltr"
+                }`}
+              >
+                <div>
+                  <strong>{chat?.user?.username || ""}:</strong> {chat?.lastMessage || ""}
+                  <br />
+                  <span className="text-xs text-gray-400">
+                    {/* {moment(chat.timestamp).format("MMMM Do YYYY, h:mm:ss a")} */}
+                  </span>
+                </div>
               </div>
             ))}
           </div>
@@ -82,6 +121,7 @@ const Chat = () => {
                 onChange={handleMessageChange}
                 className="flex-1 p-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
                 placeholder="Type your message..."
+                onKeyDown={handleKeyDown}
               />
               <button
                 onClick={handleSendMessage}

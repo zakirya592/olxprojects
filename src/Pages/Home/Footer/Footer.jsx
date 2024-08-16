@@ -10,7 +10,7 @@ import Googleplay from "../../../assets/Images/Googleplay.svg";
 const Footer = () => {
     return (
       <div>
-        <div className="py-4 gap-2 sm:px-16 px-8 3xl::h-[300px] 2xl:h-[300px] xl:h-[300px] lg:h-[300px] h-auto w-full bg-[#000000] text-white relative">
+        <div className="py-4 gap-2 sm:px-16 px-8 3xl::h-[300px] 2xl:h-[300px] xl:h-[300px] lg:h-[300px] h-auto w-full bg-[#7B6C9C] text-white relative">
           <div className="w-full grid 2xl:grid-cols-5 lg:grid-cols-5 grid-cols-1">
             <div className={`h-auto w-full flex flex-col gap-8 relative `}>
               <h2 className="text-xl uppercase font-semibold text-start relativ e">

@@ -23,7 +23,7 @@ export default {
         primary: '#FF693A',
         secondary: '#021F69',
         border_color: '#8E9CAB',
-        headingcolor:'#2D6A3C',
+        headingcolor:'#FBCD35',
         viewmorebutton:'#3a77ff',
         detailscolor:'#002f34',
         loactioncolor:'#406367',

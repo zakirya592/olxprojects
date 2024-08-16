@@ -86,7 +86,7 @@ function Header() {
 
   return (
     <>
-      <div className="bg-slate-50 px-0 smm:px-0 lg:px-12 lg:fixed top-0 left-0 right-0 z-50">
+      <div className="bg-[#7B6C9C] px-0 smm:px-0 lg:px-12 text-white lg:fixed top-0 left-0 right-0 z-50">
         <div className="py-2 mx-3">
           <div className="topdev flex my-auto container gap-1 lg:gap-5 smm:gap-1 w-full flex-col lg:flex-row sm:flex-col">
             <div className="flex gap-1 lg:gap-5 smm:gap-1">
@@ -94,11 +94,11 @@ function Header() {
                 <img
                   src={log}
                   alt="Logo"
-                  className="h-14 w-auto cursor-pointer"
+                  className="h-14 w-auto cursor-pointer bg-transparent filter brightness-0 invert"
                   onClick={() => navigate("/")}
                 />
               </div>
-              <div className="flex mx-5 lg:mx-5 sm:mx-1 smm:mx-0 cursor-pointer text-black hover:text-secondary my-auto">
+              <div className="flex mx-5 lg:mx-5 sm:mx-1 smm:mx-0 cursor-pointer text-white hover:text-secondary my-auto">
                 <div className="customgradient h-10 w-10 flex justify-center items-center rounded-full">
                   <FaCarAlt size={24} />
                 </div>
@@ -106,7 +106,7 @@ function Header() {
                   Motors
                 </h6>
               </div>
-              <div className="flex mx-5 lg:mx-5 sm:mx-2 smm-mx-0 cursor-pointer text-black hover:text-secondary my-auto">
+              <div className="flex mx-5 lg:mx-5 sm:mx-2 smm-mx-0 cursor-pointer text-white hover:text-secondary my-auto">
                 <div className="customgradient h-10 w-10 flex justify-center items-center rounded-full">
                   <MdOutlineHomeWork size={24} />
                 </div>
@@ -127,7 +127,7 @@ function Header() {
                 <span className="ml-2 border-l border-gray-300"></span>
                 {isUserLoggedIn && (
                   <FaBell
-                    className="text-gray-500 cursor-pointer lg:hidden"
+                    className="text-white cursor-pointer lg:hidden"
                     size={25}
                   />
                 )}
@@ -148,17 +148,17 @@ function Header() {
                 {isUserLoggedIn && (
                   <>
                     <FaCommentDots
-                      className="text-gray-500 cursor-pointer hidden lg:block"
+                      className="text-white cursor-pointer hidden lg:block"
                       size={25}
                       onClick={() => navigate("/Chat")}
                     />
                     <FaBell
-                      className="text-gray-500 cursor-pointer hidden lg:block"
+                      className="text-white cursor-pointer hidden lg:block"
                       size={25}
                     />
                     <button
                       onClick={handleLogout}
-                      className="text-blue-500 text-xl border-b border-blue-500 cursor-pointer"
+                      className="text-white text-xl border-b-4 border-[#2D6A3C] cursor-pointer"
                     >
                       Logout
                     </button>
@@ -168,7 +168,7 @@ function Header() {
 
               {!isUserLoggedIn && (
                 <h6
-                  className="text-blue-500 text-xl border-b border-blue-500 cursor-pointer"
+                  className="text-white text-xl border-b-4 border-[#2D6A3C] cursor-pointer"
                   onClick={handleShowCreatePopup}
                 >
                   Staff Login

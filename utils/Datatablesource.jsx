@@ -521,3 +521,60 @@ export const Adminuser = [
     ),
   },
 ];
+
+export const AdminProduct = [
+  {
+    field: "name",
+    headerName: "Name",
+    width: 180,
+  },
+  {
+    field: "description",
+    headerName: "Description",
+    width: 180,
+  },
+  {
+    field: "price",
+    headerName: "price",
+    width: 180,
+  },
+  {
+    field: "Category",
+    headerName: "Category",
+    width: 180,
+    valueGetter: (params) => {
+      const catagory = params;
+      return catagory && catagory.name ? catagory.name : null;
+    },
+  },
+
+  {
+    field: "SubCategory",
+    headerName: "SubCategory",
+    width: 180,
+    valueGetter: (params) => {
+      const SubCategory = params;
+      return SubCategory && SubCategory.name ? SubCategory.name : null;
+    },
+  },
+
+  {
+    field: "User",
+    headerName: "User",
+    width: 180,
+    valueGetter: (params) => {
+      const Username = params;
+      return Username && Username.username ? Username.username : null;
+    },
+  },
+
+  // {
+  //   field: "User",
+  //   headerName: "Email",
+  //   width: 180,
+  //   valueGetter: (params) => {
+  //     const email = params;
+  //     return email && email.email ? catagory.email : null;
+  //   },
+  // },
+];
