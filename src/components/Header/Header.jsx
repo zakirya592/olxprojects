@@ -150,6 +150,7 @@ function Header() {
                     <FaCommentDots
                       className="text-gray-500 cursor-pointer hidden lg:block"
                       size={25}
+                      onClick={() => navigate("/Chat")}
                     />
                     <FaBell
                       className="text-gray-500 cursor-pointer hidden lg:block"

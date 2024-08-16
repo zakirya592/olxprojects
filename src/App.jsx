@@ -48,6 +48,7 @@ import Language from "./Pages/Admin/MasterData/Language/Language";
 import MaxFocalLengthRange from "./Pages/Admin/MasterData/MaxFocalLengthRange/MaxFocalLengthRange";
 import PostAttributes from "./Pages/Home/PostAttributes/PostAttributes";
 import SelectionDataProvider from "./Contextapi/Selectioncardcontext";
+import Chat from "./components/Chat/Chat";
 
 const queryClient = new QueryClient();
 
@@ -69,6 +70,7 @@ function App() {
             <Route path="/" element={<Home />} />
             <Route path="/Post" element={<Sellpage />} />
             <Route path="/Post/Attributes" element={<PostAttributes />} />
+            <Route path="/Chat" element={<Chat />} />
 
             <Route
               path="/Admin/*"
