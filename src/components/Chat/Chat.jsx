@@ -4,8 +4,11 @@ import NewRequest from "../../../utils/NewRequest";
 const Chat = () => {
   const [message, setMessage] = useState("");
   const [chatHistory, setChatHistory] = useState([]);
+  const storedUserResponseString = sessionStorage.getItem("userResponse");
+  const storedUserResponse = JSON.parse(storedUserResponseString);
+  const loginuserdata = storedUserResponse.data.user;
 
-  const senderId = "66a0a60182059f7e3fea2966"; // Replace with dynamic value if needed
+  const senderId = loginuserdata._id; // Replace with dynamic value if needed
   const receiverId = "66a352cc591bc231dac442aa"; // Replace with dynamic value if needed
 
   const handleMessageChange = (e) => {
