@@ -32,6 +32,7 @@ function Header() {
 
   const handleLogout = () => {
     sessionStorage.removeItem("authToken");
+    navigate('/')
     setIsUserLoggedIn(false); // Set user as logged out
   };
 
