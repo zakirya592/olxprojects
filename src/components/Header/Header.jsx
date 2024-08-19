@@ -12,6 +12,7 @@ import { MenuItem as BaseMenuItem, menuItemClasses } from "@mui/base/MenuItem";
 import { styled } from "@mui/system";
 import Avatar from "@mui/material/Avatar";
 import { Stack } from "@mui/material";
+import ArrowDropDownIcon from "@mui/icons-material/ArrowDropDown";
 function Header() {
   const navigate = useNavigate();
   const [selectedLocation, setSelectedLocation] = useState("");
@@ -22,6 +23,12 @@ function Header() {
     const authToken = sessionStorage.getItem("authToken");
     setIsUserLoggedIn(!!authToken);
   }, [isCreatePopupVisible]); // Add isCreatePopupVisible to the dependency array
+
+    const storedUserResponseString = sessionStorage.getItem("userResponse");
+    const storedUserResponse = JSON.parse(storedUserResponseString);
+    const loginuserdata = storedUserResponse.data;
+    console.log(loginuserdata.user.image);
+    
 
   const handleLogout = () => {
     sessionStorage.removeItem("authToken");
@@ -185,8 +192,11 @@ function Header() {
                     </button> */}
                     <Dropdown>
                       <MenuButton>
-                        <Stack>
-                          <Avatar src="/broken-image.jpg" />
+                        <Stack style={{borderRadius:'12px',display:'flex',flexDirection:'row'}}>
+                          <Avatar
+                            src={loginuserdata?.user?.image || "broken-image.jpg"} 
+                          /> 
+                          <ArrowDropDownIcon className="my-auto"/>
                         </Stack>
                       </MenuButton>
                       <Menu
