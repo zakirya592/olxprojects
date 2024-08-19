@@ -52,6 +52,7 @@ import Chat from "./components/Chat/Chat";
 import Product from "./Pages/Admin/Product/Product";
 import MoreProductview from "./Pages/Home/MoreProductview/MoreProductview";
 import Header from "./components/Header/Header";
+import Myfavorites from "./Pages/Home/Myfavorites/Myfavorites";
 
 const queryClient = new QueryClient();
 
@@ -88,12 +89,13 @@ function App() {
           <Routes>
             <Route path="/Post" element={<Sellpage />} />
             <Route path="/Post/Attributes" element={<PostAttributes />} />
-             <Route element={<UserLayout />}>
-            <Route path="/" element={<Home />} />
-            <Route path="/moreproduct/:name" element={<MoreProductview />} />
-            <Route path="/Chat" element={<Chat />} />
-             </Route>
-          
+            <Route element={<UserLayout />}>
+              <Route path="/" element={<Home />} />
+              <Route path="/moreproduct/:name" element={<MoreProductview />} />
+              <Route path="/Chat" element={<Chat />} />{" "}
+              <Route path="/Myfavorites" element={<Myfavorites />} />
+            </Route>
+
             <Route
               path="/Admin/*"
               element={

@@ -27,6 +27,7 @@ const MoreProductview = () => {
     }
 
     const postcard = (Product) => {
+console.log(Product);
 
         try {
             const response = NewRequest.post(`/wishlist/${loginuserid}`, {

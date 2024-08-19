@@ -35,7 +35,6 @@ return mobilesCategory;
 
   // Use the data in your component
   const { isLoading, error, data: productsdata } = useQuery("productgetcategoryproduct", fetchproductData);
-console.log("productsdata",);
 
   if (isLoading) return <p>Loading...</p>;
   if (error) return <p>Error loading products</p>;
@@ -45,13 +44,12 @@ const storedUserResponse = JSON.parse(storedUserResponseString);
 
 const loginuserid = storedUserResponse?.data?.user?._id || "";
   const postcard = (Product) => {
-    console.log(Product);
+    console.log(Product._id);
     
     try {
-      const response = NewRequest.post(`/wishlist/${loginuserid}`,{
-        productId:Product
+      const response = NewRequest.post(`/wishlist/${loginuserid}`, {
+        productId: Product._id,
       });
-      console.log(response);
       toast.success(`Product has been added successfully".`, {
         position: "top-right",
         autoClose: 2000,
@@ -141,7 +139,7 @@ const viewmore =(product)=>{
                         <p className="text-secondary sm:text-lg text-base">
                           Rs {card.price}
                         </p>
-                        <FaRegHeart onClick={() => postcard(card.User)} />
+                        <FaRegHeart onClick={() => postcard(card)} />
                       </div>
                       <p className="px-3 mt-3 text-detailscolor font-normal">
                         {card.description}
@@ -184,7 +182,7 @@ const viewmore =(product)=>{
                       </p>
                       <FaRegHeart
                         className="cursor-pointer"
-                        onClick={() => postcard(card.User)}
+                        onClick={() => postcard(card)}
                       />
                     </div>
                     <p className="px-3 mt-3 text-detailscolor font-normal">
