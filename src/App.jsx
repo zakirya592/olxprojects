@@ -1,5 +1,5 @@
 import React from "react";
-import { BrowserRouter, Route, Routes } from "react-router-dom";
+import { BrowserRouter, Outlet, Route, Routes } from "react-router-dom";
 import "./App.css";
 import Home from "./Pages/Home/Home";
 import Sellpage from "./Pages/Home/Sellpage/Sellpage";
@@ -50,10 +50,28 @@ import PostAttributes from "./Pages/Home/PostAttributes/PostAttributes";
 import SelectionDataProvider from "./Contextapi/Selectioncardcontext";
 import Chat from "./components/Chat/Chat";
 import Product from "./Pages/Admin/Product/Product";
+import MoreProductview from "./Pages/Home/MoreProductview/MoreProductview";
+import Header from "./components/Header/Header";
 
 const queryClient = new QueryClient();
 
 function App() {
+   const UserLayout = () => {
+     return (
+       <div>
+         <div className="sticky top-0 z-50 bg-white">
+           <Header />
+         </div>
+         {/* <QueryClientProvider client={queryClient}> */}
+           <main className="mx-auto flex max-w-[1760px] flex-col justify-center">
+             <Outlet /> {/* Nested routes will render here */}
+           </main>
+         {/* </QueryClientProvider> */}
+         {/* <Footer /> */}
+         {/* <NewFooter /> */}
+       </div>
+     );
+   };
    const MainLayout = ({ children }) => {
      return (
        <div className="main-layout-container">
@@ -68,11 +86,14 @@ function App() {
       <QueryClientProvider client={queryClient}>
         <SelectionDataProvider>
           <Routes>
-            <Route path="/" element={<Home />} />
             <Route path="/Post" element={<Sellpage />} />
             <Route path="/Post/Attributes" element={<PostAttributes />} />
+             <Route element={<UserLayout />}>
+            <Route path="/" element={<Home />} />
+            <Route path="/moreproduct/:name" element={<MoreProductview />} />
             <Route path="/Chat" element={<Chat />} />
-
+             </Route>
+          
             <Route
               path="/Admin/*"
               element={

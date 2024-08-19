@@ -8,7 +8,7 @@ import { Autoplay, Pagination, Navigation, Keyboard, Scrollbar } from "swiper/mo
 import Button from "@mui/material/Button";
 import ArrowRightAltIcon from "@mui/icons-material/ArrowRightAlt";
 import { useQuery } from "react-query";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useNavigate, } from "react-router-dom";
 import { CircularProgress } from "@mui/material";
 import imagecard from "../../../assets/Images/imagecard.webp";
 import { FaRegHeart } from "react-icons/fa";
@@ -19,6 +19,7 @@ import NewRequest from "../../../../utils/NewRequest";
 const Hadersilder = () => {
   const isSmallScreen = useMediaQuery("(max-width: 425px)");
 
+  const navigate = useNavigate();
   // Fetch data and filter based on status and category
   async function fetchproductData() {
     const response = await NewRequest.get("/product/getcategoryproduct");
@@ -34,6 +35,7 @@ return mobilesCategory;
 
   // Use the data in your component
   const { isLoading, error, data: productsdata } = useQuery("productgetcategoryproduct", fetchproductData);
+console.log("productsdata",);
 
   if (isLoading) return <p>Loading...</p>;
   if (error) return <p>Error loading products</p>;
@@ -43,6 +45,8 @@ const storedUserResponse = JSON.parse(storedUserResponseString);
 
 const loginuserid = storedUserResponse?.data?.user?._id || "";
   const postcard = (Product) => {
+    console.log(Product);
+    
     try {
       const response = NewRequest.post(`/wishlist/${loginuserid}`,{
         productId:Product
@@ -73,7 +77,12 @@ const loginuserid = storedUserResponse?.data?.user?._id || "";
     }
   };
 
-
+const viewmore =(product)=>{
+  console.log(product);
+    const subResponseString = JSON.stringify(product);
+  sessionStorage.setItem("productmore", subResponseString);
+  navigate(`/moreproduct/${product.category.name}`);
+}
 
 
   return (
@@ -83,7 +92,8 @@ const loginuserid = storedUserResponse?.data?.user?._id || "";
           Mobile Phones
         </h6>
         <div className="text-viewmorebutton text-xl flex cursor-pointer my-auto">
-          <span>View more</span> <MdOutlineNavigateNext size={30} />
+          <span onClick={() => viewmore(productsdata)}>View more</span>{" "}
+          <MdOutlineNavigateNext size={30} />
         </div>
       </div>
       <div className="relative w-full mt-10">
@@ -129,9 +139,9 @@ const loginuserid = storedUserResponse?.data?.user?._id || "";
                     <div className="w-full">
                       <div className="px-3 flex flex-row mt-5 justify-between gap-2">
                         <p className="text-secondary sm:text-lg text-base">
-                         Rs {card.price}
+                          Rs {card.price}
                         </p>
-                        <FaRegHeart />
+                        <FaRegHeart onClick={() => postcard(card.User)} />
                       </div>
                       <p className="px-3 mt-3 text-detailscolor font-normal">
                         {card.description}
@@ -172,7 +182,10 @@ const loginuserid = storedUserResponse?.data?.user?._id || "";
                       <p className="text-headingcolor sm:text-lg text-base">
                         Rs {card.price}
                       </p>
-                      <FaRegHeart className="cursor-pointer" onClick={()=>postcard(card.User)}/>
+                      <FaRegHeart
+                        className="cursor-pointer"
+                        onClick={() => postcard(card.User)}
+                      />
                     </div>
                     <p className="px-3 mt-3 text-detailscolor font-normal">
                       {card.description}

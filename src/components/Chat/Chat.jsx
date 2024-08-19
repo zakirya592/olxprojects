@@ -8,8 +8,13 @@ const Chat = () => {
   const storedUserResponse = JSON.parse(storedUserResponseString);
   const loginuserdata = storedUserResponse.data.user;
 
+  const chatproduct = sessionStorage.getItem("chardata");
+  const chatResponse = JSON.parse(chatproduct);
+  console.log(chatResponse);
+  
+
   const senderId = loginuserdata._id; // Replace with dynamic value if needed
-  const receiverId = "66a352cc591bc231dac442aa"; // Replace with dynamic value if needed
+  const receiverId = chatResponse.User._id; // Replace with dynamic value if needed
 
   const handleMessageChange = (e) => {
     setMessage(e.target.value);
@@ -58,7 +63,7 @@ const Chat = () => {
     
 
   return (
-    <div className="flex flex-col sm:flex-col lg:flex-row  h-screen">
+    <div className="flex flex-col sm:flex-col lg:flex-row h-[80vh] overflow-y-scroll lg:px-10 mt-5 lg:mt-40 sm:mt-2">
       {/* Sidebar */}
       <div className="w-full lg:w-1/4 sm:w-full bg-gray-100 p-4 border-r border-gray-300">
         <h2 className="text-xl font-semibold mb-4">Inbox</h2>
@@ -66,17 +71,17 @@ const Chat = () => {
           {/* Chat list item */}
           <div className="flex items-center p-2 bg-white rounded cursor-pointer shadow">
             <img
-              src="path_to_image"
+              src={chatResponse?.images?.[0] || ""}
               alt="User"
               className="w-10 h-10 rounded-full mr-3"
             />
             <div>
-              <h3 className="font-medium">Harris</h3>
+              <h3 className="font-medium"> {chatResponse?.name || ""}</h3>
               <p className="text-gray-500 text-sm">
-                brand new 15 pro max 256gb natural titanium unlocked
+                {chatResponse?.description || ""}
               </p>
               <span className="text-sm font-semibold text-blue-600">
-                Rs 332,000
+                Rs {chatResponse?.price || ""}
               </span>
             </div>
           </div>
@@ -88,29 +93,33 @@ const Chat = () => {
       <div className="flex-1 p-5">
         <div className="border border-gray-300 p-4 h-full flex flex-col justify-between">
           <div className="max-h-72 overflow-y-auto mb-5 flex-grow">
-            {/* {chatHistory.map((chat, index) => (
-              <div
-                key={index}
-                className={`mb-3 flex ${
-                  chat.senderId === senderId ? "directionrtl" : "directionltr"
-                }`}
-              >
-                <strong>You:</strong> {chat.content}{" "}
-              </div>
-            ))} */}
             {chatHistory.map((chat, index) => (
               <div
                 key={index}
-                className={`mb-3 flex ${
+                className={`mb-3 ${
                   chat.senderId === senderId ? "directionrtl" : "directionltr"
                 }`}
               >
                 <div>
-                  <strong>{chat?.user?.username || ""}:</strong> {chat?.lastMessage || ""}
-                  <br />
-                  <span className="text-xs text-gray-400">
-                    {/* {moment(chat.timestamp).format("MMMM Do YYYY, h:mm:ss a")} */}
-                  </span>
+                  <div className="flex justify-between w-full">
+                    <div className="flex">
+                  <p><strong>{chat?.user?.username || ""}:</strong></p>
+                  <p> {chat?.lastMessage || ""}</p>
+
+                    </div>
+                  <p className="text-xs text-gray-400">
+                    {new Date(chat.timestamp).toLocaleString("en-US", {
+                      day: "2-digit",
+                      month: "2-digit",
+                      year: "numeric",
+                      hour: "2-digit",
+                      minute: "2-digit",
+                      second: "2-digit",
+                      hour12: true,
+                    })}
+                  </p>
+
+                  </div>
                 </div>
               </div>
             ))}
