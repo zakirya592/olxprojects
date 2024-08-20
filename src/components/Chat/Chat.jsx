@@ -1,24 +1,63 @@
 import React, { useEffect, useState } from "react";
 import NewRequest from "../../../utils/NewRequest";
+import { useQuery } from "react-query";
 
 const Chat = () => {
   const [message, setMessage] = useState("");
   const [chatHistory, setChatHistory] = useState([]);
+  const [chatlist, setchatlist] = useState([])
   const storedUserResponseString = sessionStorage.getItem("userResponse");
   const storedUserResponse = JSON.parse(storedUserResponseString);
   const loginuserdata = storedUserResponse.data.user;
 
   const chatproduct = sessionStorage.getItem("chardata");
   const chatResponse = JSON.parse(chatproduct);
-  console.log(chatResponse);
   
 
-  const senderId = loginuserdata._id; // Replace with dynamic value if needed
-  const receiverId = chatResponse.User._id; // Replace with dynamic value if needed
+  const senderId = loginuserdata.userId; // Replace with dynamic value if needed
+  console.log(loginuserdata,'_____:::');
+  console.log("chatResponse", chatResponse);
+  
+  
+  const receiverId = chatResponse.User.userId;
 
   const handleMessageChange = (e) => {
     setMessage(e.target.value);
   };
+
+    const {
+      isLoading,
+      error,
+      data: chatHistorydata,
+      refetch
+    } = useQuery("chatdata", fetchUpcomingEventsData);
+    async function fetchUpcomingEventsData() {
+      const response = await NewRequest.get(`/chat?userId=${senderId}&contactId=${receiverId}`);
+      return response?.data;
+    }
+
+   const fetchChatHistory = async () => {
+     try {
+      //  const response = await NewRequest.get( `/chat/getmychat?userId=${senderId}`
+       const response = await NewRequest.get( `/chat?userId=${senderId}&contactId=${receiverId}`
+       );
+      //  console.log(response.data,"____");
+       setChatHistory(response.data);
+     } catch (error) {
+       console.error("Error fetching chat history:", error);
+     }
+   };
+
+     const fetchchatlist = async () => {
+     try {
+       const response = await NewRequest.get( `/chat/getmychat?userId=${loginuserdata._id}`
+       );
+       console.log(response.data,"____");
+       setchatlist(response.data);
+     } catch (error) {
+       console.error("Error fetching chat history:", error);
+     }
+   };
 
   const handleSendMessage = async () => {
     if (!message.trim()) return;
@@ -29,8 +68,8 @@ const Chat = () => {
         receiverId,
         content: message,
       });
-
-      // Assuming the response returns the full chat message object
+//  fetchChatHistory();
+refetch()
       setChatHistory([...chatHistory, response.data]);
       setMessage("");
     } catch (error) {
@@ -46,19 +85,8 @@ const Chat = () => {
     };
 
  useEffect(() => {
-   // Fetch the chat history when the component mounts
-   const fetchChatHistory = async () => {
-     try {
-       const response = await NewRequest.get( `/chat/getmychat?userId=${senderId}`
-       );
-       console.log(response.data);
-       setChatHistory(response.data);
-     } catch (error) {
-       console.error("Error fetching chat history:", error);
-     }
-   };
-
-   fetchChatHistory();
+  //  fetchChatHistory();
+   fetchchatlist()
  }, [senderId]);
     
 
@@ -69,7 +97,7 @@ const Chat = () => {
         <h2 className="text-xl font-semibold mb-4">Inbox</h2>
         <div className="space-y-4">
           {/* Chat list item */}
-          <div className="flex items-center p-2 bg-white rounded cursor-pointer shadow">
+          {/* <div className="flex items-center p-2 bg-white rounded cursor-pointer shadow">
             <img
               src={chatResponse?.images?.[0] || ""}
               alt="User"
@@ -84,16 +112,37 @@ const Chat = () => {
                 Rs {chatResponse?.price || ""}
               </span>
             </div>
-          </div>
-          {/* Repeat above block for each chat item */}
+          </div> */}
+
+          {chatlist.map((chatlist, index) => (
+            <div
+              className="flex items-center p-2 bg-white rounded cursor-pointer shadow"
+              key={index}
+            >
+              <img
+                src={chatlist?.images || ""}
+                alt="User"
+                className="w-10 h-10 rounded-full mr-3"
+              />
+              <div>
+                <h3 className="font-medium"> {chatResponse?.name || ""}</h3>
+                <p className="text-gray-500 text-sm">
+                  {chatResponse?.description || ""}
+                </p>
+                <span className="text-sm font-semibold text-blue-600">
+                  Rs {chatResponse?.price || ""}
+                </span>
+              </div>
+            </div>
+          ))}
         </div>
       </div>
 
       {/* Main Chat Area */}
       <div className="flex-1 p-5">
         <div className="border border-gray-300 p-4 h-full flex flex-col justify-between">
-          <div className="max-h-72 overflow-y-auto mb-5 flex-grow">
-            {chatHistory.map((chat, index) => (
+          <div className=" overflow-y-auto mb-5 flex-grow">
+            {chatHistorydata && chatHistorydata.map((chat, index) => (
               <div
                 key={index}
                 className={`mb-3 ${
@@ -103,22 +152,25 @@ const Chat = () => {
                 <div>
                   <div className="flex justify-between w-full">
                     <div className="flex">
-                  <p><strong>{chat?.user?.username || ""}:</strong></p>
-                  <p> {chat?.lastMessage || ""}</p>
-
+                      <p>
+                        <strong>
+                          {/* {chat?.receiver?.username || ""}:
+                          {chat?.sender?.username || ""}: */}
+                        </strong>
+                      </p>
+                      <p> {chat?.content || ""}</p>
                     </div>
-                  <p className="text-xs text-gray-400">
-                    {new Date(chat.timestamp).toLocaleString("en-US", {
-                      day: "2-digit",
-                      month: "2-digit",
-                      year: "numeric",
-                      hour: "2-digit",
-                      minute: "2-digit",
-                      second: "2-digit",
-                      hour12: true,
-                    })}
-                  </p>
-
+                    <p className="text-xs text-gray-400">
+                      {new Date(chat.timestamp).toLocaleString("en-US", {
+                        day: "2-digit",
+                        month: "2-digit",
+                        year: "numeric",
+                        hour: "2-digit",
+                        minute: "2-digit",
+                        second: "2-digit",
+                        hour12: true,
+                      })}
+                    </p>
                   </div>
                 </div>
               </div>

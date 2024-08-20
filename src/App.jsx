@@ -53,6 +53,7 @@ import Product from "./Pages/Admin/Product/Product";
 import MoreProductview from "./Pages/Home/MoreProductview/MoreProductview";
 import Header from "./components/Header/Header";
 import Myfavorites from "./Pages/Home/Myfavorites/Myfavorites";
+import Footer from "./Pages/Home/Footer/Footer";
 
 const queryClient = new QueryClient();
 
@@ -68,7 +69,7 @@ function App() {
              <Outlet /> {/* Nested routes will render here */}
            </main>
          {/* </QueryClientProvider> */}
-         {/* <Footer /> */}
+         <Footer />
          {/* <NewFooter /> */}
        </div>
      );

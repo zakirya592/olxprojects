@@ -12,7 +12,7 @@ function Home() {
     <div>
       {/* <h1>Home</h1> */}
       {/* <div className=""> */}
-      <Header />
+      {/* <Header /> */}
       {/* </div> */}
       <hr className="lg:px-10 mt-5 lg:mt-40 sm:mt-2" />
 
@@ -23,7 +23,7 @@ function Home() {
         <MoreinKidscard />
         {/* <Cars /> */}
       </div>
-      <Footer />
+      {/* <Footer /> */}
     </div>
   );
 }
