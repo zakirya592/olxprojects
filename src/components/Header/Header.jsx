@@ -26,8 +26,7 @@ function Header() {
 
     const storedUserResponseString = sessionStorage.getItem("userResponse");
     const storedUserResponse = JSON.parse(storedUserResponseString);
-    const loginuserdata = storedUserResponse.data;
-    console.log(loginuserdata.user.image);
+    const loginuserdata = storedUserResponse?.data || "";
     
 
   const handleLogout = () => {
