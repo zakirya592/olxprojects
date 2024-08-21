@@ -89,6 +89,7 @@ function Header() {
       handleScriptLoad();
     }
   }, []);
+  
 
   const handleSellButtonClick = () => {
     if (isUserLoggedIn) {

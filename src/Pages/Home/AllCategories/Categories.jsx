@@ -21,6 +21,8 @@ import { MdOutlineNavigateNext } from "react-icons/md";
 import "swiper/css";
 
 function Categories() {
+  
+  const navigate = useNavigate();
   const {
     isLoading,
     error,
@@ -32,18 +34,40 @@ const navigator =useNavigate()
     return response?.data.filter((item) => item.status === 1) || [];
   }
 
+
+
+    async function fetchproductData() {
+    const response = await NewRequest.get("/product/getcategoryproduct");
+    const mobilesCategory = response?.data.find(
+      (item) => item.category.name);
+
+return mobilesCategory;
+    
+  }
+
+  // Use the data in your component
+  const { data: productsdata } = useQuery("productgetcategoryss", fetchproductData);
+
+  const viewmore = (product) => {
+    console.log(product);
+    const subResponseString = JSON.stringify(product);
+    sessionStorage.setItem("productmore", subResponseString);
+    navigate(`/moreproduct/${product?.category?.name}`);
+  };
+  
+
   return (
     <div>
       <div className="flex justify-between my-auto">
         <h6 className="text-headingcolor text-3xl font-bold overflow-hidden">
           All categories
         </h6>
-        <div
+        {/* <div
           className="text-viewmorebutton text-xl flex cursor-pointer my-auto"
           onClick={() => navigator("/Post")}
         >
           <span>View more</span> <MdOutlineNavigateNext size={30} />
-        </div>
+        </div> */}
       </div>
       {/* Slider for Small Screens */}
       <div className="lg:hidden">
@@ -84,8 +108,9 @@ const navigator =useNavigate()
         ) : (
           eventsData.map((item) => (
             <div key={item.id} className="h-auto w-full py-1">
-              <Link
+              <p
                 // to={`/${item?.link}`}
+                onClick={() => viewmore(productsdata)}
                 className="font-semibold text-secondary text-center sm:text-lg text-base hover:text-primary mt-3"
               >
                 {item?.icon ? (
@@ -98,7 +123,7 @@ const navigator =useNavigate()
                 <div className="w-full">
                   <div className="px-3 flex flex-col gap-2">{item.name}</div>
                 </div>
-              </Link>
+              </p>
             </div>
           ))
         )}

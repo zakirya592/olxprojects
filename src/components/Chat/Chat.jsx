@@ -12,52 +12,40 @@ const Chat = () => {
 
   const chatproduct = sessionStorage.getItem("chardata");
   const chatResponse = JSON.parse(chatproduct);
-  
 
-  const senderId = loginuserdata.userId; // Replace with dynamic value if needed
-  console.log(loginuserdata,'_____:::');
+
+  const senderId = loginuserdata?._id; // Replace with dynamic value if needed
+  console.log(loginuserdata, '_____:::');
+
+
+  const receiverId = chatResponse?._id || "";
+
   console.log("chatResponse", chatResponse);
-  
-  
-  const receiverId = chatResponse.User.userId;
-
   const handleMessageChange = (e) => {
     setMessage(e.target.value);
   };
 
-    const {
-      isLoading,
-      error,
-      data: chatHistorydata,
-      refetch
-    } = useQuery("chatdata", fetchUpcomingEventsData);
-    async function fetchUpcomingEventsData() {
-      const response = await NewRequest.get(`/chat?userId=${senderId}&contactId=${receiverId}`);
-      return response?.data;
+  const {
+    isLoading,
+    error,
+    data: chatHistorydata,
+    refetch
+  } = useQuery("chatdata", fetchUpcomingEventsData);
+  async function fetchUpcomingEventsData() {
+    const response = await NewRequest.get(`/chat?userId=${senderId}&contactId=${receiverId}`);
+    return response?.data;
+  }
+
+  const fetchchatlist = async () => {
+    try {
+      const response = await NewRequest.get(`/chat/getmychat?userId=${loginuserdata?._id}`
+      );
+      console.log(response.data, "____");
+      setchatlist(response.data);
+    } catch (error) {
+      console.error("Error fetching chat history:", error);
     }
-
-   const fetchChatHistory = async () => {
-     try {
-      //  const response = await NewRequest.get( `/chat/getmychat?userId=${senderId}`
-       const response = await NewRequest.get( `/chat?userId=${senderId}&contactId=${receiverId}`
-       );
-      //  console.log(response.data,"____");
-       setChatHistory(response.data);
-     } catch (error) {
-       console.error("Error fetching chat history:", error);
-     }
-   };
-
-     const fetchchatlist = async () => {
-     try {
-       const response = await NewRequest.get( `/chat/getmychat?userId=${loginuserdata._id}`
-       );
-       console.log(response.data,"____");
-       setchatlist(response.data);
-     } catch (error) {
-       console.error("Error fetching chat history:", error);
-     }
-   };
+  };
 
   const handleSendMessage = async () => {
     if (!message.trim()) return;
@@ -68,8 +56,8 @@ const Chat = () => {
         receiverId,
         content: message,
       });
-//  fetchChatHistory();
-refetch()
+      //  fetchChatHistory();
+      refetch()
       setChatHistory([...chatHistory, response.data]);
       setMessage("");
     } catch (error) {
@@ -77,18 +65,18 @@ refetch()
     }
   };
 
-    const handleKeyDown = (e) => {
-      if (e.key === "Enter") {
-        e.preventDefault(); // Prevent the default action of the enter key (which is usually submitting a form)
-        handleSendMessage();
-      }
-    };
+  const handleKeyDown = (e) => {
+    if (e.key === "Enter") {
+      e.preventDefault(); // Prevent the default action of the enter key (which is usually submitting a form)
+      handleSendMessage();
+    }
+  };
 
- useEffect(() => {
-  //  fetchChatHistory();
-   fetchchatlist()
- }, [senderId]);
-    
+  useEffect(() => {
+    //  fetchChatHistory();
+    fetchchatlist()
+  }, [senderId]);
+
 
   return (
     <div className="flex flex-col sm:flex-col lg:flex-row h-[80vh] overflow-y-scroll lg:px-10 mt-5 lg:mt-40 sm:mt-2">
@@ -145,9 +133,8 @@ refetch()
             {chatHistorydata && chatHistorydata.map((chat, index) => (
               <div
                 key={index}
-                className={`mb-3 ${
-                  chat.senderId === senderId ? "directionrtl" : "directionltr"
-                }`}
+                className={`mb-3 ${chat.senderId === senderId ? "directionrtl" : "directionltr"
+                  }`}
               >
                 <div>
                   <div className="flex justify-between w-full">

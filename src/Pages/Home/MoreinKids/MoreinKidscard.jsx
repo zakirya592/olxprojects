@@ -76,7 +76,7 @@ const loginuserid = storedUserResponse?.data?.user?._id || "";
   };
 
 const viewmore =(product)=>{
-  console.log(product);
+  console.log("product", product);
     const subResponseString = JSON.stringify(product);
   sessionStorage.setItem("productmore", subResponseString);
   navigate(`/moreproduct/${product.category.name}`);

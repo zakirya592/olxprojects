@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useState, useEffect, useRef, useContext } from "react";
 import Headerpost from "../Headeepost/Headerpost";
 import { Selectioncardcontext } from "../../../Contextapi/Selectioncardcontext";
 import NewRequest from "../../../../utils/NewRequest";
@@ -156,6 +156,49 @@ const PostAttributes = () => {
     }));
   };
 
+  const inputRef = useRef(null);
+  const autocompleteRef = useRef(null);
+
+  useEffect(() => {
+    const loadScript = (url, callback) => {
+      let script = document.createElement("script");
+      script.type = "text/javascript";
+      script.src = url;
+      script.onload = callback;
+      document.head.appendChild(script);
+    };
+
+    const handleScriptLoad = () => {
+      autocompleteRef.current = new window.google.maps.places.Autocomplete(
+        inputRef.current,
+        {
+          types: ["geocode"],
+          componentRestrictions: { country: "pk" },
+        }
+      );
+
+      autocompleteRef.current.addListener("place_changed", handlePlaceSelect);
+    };
+
+    const handlePlaceSelect = () => {
+      const place = autocompleteRef.current.getPlace();
+      setForm((prevForm) => ({
+        ...prevForm,
+        Location: place.formatted_address || place.name,
+      }));
+      console.log("Selected place:", place.formatted_address || place.name);
+    };
+
+    if (!window.google) {
+      loadScript(
+        `https://maps.googleapis.com/maps/api/js?key=YOUR_API_KEY&libraries=places`,
+        handleScriptLoad
+      );
+    } else {
+      handleScriptLoad();
+    }
+  }, []);
+
   // Post api herer
   const Categorydataget = sessionStorage.getItem("category");
   const categoryResponse = JSON.parse(Categorydataget);
@@ -163,17 +206,18 @@ const PostAttributes = () => {
 
   const subCategoriesdataget = sessionStorage.getItem("subCategories");
   const subCategoriesResponse = JSON.parse(subCategoriesdataget);
+  console.log(loginuserdata?._id);
+  
   const handleAddCompany = async (e) => {
-    
     setIsLoading(true);
     const formData = new FormData();
     formData.append("name", form.title);
     formData.append("description", form.description);
     formData.append("price", form.price);
     formData.append("location", form.Location);
-    formData.append("User", loginuserdata._id);
+    formData.append("User", loginuserdata?._id || "");
     formData.append("Category", categorydata);
-    formData.append("SubCategory", subCategoriesResponse._id);
+    formData.append("SubCategory", subCategoriesResponse?._id || "");
     formData.append("FooterCategory", updateBrandData?._id);
     // For the image append
     images.forEach((image, index) => {
@@ -427,7 +471,7 @@ const PostAttributes = () => {
                 Location <span className="text-red-600"> *</span>
               </label>
               <div className="w-full">
-                <input
+                {/* <input
                   type="text"
                   value={form.Location}
                   onChange={(e) => {
@@ -436,6 +480,13 @@ const PostAttributes = () => {
                       Location: e.target.value,
                     });
                   }}
+                  className="w-full p-2 border border-gray-300 rounded"
+                  placeholder="Select Location"
+                /> */}
+                <input
+                  ref={inputRef}
+                  id="location"
+                  type="text"
                   className="w-full p-2 border border-gray-300 rounded"
                   placeholder="Select Location"
                 />
