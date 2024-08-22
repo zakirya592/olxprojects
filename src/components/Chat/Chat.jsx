@@ -14,25 +14,22 @@ const Chat = () => {
   const chatResponse = JSON.parse(chatproduct);
 
 
-  const senderId = loginuserdata?._id; // Replace with dynamic value if needed
-  console.log(loginuserdata, '_____:::');
+  const senderId = loginuserdata?._id;
 
+  const [selectedUser, setSelectedUser] = useState(chatResponse || "");
 
   const receiverId = chatResponse?._id || "";
 
-  console.log("chatResponse", chatResponse);
   const handleMessageChange = (e) => {
     setMessage(e.target.value);
   };
 
   const {
-    isLoading,
-    error,
     data: chatHistorydata,
     refetch
-  } = useQuery("chatdata", fetchUpcomingEventsData);
+  } = useQuery(["chatdata", selectedUser?._id], fetchUpcomingEventsData);
   async function fetchUpcomingEventsData() {
-    const response = await NewRequest.get(`/chat?userId=${senderId}&contactId=${receiverId}`);
+    const response = await NewRequest.get(`/chat?userId=${senderId}&contactId=${selectedUser?._id}`);
     return response?.data;
   }
 
@@ -47,13 +44,14 @@ const Chat = () => {
     }
   };
 
+
   const handleSendMessage = async () => {
     if (!message.trim()) return;
 
     try {
       const response = await NewRequest.post("/chat", {
         senderId,
-        receiverId,
+        receiverId: selectedUser?._id || "",
         content: message,
       });
       //  fetchChatHistory();
@@ -64,6 +62,19 @@ const Chat = () => {
       console.error("Error sending message:", error);
     }
   };
+
+    const handleChatSelection = (chat) => {
+        setSelectedUser(chat?.user);
+      console.log(chat?.user);
+      
+    };
+
+    useEffect(() => {
+      if (selectedUser) {
+        refetch(); // Refetch chat history for the selected user
+      }
+    }, [selectedUser, refetch]);
+
 
   const handleKeyDown = (e) => {
     if (e.key === "Enter") {
@@ -84,41 +95,36 @@ const Chat = () => {
       <div className="w-full lg:w-1/4 sm:w-full bg-gray-100 p-4 border-r border-gray-300">
         <h2 className="text-xl font-semibold mb-4">Inbox</h2>
         <div className="space-y-4">
-          {/* Chat list item */}
-          {/* <div className="flex items-center p-2 bg-white rounded cursor-pointer shadow">
-            <img
-              src={chatResponse?.images?.[0] || ""}
-              alt="User"
-              className="w-10 h-10 rounded-full mr-3"
-            />
-            <div>
-              <h3 className="font-medium"> {chatResponse?.name || ""}</h3>
-              <p className="text-gray-500 text-sm">
-                {chatResponse?.description || ""}
-              </p>
-              <span className="text-sm font-semibold text-blue-600">
-                Rs {chatResponse?.price || ""}
-              </span>
-            </div>
-          </div> */}
-
           {chatlist.map((chatlist, index) => (
             <div
               className="flex items-center p-2 bg-white rounded cursor-pointer shadow"
               key={index}
+              onClick={() => handleChatSelection(chatlist)}
             >
               <img
-                src={chatlist?.images || ""}
+                src={chatlist?.user?.images || ""}
                 alt="User"
                 className="w-10 h-10 rounded-full mr-3"
               />
               <div>
-                <h3 className="font-medium"> {chatResponse?.name || ""}</h3>
+                <h3 className="font-medium">
+                  {" "}
+                  {chatlist?.user.username || ""}
+                </h3>
                 <p className="text-gray-500 text-sm">
-                  {chatResponse?.description || ""}
+                  {chatlist?.lastMessage || ""}
                 </p>
                 <span className="text-sm font-semibold text-blue-600">
-                  Rs {chatResponse?.price || ""}
+                  {/* {chatlist?.timestamp || ""} */}
+                  {new Date(chatlist?.timestamp).toLocaleString("en-US", {
+                    day: "2-digit",
+                    month: "2-digit",
+                    year: "numeric",
+                    hour: "2-digit",
+                    minute: "2-digit",
+                    second: "2-digit",
+                    hour12: true,
+                  })}
                 </span>
               </div>
             </div>
@@ -130,38 +136,34 @@ const Chat = () => {
       <div className="flex-1 p-5">
         <div className="border border-gray-300 p-4 h-full flex flex-col justify-between">
           <div className=" overflow-y-auto mb-5 flex-grow">
-            {chatHistorydata && chatHistorydata.map((chat, index) => (
-              <div
-                key={index}
-                className={`mb-3 ${chat.senderId === senderId ? "directionrtl" : "directionltr"
+            {chatHistorydata &&
+              chatHistorydata.map((chat, index) => (
+                <div
+                  key={index}
+                  className={`mb-3 ${
+                    chat.senderId === senderId ? "directionrtl" : "directionltr"
                   }`}
-              >
-                <div>
-                  <div className="flex justify-between w-full">
-                    <div className="flex">
-                      <p>
-                        <strong>
-                          {/* {chat?.receiver?.username || ""}:
-                          {chat?.sender?.username || ""}: */}
-                        </strong>
+                >
+                  <div>
+                    <div className="flex justify-between w-full">
+                      <div className="flex">
+                        <p> {chat?.content || ""}</p>
+                      </div>
+                      <p className="text-xs text-gray-400">
+                        {new Date(chat.timestamp).toLocaleString("en-US", {
+                          day: "2-digit",
+                          month: "2-digit",
+                          year: "numeric",
+                          hour: "2-digit",
+                          minute: "2-digit",
+                          second: "2-digit",
+                          hour12: true,
+                        })}
                       </p>
-                      <p> {chat?.content || ""}</p>
                     </div>
-                    <p className="text-xs text-gray-400">
-                      {new Date(chat.timestamp).toLocaleString("en-US", {
-                        day: "2-digit",
-                        month: "2-digit",
-                        year: "numeric",
-                        hour: "2-digit",
-                        minute: "2-digit",
-                        second: "2-digit",
-                        hour12: true,
-                      })}
-                    </p>
                   </div>
                 </div>
-              </div>
-            ))}
+              ))}
           </div>
 
           <div className="p-4 border-t border-gray-300">

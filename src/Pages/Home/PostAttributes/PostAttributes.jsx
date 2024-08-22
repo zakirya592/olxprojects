@@ -54,7 +54,7 @@ const PostAttributes = () => {
         `/brand/getAllModelsByFooterCategory/${updateBrandData?._id || ""}`
       );
       const filterdata = response.data.find((item) => item.model);
-      console.log(response.data);
+
       setfilterdata(filterdata.data);
       const conditionData = response.data.find(
         (item) => item.model === "Condition"
@@ -76,9 +76,9 @@ const PostAttributes = () => {
       const response = await NewRequest.get(
         `/brand/filter_masterdata_in_subcategory/${updateBrandData?._id || ""}`
       );
-
+      setFields(response.data || []);
       const filterdata = response.data.find((item) => item.model);
-      console.log(response);
+      console.log("Length of data:", filterdata.data.length);
       setfilterdata(filterdata.data);
       const conditionData = response.data.find(
         (item) => item.model === "Condition"
@@ -88,7 +88,7 @@ const PostAttributes = () => {
         (item) => item.model === "DeviceType"
       );
       setDeviceTypes(deviceTypeData ? deviceTypeData.data : []);
-      setFields(response.data || []);
+
       setIsLoading(false);
     } catch (err) {
       console.log(err);
@@ -127,11 +127,10 @@ const PostAttributes = () => {
         {options.map((option) => (
           <div
             key={option._id}
-            className={`cursor-pointer border rounded px-4 py-2 ${
-              selectedOption === option.name
+            className={`cursor-pointer border rounded px-4 py-2 ${selectedOption === option.name
                 ? "bg-teal-100 border-teal-500"
                 : "border-gray-500"
-            }`}
+              }`}
             onClick={() => onChange(option.name)}
           >
             {option.name}
@@ -207,7 +206,7 @@ const PostAttributes = () => {
   const subCategoriesdataget = sessionStorage.getItem("subCategories");
   const subCategoriesResponse = JSON.parse(subCategoriesdataget);
   console.log(loginuserdata?._id);
-  
+
   const handleAddCompany = async (e) => {
     setIsLoading(true);
     const formData = new FormData();
@@ -297,22 +296,6 @@ const PostAttributes = () => {
       )}
       <div className="w-full sm:w-1/2 lg:w-[900px] my-10 mx-auto bg-white border border-bordderscolor shadow-md rounded-lg">
         <form>
-          {/* <div className="border-t border-b border-bordderscolor p-6">
-            <div className="mb-4 flex items-center">
-              <label className="w-1/4 mb-1 font-semibold">
-                Category <span className="text-red-600"> *</span>
-              </label>
-              <div className="w-full flex">
-                <div className="w-16 h-16 bg-gray-200 border border-dashed border-gray-400 flex items-center justify-center cursor-pointer">
-                
-                </div>
-                <div className="dev my-auto">
-                  <p>{updateBrandData?.name || ""}</p>
-                </div>
-              </div>
-            </div>
-          </div> */}
-
           <div className="border-t border-b border-bordderscolor p-6">
             <div className="mb-4 flex items-center">
               <label className="w-1/4 mb-1 font-semibold">Upload Images</label>
