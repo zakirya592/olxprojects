@@ -41,9 +41,14 @@ function Sellpage() {
 
 
   const handlefooterCategoryClick = (sub) => {
-    setselectedfooter(sub);
     const subResponseString = JSON.stringify(sub);
     sessionStorage.setItem("subCategories", subResponseString);
+
+    if (!sub.footerCategories || sub.footerCategories.length === 0) {
+      navigate("/Post/Attributes");
+    } else {
+      setselectedfooter(sub);
+    }
   };
 
   const handleBackClick = () => {
@@ -82,8 +87,8 @@ function Sellpage() {
                           <div
                             key={category._id}
                             className={`flex border-b py-1 justify-between my-auto cursor-pointer ${selectedCategory._id === category._id
-                                ? "bg-headingcolor text-white"
-                                : "bg-transparent hover:bg-[#406367]  active:bg-[#406367] text-headingcolor hover:text-white active:text-white"
+                              ? "bg-headingcolor text-white"
+                              : "bg-transparent hover:bg-[#406367]  active:bg-[#406367] text-headingcolor hover:text-white active:text-white"
                               }`}
                             onClick={() => handleCategoryClick(category)}
                           >
@@ -115,23 +120,23 @@ function Sellpage() {
                           selectedCategory.subCategories.map((sub, index) => (
                             <div
                               key={index}
-                              // onClick={() => handlefooterCategoryClick(sub)}
-                              onClick={() => {
-                                if (
-                                  sub.footerCategories &&
-                                  sub.footerCategories.length > 0
-                                ) {
-                                  handlefooterCategoryClick(sub);
-                                } else {
-                                  handleClick(sub);
-                                }
-                              }}
+                              onClick={() => handlefooterCategoryClick(sub)}
+                            // onClick={() => {
+                            //   if (
+                            //     sub.footerCategories &&
+                            //     sub.footerCategories.length > 0
+                            //   ) {
+                            //     handlefooterCategoryClick(sub);
+                            //   } else {
+                            //     handleClick(sub);
+                            //   }
+                            // }}
                             >
                               <p
                                 className={`p-3 border-b py-4 justify-between cursor-pointer flex my-auto ${selectedfooter &&
-                                    selectedfooter._id === sub._id
-                                    ? "bg-headingcolor text-white"
-                                    : "bg-transparent hover:bg-[#406367]  active:bg-[#406367] text-headingcolor hover:text-white active:text-white"
+                                  selectedfooter._id === sub._id
+                                  ? "bg-headingcolor text-white"
+                                  : "bg-transparent hover:bg-[#406367]  active:bg-[#406367] text-headingcolor hover:text-white active:text-white"
                                   }`}
                               >
                                 {sub.name}

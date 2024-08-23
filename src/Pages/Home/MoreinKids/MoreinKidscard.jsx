@@ -81,6 +81,11 @@ const viewmore =(product)=>{
   sessionStorage.setItem("productmore", subResponseString);
   navigate(`/moreproduct/${product.category.name}`);
 }
+const singproductitem =(card)=>{
+  console.log(card._id);
+  //  const cardId = card.id;
+  navigate(`/Singleitem/${card._id}`, { state: { cardData: card } });
+}
 
 
   return (
@@ -125,8 +130,9 @@ const viewmore =(product)=>{
             {productsdata.products.map((card) => (
               <SwiperSlide key={card.id}>
                 <div className="h-auto w-full py-1 border border-gray-300 rounded-md shadow-lg transition-transform transform hover:scale-110">
-                  <Link
-                    to={card.link}
+                  <div
+                    // to={card.link}
+                    onClick={() => singproductitem(card)}
                     className="font-semibold text-secondary sm:text-lg text-base hover:text-primary mt-3"
                   >
                     <img
@@ -151,7 +157,7 @@ const viewmore =(product)=>{
                         {card.daysAgo}
                       </span> */}
                     </div>
-                  </Link>
+                  </div>
                 </div>
               </SwiperSlide>
             ))}
@@ -162,6 +168,7 @@ const viewmore =(product)=>{
               <div
                 key={card.id}
                 className="h-auto w-full py-1 border my-3 border-gray-300 rounded-md shadow-lg transition-transform transform hover:scale-110"
+                onClick={() => singproductitem(card)}
               >
                 <div
                   // to={card.link}

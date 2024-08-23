@@ -37,6 +37,11 @@ const PostAttributes = () => {
   const [filterdata, setfilterdata] = useState([]);
   const [selecteddropdowndata, setselecteddropdowndata] = useState(null);
 
+  
+  const subCategoriesdataget = sessionStorage.getItem("subCategories");
+  const subCategoriesResponse = JSON.parse(subCategoriesdataget);
+  console.log(subCategoriesResponse?._id, "ID");
+
   const handleImageChange = (e, index) => {
     const file = e.target.files[0];
     if (file) {
@@ -46,35 +51,42 @@ const PostAttributes = () => {
     }
   };
 
+
+
   // Get api
   const fetchData = async () => {
     setIsLoading(true);
+    
+      try {
+        const response = await NewRequest.get(
+          `/brand/getAllModelsByFooterCategory/${updateBrandData?._id || ""}`
+        );
+        const filterdata = response.data.find((item) => item.model);
+
+        setfilterdata(filterdata.data);
+        const conditionData = response.data.find(
+          (item) => item.model === "Condition"
+        );
+        setConditions(conditionData.data);
+        const deviceTypeData = response.data.find(
+          (item) => item.model === "DeviceType"
+        );
+        setDeviceTypes(deviceTypeData ? deviceTypeData.data : []);
+
+        setFields(response.data || []);
+        setIsLoading(false);
+      } catch (err) {
+        console.log(err);
+        setIsLoading(false);
+      }
+
+
+
     try {
       const response = await NewRequest.get(
-        `/brand/getAllModelsByFooterCategory/${updateBrandData?._id || ""}`
-      );
-      const filterdata = response.data.find((item) => item.model);
-
-      setfilterdata(filterdata.data);
-      const conditionData = response.data.find(
-        (item) => item.model === "Condition"
-      );
-      setConditions(conditionData.data);
-      const deviceTypeData = response.data.find(
-        (item) => item.model === "DeviceType"
-      );
-      setDeviceTypes(deviceTypeData ? deviceTypeData.data : []);
-
-      setFields(response.data || []);
-      setIsLoading(false);
-    } catch (err) {
-      console.log(err);
-      setIsLoading(false);
-    }
-
-    try {
-      const response = await NewRequest.get(
-        `/brand/filter_masterdata_in_subcategory/${updateBrandData?._id || ""}`
+        `/brand/filter_masterdata_in_subcategory/${
+          subCategoriesResponse?._id || ""
+        }`
       );
       setFields(response.data || []);
       const filterdata = response.data.find((item) => item.model);
@@ -94,6 +106,9 @@ const PostAttributes = () => {
       console.log(err);
       setIsLoading(false);
     }
+
+  
+
   };
 
   useEffect(() => {
@@ -203,9 +218,6 @@ const PostAttributes = () => {
   const categoryResponse = JSON.parse(Categorydataget);
   const categorydata = categoryResponse?._id || "";
 
-  const subCategoriesdataget = sessionStorage.getItem("subCategories");
-  const subCategoriesResponse = JSON.parse(subCategoriesdataget);
-  console.log(loginuserdata?._id);
 
   const handleAddCompany = async (e) => {
     setIsLoading(true);
@@ -217,7 +229,7 @@ const PostAttributes = () => {
     formData.append("User", loginuserdata?._id || "");
     formData.append("Category", categorydata);
     formData.append("SubCategory", subCategoriesResponse?._id || "");
-    formData.append("FooterCategory", updateBrandData?._id);
+    formData.append("FooterCategory", updateBrandData?._id || "");
     // For the image append
     images.forEach((image, index) => {
       if (image) {
@@ -235,6 +247,7 @@ const PostAttributes = () => {
     try {
       const response = await NewRequest.post("/product", formData);
       setIsLoading(false);
+      sessionStorage.removeItem("updateBrandData");
       toast.success(`Your ad has been added successfully".`, {
         position: "top-right",
         autoClose: 2000,

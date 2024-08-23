@@ -54,6 +54,7 @@ import MoreProductview from "./Pages/Home/MoreProductview/MoreProductview";
 import Header from "./components/Header/Header";
 import Myfavorites from "./Pages/Home/Myfavorites/Myfavorites";
 import Footer from "./Pages/Home/Footer/Footer";
+import Singleitem from "./Pages/Home/AllCategories/Singleitem";
 
 const queryClient = new QueryClient();
 
@@ -93,6 +94,7 @@ function App() {
             <Route element={<UserLayout />}>
               <Route path="/" element={<Home />} />
               <Route path="/moreproduct/:name" element={<MoreProductview />} />
+              <Route path="/Singleitem/:_id" element={<Singleitem />} />{" "}
               <Route path="/Chat" element={<Chat />} />{" "}
               <Route path="/Myfavorites" element={<Myfavorites />} />
             </Route>

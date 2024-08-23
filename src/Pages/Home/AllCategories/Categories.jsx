@@ -38,8 +38,7 @@ const navigator =useNavigate()
 
     async function fetchproductData() {
     const response = await NewRequest.get("/product/getcategoryproduct");
-    const mobilesCategory = response?.data.find(
-      (item) => item.category.name);
+    const mobilesCategory = response?.data
 
 return mobilesCategory;
     
@@ -48,11 +47,21 @@ return mobilesCategory;
   // Use the data in your component
   const { data: productsdata } = useQuery("productgetcategoryss", fetchproductData);
 
+ 
+  
+
   const viewmore = (product) => {
-    console.log(product);
-    const subResponseString = JSON.stringify(product);
+//  console.log(product);
+ 
+    // const selectedCategory = productsdata.find((item) => item.category.name);
+      const selectedCategoryProducts = productsdata.find(
+        (item) => item.category.name === product.name
+      );
+    
+    console.log(selectedCategoryProducts.category._id);
+    const subResponseString = JSON.stringify(selectedCategoryProducts);
     sessionStorage.setItem("productmore", subResponseString);
-    navigate(`/moreproduct/${product?.category?.name}`);
+    navigate(`/moreproduct/${selectedCategoryProducts?.category?.name}`);
   };
   
 
@@ -110,7 +119,7 @@ return mobilesCategory;
             <div key={item.id} className="h-auto w-full py-1">
               <p
                 // to={`/${item?.link}`}
-                onClick={() => viewmore(productsdata)}
+                onClick={() => viewmore(item)}
                 className="font-semibold text-secondary text-center sm:text-lg text-base hover:text-primary mt-3"
               >
                 {item?.icon ? (

@@ -82,6 +82,12 @@ const {data: productsdata } = useQuery(
         navigate("/Chat");
     };
 
+    const singproductitem = (card) => {
+      console.log(card._id);
+      //  const cardId = card.id;
+      navigate(`/Singleitem/${card._id}`, { state: { cardData: card } });
+    };
+
 
     return (
       <>
@@ -118,7 +124,7 @@ const {data: productsdata } = useQuery(
                     productsdata.map((category, index) => (
                       <li key={index} className="mb-2">
                         <a href="#">
-                          {category?.name ||""} ({category?.count || "0"})
+                          {category?.name || ""} ({category?.count || "0"})
                         </a>
                       </li>
                     ))}
@@ -145,12 +151,16 @@ const {data: productsdata } = useQuery(
                   ""
                 ) : (
                   moreproductData.map((item, index) => (
-                    <div className="border rounded shadow " key={index}>
+                    <div
+                      className="border rounded shadow cursor-pointer"
+                      key={index}
+                    >
                       <div className="flex gap-3">
                         <img
                           src={item?.images?.[0] || ""} // Provide a fallback image URL if mages[0] is undefined
                           alt="Product"
                           className="w-full h-52 object-cover"
+                          onClick={() => singproductitem(item)}
                         />
 
                         <div className="w-full mb-5 p-4">
