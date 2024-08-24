@@ -27,7 +27,7 @@ const Hadersilder = () => {
 //   }
 
   return (
-    <div className="relative h-auto w-full bg-white border-b mt-4 mb-20">
+    <div className="relative h-auto w-full bg-white border-b mb-20">
       <div className="relative  w-full">
         <Swiper
           spaceBetween={30}

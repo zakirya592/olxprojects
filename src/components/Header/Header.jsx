@@ -13,6 +13,7 @@ import { styled } from "@mui/system";
 import Avatar from "@mui/material/Avatar";
 import { Stack } from "@mui/material";
 import ArrowDropDownIcon from "@mui/icons-material/ArrowDropDown";
+// import { FaSearch } from "react-icons/fa";
 function Header() {
   const navigate = useNavigate();
   const [selectedLocation, setSelectedLocation] = useState("");
@@ -115,19 +116,19 @@ function Header() {
 
   return (
     <>
-      <div className="bg-[#7B6C9C] px-0 smm:px-0 lg:px-12 text-white lg:fixed top-0 left-0 right-0 z-50">
+      <div className="bg-[#7B6C9C] text-white shadow-md px-0 smm:px-0 lg:px-12 lg:fixed top-0 left-0 right-0 z-50">
         <div className="py-2 mx-3">
           <div className="topdev flex my-auto container gap-1 lg:gap-5 smm:gap-1 w-full flex-col lg:flex-row sm:flex-col">
             <div className="flex gap-1 lg:gap-5 smm:gap-1">
-              <div className="logo">
+              {/* <div className="logo">
                 <img
                   src={log}
                   alt="Logo"
                   className="h-14 w-auto cursor-pointer bg-transparent filter brightness-0 invert"
                   onClick={() => navigate("/")}
                 />
-              </div>
-              <div className="flex mx-5 lg:mx-5 sm:mx-1 smm:mx-0 cursor-pointer text-white hover:text-secondary my-auto">
+              </div> */}
+              {/* <div className="flex mx-5 lg:mx-5 sm:mx-1 smm:mx-0 cursor-pointer text-white hover:text-secondary my-auto">
                 <div className="customgradient h-10 w-10 flex justify-center items-center rounded-full">
                   <FaCarAlt size={24} />
                 </div>
@@ -140,19 +141,33 @@ function Header() {
                   <MdOutlineHomeWork size={24} />
                 </div>
                 <h6 className="text-xl ms-2 font-bold my-auto">Property</h6>
-              </div>
+              </div> */}
             </div>
           </div>
           <header className="flex py-2 w-full flex-col sm:flex-row justify-between">
             <div className="flex items-center w-full flex-col sm:flex-row">
+              {/* <div className="logo"> */}
+              <img
+                src={log}
+                alt="Logo"
+                className="h-14 w-14 cursor-pointer bg-transparent filter brightness-0 invert me-5"
+                // className="h-14 w-14 cursor-pointer   me-5"
+                onClick={() => navigate("/")}
+              />
+              {/* </div> */}
               <div className="flex items-center w-full px-2">
-                <input
-                  ref={inputRef}
-                  id="location"
-                  type="text"
-                  className="outline-none text-gray-700 py-2 px-3 border rounded-md bg-white w-full"
-                  placeholder="Enter a location"
-                />
+                <div className="relative w-full">
+                  <div className="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
+                    <FaSearch className="text-gray-500" />
+                  </div>
+                  <input
+                    ref={inputRef}
+                    id="location"
+                    type="text"
+                    className="outline-none text-gray-700 py-2 px-10 border rounded-md w-full"
+                    placeholder="Enter a location"
+                  />
+                </div>
                 <span className="ml-2 border-l border-gray-300"></span>
                 {isUserLoggedIn && (
                   <FaBell
@@ -193,11 +208,20 @@ function Header() {
                     </button> */}
                     <Dropdown>
                       <MenuButton>
-                        <Stack style={{borderRadius:'12px',display:'flex',flexDirection:'row'}}>
+                        <Stack
+                          style={{
+                            borderRadius: "12px",
+                            display: "flex",
+                            flexDirection: "row",
+                            color: "black",
+                          }}
+                        >
                           <Avatar
-                            src={loginuserdata?.user?.image || "broken-image.jpg"} 
-                          /> 
-                          <ArrowDropDownIcon className="my-auto"/>
+                            src={
+                              loginuserdata?.user?.image || "broken-image.jpg"
+                            }
+                          />
+                          <ArrowDropDownIcon className="my-auto" />
                         </Stack>
                       </MenuButton>
                       <Menu

@@ -29,8 +29,8 @@ const Hadersilder = () => {
       (item) => item.category.name === "Mobiles"
     );
 
-return mobilesCategory;
-    
+    return mobilesCategory;
+
   }
 
   // Use the data in your component
@@ -39,13 +39,13 @@ return mobilesCategory;
   if (isLoading) return <p>Loading...</p>;
   if (error) return <p>Error loading products</p>;
 
-const storedUserResponseString = sessionStorage.getItem("userResponse");
-const storedUserResponse = JSON.parse(storedUserResponseString);
+  const storedUserResponseString = sessionStorage.getItem("userResponse");
+  const storedUserResponse = JSON.parse(storedUserResponseString);
 
-const loginuserid = storedUserResponse?.data?.user?._id || "";
+  const loginuserid = storedUserResponse?.data?.user?._id || "";
   const postcard = (Product) => {
     console.log(Product._id);
-    
+
     try {
       const response = NewRequest.post(`/wishlist/${loginuserid}`, {
         productId: Product._id,
@@ -75,19 +75,19 @@ const loginuserid = storedUserResponse?.data?.user?._id || "";
     }
   };
 
-const viewmore =(product)=>{
-  console.log("product", product);
+  const viewmore = (product) => {
+    console.log("product", product);
     const subResponseString = JSON.stringify(product);
-  sessionStorage.setItem("productmore", subResponseString);
-  navigate(`/moreproduct/${product.category.name}`);
-}
-const singproductitem =(card)=>{
-  console.log(card._id);
-  //  const cardId = card.id;
-  navigate(`/Singleitem/${card._id}`, { state: { cardData: card } });
-}
+    sessionStorage.setItem("productmore", subResponseString);
+    navigate(`/moreproduct/${product.category.name}`);
+  }
+  const singproductitem = (card) => {
+    console.log(card._id);
+    //  const cardId = card.id;
+    navigate(`/Singleitem/${card._id}`, { state: { cardData: card } });
+  }
 
-
+  const limitedProducts = productsdata.products.slice(0, 4);
   return (
     <div className="relative h-auto w-full bg-white border-b mt-10 mb-20">
       <div className="flex justify-between my-auto">
@@ -164,7 +164,7 @@ const singproductitem =(card)=>{
           </Swiper>
         ) : (
           <div className="grid 2xl:grid-cols-4 xl:grid-cols-4 gap-7 lg:grid-cols-3 md:grid-cols-3 grid-cols-1 sm:px-2 px-2 mb-3">
-            {productsdata.products.map((card) => (
+            {limitedProducts.map((card) => (
               <div
                 key={card.id}
                 className="h-auto w-full py-1 border my-3 border-gray-300 rounded-md shadow-lg transition-transform transform hover:scale-110"
@@ -184,7 +184,7 @@ const singproductitem =(card)=>{
                       {/* <p className="text-headingcolor sm:text-lg text-base">
                         {card.name}
                       </p> */}
-                      <p className="text-headingcolor sm:text-lg text-base">
+                      <p className="text-[#002147] sm:text-lg text-base">
                         Rs {card.price}
                       </p>
                       <FaRegHeart
@@ -195,7 +195,7 @@ const singproductitem =(card)=>{
                     <p className="px-3 mt-3 text-detailscolor font-normal">
                       {card.description}
                     </p>
-                    <p className="px-3 mt-3 text-headingcolor font-normal">
+                    <p className="px-3 mt-3 text-[#002147] font-normal">
                       {card.location}
                     </p>
                     {/* <span className="px-3 text-loactioncolor font-light mb-7 text-sm">

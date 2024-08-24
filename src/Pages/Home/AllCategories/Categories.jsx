@@ -66,18 +66,12 @@ return mobilesCategory;
   
 
   return (
-    <div>
-      <div className="flex justify-between my-auto">
+    <div className="bg-[#111111] py-10">
+      {/* <div className="flex justify-between my-auto">
         <h6 className="text-headingcolor text-3xl font-bold overflow-hidden">
           All categories
         </h6>
-        {/* <div
-          className="text-viewmorebutton text-xl flex cursor-pointer my-auto"
-          onClick={() => navigator("/Post")}
-        >
-          <span>View more</span> <MdOutlineNavigateNext size={30} />
-        </div> */}
-      </div>
+      </div> */}
       {/* Slider for Small Screens */}
       <div className="lg:hidden">
         <Swiper spaceBetween={50} slidesPerView={3}>
@@ -100,7 +94,7 @@ return mobilesCategory;
                       <div className="w-14 h-11 border border-gray-300 rounded-full"></div>
                     </div>
                   )}
-                  <div className="text-center mt-2">{item.name}</div>
+                  <div className="text-center mt-2 text-white">{item.name}</div>
                 </div>
               </SwiperSlide>
             ))
@@ -109,30 +103,60 @@ return mobilesCategory;
       </div>
 
       {/* Grid for Large Screens */}
-      <div className="hidden lg:grid 2xl:grid-cols-9 xl:grid-cols-9 gap-7 lg:grid-cols-7 md:grid-cols-4 grid-cols-2 sm:px-2 px-2 mb-3">
+      <div className="hidden lg:grid 2xl:grid-cols-4 xl:grid-cols-4 gap-4 lg:grid-cols-4 md:grid-cols-3 grid-cols-1 sm:px-2 px-2 w-[90%] sm:w-full lg:w-[90%] mx-auto mb-3">
         {isLoading ? (
           <div>Loading...</div>
         ) : error ? (
           ""
         ) : (
           eventsData.map((item) => (
-            <div key={item.id} className="h-auto w-full py-1">
-              <p
-                // to={`/${item?.link}`}
+            // <div key={item.id} className="w-full mx-auto flex flex-col justify-center bg-[#303030] rounded-xl py-5">
+            //   <div
+            //     onClick={() => viewmore(item)}
+            //     className="font-semibold text-white text-center sm:text-lg text-base hover:text-primary mt-3 cursor-pointer"
+            //   >
+            //     {/* <div className="flex w-full items-center"> */}
+            //       {item?.icon ? (
+            //         <img
+            //           src={item.icon}
+            //           alt="icon"
+            //           className="w-14 h-14 object-contain ml-3"
+            //         />
+            //       ) : (
+            //         <div className="w-14 h-14 flex justify-center items-center">
+            //           <div className="w-10 h-10 border border-gray-300 rounded-full"></div>
+            //         </div>
+            //       )}
+            //       <div className="w-full my-auto pl-3">
+            //         {" "}
+            //         {/* Add padding to the left here */}
+            //         <div className="flex gap-2">{item.name}</div>
+            //       {/* </div> */}
+            //     </div>
+            //   </div>
+            // </div>
+            <div key={item.id} className="w-full py-4 bg-[#303030]">
+              <div
                 onClick={() => viewmore(item)}
-                className="font-semibold text-secondary text-center sm:text-lg text-base hover:text-primary mt-3"
+                className="font-semibold text-white sm:text-lg text-base hover:text-primary mt-3 cursor-pointer"
               >
-                {item?.icon ? (
-                  <img src={item.icon} alt="icon" className="w-full border h-38 bg-[#2D6A3C] object-cover rounded-lg p-5 mt-1" />
-                ) : (
-                  <div className="w-full p-5 mt-1 flex justify-center items-center">
-                    <div className="w-28 h-28 border border-gray-300 rounded-full"></div>
+                <div className="flex flex-col items-center w-full justify-center">
+                  {item?.icon ? (
+                    <img
+                      src={item.icon}
+                      alt="icon"
+                      className="w-14 h-14 object-contain"
+                    />
+                  ) : (
+                    <div className="w-14 h-14 mt-1 flex justify-center items-center">
+                      <div className="w-10 h-10 border border-gray-300 rounded-full"></div>
+                    </div>
+                  )}
+                  <div className="w-full mt-3 text-center">
+                    <p className="">{item.name}</p>
                   </div>
-                )}
-                <div className="w-full">
-                  <div className="px-3 flex flex-col gap-2">{item.name}</div>
                 </div>
-              </p>
+              </div>
             </div>
           ))
         )}
