@@ -123,7 +123,7 @@ return mobilesCategory;
                 className="font-semibold text-secondary text-center sm:text-lg text-base hover:text-primary mt-3"
               >
                 {item?.icon ? (
-                  <img src={item.icon} alt="icon" className="w-full p-5 mt-1" />
+                  <img src={item.icon} alt="icon" className="w-full border h-38 bg-[#2D6A3C] object-cover rounded-lg p-5 mt-1" />
                 ) : (
                   <div className="w-full p-5 mt-1 flex justify-center items-center">
                     <div className="w-28 h-28 border border-gray-300 rounded-full"></div>
