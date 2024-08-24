@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { TiSocialTwitterCircular } from "react-icons/ti";
 import { CiFacebook } from "react-icons/ci";
 import { FaRegCirclePlay } from "react-icons/fa6";
@@ -6,9 +6,62 @@ import { FiInstagram } from "react-icons/fi";
 import Appgallery from "../../../assets/Images/Appgallery.svg"
 import appstore from "../../../assets/Images/appstore.svg"
 import Googleplay from "../../../assets/Images/Googleplay.svg";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import NewRequest from "../../../../utils/NewRequest";
+import { useQuery } from "react-query";
 
 const Footer = () => {
+
+
+    const navigate = useNavigate();
+    const [isMobileMenuOpen, setMobileMenuOpen] = useState(false);
+    // const { t, i18n } = useTranslation();
+    const toggleMobileMenu = () => {
+      setMobileMenuOpen(!isMobileMenuOpen);
+    };
+
+    const { isLoading, data, error } = useQuery(
+      "fetchAllMegaMenusfooter",
+      async () => {
+        try {
+          const response = await NewRequest.get("/category");
+          console.log("Menu", response.data);
+          return response?.data || [];
+        } catch (error) {
+          console.log(error);
+          throw error;
+        }
+      }
+    );
+
+    async function fetchproductData() {
+      const response = await NewRequest.get("/product/getcategoryproduct");
+      const mobilesCategory = response?.data;
+
+      return mobilesCategory;
+    }
+
+    // Use the data in your component
+    const { data: productsdata } = useQuery(
+      "productgetcategorysfooter",
+      fetchproductData
+    );
+
+    const viewmore = (product) => {
+      //  console.log(product);
+
+      // const selectedCategory = productsdata.find((item) => item.category.name);
+      const selectedCategoryProducts = productsdata.find(
+        (item) => item.category.name === product.name
+      );
+
+      console.log(selectedCategoryProducts.category._id);
+      const subResponseString = JSON.stringify(selectedCategoryProducts);
+      sessionStorage.setItem("productmore", subResponseString);
+      navigate(`/moreproduct/${selectedCategoryProducts?.category?.name}`);
+    };
+
+
     return (
       <div>
         <div className="py-4 gap-2 sm:px-16 px-8 3xl::h-[300px] 2xl:h-[300px] xl:h-[300px] lg:h-[300px] h-auto w-full bg-[#111111] text-[#F0FFFF] relative">
@@ -18,39 +71,15 @@ const Footer = () => {
                 POPULAR CATEGORIES
               </h2>
               <div className={`text-white flex flex-col gap-1 `}>
-                <a
-                  // href="#"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="text-white duration-300 hover:text-white cursor-pointer"
-                >
-                  {" "}
-                  Cars
-                </a>
-                <a
-                  // href="#"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="text-white duration-300 hover:text-white cursor-pointer"
-                >
-                  Flats for rent
-                </a>
-                <a
-                  // href="#"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="text-white duration-300 hover:text-white cursor-pointer"
-                >
-                  Mobile Phones
-                </a>
-                <a
-                  // href="#"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="text-white duration-300 hover:text-white cursor-pointer"
-                >
-                  jobs
-                </a>
+                {data?.map((section, index) => (
+                    <p
+                      onClick={() => viewmore(section)}
+                      style={{ textDecoration: "none" }}
+                      className="text-white duration-300 hover:text-white cursor-pointer"
+                    >
+                      <p>{section?.name}</p>
+                    </p>
+                ))}
               </div>
             </div>
 
@@ -140,7 +169,6 @@ const Footer = () => {
                 </a>
               </div>
             </div>
-
 
             <div className={`h-auto w-full flex flex-col gap-8 relative `}>
               <h2 className="text-xl uppercase font-semibold text-start relative">
