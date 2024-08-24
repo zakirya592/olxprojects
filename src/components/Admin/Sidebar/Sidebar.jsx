@@ -108,7 +108,7 @@ const SideBar = () => {
   const [selectedItem, setSelectedItem] = useState(null);
   const handleLogoClick = () => {
     setSelectedItem(null);
-    navigate("/member/dashboard"); // Navigate to the "track" component
+    navigate("/Admin/dashboard"); // Navigate to the "track" component
   };
 
   return (

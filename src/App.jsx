@@ -55,6 +55,7 @@ import Header from "./components/Header/Header";
 import Myfavorites from "./Pages/Home/Myfavorites/Myfavorites";
 import Footer from "./Pages/Home/Footer/Footer";
 import Singleitem from "./Pages/Home/AllCategories/Singleitem";
+import Dashboard from "./Pages/Admin/Dashboard/Dashboard";
 
 const queryClient = new QueryClient();
 
@@ -104,7 +105,8 @@ function App() {
               element={
                 <MainLayout>
                   <Routes>
-                    <Route path="/user" element={<Users />} />
+                    <Route path="/user" element={<Users />} />{" "}
+                    <Route path="dashboard" element={<Dashboard />} />
                     {/* Frontend */}
                     <Route path="/Category" element={<Category />} />
                     <Route path="/subcategory" element={<SubCategory />} />
@@ -171,7 +173,6 @@ function App() {
                     <Route path="/Handmade" element={<Handmade />} />
                     <Route path="/Origin" element={<Origin />} />
                     <Route path="/Language" element={<Language />} />
-
                     <Route path="/Product" element={<Product />} />
                   </Routes>
                 </MainLayout>
