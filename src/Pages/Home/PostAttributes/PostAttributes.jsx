@@ -229,7 +229,10 @@ const PostAttributes = () => {
     formData.append("User", loginuserdata?._id || "");
     formData.append("Category", categorydata);
     formData.append("SubCategory", subCategoriesResponse?._id || "");
-    formData.append("FooterCategory", updateBrandData?._id || "");
+    // formData.append("FooterCategory", updateBrandData?._id || "");
+     if (updateBrandData?._id) {
+       formData.append("FooterCategory", updateBrandData._id);
+     }
     // For the image append
     images.forEach((image, index) => {
       if (image) {

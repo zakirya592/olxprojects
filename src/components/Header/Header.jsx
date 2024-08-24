@@ -222,7 +222,7 @@ function Header() {
                   className="text-white text-xl border-b-4 border-[#2D6A3C] cursor-pointer"
                   onClick={handleShowCreatePopup}
                 >
-                  Staff Login
+                  Login
                 </h6>
               )}
               <div
