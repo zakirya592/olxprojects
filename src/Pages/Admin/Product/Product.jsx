@@ -15,6 +15,8 @@ import GppBadIcon from "@mui/icons-material/GppBad";
 const Product = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [data, setData] = useState([]);
+  const [activedata, setactivedata] = useState([])
+  const [Rejecteddata, setRejecteddata] = useState([])
 
   const [isCreatePopupVisible, setCreatePopupVisibility] = useState(false);
   const [isUpdatePopupVisible, setUpdatePopupVisibility] = useState(false);
@@ -32,7 +34,14 @@ const Product = () => {
     try {
       const response = await NewRequest.get("/product");
       console.log(response);
-      setData(response?.data || []);
+       const pendingProducts = response?.data.filter(product => product.status.toLowerCase() === "pending");
+      setData(pendingProducts || []);
+      
+       const Activeproduct = response?.data.filter(product => product.status.toLowerCase() === "active");
+       setactivedata(Activeproduct);
+
+        const Rejectedproduct = response?.data.filter(product => product.status.toLowerCase() === "rejected");
+       setRejecteddata(Rejectedproduct);
       setIsLoading(false);
     } catch (err) {
       console.log(err);
@@ -154,12 +163,112 @@ const Product = () => {
               <div style={{ marginLeft: "-11px", marginRight: "-11px" }}>
                 <DataTable
                   data={data}
-                  title="Product"
+                  title="Pending Product"
                   columnsName={AdminProduct}
                   loading={isLoading}
                   secondaryColor="secondary"
                   //   checkboxSelection={"disabled"}
                   // actionColumnVisibility={false}
+                  handleRowClickInParent={handleRowClickInParent}
+                  dropDownOptions={[
+                    {
+                      label: "Approved",
+                      icon: (
+                        <FcApproval
+                          fontSize="small"
+                          color="action"
+                          size={20}
+                          style={{ color: "rgb(37 99 235)" }}
+                        />
+                      ),
+                      action: (row) => handledropdown(row, "approve"),
+                    },
+                    {
+                      label: `Reject`,
+                      icon: (
+                        <GppBadIcon
+                          fontSize="small"
+                          color="action"
+                          style={{ color: "rgb(37 99 235)" }}
+                        />
+                      ),
+                      action: (row) => handledropdown(row, "reject"),
+                    },
+                    {
+                      label: `Delete`,
+                      icon: (
+                        <DeleteIcon
+                          fontSize="small"
+                          color="action"
+                          style={{ color: "rgb(37 99 235)" }}
+                        />
+                      ),
+                      action: handleDelete,
+                    },
+                  ]}
+                  uniqueId="gtinMainTableId"
+                />
+              </div>
+
+              <div style={{ marginLeft: "-11px", marginRight: "-11px" }}>
+                <DataTable
+                  data={activedata}
+                  title="Approved Product"
+                  columnsName={AdminProduct}
+                  loading={isLoading}
+                  secondaryColor="secondary"
+                  // checkboxSelection={"disabled"}
+                  actionColumnVisibility={false}
+                  handleRowClickInParent={handleRowClickInParent}
+                  dropDownOptions={[
+                    {
+                      label: "Approved",
+                      icon: (
+                        <FcApproval
+                          fontSize="small"
+                          color="action"
+                          size={20}
+                          style={{ color: "rgb(37 99 235)" }}
+                        />
+                      ),
+                      action: (row) => handledropdown(row, "approve"),
+                    },
+                    {
+                      label: `Reject`,
+                      icon: (
+                        <GppBadIcon
+                          fontSize="small"
+                          color="action"
+                          style={{ color: "rgb(37 99 235)" }}
+                        />
+                      ),
+                      action: (row) => handledropdown(row, "reject"),
+                    },
+                    {
+                      label: `Delete`,
+                      icon: (
+                        <DeleteIcon
+                          fontSize="small"
+                          color="action"
+                          style={{ color: "rgb(37 99 235)" }}
+                        />
+                      ),
+                      action: handleDelete,
+                    },
+                  ]}
+                  uniqueId="gtinMainTableId"
+                />
+              </div>
+
+              <div style={{ marginLeft: "-11px", marginRight: "-11px" }}>
+                <DataTable
+                  data={Rejecteddata}
+                  title="Rejected Product"
+                  columnsName={AdminProduct}
+                  loading={isLoading}
+                  secondaryColor="secondary"
+                  // checkboxSelection={"disabled"}
+                  actionColumnVisibility={false}
                   handleRowClickInParent={handleRowClickInParent}
                   dropDownOptions={[
                     {
