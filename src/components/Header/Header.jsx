@@ -13,6 +13,8 @@ import { styled } from "@mui/system";
 import Avatar from "@mui/material/Avatar";
 import { Stack } from "@mui/material";
 import ArrowDropDownIcon from "@mui/icons-material/ArrowDropDown";
+import { FaRegUser } from "react-icons/fa";
+
 // import { FaSearch } from "react-icons/fa";
 function Header() {
   const navigate = useNavigate();
@@ -243,10 +245,16 @@ function Header() {
 
               {!isUserLoggedIn && (
                 <h6
-                  className="text-white text-xl border-b-4 border-[#2D6A3C] cursor-pointer"
+                  className="text-white flexcursor-pointer flex mx-4 cursor-pointer hover:text-black"
                   onClick={handleShowCreatePopup}
                 >
-                  Login
+                  <div className="my-auto">
+                    <FaRegUser size={24}/>
+                  </div>
+                  <div className="ms-3 my-auto flex flex-col">
+                    <span className="text-sm">Login</span>
+                    <span className="text-md">Account</span>
+                  </div>
                 </h6>
               )}
               <div

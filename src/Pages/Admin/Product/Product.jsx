@@ -9,6 +9,8 @@ import { toast } from "react-toastify";
 import Addproduct from "./Addproduct";
 import Updataproduct from "./Updataproduct";
 import DataTable from "../../../components/DataTable/DataTable";
+import { FcApproval } from "react-icons/fc";
+import GppBadIcon from "@mui/icons-material/GppBad";
 
 const Product = () => {
   const [isLoading, setIsLoading] = useState(false);
@@ -75,7 +77,7 @@ const Product = () => {
           console.error("Error deleting user:", error);
           toast.error(
             error?.response?.data?.error ||
-              "Something went wrong while deleting user"
+            "Something went wrong while deleting user"
           );
         }
       } else if (result.dismiss === Swal.DismissReason.cancel) {
@@ -89,6 +91,49 @@ const Product = () => {
       return;
     }
   };
+
+
+
+  const handledropdown = async (row, action) => {
+    const status = action === "approve" ? "active" : "rejected";
+    console.log(status);
+
+    console.log(row._id);
+
+    try {
+      const approverejectproduct = await NewRequest.put(`/product/${row?._id}`, {
+        status: status,
+      });
+      console.log(approverejectproduct.data);
+       fetchData();
+      toast.success(
+        `The product has been ${action === "approve" ? "Approved" : "Rejected"
+          } successfully`,
+        {
+          position: "top-right",
+          autoClose: 2000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          theme: "light",
+        }
+      );
+    } catch (err) {
+      console.log(err);
+      toast.error(err?.response?.data?.error || "Error", {
+        position: "top-right",
+        autoClose: 2000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        theme: "light",
+      });
+    }
+  };
+
+
 
   return (
     <div>
@@ -117,17 +162,29 @@ const Product = () => {
                   // actionColumnVisibility={false}
                   handleRowClickInParent={handleRowClickInParent}
                   dropDownOptions={[
-                    // {
-                    //   label: `Edit`,
-                    //   icon: (
-                    //     <EditIcon
-                    //       fontSize="small"
-                    //       color="action"
-                    //       style={{ color: "rgb(37 99 235)" }}
-                    //     />
-                    //   ),
-                    //   action: handleShowUpdatePopup,
-                    // },
+                    {
+                      label: "Approved",
+                      icon: (
+                        <FcApproval
+                          fontSize="small"
+                          color="action"
+                          size={20}
+                          style={{ color: "rgb(37 99 235)" }}
+                        />
+                      ),
+                      action: (row) => handledropdown(row, "approve"),
+                    },
+                    {
+                      label: `Reject`,
+                      icon: (
+                        <GppBadIcon
+                          fontSize="small"
+                          color="action"
+                          style={{ color: "rgb(37 99 235)" }}
+                        />
+                      ),
+                      action: (row) => handledropdown(row, "reject"),
+                    },
                     {
                       label: `Delete`,
                       icon: (

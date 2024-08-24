@@ -36,7 +36,10 @@ const Singleitem = () => {
       console.log(datas.Category._id);
       try {
         const responsesingle = await NewRequest.get(`/product/getProductsByCategory/${datas.Category._id}`);
-        setmoreproductData(responsesingle.data);
+        const activeProducts = responsesingle?.data.filter(
+          (product) => product.status.toLowerCase() === "active"
+        );
+        setmoreproductData(activeProducts || []);
       } catch (err) {
         console.log(err);
       }

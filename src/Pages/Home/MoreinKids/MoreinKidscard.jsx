@@ -21,17 +21,25 @@ const Hadersilder = () => {
 
   const navigate = useNavigate();
   // Fetch data and filter based on status and category
-  async function fetchproductData() {
-    const response = await NewRequest.get("/product/getcategoryproduct");
+ async function fetchproductData() {
+   const response = await NewRequest.get("/product/getcategoryproduct");
 
-    // Find the "Mobiles" category and filter products with status === 1
-    const mobilesCategory = response?.data.find(
-      (item) => item.category.name === "Mobiles"
-    );
+   // Find the "Mobiles" category and filter products with status === "active"
+   const mobilesCategory = response?.data.find(
+     (item) => item.category.name === "Mobiles"
+   );
 
-    return mobilesCategory;
+   if (mobilesCategory) {
+     // Filter products that are active
+     const activeProducts = mobilesCategory.products.filter(
+       (product) => product.status.toLowerCase() === "active"
+     );
+     return { ...mobilesCategory, products: activeProducts };
+   }
 
-  }
+   return null; // Return null if "Mobiles" category is not found
+ }
+
 
   // Use the data in your component
   const { isLoading, error, data: productsdata } = useQuery("productgetcategoryproduct", fetchproductData);
@@ -87,7 +95,9 @@ const Hadersilder = () => {
     navigate(`/Singleitem/${card._id}`, { state: { cardData: card } });
   }
 
+  
   const limitedProducts = productsdata.products.slice(0, 4);
+
   return (
     <div className="relative h-auto w-full bg-white border-b mt-10 mb-20">
       <div className="flex justify-between my-auto">

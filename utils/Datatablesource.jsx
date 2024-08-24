@@ -568,13 +568,34 @@ export const AdminProduct = [
     },
   },
 
-  // {
-  //   field: "User",
-  //   headerName: "Email",
-  //   width: 180,
-  //   valueGetter: (params) => {
-  //     const email = params;
-  //     return email && email.email ? catagory.email : null;
-  //   },
-  // },
+  {
+    field: "status",
+    headerName: "status",
+    width: 180,
+    renderCell: (params) => {
+      const status = params.row.status;
+      let padding, text;
+
+      if (status == "active") {
+        padding = "2px";
+        text = "Approved";
+      } else if (status == "pending") {
+        padding = "5px";
+        text = "Pending";
+      } else {
+        padding = "5px";
+        text = "Rejected";
+      }
+
+      return (
+        <div
+          style={{
+            color: status === "active" ? "green" : status === "pending" ? "orange" : "red",
+          }}
+        >
+          {text}
+        </div>
+      );
+    },
+  },
 ];
