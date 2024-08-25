@@ -4,6 +4,7 @@ import { useQuery } from "react-query";
 import { useNavigate } from "react-router-dom";
 import NewRequest from "../../../../utils/NewRequest";
 import { toast } from "react-toastify";
+import DescriptionWithToggle from "../MoreinKids/DescriptionWithToggle";
 
 const Myfavorites = () => {
   const navigate = useNavigate();
@@ -93,11 +94,12 @@ const Myfavorites = () => {
                 ""
               ) : wishlistData.length === 0 ? (
                 <>
-                <div className="flex  items-center justify-center w-full">
-                </div>
+                  <div className="flex  items-center justify-center w-full"></div>
                   <div className="flex  items-center justify-center w-full">
-                  <p className="text-gray-500 text-xl items-center">No favorites yet.</p>
-                </div>
+                    <p className="text-gray-500 text-xl items-center">
+                      No favorites yet.
+                    </p>
+                  </div>
                 </>
               ) : (
                 wishlistData.map((item, index) => (
@@ -119,9 +121,10 @@ const Myfavorites = () => {
                             onClick={() => postcard(item._id)}
                           />
                         </div>
-                        <p className="text-gray-700 mb-5">
+                        {/* <p className="text-gray-700 mb-5">
                           {item?.description || ""}
-                        </p>
+                        </p> */}
+                        <DescriptionWithToggle description={item.name} />
                         <p className="text-gray-500 text-sm">
                           {item?.location || ""} - 2 weeks ago
                         </p>

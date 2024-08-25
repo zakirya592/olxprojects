@@ -37,7 +37,6 @@ const Chat = () => {
     try {
       const response = await NewRequest.get(`/chat/getmychat?userId=${loginuserdata?._id}`
       );
-      console.log(response.data, "____");
       setchatlist(response.data);
     } catch (error) {
       console.error("Error fetching chat history:", error);
@@ -92,12 +91,12 @@ const Chat = () => {
   return (
     <div className="flex flex-col sm:flex-col lg:flex-row h-[80vh] overflow-y-scroll lg:px-10 mt-5 lg:mt-40 sm:mt-2">
       {/* Sidebar */}
-      <div className="w-full lg:w-1/4 sm:w-full bg-gray-100 p-4 border-r border-gray-300">
-        <h2 className="text-xl font-semibold mb-4">Inbox</h2>
-        <div className="space-y-4">
+      <div className="w-full lg:w-1/4 sm:w-full  border-gray-300 rounded-md shadow-lg ">
+        <h2 className="text-xl font-semibold mb-4 p-3">Inbox</h2>
+        <div className="space-y-4 p-4">
           {chatlist.map((chatlist, index) => (
             <div
-              className="flex items-center p-2 bg-white rounded cursor-pointer shadow"
+              className="flex items-center p-2 bg-gray-300 rounded cursor-pointer shadow"
               key={index}
               onClick={() => handleChatSelection(chatlist)}
             >
