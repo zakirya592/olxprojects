@@ -8,6 +8,8 @@ import Singup from "./Singup";
 import { FaGoogle } from "react-icons/fa6";
 import Firstsinguppop from "./Firstsinguppop";
 import logo from "../../../assets/Images/logo1.png";
+import NewRequest from "../../../../utils/NewRequest";
+import { baseUrl } from "../../../../utils/config";
 
 const Firstloginsinup = ({ isVisible, setVisibility }) => {
   const handleCloseCreatePopup = () => {
@@ -24,6 +26,11 @@ const Firstloginsinup = ({ isVisible, setVisibility }) => {
    const handleShowCreatePopuppoplogin = () => { 
      setCreatePopupVisibilitypoplogin(true);
    };
+
+   const handleGoogleLoginSuccess = () => {
+      window.location.href = `${baseUrl}/users/login_with_google`;
+    };
+
 
   return (
     <div>
@@ -71,7 +78,7 @@ const Firstloginsinup = ({ isVisible, setVisibility }) => {
                 <div className="flex w-full justify-center items-center text-center my-10">
                   <div
                     className="border flex border-[#002f34] hover:shadow-lg justify-center cursor-pointer items-center text-center w-full rounded-md hover:border-3 my-auto"
-                    onClick={handleShowCreatePopuppoplogin}
+                    onClick={handleGoogleLoginSuccess}
                   >
                     <FaGoogle size={24} className="my-auto" />
                     <p className="text-[#002f34] p-3 my-auto text-lg">

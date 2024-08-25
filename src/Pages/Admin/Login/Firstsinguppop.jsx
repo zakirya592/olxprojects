@@ -26,6 +26,10 @@ const Firstsinguppop = ({ isVisiblesinuppage, setVisibilitysinuppage }) => {
      setCreatePopupVisibilitypop(false)
    };
 
+     const handleGoogleSignup = () => {
+      window.location.href = "https://talhaolx.vercel.app/users/signup_with_google";
+    };
+
   return (
     <div>
       {/* create the post api popup */}
@@ -45,7 +49,11 @@ const Firstsinguppop = ({ isVisiblesinuppage, setVisibilitysinuppage }) => {
               </div>
               <form className="w-full">
                 <div className="flex justify-center items-center mb-10">
-                <img src={logo} alt="" className="h-24 w-auto cursor-pointer" />
+                  <img
+                    src={logo}
+                    alt=""
+                    className="h-24 w-auto cursor-pointer"
+                  />
                 </div>
                 <h2
                   className={`text-loactioncolor font-sans font-semibold text-2xl`}
@@ -68,7 +76,7 @@ const Firstsinguppop = ({ isVisiblesinuppage, setVisibilitysinuppage }) => {
                 <div className="flex w-full justify-center items-center text-center my-10">
                   <div
                     className="border flex border-[#002f34] hover:shadow-lg justify-center cursor-pointer items-center text-center w-full rounded-md hover:border-3 my-auto"
-                    // onClick={handleShowCreatePopuppoplogin}
+                    onClick={handleGoogleSignup}
                   >
                     <FaGoogle size={24} className="my-auto" />
                     <p className="text-[#002f34] p-3 my-auto text-lg">

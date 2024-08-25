@@ -56,6 +56,7 @@ import Myfavorites from "./Pages/Home/Myfavorites/Myfavorites";
 import Footer from "./Pages/Home/Footer/Footer";
 import Singleitem from "./Pages/Home/AllCategories/Singleitem";
 import Dashboard from "./Pages/Admin/Dashboard/Dashboard";
+import GoogleCallbackHandler from "./Pages/Admin/Login/GoogleCallbackHandler";
 
 const queryClient = new QueryClient();
 
@@ -98,6 +99,8 @@ function App() {
               <Route path="/Singleitem/:_id" element={<Singleitem />} />{" "}
               <Route path="/Chat" element={<Chat />} />{" "}
               <Route path="/Myfavorites" element={<Myfavorites />} />
+
+        <Route path="/auth/google/callback" element={<GoogleCallbackHandler />} />
             </Route>
 
             <Route
