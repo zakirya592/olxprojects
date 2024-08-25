@@ -15,6 +15,7 @@ import { FaRegHeart } from "react-icons/fa";
 import { MdOutlineNavigateNext } from "react-icons/md";
 import useMediaQuery from "@mui/material/useMediaQuery";
 import NewRequest from "../../../../utils/NewRequest";
+import DescriptionWithToggle from "./DescriptionWithToggle";
 
 const Hadersilder = () => {
   const isSmallScreen = useMediaQuery("(max-width: 425px)");
@@ -202,9 +203,10 @@ const Hadersilder = () => {
                         onClick={() => postcard(card)}
                       />
                     </div>
-                    <p className="px-3 mt-3 text-detailscolor font-normal">
-                      {card.description}
-                    </p>
+                    {/* <p className="px-3 mt-3 text-detailscolor font-normal">
+                      {card.name}
+                    </p> */}
+                    <DescriptionWithToggle description={card.name} />
                     <p className="px-3 mt-3 text-[#002147] font-normal">
                       {card.location}
                     </p>

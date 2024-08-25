@@ -11,48 +11,62 @@ import silder1 from "../../../assets/Images/Slider1.webp";
 import { FaRegHeart } from "react-icons/fa";
 import Avatar from "@mui/material/Avatar";
 import NewRequest from "../../../../utils/NewRequest";
-import { useLocation } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import PinDropIcon from "@mui/icons-material/PinDrop";
 import { toast } from "react-toastify";
 import Skeleton from "@mui/material/Skeleton";
 import Stack from "@mui/material/Stack";
+import DescriptionWithToggle from "../MoreinKids/DescriptionWithToggle";
+import { useQuery } from "react-query";
 
 const Singleitem = () => {
 
   const location = useLocation();
+  const navigate=useNavigate()
   const cardData = location.state;
-  console.log(cardData.cardData._id);
   const [Userdataget, setUserdataget] = useState('')
   const [moreproductData, setmoreproductData] = useState([])
   const [isLoading, setIsLoading] = useState(false);
   const [data, setdata] = useState('')
+  const [imageuser, setimageuser] = useState('')
 
+const fetchData = async () => {
+  setIsLoading(true);
+  try {
+    const response = await NewRequest.get(`/product/${cardData.cardData._id}`);
+    const datas = response.data;
 
-  const fetchData = async () => {
-    setIsLoading(true);
     try {
-      const response = await NewRequest.get(`/product/${cardData.cardData._id}`);
-      const datas = response.data;
-      console.log(datas.Category._id);
-      try {
-        const responsesingle = await NewRequest.get(`/product/getProductsByCategory/${datas.Category._id}`);
-        const activeProducts = responsesingle?.data.filter(
-          (product) => product.status.toLowerCase() === "active"
-        );
-        setmoreproductData(activeProducts || []);
-      } catch (err) {
-        console.log(err);
-      }
-
-      setUserdataget(datas);
-      setdata(datas);
-      // setData(response?.data || []);
-      setIsLoading(false);
+      const responsesingle = await NewRequest.get(
+        `/product/getProductsByCategory/${datas.Category._id}`
+      );
+      const activeProducts = responsesingle?.data.filter(
+        (product) => product.status.toLowerCase() === "active"
+      );
+      setmoreproductData(activeProducts || []);
     } catch (err) {
       console.log(err);
-      // setIsLoading(false);
     }
-  };
+
+    setUserdataget(datas);
+    setdata(datas);
+
+    try {
+      const responsdata = await NewRequest.get(`/users/${datas.User._id}`);
+     setimageuser(responsdata.data || "");
+    } catch (err) {
+      console.log(err);
+    }
+
+    setIsLoading(false);
+  } catch (err) {
+    console.log(err);
+    setIsLoading(false);
+  }
+};
+
+
+
 
   useEffect(() => {
     fetchData();
@@ -92,9 +106,105 @@ const Singleitem = () => {
     }
   };
 
+    async function fetchproductData() {
+      const response = await NewRequest.get("/product/getcategoryproduct");
+      const categoriesWithCounts = response?.data.map((item) => ({
+        name: item.category.name, // Category name
+        count: item.products.length, // Number of products in this category
+      }));
+
+      return categoriesWithCounts;
+    }
+
+    // Use the data in your component
+    const { data: productsdata } = useQuery(
+      "getcategoryproductget",
+      fetchproductData
+    );
+
+      const viewmore = (product) => {
+        console.log("product", product);
+        const subResponseString = JSON.stringify(product);
+        sessionStorage.setItem("productmore", subResponseString);
+        navigate(`/moreproduct/${product.category.name}`);
+      };
+
   return (
-    <>
-      <div className="lg:px-10 mt-5 lg:mt-40 sm:mt-2 flex gap-6 mx-auto w-full lg:w-[90%] sm:w-full flex-col sm:flex-row">
+    <div className="lg:px-10 mt-5 lg:mt-40 sm:mt-2  mx-auto w-full lg:w-[90%] sm:w-full">
+      <div className="my-5">
+        <span
+          className="cursor-pointer"
+          onClick={() => {
+            navigate("/");
+          }}
+        >
+          Home
+        </span>{" "}
+        |{" "}
+        <span className="cursor-pointer">
+          {" "}
+          {cardData?.cardData?.name || ""}
+        </span>
+      </div>
+      <div className="flex gap-6   flex-col sm:flex-row">
+        <div className="w-full lg:w-[35%] sm:w-full ">
+          <div className="border rounded shadow py-6 px-4">
+            <p className="text-primary">Listed by private user</p>
+            {isLoading ? (
+              <div className="flex">
+                <Skeleton height={50} width={50} circle={true} />{" "}
+                <Skeleton height={50} width={50} circle={true} />{" "}
+              </div> // Skeleton for user avatar
+            ) : (
+              <div className="flex my-auto mt-5">
+                <Avatar className="my-auto" src={imageuser?.image || ""} />
+                <div className="ml-5">
+                  <p className="text-secondary">
+                    {Userdataget?.User?.username || ""}
+                  </p>
+                  <p>{Userdataget?.User?.email || ""}</p>
+                  <p>{Userdataget?.User?.phone || ""}</p>
+                </div>
+              </div>
+            )}
+          </div>
+          <div className="border rounded shadow py-6 px-4 mt-5">
+            <p className="text-primary">Location</p>
+            <div className="flex my-auto mt-5">
+              <div className=" flex">
+                <p className="text-secondary ml-5">
+                  {isLoading ? (
+                    <Skeleton height={30} width={150} /> // Skeleton for location
+                  ) : (
+                    <div className="flex my-auto mt-5">
+                      <PinDropIcon />
+                      <p className="text-secondary ml-5">
+                        {data?.location || "location"}
+                      </p>
+                    </div>
+                  )}
+                </p>
+              </div>
+            </div>
+          </div>
+
+          <div className="border rounded shadow py-6 px-4 mt-5">
+            <div className="mb-4">
+              <h2 className="font-bold text-lg mb-2">Product Categories</h2>
+              <ul>
+                {productsdata &&
+                  productsdata.length > 0 &&
+                  productsdata.map((category, index) => (
+                    <li key={index} className="mb-2">
+                      <p>
+                        {category?.name || ""} ({category?.count || "0"})
+                      </p>
+                    </li>
+                  ))}
+              </ul>
+            </div>
+          </div>
+        </div>
         <div className="relative h-auto w-full lg:w-[65%] sm:w-full bg-white border-b mb-20 ">
           <div className="relative  w-full">
             {isLoading ? (
@@ -222,8 +332,8 @@ const Singleitem = () => {
                     <SwiperSlide>
                       <div
                         key={card.id}
-                        className="w-full py-1 border my-3 border-gray-300 rounded-md shadow-lg h-auto"
-                        onClick={() => singproductitem(card)}
+                        className="h-auto w-full py-1  border my-3 border-gray-300 rounded-md shadow-lg"
+                        // onClick={() => singproductitem(card)}
                       >
                         <div
                           // to={card.link}
@@ -247,9 +357,11 @@ const Singleitem = () => {
                                 onClick={() => postcard(card)}
                               />
                             </div>
-                            <p className="px-3 mt-3 text-detailscolor font-normal">
+                            {/* <p className="px-3 mt-3 text-detailscolor font-normal">
                               {card.description}
-                            </p>
+                            </p> */}
+
+                            <DescriptionWithToggle description={card.name} />
                             <p className="px-3 mt-3 text-headingcolor font-normal">
                               {card.location}
                             </p>
@@ -266,49 +378,8 @@ const Singleitem = () => {
             </Swiper>
           </div>
         </div>
-        <div className="w-full lg:w-[35%] sm:w-full ">
-          <div className="border rounded shadow py-6 px-4">
-            <p className="text-primary">Listed by private user</p>
-            {isLoading ? (
-              <div className="flex">
-                <Skeleton height={50} width={50} circle={true} />{" "}
-                <Skeleton height={50} width={50} circle={true} />{" "}
-              </div> // Skeleton for user avatar
-            ) : (
-              <div className="flex my-auto mt-5">
-                <Avatar className="my-auto" src="/broken-image.jpg" />
-                <div className="ml-5">
-                  <p className="text-secondary">
-                    {Userdataget?.User?.username || ""}
-                  </p>
-                  <p>{Userdataget?.User?.email || ""}</p>
-                  <p>{Userdataget?.User?.phone || ""}</p>
-                </div>
-              </div>
-            )}
-          </div>
-          <div className="border rounded shadow py-6 px-4 mt-5">
-            <p className="text-primary">Location</p>
-            <div className="flex my-auto mt-5">
-              <div className=" flex">
-                <p className="text-secondary ml-5">
-                  {isLoading ? (
-                    <Skeleton height={30} width={150} /> // Skeleton for location
-                  ) : (
-                    <div className="flex my-auto mt-5">
-                      <PinDropIcon />
-                      <p className="text-secondary ml-5">
-                        {data?.location || "location"}
-                      </p>
-                    </div>
-                  )}
-                </p>
-              </div>
-            </div>
-          </div>
-        </div>
       </div>
-    </>
+    </div>
   );
 };
 

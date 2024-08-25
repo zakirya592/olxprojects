@@ -117,33 +117,6 @@ const MoreProductview = () => {
           </h2>
         </div>
         <div className="flex">
-          {/* Sidebar */}
-          <aside className="w-1/4 p-4 border-r bg-gray-100 h-screen">
-            <div className="mb-4">
-              <h2 className="font-bold text-lg mb-2">Categories</h2>
-              <ul>
-                {productsdata &&
-                  productsdata.length > 0 &&
-                  productsdata.map((category, index) => (
-                    <li key={index} className="mb-2">
-                      <a href="#">
-                        {category?.name || ""} ({category?.count || "0"})
-                      </a>
-                    </li>
-                  ))}
-              </ul>
-            </div>
-            {/* <div className="mb-4">
-                <h2 className="font-bold text-lg mb-2">Location</h2>
-                <select className="w-full p-2 border rounded">
-                  <option>Pakistan</option>
-                  <option>Punjab</option>
-                  <option>Sindh</option>
-                  <option>KPK</option>
-                </select>
-              </div> */}
-          </aside>
-
           {/* Main Content */}
           <main className="flex-1 p-4">
             <div className="grid grid-cols-1 md:grid-cols-1 lg:grid-cols-1 gap-4">
@@ -242,6 +215,24 @@ const MoreProductview = () => {
               )}
             </div>
           </main>
+
+          {/* Sidebar */}
+          <aside className="w-1/4 p-4 border my-3 border-gray-300 rounded-md shadow-lg ">
+            <div className="mb-4">
+              <h2 className="font-bold text-lg mb-2">Product Categories</h2>
+              <ul>
+                {productsdata &&
+                  productsdata.length > 0 &&
+                  productsdata.map((category, index) => (
+                    <li key={index} className="mb-2">
+                      <a href="#">
+                        {category?.name || ""} ({category?.count || "0"})
+                      </a>
+                    </li>
+                  ))}
+              </ul>
+            </div>
+          </aside>
         </div>
       </div>
       {/* <Footer /> */}
