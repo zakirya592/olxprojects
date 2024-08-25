@@ -4,7 +4,7 @@ import { useQuery } from "react-query";
 import { useNavigate } from "react-router-dom";
 import NewRequest from "../../../../utils/NewRequest";
 import { toast } from "react-toastify";
-
+import Skeleton from "@mui/material/Skeleton";
 const MoreProductview = () => {
 
   const navigate = useNavigate();
@@ -149,9 +149,51 @@ const MoreProductview = () => {
             <div className="grid grid-cols-1 md:grid-cols-1 lg:grid-cols-1 gap-4">
               {/* Card 1 */}
               {isLoading ? (
-                <div>Loading...</div>
+                <div>
+                  {[...Array(3)].map((_, index) => (
+                    <div
+                      className="border rounded shadow cursor-pointer"
+                      key={index}
+                    >
+                      <div className="flex gap-3">
+                        <Skeleton
+                          variant="rectangular"
+                          width="100%"
+                          height={208}
+                        />
+                        <div className="w-full mb-5 p-4">
+                          <Skeleton
+                            variant="text"
+                            width="60%"
+                            height={30}
+                            style={{ marginBottom: "12px" }}
+                          />
+                          <Skeleton
+                            variant="text"
+                            width="100%"
+                            height={20}
+                            style={{ marginBottom: "12px" }}
+                          />
+                          <Skeleton
+                            variant="text"
+                            width="80%"
+                            height={20}
+                            style={{ marginBottom: "12px" }}
+                          />
+                          <Skeleton
+                            variant="rectangular"
+                            width="100px"
+                            height={40}
+                          />
+                        </div>
+                      </div>
+                    </div>
+                  ))}
+                </div>
               ) : error ? (
                 ""
+              ) : moreproductData.length === 0 ? (
+                <div>No products available</div>
               ) : (
                 moreproductData.map((item, index) => (
                   <div
