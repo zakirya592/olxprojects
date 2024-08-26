@@ -8,27 +8,64 @@ import Singup from "./Singup";
 import { FaGoogle } from "react-icons/fa6";
 import Firstloginsinup from "./Firstloginsinup";
 import logo from "../../../assets/Images/logo1.png"
+import { toast } from "react-toastify";
+import { useNavigate } from "react-router-dom";
 
 const Firstsinguppop = ({ isVisiblesinuppage, setVisibilitysinuppage }) => {
-    const [isCreatePopupVisiblepop, setCreatePopupVisibilitypop] =useState(false);
-      const [isCreatePopupVisible, setCreatePopupVisibility] = useState(false);
+  const [isCreatePopupVisiblepop, setCreatePopupVisibilitypop] = useState(false);
+  const [isCreatePopupVisible, setCreatePopupVisibility] = useState(false);
+  const navigate=useNavigate()
   const handleCloseCreatePopup = () => {
     setVisibilitysinuppage(false);
     setCreatePopupVisibilitypop(false);
     setCreatePopupVisibility(false);
   };
-    const handleShowCreatePopuppop = () => {
-      setCreatePopupVisibilitypop(true);
-      setCreatePopupVisibility(false)
-    };
-   const handleShowCreatePopup = () => {
-     setCreatePopupVisibility(true);
-     setCreatePopupVisibilitypop(false)
-   };
+  const handleShowCreatePopuppop = () => {
+    setCreatePopupVisibilitypop(true);
+    setCreatePopupVisibility(false)
+  };
+  const handleShowCreatePopup = () => {
+    setCreatePopupVisibility(true);
+    setCreatePopupVisibilitypop(false)
+  };
 
-     const handleGoogleSignup = () => {
-      window.location.href = "https://talhaolx.vercel.app/users/signup_with_google";
+  const handleGoogleSignup = () => {
+    window.location.href = "https://talhaolx.vercel.app/users/signup_with_google";
+  };
+
+  useEffect(() => {
+    const handleRedirect = () => {
+      // This is just an example. You would need to integrate with actual success status or auth context
+      const signupSuccess = false; // Replace with actual check
+      const response = {
+        success: false,
+        redirectUrl: "login", // Example response
+      };
+      if (response.success) {
+        navigate(`/`);
+      } else {
+        // Handle case where signup failed or response is unsuccessful
+        console.error("Signup failed. Redirect URL:", response.redirectUrl);
+        // Optionally show an error message or handle failure
+      }
+      if (signupSuccess) {
+        // window.location.href = "/home";
+        navigate("/");
+        toast.success(`Sign Up has been successfully".`, {
+          position: "top-right",
+          autoClose: 2000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "light",
+        });
+      }
     };
+
+    handleRedirect();
+  }, []);
 
   return (
     <div>
@@ -101,7 +138,7 @@ const Firstsinguppop = ({ isVisiblesinuppage, setVisibilitysinuppage }) => {
         <Singup
           isVisiblepop={isCreatePopupVisiblepop}
           setVisibilitypop={setCreatePopupVisibilitypop}
-          // refreshBrandData={fetchData}
+        // refreshBrandData={fetchData}
         />
       )}
 
@@ -109,7 +146,7 @@ const Firstsinguppop = ({ isVisiblesinuppage, setVisibilitysinuppage }) => {
         <Firstloginsinup
           isVisible={isCreatePopupVisible}
           setVisibility={setCreatePopupVisibility}
-          // refreshBrandData={fetchData}
+        // refreshBrandData={fetchData}
         />
       )}
     </div>
