@@ -35,7 +35,7 @@ const Firstsinguppop = ({ isVisiblesinuppage, setVisibilitysinuppage }) => {
       {/* create the post api popup */}
       {isVisiblesinuppage && (
         <div className="popup-overlay z-50 text-center justify-center">
-          <div className="popup-container bg-gray-100  h-auto sm:w-[40%] justify-center w-full">
+          <div className="popup-container bg-gray-100  h-auto sm:w-[30%] justify-center w-full">
             <div
               className="popup-form w-full "
               style={{ maxHeight: "90vh", overflowY: "auto" }}
@@ -63,11 +63,11 @@ const Firstsinguppop = ({ isVisiblesinuppage, setVisibilitysinuppage }) => {
 
                 <div className="flex w-full justify-center items-center text-center my-10">
                   <div
-                    className="border flex border-[#002f34] hover:shadow-lg justify-center cursor-pointer items-center text-center w-full rounded-md hover:border-3 my-auto"
+                    className="border flex border-[#002f34] hover:shadow-lg justify-center cursor-pointer items-center text-center rounded-md hover:border-3 my-auto"
                     onClick={handleShowCreatePopuppop}
                   >
-                    <MdOutlineMailOutline size={24} className="my-auto" />
-                    <p className="text-[#002f34] p-3 my-auto text-lg">
+                    <MdOutlineMailOutline size={24} className="my-auto ms-10" />
+                    <p className="text-[#002f34] p-3 my-auto text-lg me-10">
                       Join with Email
                     </p>
                   </div>
@@ -75,11 +75,11 @@ const Firstsinguppop = ({ isVisiblesinuppage, setVisibilitysinuppage }) => {
 
                 <div className="flex w-full justify-center items-center text-center my-10">
                   <div
-                    className="border flex border-[#002f34] hover:shadow-lg justify-center cursor-pointer items-center text-center w-full rounded-md hover:border-3 my-auto"
+                    className="border flex border-[#002f34] hover:shadow-lg justify-center cursor-pointer items-center text-center rounded-md hover:border-3 my-auto"
                     onClick={handleGoogleSignup}
                   >
-                    <FaGoogle size={24} className="my-auto" />
-                    <p className="text-[#002f34] p-3 my-auto text-lg">
+                    <FaGoogle size={24} className="my-auto ms-9" />
+                    <p className="text-[#002f34] p-3 my-auto text-lg me-9">
                       Join with Goolge
                     </p>
                   </div>

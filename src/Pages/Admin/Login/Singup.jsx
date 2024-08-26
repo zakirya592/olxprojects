@@ -106,7 +106,7 @@ const Singup = ({ isVisiblepop, setVisibilitypop }) => {
       {/* create the post api popup */}
       {isVisiblepop && (
         <div className="popup-overlay z-50 ">
-          <div className="popup-container bg-gray-100  h-auto sm:w-[45%] justify-center w-full">
+          <div className="popup-container bg-gray-100  h-auto sm:w-[35%] justify-center w-full">
             <div
               className="popup-form w-full "
               style={{ maxHeight: "90vh", overflowY: "auto" }}
