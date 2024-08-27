@@ -27,7 +27,7 @@ const Hadersilder = () => {
 
    // Find the "Mobiles" category and filter products with status === "active"
    const mobilesCategory = response?.data.find(
-     (item) => item.category.name === "Mobiles"
+     (item) => item.category.name == "Mobiles"
    );
 
    if (mobilesCategory) {
@@ -95,6 +95,13 @@ const Hadersilder = () => {
     //  const cardId = card.id;
     navigate(`/Singleitem/${card._id}`, { state: { cardData: card } });
   }
+
+    // const charfunction = (Product) => {
+    //   console.log(Product);
+    //   const subResponsechat = JSON.stringify(Product);
+    //   sessionStorage.setItem("chardata", subResponsechat);
+    //   navigate("/Chat");
+    // };
 
   
   const limitedProducts = productsdata.products.slice(0, 4);
@@ -179,7 +186,6 @@ const Hadersilder = () => {
               <div
                 key={card.id}
                 className="h-auto w-full py-1 border my-3 border-gray-300 rounded-md shadow-lg transition-transform transform hover:scale-110"
-                onClick={() => singproductitem(card)}
               >
                 <div
                   // to={card.link}
@@ -189,12 +195,16 @@ const Hadersilder = () => {
                     src={card.images[0]}
                     alt=""
                     className="w-full h-44 object-cover"
+                    onClick={() => singproductitem(card)}
                   />
-                  <div className="w-full">
+                  <div className="w-full mt-3">
+                    <div className="flex text-[#17BCDC] ">
+                      <p className="mt-3">Title</p>
+                      <div className="my-auto">
+                        <DescriptionWithToggle description={card.name} />
+                      </div>
+                    </div>
                     <div className="px-3 flex flex-row mt-5 justify-between gap-2">
-                      {/* <p className="text-headingcolor sm:text-lg text-base">
-                        {card.name}
-                      </p> */}
                       <p className="text-[#002147] sm:text-lg text-base">
                         Rs {card.price}
                       </p>
@@ -203,16 +213,17 @@ const Hadersilder = () => {
                         onClick={() => postcard(card)}
                       />
                     </div>
-                    {/* <p className="px-3 mt-3 text-detailscolor font-normal">
-                      {card.name}
-                    </p> */}
-                    <DescriptionWithToggle description={card.name} />
-                    <p className="px-3 mt-3 text-[#002147] font-normal">
+                    <div className="div mx-3 mt-5">
+                      {/* <button
+                        className="text-green-500 border border-green-500 px-4 py-1 rounded"
+                        onClick={() => charfunction(card)}
+                      >
+                        Chat
+                      </button> */}
+                    </div>
+                    {/* <p className="px-3 mt-3 text-[#002147] font-normal">
                       {card.location}
-                    </p>
-                    {/* <span className="px-3 text-loactioncolor font-light mb-7 text-sm">
-                      {card.daysAgo}
-                    </span> */}
+                    </p> */}
                   </div>
                 </div>
               </div>

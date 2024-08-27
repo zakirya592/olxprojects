@@ -8,7 +8,7 @@ const DescriptionWithToggle = ({ description }) => {
 
   return (
     <div>
-      <p className="px-3 mt-3 text-detailscolor font-normal">
+      <p className="pe-3 mt-3 text-[#17BCDC] font-normal">
         {isExpanded || !showMore ? description : `${truncatedDescription}...`}
       </p>
       {showMore && (

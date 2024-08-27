@@ -5,6 +5,7 @@ import { useNavigate } from "react-router-dom";
 import NewRequest from "../../../../utils/NewRequest";
 import { toast } from "react-toastify";
 import Skeleton from "@mui/material/Skeleton";
+import DescriptionWithToggle from "../MoreinKids/DescriptionWithToggle";
 const MoreProductview = () => {
 
   const navigate = useNavigate();
@@ -182,7 +183,8 @@ const MoreProductview = () => {
                       />
 
                       <div className="w-full mb-5 p-4">
-                        <div className="flex justify-between">
+                        <DescriptionWithToggle description={item.name} />
+                        <div className="flex justify-between mt-3">
                           <h3 className="font-bold text-lg mb-2">
                             Rs {item?.price || ""}
                           </h3>
@@ -191,9 +193,10 @@ const MoreProductview = () => {
                             onClick={() => postcard(item._id)}
                           />
                         </div>
-                        <p className="text-gray-700 mb-5">
+                        {/* <p className="text-gray-700 mb-5">
                           {item?.description || ""}
-                        </p>
+                        </p> */}
+
                         <p className="text-gray-500 text-sm">
                           {item?.location || ""} - 2 weeks ago
                         </p>
