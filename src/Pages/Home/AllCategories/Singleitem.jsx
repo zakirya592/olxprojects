@@ -172,13 +172,13 @@ const fetchData = async () => {
             <p className="text-primary">Location</p>
             <div className="flex my-auto mt-5">
               <div className=" flex">
-                <p className="text-secondary ml-5">
+                <p className="text-secondary">
                   {isLoading ? (
                     <Skeleton height={30} width={150} /> // Skeleton for location
                   ) : (
                     <div className="flex my-auto mt-5">
                       <PinDropIcon />
-                      <p className="text-secondary ml-5">
+                      <p className="text-secondary ml-2">
                         {data?.location || "location"}
                       </p>
                     </div>
@@ -357,11 +357,10 @@ const fetchData = async () => {
                                 onClick={() => postcard(card)}
                               />
                             </div>
-                            {/* <p className="px-3 mt-3 text-detailscolor font-normal">
-                              {card.description}
-                            </p> */}
+                            <p className="px-3 mt-3 font-normal">
+                              <DescriptionWithToggle description={card.name} />
+                            </p>
 
-                            <DescriptionWithToggle description={card.name} />
                             <p className="px-3 mt-3 text-headingcolor font-normal">
                               {card.location}
                             </p>
