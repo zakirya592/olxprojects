@@ -184,7 +184,7 @@ const Hadersilder = () => {
                           onClick={() => singproductitem(card)}
                         />
                         <div className="w-full mt-3">
-                          <div className="flex text-[#17BCDC] ">
+                          <div className="flex text-[#17BCDC] mx-2">
                             <p className="mt-3">Title</p>
                             <div className="my-auto ms-2">
                               <DescriptionWithToggle description={card.name} />
