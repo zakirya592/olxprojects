@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import NewRequest from "../../../utils/NewRequest";
 import { useQuery } from "react-query";
 
@@ -6,6 +6,7 @@ const Chat = () => {
   const [message, setMessage] = useState("");
   const [chatHistory, setChatHistory] = useState([]);
   const [chatlist, setchatlist] = useState([])
+  const [activeChatId, setActiveChatId] = useState(null);
   const storedUserResponseString = sessionStorage.getItem("userResponse");
   const storedUserResponse = JSON.parse(storedUserResponseString);
   const loginuserdata = storedUserResponse.data.user;
@@ -37,6 +38,8 @@ const Chat = () => {
     try {
       const response = await NewRequest.get(`/chat/getmychat?userId=${loginuserdata?._id}`
       );
+      console.log(response, "response");
+
       setchatlist(response.data);
     } catch (error) {
       console.error("Error fetching chat history:", error);
@@ -57,22 +60,24 @@ const Chat = () => {
       refetch()
       setChatHistory([...chatHistory, response.data]);
       setMessage("");
+      fetchchatlist()
     } catch (error) {
       console.error("Error sending message:", error);
     }
   };
 
-    const handleChatSelection = (chat) => {
-        setSelectedUser(chat?.user);
-      console.log(chat?.user);
-      
-    };
+  const handleChatSelection = (chat) => {
+    setSelectedUser(chat?.user);
+    console.log(chat?.user);
+    setActiveChatId(chat?.user._id);
 
-    useEffect(() => {
-      if (selectedUser) {
-        refetch(); // Refetch chat history for the selected user
-      }
-    }, [selectedUser, refetch]);
+  };
+
+  useEffect(() => {
+    if (selectedUser) {
+      refetch(); // Refetch chat history for the selected user
+    }
+  }, [selectedUser, refetch]);
 
 
   const handleKeyDown = (e) => {
@@ -87,6 +92,15 @@ const Chat = () => {
     fetchchatlist()
   }, [senderId]);
 
+  const chatContainerRef = useRef(null);
+
+useEffect(() => {
+  // Scroll to the bottom of the chat container whenever chatHistorydata changes
+  if (chatContainerRef.current) {
+    chatContainerRef.current.scrollTop = chatContainerRef.current.scrollHeight;
+  }
+}, [chatHistorydata]);
+
 
   return (
     <div className="flex flex-col sm:flex-col lg:flex-row h-[80vh] overflow-y-scroll lg:px-10 mt-5 lg:mt-40 sm:mt-2">
@@ -96,12 +110,16 @@ const Chat = () => {
         <div className="space-y-4 p-4">
           {chatlist.map((chatlist, index) => (
             <div
-              className="flex items-center p-2 bg-gray-300 rounded cursor-pointer shadow"
+              className={`flex items-center p-2 rounded cursor-pointer shadow ${
+                activeChatId === chatlist?.user._id
+                  ? "bg-gray-300"
+                  : "bg-gray-100"
+              }`}
               key={index}
               onClick={() => handleChatSelection(chatlist)}
             >
               <img
-                src={chatlist?.user?.images || ""}
+                src={chatlist?.user?.image || ""}
                 alt="User"
                 className="w-10 h-10 rounded-full mr-3"
               />
@@ -134,7 +152,10 @@ const Chat = () => {
       {/* Main Chat Area */}
       <div className="flex-1 p-5">
         <div className="border border-gray-300 p-4 h-full flex flex-col justify-between">
-          <div className=" overflow-y-auto mb-5 flex-grow">
+          <div
+            className=" overflow-y-auto mb-5 flex-grow"
+            ref={chatContainerRef}
+          >
             {chatHistorydata &&
               chatHistorydata.map((chat, index) => (
                 <div
