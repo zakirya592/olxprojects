@@ -161,25 +161,30 @@ useEffect(() => {
                 <div
                   key={index}
                   className={`mb-3 ${
-                    chat.senderId === senderId ? "directionrtl" : "directionltr"
+                    chat.sender._id === senderId ? "text-left" : "text-right me-4"
                   }`}
                 >
+                  {console.log(chat.sender._id, "data")}
+                  {console.log(chat.receiver._id, "datar")}
                   <div>
-                    <div className="flex justify-between w-full">
-                      <div className="flex">
+                      <div className={`flex ${chat.sender._id === senderId ? "justify-start" : "justify-end"}`}>
+                        <div>
+
+                    <div className="flex">
                         <p> {chat?.content || ""}</p>
                       </div>
                       <p className="text-xs text-gray-400">
                         {new Date(chat.timestamp).toLocaleString("en-US", {
-                          day: "2-digit",
-                          month: "2-digit",
-                          year: "numeric",
+                          // day: "2-digit",
+                          // month: "2-digit",
+                          // year: "numeric",
                           hour: "2-digit",
                           minute: "2-digit",
                           second: "2-digit",
                           hour12: true,
                         })}
                       </p>
+                        </div>
                     </div>
                   </div>
                 </div>

@@ -31,23 +31,28 @@ const Firstloginsinup = ({ isVisible, setVisibility }) => {
 
    const handleGoogleLoginSuccess = () => {
       window.location.href = `${baseUrl}/users/login_with_google`;
+      
     };
 
-     useEffect(() => {
-       const handleRedirect = () => {
-         const response = {
-           success: true,
-           redirectUrl: "login", // Example response
-         };
-         if (response.success) {
-           navigate(`/`);
-         } else {
-           console.error("Signup failed. Redirect URL:", response.redirectUrl);
-         }
-       };
 
-       handleRedirect();
-     }, []);
+  // useEffect(() => {
+  //   const handleRedirect = async () => {
+  //     const urlParams = new URLSearchParams(window.location.search);
+  //     const authuser = urlParams.get("authuser");
+
+  //     if (authuser === "0") {
+  //       navigate(`/`);
+  //     } else {
+  //       console.error("Google login failed or user is not authorized.");
+  //       navigate(`/signup`); // or any other action if needed
+  //     }
+  //   };
+
+  //   handleRedirect();
+  // }, [navigate]);
+
+
+
 
 
   return (
