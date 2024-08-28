@@ -129,6 +129,13 @@ const fetchData = async () => {
         navigate(`/moreproduct/${product.category.name}`);
       };
 
+        const charfunction = (Product) => {
+          console.log(Product.User);
+          const subResponsechat = JSON.stringify(Product.User);
+          sessionStorage.setItem("chardata", subResponsechat);
+          navigate("/Chat");
+        };
+
   return (
     <div className="lg:px-10 mt-5 lg:mt-40 sm:mt-2  mx-auto w-full lg:w-[90%] sm:w-full">
       <div className="my-5">
@@ -156,14 +163,24 @@ const fetchData = async () => {
                 <Skeleton height={50} width={50} circle={true} />{" "}
               </div> // Skeleton for user avatar
             ) : (
-              <div className="flex my-auto mt-5">
-                <Avatar className="my-auto" src={imageuser?.image || ""} />
-                <div className="ml-5">
-                  <p className="text-secondary">
-                    {Userdataget?.User?.username || ""}
-                  </p>
-                  <p>{Userdataget?.User?.email || ""}</p>
-                  <p>{Userdataget?.User?.phone || ""}</p>
+              <div className="flex my-auto mt-5 justify-between">
+                <div className="flex">
+                  <Avatar className="my-auto" src={imageuser?.image || ""} />
+                  <div className="ml-5">
+                    <p className="text-secondary">
+                      {Userdataget?.User?.username || ""}
+                    </p>
+                    <p>{Userdataget?.User?.email || ""}</p>
+                    <p>{Userdataget?.User?.phone || ""}</p>
+                  </div>
+                </div>
+                <div>
+                  <button
+                    className="text-green-500 border border-green-500 px-4 rounded mt-4"
+                    onClick={() => charfunction(Userdataget)}
+                  >
+                    Chat
+                  </button>
                 </div>
               </div>
             )}
