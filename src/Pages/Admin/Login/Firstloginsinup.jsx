@@ -13,26 +13,26 @@ import { baseUrl } from "../../../../utils/config";
 import { useNavigate } from "react-router-dom";
 
 const Firstloginsinup = ({ isVisible, setVisibility }) => {
-   const navigate = useNavigate();
-  const handleCloseCreatePopup = () => {
-    setVisibility(false);
-  };
+  const navigate = useNavigate();
 
-   const [isCreatePopupVisiblepopfirstsinguppage, setisCreatePopupVisiblepopfirstsinguppage] = useState(false);
-   const handleShowCreatePopuppopfirstsinguppage = () => {
-     setisCreatePopupVisiblepopfirstsinguppage(true);
-     setCreatePopupVisibilitypoplogin(false)
-   };
+  useEffect(() => {
+    const handleGoogleRedirect = () => {
+      const urlParams = new URLSearchParams(window.location.search);
+      const token = urlParams.get("token");
 
-      const [isCreatePopupVisiblepoplogin, setCreatePopupVisibilitypoplogin] = useState(false);
-   const handleShowCreatePopuppoplogin = () => { 
-     setCreatePopupVisibilitypoplogin(true);
-   };
-
-   const handleGoogleLoginSuccess = () => {
-      window.location.href = `${baseUrl}/users/login_with_google`;
-      
+      if (token) {
+        // Store the token securely (e.g., localStorage, or cookies)
+        localStorage.setItem("token", token);
+        navigate("/dashboard"); // Redirect to dashboard
+      }
     };
+
+    handleGoogleRedirect();
+  }, [navigate]);
+
+  const handleGoogleLogin = () => {
+    window.location.href = `${baseUrl}/users/login_with_google`;
+  };
 
 
   // useEffect(() => {
@@ -101,7 +101,7 @@ const Firstloginsinup = ({ isVisible, setVisibility }) => {
                 <div className="flex w-full justify-center items-center text-center my-10">
                   <div
                     className="border flex border-[#002f34] hover:shadow-lg justify-center cursor-pointer items-center text-center rounded-md hover:border-3 my-auto"
-                    onClick={handleGoogleLoginSuccess}
+                    onClick={handleGoogleLogin}
                   >
                     <FaGoogle size={24} className="my-auto ms-9" />
                     <p className="text-[#002f34] p-3 my-auto text-lg me-9">
