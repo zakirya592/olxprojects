@@ -19,10 +19,12 @@ const Firstloginsinup = ({ isVisible, setVisibility }) => {
     const handleGoogleRedirect = () => {
       const urlParams = new URLSearchParams(window.location.search);
       const token = urlParams.get("token");
+      const userId = urlParams.get("userId");
 
-      if (token) {
-        // Store the token securely (e.g., localStorage, or cookies)
+      if (token && userId) {
+        // Store the token and userId securely (e.g., localStorage, or cookies)
         localStorage.setItem("token", token);
+        localStorage.setItem("userId", userId);
         navigate("/dashboard"); // Redirect to dashboard
       }
     };
