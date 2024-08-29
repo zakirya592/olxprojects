@@ -1,6 +1,8 @@
 import React, { useEffect, useRef, useState } from "react";
 import NewRequest from "../../../utils/NewRequest";
 import { useQuery } from "react-query";
+import { GiPlayButton } from "react-icons/gi";
+
 
 const Chat = () => {
   const [message, setMessage] = useState("");
@@ -94,12 +96,12 @@ const Chat = () => {
 
   const chatContainerRef = useRef(null);
 
-useEffect(() => {
-  // Scroll to the bottom of the chat container whenever chatHistorydata changes
-  if (chatContainerRef.current) {
-    chatContainerRef.current.scrollTop = chatContainerRef.current.scrollHeight;
-  }
-}, [chatHistorydata]);
+  useEffect(() => {
+    // Scroll to the bottom of the chat container whenever chatHistorydata changes
+    if (chatContainerRef.current) {
+      chatContainerRef.current.scrollTop = chatContainerRef.current.scrollHeight;
+    }
+  }, [chatHistorydata]);
 
 
   return (
@@ -123,26 +125,28 @@ useEffect(() => {
                 alt="User"
                 className="w-10 h-10 rounded-full mr-3"
               />
-              <div>
-                <h3 className="font-medium">
-                  {" "}
-                  {chatlist?.user.username || ""}
-                </h3>
+              <div className="w-full">
+                <div className="flex justify-between w-full">
+                  <h3 className="font-medium">
+                    {" "}
+                    {chatlist?.user.username || ""}
+                  </h3>
+                  <span className="text-sm font-semibold text-blue-600">
+                    {/* {chatlist?.timestamp || ""} */}
+                    {new Date(chatlist?.timestamp).toLocaleString("en-US", {
+                      // day: "2-digit",
+                      // month: "2-digit",
+                      // year: "numeric",
+                      hour: "2-digit",
+                      minute: "2-digit",
+                      second: "2-digit",
+                      hour12: true,
+                    })}
+                  </span>
+                </div>
                 <p className="text-gray-500 text-sm">
                   {chatlist?.lastMessage || ""}
                 </p>
-                <span className="text-sm font-semibold text-blue-600">
-                  {/* {chatlist?.timestamp || ""} */}
-                  {new Date(chatlist?.timestamp).toLocaleString("en-US", {
-                    day: "2-digit",
-                    month: "2-digit",
-                    year: "numeric",
-                    hour: "2-digit",
-                    minute: "2-digit",
-                    second: "2-digit",
-                    hour12: true,
-                  })}
-                </span>
               </div>
             </div>
           ))}
@@ -151,7 +155,7 @@ useEffect(() => {
 
       {/* Main Chat Area */}
       <div className="flex-1 p-5">
-        <div className="border border-gray-300 p-4 h-full flex flex-col justify-between">
+        <div className="border border-gray-300 bg-[#FFFFFF] p-4 h-full flex flex-col justify-between w-full">
           <div
             className=" overflow-y-auto mb-5 flex-grow"
             ref={chatContainerRef}
@@ -161,30 +165,59 @@ useEffect(() => {
                 <div
                   key={index}
                   className={`mb-3 ${
-                    chat.sender._id === senderId ? "text-left" : "text-right me-4"
+                    chat.sender._id === senderId
+                      ? "text-right mx-4"
+                      : "text-left mx-4"
                   }`}
                 >
-                  {console.log(chat.sender._id, "data")}
-                  {console.log(chat.receiver._id, "datar")}
                   <div>
-                      <div className={`flex ${chat.sender._id === senderId ? "justify-start" : "justify-end"}`}>
-                        <div>
-
-                    <div className="flex">
-                        <p> {chat?.content || ""}</p>
-                      </div>
-                      <p className="text-xs text-gray-400">
-                        {new Date(chat.timestamp).toLocaleString("en-US", {
-                          // day: "2-digit",
-                          // month: "2-digit",
-                          // year: "numeric",
-                          hour: "2-digit",
-                          minute: "2-digit",
-                          second: "2-digit",
-                          hour12: true,
-                        })}
-                      </p>
+                    {/* {chat.sender} */}
+                    <div
+                      className={`flex ${
+                        chat.sender._id === senderId
+                          ? "justify-end"
+                          : "justify-start"
+                      }`}
+                    >
+                      {/* Avatar for the sender */}
+                      {chat.sender._id !== senderId && (
+                        <img
+                          src={chat.sender.image} // Assuming 'avatar' holds the URL for the sender's image
+                          alt={chat.sender.name} // Assuming 'name' holds the sender's name
+                          className="w-8 h-8 rounded-full mr-2"
+                        />
+                      )}
+                      <div
+                        className={`${
+                          chat.sender._id === senderId
+                            ? "bg-[#F5F7FB] text-black"
+                            : " bg-indigo-600 text-white py-2 px-4 rounded-lg max-w-xs shadow-lg"
+                        } py-2 px-4 rounded-lg max-w-xs shadow-lg`}
+                      >
+                        <div className="flex">
+                          <p className=""> {chat?.content || ""}</p>
                         </div>
+                        <p className="text-xs text-gray-400">
+                          {new Date(chat.timestamp).toLocaleString("en-US", {
+                            // day: "2-digit",
+                            // month: "2-digit",
+                            // year: "numeric",
+                            hour: "2-digit",
+                            minute: "2-digit",
+                            second: "2-digit",
+                            hour12: true,
+                          })}
+                        </p>
+                      </div>
+                      
+                      {/* Show the current user's image if they are the sender */}
+                      {chat.sender._id === senderId && (
+                        <img
+                          src={chat.sender.image} // URL for the current user's image
+                          alt={chat.sender.name} // Current user's name
+                          className="w-8 h-8 rounded-full ml-2"
+                        />
+                      )}
                     </div>
                   </div>
                 </div>
@@ -197,15 +230,16 @@ useEffect(() => {
                 type="text"
                 value={message}
                 onChange={handleMessageChange}
-                className="flex-1 p-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
-                placeholder="Type your message..."
+                className="flex-1 px-2 py-4 border border-gray-300 rounded focus:outline-none bg-[#E6EBF5] focus:ring-2 focus:ring-blue-500"
+                placeholder="Enter your message..."
                 onKeyDown={handleKeyDown}
               />
               <button
                 onClick={handleSendMessage}
-                className="ml-2 p-2 bg-blue-500 text-white rounded hover:bg-blue-600 transition duration-300"
+                className="ml-2 px-4 bg-[#7269EF] text-white rounded hover:bg-blue-600 transition duration-300"
               >
-                Send
+                {/* Send */}
+                <GiPlayButton size={34} />
               </button>
             </div>
           </div>
