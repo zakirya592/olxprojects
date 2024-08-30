@@ -11,13 +11,13 @@ const Chat = () => {
   const [activeChatId, setActiveChatId] = useState(null);
   const storedUserResponseString = sessionStorage.getItem("userResponse");
   const storedUserResponse = JSON.parse(storedUserResponseString);
-  const loginuserdata = storedUserResponse.data.user;
+  const loginuserdata = storedUserResponse?.data?.user || "";
 
   const chatproduct = sessionStorage.getItem("chardata");
   const chatResponse = JSON.parse(chatproduct);
 
 
-  const senderId = loginuserdata?._id;
+  const senderId = loginuserdata?._id || "";
 
   const [selectedUser, setSelectedUser] = useState(chatResponse || "");
 
@@ -32,13 +32,13 @@ const Chat = () => {
     refetch
   } = useQuery(["chatdata", selectedUser?._id], fetchUpcomingEventsData);
   async function fetchUpcomingEventsData() {
-    const response = await NewRequest.get(`/chat?userId=${senderId}&contactId=${selectedUser?._id}`);
+    const response = await NewRequest.get(`/chat?userId=${senderId}&contactId=${selectedUser?._id || ""}`);
     return response?.data;
   }
 
   const fetchchatlist = async () => {
     try {
-      const response = await NewRequest.get(`/chat/getmychat?userId=${loginuserdata?._id}`
+      const response = await NewRequest.get(`/chat/getmychat?userId=${loginuserdata?._id || ""}`
       );
       console.log(response, "response");
 
