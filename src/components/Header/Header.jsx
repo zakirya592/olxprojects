@@ -116,6 +116,24 @@ function Header() {
     label: PropTypes.string.isRequired,
   };
 
+
+    // useEffect(() => {
+    //   const handleGoogleRedirect = () => {
+    //     const urlParams = new URLSearchParams(window.location.search);
+    //     const token = urlParams.get("token");
+    //     const userId = urlParams.get("userId");
+
+    //     if (token && userId) {
+    //       localStorage.setItem("token", token);
+    //       localStorage.setItem("userId", userId);
+    //       // Store the token and userId securely (e.g., localStorage, or cookies)
+    //       navigate("/dashboard"); // Redirect to dashboard
+    //     }
+    //   };
+
+    //   handleGoogleRedirect();
+    // }, [navigate]);
+
   return (
     <>
       <div className="bg-[#7B6C9C] text-white shadow-md px-0 smm:px-0 lg:px-12 lg:fixed top-0 left-0 right-0 z-50">

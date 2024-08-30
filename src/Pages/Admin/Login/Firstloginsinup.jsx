@@ -15,6 +15,21 @@ import { useNavigate } from "react-router-dom";
 const Firstloginsinup = ({ isVisible, setVisibility }) => {
   const navigate = useNavigate();
 
+    const handleCloseCreatePopup = () => {
+      setVisibility(false);
+    };
+
+       const [isCreatePopupVisiblepopfirstsinguppage, setisCreatePopupVisiblepopfirstsinguppage] = useState(false);
+   const handleShowCreatePopuppopfirstsinguppage = () => {
+     setisCreatePopupVisiblepopfirstsinguppage(true);
+     setCreatePopupVisibilitypoplogin(false)
+   };
+
+      const [isCreatePopupVisiblepoplogin, setCreatePopupVisibilitypoplogin] = useState(false);
+   const handleShowCreatePopuppoplogin = () => { 
+     setCreatePopupVisibilitypoplogin(true);
+   };
+
   useEffect(() => {
     const handleGoogleRedirect = () => {
       const urlParams = new URLSearchParams(window.location.search);
@@ -22,9 +37,9 @@ const Firstloginsinup = ({ isVisible, setVisibility }) => {
       const userId = urlParams.get("userId");
 
       if (token && userId) {
-        // Store the token and userId securely (e.g., localStorage, or cookies)
         localStorage.setItem("token", token);
         localStorage.setItem("userId", userId);
+        // Store the token and userId securely (e.g., localStorage, or cookies)
         navigate("/dashboard"); // Redirect to dashboard
       }
     };
