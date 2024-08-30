@@ -35,15 +35,11 @@ const Firstloginsinup = ({ isVisible, setVisibility }) => {
       const urlParams = new URLSearchParams(window.location.search);
       const token = urlParams.get("token");
       const userId = urlParams.get("userId");
-console.log(token,"--------------------------------");
 
       if (token && userId) {
         sessionStorage.setItem("authToken", token);
         localStorage.setItem("userdata", userId);
-
-        console.log(localStorage.setItem("token", token));
-        
-        // Store the token and userId securely (e.g., localStorage, or cookies)
+        sessionStorage.setItem("userResponse", userId);
         navigate("/"); // Redirect to dashboard
       }
     };
