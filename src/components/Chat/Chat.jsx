@@ -12,12 +12,15 @@ const Chat = () => {
   const storedUserResponseString = sessionStorage.getItem("userResponse");
   const storedUserResponse = JSON.parse(storedUserResponseString);
   const loginuserdata = storedUserResponse?.data?.user || "";
+  const googleid = storedUserResponse;
+   localStorage.getItem("userdata");
 
   const chatproduct = sessionStorage.getItem("chardata");
   const chatResponse = JSON.parse(chatproduct);
 
 
-  const senderId = loginuserdata?._id || "";
+  // const senderId = loginuserdata?._id || "";
+  const senderId = loginuserdata?._id ? loginuserdata._id : googleid  ? googleid : "";
 
   const [selectedUser, setSelectedUser] = useState(chatResponse || "");
 
