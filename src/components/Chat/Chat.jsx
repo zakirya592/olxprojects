@@ -12,8 +12,7 @@ const Chat = () => {
   const storedUserResponseString = sessionStorage.getItem("userResponse");
   const storedUserResponse = JSON.parse(storedUserResponseString);
   const loginuserdata = storedUserResponse?.data?.user || "";
-  const googleid = storedUserResponse;
-   localStorage.getItem("userdata");
+  const googleid = storedUserResponseString;
 
   const chatproduct = sessionStorage.getItem("chardata");
   const chatResponse = JSON.parse(chatproduct);
