@@ -31,20 +31,20 @@ const Firstloginsinup = ({ isVisible, setVisibility }) => {
    };
 
   useEffect(() => {
-    // const handleGoogleRedirect = () => {
+    const handleGoogleRedirect = () => {
       const urlParams = new URLSearchParams(window.location.search);
       const token = urlParams.get("token");
       const userId = urlParams.get("userId");
 
-      sessionStorage.setItem("authToken", token);
-      localStorage.setItem("userdata", userId);
       if (token && userId) {
+        sessionStorage.setItem("authToken", token);
+        localStorage.setItem("userdata", userId);
         // sessionStorage.setItem("userResponse", userId);
         navigate("/"); // Redirect to dashboard
       }
-    // };
+    };
 
-    // handleGoogleRedirect();
+    handleGoogleRedirect();
   }, [navigate]);
 
   const handleGoogleLogin = () => {
