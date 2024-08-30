@@ -39,7 +39,7 @@ const Firstloginsinup = ({ isVisible, setVisibility }) => {
       if (token && userId) {
         sessionStorage.setItem("authToken", token);
         localStorage.setItem("userdata", userId);
-        sessionStorage.setItem("userResponse", userId);
+        // sessionStorage.setItem("userResponse", userId);
         navigate("/"); // Redirect to dashboard
       }
     };
