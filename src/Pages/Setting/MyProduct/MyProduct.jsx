@@ -133,7 +133,7 @@ const MyProduct = () => {
             </h6>
             <h6 className=" text-3xl font-bold overflow-hidden my-5">
               <strong className="text-headingcolor">Total Length</strong> :{" "}
-              {wishlistData.length || "0"}
+              {wishlistData?.length || "0"}
             </h6>
           </div>
         </div>

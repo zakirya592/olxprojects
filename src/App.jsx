@@ -59,6 +59,7 @@ import Dashboard from "./Pages/Admin/Dashboard/Dashboard";
 import GoogleCallbackHandler from "./Pages/Admin/Login/GoogleCallbackHandler";
 import ProfilePage from "./Pages/Setting/ProfilePage/ProfilePage";
 import MyProduct from "./Pages/Setting/MyProduct/MyProduct";
+import SearchResultsPage from "./Pages/SearchResults/SearchResultsPage";
 
 const queryClient = new QueryClient();
 
@@ -104,6 +105,7 @@ function App() {
               <Route path="/ProfilePage" element={<ProfilePage />} />
               <Route path="/MyProduct" element={<MyProduct />} />
               <Route path="/auth/google/callback" element={<GoogleCallbackHandler />} />
+               <Route path="/search-results" element={<SearchResultsPage />} />
             </Route>
 
             <Route

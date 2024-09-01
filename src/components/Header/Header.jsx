@@ -14,6 +14,10 @@ import Avatar from "@mui/material/Avatar";
 import { Stack } from "@mui/material";
 import ArrowDropDownIcon from "@mui/icons-material/ArrowDropDown";
 import { FaRegUser } from "react-icons/fa";
+import { useMutation } from "react-query";
+import NewRequest from "../../../utils/NewRequest";
+import { toast } from "react-toastify";
+
 
 // import { FaSearch } from "react-icons/fa";
 function Header() {
@@ -117,22 +121,52 @@ function Header() {
   };
 
 
-    // useEffect(() => {
-    //   const handleGoogleRedirect = () => {
-    //     const urlParams = new URLSearchParams(window.location.search);
-    //     const token = urlParams.get("token");
-    //     const userId = urlParams.get("userId");
 
-    //     if (token && userId) {
-    //       localStorage.setItem("token", token);
-    //       localStorage.setItem("userId", userId);
-    //       // Store the token and userId securely (e.g., localStorage, or cookies)
-    //       navigate("/dashboard"); // Redirect to dashboard
-    //     }
-    //   };
+    const [query, setQuery] = useState("");
+    const [searchResults, setSearchResults] = useState([]);
 
-    //   handleGoogleRedirect();
-    // }, [navigate]);
+    const searchMutation = useMutation({
+      mutationFn: async (query) => {
+        const response = await NewRequest.post("/product/searchProduct", {
+          query,
+        });
+        return response.data;
+      },
+      
+      onSuccess: (data) => {
+        setSearchResults(data);
+         navigate("/search-results", { state: { searchResults: data } });
+        // toast.success("Search successful!", {
+        //   position: "top-right",
+        //   autoClose: 2000,
+        //   hideProgressBar: false,
+        //   closeOnClick: true,
+        //   pauseOnHover: true,
+        //   draggable: true,
+        //   progress: undefined,
+        //   theme: "light",
+        // });
+      },
+      onError: (error) => {
+        console.log(error,'errpr');
+        toast.error(error?.response?.data?.error || "Search failed", {
+          position: "top-right",
+          autoClose: 2000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "light",
+        });
+      },
+    });
+
+    const handleSearch = (e) => {
+      e.preventDefault();
+      searchMutation.mutate(query);
+    };
+
 
   return (
     <>
@@ -197,12 +231,17 @@ function Header() {
                 )}
               </div>
               <div className="flex w-full mt-2 lg:mt-0 sm:mt-2 px-2">
-                <input
+              <input
                   type="text"
-                  placeholder="Find Cars, Mobile Phones and more..."
-                  className="ml-0 lg:ml-2 sm:ml-0 py-2 px-2 border rounded-l-md flex-grow outline-none"
+                  value={query}
+                  onChange={(e) => setQuery(e.target.value)}
+                  placeholder="Search for products..."
+                  className="ml-0 lg:ml-2 sm:ml-0 py-2 px-2 border rounded-l-md flex-grow outline-none text-black"
                 />
-                <span className="flex items-center border border-detailscolor px-4 bg-detailscolor rounded-r-md">
+                <span
+                  className="flex items-center border border-detailscolor px-4 bg-detailscolor rounded-r-md cursor-pointer"
+                  onClick={handleSearch}
+                >
                   <FaSearch className="text-white" />
                 </span>
               </div>
