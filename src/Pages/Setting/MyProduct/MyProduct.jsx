@@ -120,6 +120,11 @@ const MyProduct = () => {
     });
   };
 
+    const singproductitem = (card) => {
+      console.log(card);
+      navigate(`/Singleitem/${card._id}`, { state: { cardData: card } });
+    };
+
   return (
     <>
       <div className="lg:px-10 mt-5 lg:mt-36 sm:mt-2">
@@ -151,12 +156,16 @@ const MyProduct = () => {
                 </div>
               ) : (
                 wishlistData.map((item, index) => (
-                  <div className="border rounded shadow" key={index}>
+                  <div
+                    className="border rounded shadow hover:shadow-md hover:border-black"
+                    key={index}
+                  >
                     <div className="flex gap-3">
                       <img
                         src={item?.images?.[0] || ""}
                         alt="Product"
-                        className="w-52 h-52 object-cover"
+                        className="w-full h-80 object-cover cursor-pointer"
+                        onClick={() => singproductitem(item)}
                       />
                       <div className="w-full mb-5 p-4">
                         <div className="flex justify-between">
