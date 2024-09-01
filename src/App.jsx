@@ -57,34 +57,36 @@ import Footer from "./Pages/Home/Footer/Footer";
 import Singleitem from "./Pages/Home/AllCategories/Singleitem";
 import Dashboard from "./Pages/Admin/Dashboard/Dashboard";
 import GoogleCallbackHandler from "./Pages/Admin/Login/GoogleCallbackHandler";
+import ProfilePage from "./Pages/Setting/ProfilePage/ProfilePage";
+import MyProduct from "./Pages/Setting/MyProduct/MyProduct";
 
 const queryClient = new QueryClient();
 
 function App() {
-   const UserLayout = () => {
-     return (
-       <div>
-         <div className="sticky top-0 z-50 bg-white">
-           <Header />
-         </div>
-         {/* <QueryClientProvider client={queryClient}> */}
-           <main className="mx-auto flex max-w-[1760px] flex-col justify-center">
-             <Outlet /> {/* Nested routes will render here */}
-           </main>
-         {/* </QueryClientProvider> */}
-         <Footer />
-         {/* <NewFooter /> */}
-       </div>
-     );
-   };
-   const MainLayout = ({ children }) => {
-     return (
-       <div className="main-layout-container">
-         <Sidebar />
-         <span className="right-layout">{children}</span>
-       </div>
-     );
-   };
+  const UserLayout = () => {
+    return (
+      <div>
+        <div className="sticky top-0 z-50 bg-white">
+          <Header />
+        </div>
+        {/* <QueryClientProvider client={queryClient}> */}
+        <main className="mx-auto flex max-w-[1760px] flex-col justify-center">
+          <Outlet /> {/* Nested routes will render here */}
+        </main>
+        {/* </QueryClientProvider> */}
+        <Footer />
+        {/* <NewFooter /> */}
+      </div>
+    );
+  };
+  const MainLayout = ({ children }) => {
+    return (
+      <div className="main-layout-container">
+        <Sidebar />
+        <span className="right-layout">{children}</span>
+      </div>
+    );
+  };
 
   return (
     <BrowserRouter>
@@ -99,8 +101,9 @@ function App() {
               <Route path="/Singleitem/:_id" element={<Singleitem />} />{" "}
               <Route path="/Chat" element={<Chat />} />{" "}
               <Route path="/Myfavorites" element={<Myfavorites />} />
-
-        <Route path="/auth/google/callback" element={<GoogleCallbackHandler />} />
+              <Route path="/ProfilePage" element={<ProfilePage />} />
+              <Route path="/MyProduct" element={<MyProduct />} />
+              <Route path="/auth/google/callback" element={<GoogleCallbackHandler />} />
             </Route>
 
             <Route

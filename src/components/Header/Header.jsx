@@ -249,6 +249,12 @@ function Header() {
                         style={{ zIndex: "200" }}
                       >
                         <MenuSection>
+                          <MenuItem onClick={() => navigate("/ProfilePage")}>
+                            profile
+                          </MenuItem>
+                          <MenuItem onClick={() => navigate("/MyProduct")}>
+                            My Product
+                          </MenuItem>
                           <MenuItem onClick={() => navigate("/Myfavorites")}>
                             Favourites & Saved searches
                           </MenuItem>
@@ -267,7 +273,7 @@ function Header() {
                   onClick={handleShowCreatePopup}
                 >
                   <div className="my-auto">
-                    <FaRegUser size={24}/>
+                    <FaRegUser size={24} />
                   </div>
                   <div className="ms-3 my-auto flex flex-col">
                     <span className="text-sm">Login</span>
