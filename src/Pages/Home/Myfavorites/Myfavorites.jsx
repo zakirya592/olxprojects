@@ -86,7 +86,7 @@ const Myfavorites = () => {
         <div className="flex">
           {/* Main Content */}
           <main className="flex-1 p-4 ">
-            <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-3 gap-4">
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-4">
               {/* Card 1 */}
               {isLoading ? (
                 <div>Loading...</div>
@@ -104,11 +104,11 @@ const Myfavorites = () => {
               ) : (
                 wishlistData.map((item, index) => (
                   <div className="border rounded shadow " key={index}>
-                    <div className="flex gap-3">
+                    <div className="flex gap-3 flex-col lg:flex-row sm:flex-col">
                       <img
                         src={item?.images?.[0] || ""} // Provide a fallback image URL if mages[0] is undefined
                         alt="Product"
-                        className="w-52 h-52 object-cover"
+                        className="w-full sm:w-full lg:w-full h-52 object-cover"
                       />
 
                       <div className="w-full mb-5 p-4">

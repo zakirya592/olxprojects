@@ -132,11 +132,11 @@ const MyProduct = () => {
           <span className="cursor-pointer" onClick={() => navigate("/")}>
             Home
           </span>
-          <div className="flex justify-between">
-            <h6 className="text-headingcolor text-3xl font-bold overflow-hidden my-5">
+          <div className="flex justify-between flex-col lg:flex-row sm:flex-col">
+            <h6 className="text-headingcolor text-3xl font-bold overflow-hidden my-1 sm:my-1 lg:my-5">
               My Product
             </h6>
-            <h6 className=" text-3xl font-bold overflow-hidden my-5">
+            <h6 className=" text-3xl font-bold overflow-hidden my-1 sm:my-1 lg:my-5">
               <strong className="text-headingcolor">Total Length</strong> :{" "}
               {wishlistData?.length || "0"}
             </h6>
@@ -160,7 +160,7 @@ const MyProduct = () => {
                     className="border rounded shadow hover:shadow-md hover:border-black"
                     key={index}
                   >
-                    <div className="flex gap-3">
+                    <div className="flex gap-3 flex-col lg:flex-row sm:flex-col">
                       <img
                         src={item?.images?.[0] || ""}
                         alt="Product"

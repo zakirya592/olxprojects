@@ -218,7 +218,10 @@ const fetchData = async () => {
                   productsdata.length > 0 &&
                   productsdata.map((category, index) => (
                     <li key={index} className="mb-2">
-                      <p onClick={() => viewmore(category)} className="cursor-pointer">
+                      <p
+                        onClick={() => viewmore(category)}
+                        className="cursor-pointer"
+                      >
                         {category?.name || ""} ({category?.count || "0"})
                       </p>
                     </li>
@@ -335,6 +338,10 @@ const fetchData = async () => {
                 768: {
                   slidesPerView: 3,
                   slidesPerGroup: 3,
+                },
+                325: {
+                  slidesPerView: 1,
+                  slidesPerGroup: 1,
                 },
               }}
               scrollbar={{ draggable: true }}

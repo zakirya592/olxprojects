@@ -118,9 +118,9 @@ const MoreProductview = () => {
             {subCategoriesResponse?.category?.name || ""} in Pakistan
           </h2>
         </div>
-        <div className="flex">
+        <div className="flex flex-col lg:flex-row sm:flex-col">
           {/* Main Content */}
-          <main className="flex-1 p-4">
+          <main className="flex-1 p-4 flex-col lg:flex-row sm:flex-col">
             <div className="grid grid-cols-1 md:grid-cols-1 lg:grid-cols-1 gap-4">
               {isLoading ? (
                 <div>
@@ -174,7 +174,7 @@ const MoreProductview = () => {
                     className="border rounded shadow cursor-pointer"
                     key={index}
                   >
-                    <div className="flex gap-3">
+                    <div className="flex gap-3 flex-col lg:flex-row sm:flex-col">
                       <img
                         src={item?.images?.[0] || ""}
                         alt="Product"
@@ -211,7 +211,7 @@ const MoreProductview = () => {
             </div>
           </main>
           {/* Sidebar */}
-          <aside className="w-1/4 p-4 border my-3 border-gray-300 rounded-md shadow-lg">
+          <aside className="w-full sm:w-full lg:w-1/4 p-4 border my-3 border-gray-300 rounded-md shadow-lg">
             <div className="mb-4">
               <h2 className="font-bold text-lg mb-2">Product Categories</h2>
               <ul>

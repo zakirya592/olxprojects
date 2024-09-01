@@ -146,9 +146,9 @@ const ProfilePage = () => {
                             </div>
                         </div>
                     </div>
-                    <div className="flex-grow mt-6 md:mt-0">
+                    <div className="flex-grow mt-0 sm:mt-0 lg:mt-6 md:mt-0">
                         <div className="mt-8">
-                            <div className="grid grid-cols-2 gap-4">
+                            <div className="grid grid-cols-1  md:grid-cols-1 lg:grid-cols-2  gap-4">
                                 {/* User Name */}
                                 <div className="w-full font-body sm:text-base text-sm flex flex-col gap-2">
                                     <label htmlFor="name" className={`text-loactioncolor`}>
