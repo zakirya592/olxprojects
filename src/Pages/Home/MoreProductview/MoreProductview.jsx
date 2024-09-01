@@ -1,60 +1,67 @@
 import React from "react";
 import { FaRegHeart } from "react-icons/fa";
-import { useQuery } from "react-query";
+import { useQuery, useQueryClient } from "react-query";
 import { useNavigate } from "react-router-dom";
 import NewRequest from "../../../../utils/NewRequest";
 import { toast } from "react-toastify";
 import Skeleton from "@mui/material/Skeleton";
 import DescriptionWithToggle from "../MoreinKids/DescriptionWithToggle";
-const MoreProductview = () => {
 
+const MoreProductview = () => {
   const navigate = useNavigate();
+  const queryClient = useQueryClient();
+
   const moreproduct = sessionStorage.getItem("productmore");
   const subCategoriesResponse = JSON.parse(moreproduct);
   const storedUserResponseString = sessionStorage.getItem("userResponse");
   const storedUserResponse = JSON.parse(storedUserResponseString);
   const loginuserid = storedUserResponse?.data?.user?._id || "";
 
-
   const {
     isLoading,
     error,
     data: moreproductData,
-  } = useQuery("category", fetchmoreproductData);
-  async function fetchmoreproductData() {
-    const response = await NewRequest.get(`/product/getProductsByCategory/${subCategoriesResponse?.category?._id || ""}`);
-    console.log(response?.data);
-    const activeProducts = response?.data.filter(product => product.status.toLowerCase() === "active");
+  } = useQuery(
+    ["category", subCategoriesResponse?.category?._id],
+    fetchmoreproductData,
+    {
+      enabled: !!subCategoriesResponse?.category?._id, // Only fetch if category ID is available
+    }
+  );
 
-    return activeProducts || [];
-
-  }
-
-  async function fetchproductData() {
-    const response = await NewRequest.get("/product/getcategoryproduct");
-
-    const categoriesWithCounts = response?.data.map((item) => ({
-      name: item.category.name, // Category name
-      count: item.products.length, // Number of products in this category
-    }));
-
-    return categoriesWithCounts;
-  }
-
-  // Use the data in your component
   const { data: productsdata } = useQuery(
     "getcategoryproduct",
     fetchproductData
   );
 
+  async function fetchmoreproductData() {
+    const response = await NewRequest.get(
+      `/product/getProductsByCategory/${
+        subCategoriesResponse?.category?._id || ""
+      }`
+    );
+    const activeProducts = response?.data.filter(
+      (product) => product.status.toLowerCase() === "active"
+    );
+    return activeProducts || [];
+  }
 
-  const postcard = (Product) => {
+  async function fetchproductData() {
+    const response = await NewRequest.get("/product/getcategoryproduct");
+    const categoriesWithCounts = response?.data.map((item) => ({
+      name: item.category.name,
+      count: item.products.length,
+      id: item,
+    }));
+    return categoriesWithCounts;
+  }
+
+  const postcard = async (Product) => {
     try {
-      const response = NewRequest.post(`/wishlist/${loginuserid}`, {
+      await NewRequest.post(`/wishlist/${loginuserid}`, {
         productId: Product,
       });
-      console.log(response);
-      toast.success(`Product has been added successfully".`, {
+      toast.success(`Product has been added successfully.`, {
         position: "top-right",
         autoClose: 2000,
         hideProgressBar: false,
@@ -65,7 +72,6 @@ const MoreProductview = () => {
         theme: "light",
       });
     } catch (error) {
-      console.log(error);
       toast.error(error?.response?.data?.error || "Error", {
         position: "top-right",
         autoClose: 2000,
@@ -80,35 +86,30 @@ const MoreProductview = () => {
   };
 
   const charfunction = (Product) => {
-    console.log(Product.User);
-    const subResponsechat = JSON.stringify(Product);
-    sessionStorage.setItem("chardata", subResponsechat);
+    sessionStorage.setItem("chardata", JSON.stringify(Product));
     navigate("/Chat");
   };
 
   const singproductitem = (card) => {
-    console.log(card._id);
-    //  const cardId = card.id;
     navigate(`/Singleitem/${card._id}`, { state: { cardData: card } });
   };
 
+  const viewmore = async (category) => {
+    sessionStorage.setItem("productmore", JSON.stringify(category.id));
+    // Refetch only the data related to the new category
+    queryClient.invalidateQueries(["category", category.id]);
+    navigate(`/moreproduct/${category.name}`);
+  };
 
   return (
     <>
-      {/* <Header /> */}
-      <div className=" lg:px-10 mt-5 lg:mt-40 sm:mt-2">
+      <div className="lg:px-10 mt-5 lg:mt-40 sm:mt-2">
         <div className="my-5">
-          <span
-            className="cursor-pointer"
-            onClick={() => {
-              navigate("/");
-            }}
-          >
+          <span className="cursor-pointer" onClick={() => navigate("/")}>
             Home
           </span>{" "}
           |{" "}
           <span className="cursor-pointer">
-            {" "}
             {subCategoriesResponse?.category?.name || ""}
           </span>
         </div>
@@ -121,7 +122,6 @@ const MoreProductview = () => {
           {/* Main Content */}
           <main className="flex-1 p-4">
             <div className="grid grid-cols-1 md:grid-cols-1 lg:grid-cols-1 gap-4">
-              {/* Card 1 */}
               {isLoading ? (
                 <div>
                   {[...Array(3)].map((_, index) => (
@@ -165,7 +165,7 @@ const MoreProductview = () => {
                   ))}
                 </div>
               ) : error ? (
-                ""
+                <div>Error loading products</div>
               ) : moreproductData.length === 0 ? (
                 <div>No products available</div>
               ) : (
@@ -176,12 +176,11 @@ const MoreProductview = () => {
                   >
                     <div className="flex gap-3">
                       <img
-                        src={item?.images?.[0] || ""} // Provide a fallback image URL if mages[0] is undefined
+                        src={item?.images?.[0] || ""}
                         alt="Product"
                         className="w-full h-52 object-cover"
                         onClick={() => singproductitem(item)}
                       />
-
                       <div className="w-full mb-5 p-4">
                         <DescriptionWithToggle description={item.name} />
                         <div className="flex justify-between mt-3">
@@ -193,17 +192,10 @@ const MoreProductview = () => {
                             onClick={() => postcard(item._id)}
                           />
                         </div>
-                        {/* <p className="text-gray-700 mb-5">
-                          {item?.description || ""}
-                        </p> */}
-
                         <p className="text-gray-500 text-sm">
                           {item?.location || ""} - 2 weeks ago
                         </p>
                         <div className="flex mt-4">
-                          {/* <button className="text-blue-500 border border-blue-500 px-4 py-2 rounded mr-2">
-                              Call
-                            </button> */}
                           <button
                             className="text-green-500 border border-green-500 px-4 py-2 rounded"
                             onClick={() => charfunction(item)}
@@ -218,9 +210,8 @@ const MoreProductview = () => {
               )}
             </div>
           </main>
-
           {/* Sidebar */}
-          <aside className="w-1/4 p-4 border my-3 border-gray-300 rounded-md shadow-lg ">
+          <aside className="w-1/4 p-4 border my-3 border-gray-300 rounded-md shadow-lg">
             <div className="mb-4">
               <h2 className="font-bold text-lg mb-2">Product Categories</h2>
               <ul>
@@ -228,9 +219,12 @@ const MoreProductview = () => {
                   productsdata.length > 0 &&
                   productsdata.map((category, index) => (
                     <li key={index} className="mb-2">
-                      <a href="#">
+                      <p
+                        onClick={() => viewmore(category)}
+                        className="cursor-pointer"
+                      >
                         {category?.name || ""} ({category?.count || "0"})
-                      </a>
+                      </p>
                     </li>
                   ))}
               </ul>
@@ -238,7 +232,6 @@ const MoreProductview = () => {
           </aside>
         </div>
       </div>
-      {/* <Footer /> */}
     </>
   );
 };

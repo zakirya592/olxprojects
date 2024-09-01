@@ -109,8 +109,9 @@ const fetchData = async () => {
     async function fetchproductData() {
       const response = await NewRequest.get("/product/getcategoryproduct");
       const categoriesWithCounts = response?.data.map((item) => ({
-        name: item.category.name, // Category name
-        count: item.products.length, // Number of products in this category
+        name: item.category.name,
+        count: item.products.length,
+        id: item,
       }));
 
       return categoriesWithCounts;
@@ -122,11 +123,14 @@ const fetchData = async () => {
       fetchproductData
     );
 
+    console.log("productsdata", productsdata);
+    
+
       const viewmore = (product) => {
-        console.log("product", product);
-        const subResponseString = JSON.stringify(product);
+        console.log("product", product.id);
+        const subResponseString = JSON.stringify(product.id);
         sessionStorage.setItem("productmore", subResponseString);
-        navigate(`/moreproduct/${product.category.name}`);
+        navigate(`/moreproduct/${product.name}`);
       };
 
         const charfunction = (Product) => {
@@ -135,6 +139,7 @@ const fetchData = async () => {
           sessionStorage.setItem("chardata", subResponsechat);
           navigate("/Chat");
         };
+
 
   return (
     <div className="lg:px-10 mt-5 lg:mt-40 sm:mt-2  mx-auto w-full lg:w-[90%] sm:w-full">
@@ -213,7 +218,7 @@ const fetchData = async () => {
                   productsdata.length > 0 &&
                   productsdata.map((category, index) => (
                     <li key={index} className="mb-2">
-                      <p>
+                      <p onClick={() => viewmore(category)} className="cursor-pointer">
                         {category?.name || ""} ({category?.count || "0"})
                       </p>
                     </li>
