@@ -10,7 +10,7 @@ function Headerpost() {
       <div className="flex items-center p-4 bg-gray-100 rounded-lg shadow-md hover:bg-gray-100">
         <div
           className="cursor-pointer flex my-auto"
-          onClick={() => navigate("/")}
+          onClick={() => navigate(-1)}
         >
           <IoMdArrowBack size={24} className="my-auto" />
           {/* <p className="text-lg font-bold text-center ms-3 my-auto">OLX</p> */}

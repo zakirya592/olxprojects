@@ -43,7 +43,8 @@ function Header() {
   };
 
   const handleShowCreatePopup = () => {
-    setCreatePopupVisibility(true);
+    // setCreatePopupVisibility(true);
+    navigate("/LoginForm");
   };
 
   const handleLocationChange = (event) => {

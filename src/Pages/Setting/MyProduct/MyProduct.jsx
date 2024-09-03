@@ -4,6 +4,7 @@ import { useNavigate } from "react-router-dom";
 import NewRequest from "../../../../utils/NewRequest";
 import { toast } from "react-toastify";
 import DeleteIcon from "@mui/icons-material/Delete";
+import EditIcon from "@mui/icons-material/Edit";
 
 const MyProduct = () => {
   const navigate = useNavigate();
@@ -121,17 +122,34 @@ const MyProduct = () => {
   };
 
     const singproductitem = (card) => {
-      console.log(card);
       navigate(`/Singleitem/${card._id}`, { state: { cardData: card } });
     };
+
+     const Updateproduct = (card) => {
+       navigate(`/UpdateMyProduct/${card.name}`, { state: { ProductData: card } });
+     };
+
+
 
   return (
     <>
       <div className="lg:px-10 mt-5 lg:mt-36 sm:mt-2">
         <div className="my-5">
-          <span className="cursor-pointer" onClick={() => navigate("/")}>
-            Home
-          </span>
+          <div className="flex justify-between my-auto">
+            <span
+              className="cursor-pointer my-auto"
+              onClick={() => navigate("/")}
+            >
+              Home
+            </span>
+            <button
+              className="cursor-pointer border border-headingcolor px-5 py-3 rounded-md text-headingcolor hover:bg-headingcolor hover:text-white"
+              onClick={() => navigate("/Post")}
+            >
+              Add Product
+            </button>
+          </div>
+
           <div className="flex justify-between flex-col lg:flex-row sm:flex-col">
             <h6 className="text-headingcolor text-3xl font-bold overflow-hidden my-1 sm:my-1 lg:my-5">
               My Product
@@ -169,16 +187,23 @@ const MyProduct = () => {
                       />
                       <div className="w-full mb-5 p-4">
                         <div className="flex justify-between">
-                          <h2 className="text-gray-700 font-bold text-lg">
-                            {/* <strong>Name:</strong> {item?.name || ""} */}
-                          </h2>
-                          <DeleteIcon
-                            fontSize="small"
-                            color="action"
-                            style={{ color: "red" }}
-                            className="cursor-pointer"
-                            onClick={() => postcard(item._id)}
-                          />
+                          <h1></h1>
+                          <div className="flex justify-end">
+                            <EditIcon
+                              fontSize="small"
+                              color="action"
+                              style={{ color: "rgb(37 99 235)" }}
+                              className="cursor-pointer mx-3"
+                              onClick={() => Updateproduct(item)}
+                            />
+                            <DeleteIcon
+                              fontSize="small"
+                              color="action"
+                              style={{ color: "red" }}
+                              className="cursor-pointer mx-3"
+                              onClick={() => postcard(item._id)}
+                            />
+                          </div>
                         </div>
                         {renderObject(item)}
                         <h3 className="font-bold text-md mb-2">

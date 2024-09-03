@@ -53,8 +53,6 @@ const Footer = () => {
       .then((response) => {
         const userdata = response.data;
         setgetTrendingProducts(userdata);
-        console.log(userdata, "productId");
-        
       })
       .catch((err) => {
         console.log(err);

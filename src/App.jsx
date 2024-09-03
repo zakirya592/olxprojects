@@ -60,6 +60,9 @@ import GoogleCallbackHandler from "./Pages/Admin/Login/GoogleCallbackHandler";
 import ProfilePage from "./Pages/Setting/ProfilePage/ProfilePage";
 import MyProduct from "./Pages/Setting/MyProduct/MyProduct";
 import SearchResultsPage from "./Pages/SearchResults/SearchResultsPage";
+import UpdateMyProduct from "./Pages/Setting/MyProduct/UpdateMyProduct";
+import LoginForm from "./Pages/Admin/Login/LoginForm";
+import SinUpForm from "./Pages/Admin/Login/SinUpForm";
 
 const queryClient = new QueryClient();
 
@@ -96,6 +99,9 @@ function App() {
           <Routes>
             <Route path="/Post" element={<Sellpage />} />
             <Route path="/Post/Attributes" element={<PostAttributes />} />
+
+            <Route path="/LoginForm" element={<LoginForm />} />
+            <Route path="/SinUpForm" element={<SinUpForm />} />
             <Route element={<UserLayout />}>
               <Route path="/" element={<Home />} />
               <Route path="/moreproduct/:name" element={<MoreProductview />} />
@@ -104,8 +110,15 @@ function App() {
               <Route path="/Myfavorites" element={<Myfavorites />} />
               <Route path="/ProfilePage" element={<ProfilePage />} />
               <Route path="/MyProduct" element={<MyProduct />} />
-              <Route path="/auth/google/callback" element={<GoogleCallbackHandler />} />
-               <Route path="/search-results" element={<SearchResultsPage />} />
+              <Route
+                path="/UpdateMyProduct/:name"
+                element={<UpdateMyProduct />}
+              />
+              <Route
+                path="/auth/google/callback"
+                element={<GoogleCallbackHandler />}
+              />
+              <Route path="/search-results" element={<SearchResultsPage />} />
             </Route>
 
             <Route
