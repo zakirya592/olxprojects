@@ -38,6 +38,10 @@ function Header() {
 
   const handleLogout = () => {
     sessionStorage.removeItem("authToken");
+     sessionStorage.removeItem("productmore");
+     sessionStorage.removeItem("userResponse");
+      sessionStorage.clear();
+      localStorage.clear();
     navigate('/')
     setIsUserLoggedIn(false); // Set user as logged out
   };

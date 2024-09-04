@@ -203,14 +203,14 @@ const LoginForm = () => {
               />{" "}
               <span className="my-auto mx-3">Login with Google</span>
             </p>
-            <p className="text-sm font-light text-viewmorebutton cursor-pointer" onClick={()=>navigator("/SinUpForm")}>
+            <p
+              className="text-sm font-light text-viewmorebutton cursor-pointer"
+              onClick={() => navigator("/SinUpForm")}
+            >
               Don’t have an account yet?{" "}
-              <a
-                href="#"
-                className="font-medium text-primary-600 hover:underline dark:text-primary-500"
-              >
+              <span className="font-medium text-primary-600 hover:underline dark:text-primary-500">
                 Sign up
-              </a>
+              </span>
             </p>
           </div>
         </div>

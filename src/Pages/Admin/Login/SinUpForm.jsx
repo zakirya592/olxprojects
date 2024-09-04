@@ -127,8 +127,8 @@ const SinUpForm = () => {
   return (
     <section className="bg-gray-50">
       <div className="flex flex-col lg:flex-row items-center justify-between bg-gray-900 mx-auto">
-        <div className="w-full lg:w-1/2 sm:w-full dark:bg-gray-800 border rounded-lg shadow dark:border-gray-700  flex flex-col lg:flex-row items-center justify-between">
-          <div className="w-full mx-auto bg-white rounded-lg shadow  dark:bg-gray-800 dark:border-gray-700 p-6 h-full overflow-y-scroll space-y-4 md:space-y-6">
+        <div className="w-full lg:w-1/2 sm:w-full dark:bg-gray-800 border rounded-lg shadow dark:border-gray-700 flex flex-col items-center justify-between overflow-y-auto h-full">
+          <div className="w-full mx-auto bg-white rounded-lg shadow dark:bg-gray-800 dark:border-gray-700 p-6 h-[100%] overflow-y-auto space-y-4 md:space-y-6">
             <h1 className="text-xl font-bold leading-tight tracking-tight text-gray-900 md:text-2xl dark:text-white">
               Create a new account
             </h1>
@@ -336,7 +336,7 @@ const SinUpForm = () => {
             </div>
             <p
               className="w-full flex justify-center text-white shadow-lg text-lg hover:border-white cursor-pointer dark:bg-gray-800 dark:border-gray-700 border  font-medium rounded-lg  px-5 py-2.5 text-center "
-                onClick={handleGoogleSignup}
+              onClick={handleGoogleSignup}
             >
               <img
                 src={Googleicon}
