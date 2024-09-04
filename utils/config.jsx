@@ -1,3 +1,3 @@
-let mainUrl = "http://localhost:3010";
+let mainUrl = "https://talhaolx.vercel.app";
 
 export const baseUrl = mainUrl;
