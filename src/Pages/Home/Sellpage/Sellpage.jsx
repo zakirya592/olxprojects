@@ -21,6 +21,9 @@ function Sellpage() {
     return response?.data.filter((item) => item.status === 1) || [];
   }
 
+  console.log(eventsData, "eventsData");
+  
+
   const { setDataSelectionModel } = useContext(Selectioncardcontext);
 
   const handleClick = (footer) => {
