@@ -415,7 +415,7 @@ const UpdateMyProduct = () => {
                               className="w-full h-full object-cover"
                             />
                           ) : (
-                            <span className="text-gray-400">+</span>
+                            <img src={image} alt="" />
                           )
                         ) : (
                           <span className="text-gray-400">+</span>
