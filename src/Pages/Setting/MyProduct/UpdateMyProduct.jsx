@@ -16,6 +16,18 @@ const UpdateMyProduct = () => {
   const inputRef = useRef(null);
   const autocompleteRef = useRef(null);
 
+
+  
+  const { error, data: eventsData = [] } = useQuery(
+    "footerCategory",
+    fetchUpcomingEventsData
+  );
+
+  async function fetchUpcomingEventsData() {
+    const response = await NewRequest.get("/footerCategory/megamenu");
+    return response?.data.filter((item) => item.status === 1) || [];
+  }
+
   console.log(cardData, "dataaa");
 
   const storedUserResponseString = sessionStorage.getItem("userResponse");
@@ -40,17 +52,34 @@ const UpdateMyProduct = () => {
 
   const [isLoading, setIsLoading] = useState(false);
   const [fields, setFields] = useState([]);
-  const [selectedCondition, setSelectedCondition] = useState(null);
-  const [selectedDeviceType, setSelectedDeviceType] = useState(null);
-  const [deviceTypes, setDeviceTypes] = useState([]);
-  const [conditions, setConditions] = useState([]);
-  const [filterdata, setfilterdata] = useState([]);
-  const [selectedCategory, setSelectedCategory] = useState(null);
+  
+  const [selectedCondition, setSelectedCondition] = useState(
+    cardData?.ProductData?.Condition.name || conditions[0]?.name || null
+  );
 
+   
+  const [selectedDeviceType, setSelectedDeviceType] = useState(
+    cardData?.ProductData?.DeviceType?.name  || null
+  );
+  const [deviceTypes, setDeviceTypes] = useState([]);
+  const [conditions, setConditions] = useState(
+    // cardData?.ProductData?.Condition?._id || []
+    {
+    name: cardData.ProductData?.Category?.name || [],
+    _id: cardData?.ProductData?.Condition?._id || [],
+  }
+  );
+  
+  const [filterdata, setfilterdata] = useState(
+    cardData?.ProductData || []
+  );
+  
+  
   const [Category, setCategory] = useState({
     name: cardData?.ProductData?.Category?.name || "",
     _id: cardData?.ProductData?.Category?._id || "",
   });
+  
   const [SubCategory, setSubCategory] = useState({
     name: cardData?.ProductData?.SubCategory?.name || "",
     _id: cardData?.ProductData?.SubCategory?._id || "",
@@ -62,10 +91,6 @@ const UpdateMyProduct = () => {
   });
   const [footerCategorydropdown, setfooterCategorydropdown] = useState([]);
   
-  console.log(cardData?.ProductData, "cardData?.ProductData");
-
-
-
   const handleImageChange = (e, index) => {
     const file = e.target.files[0];
     if (file) {
@@ -83,11 +108,15 @@ const UpdateMyProduct = () => {
     setForm((prevForm) => ({
       ...prevForm,
       [model]: selectedData || "", // Store the _id in form state
-    }));
+    }));    
+
+    
+   console.log(selectedData, "selectedData");
   };
 
   const handleConditionChange = (name) => {
     setSelectedCondition(name);
+   
     handleChange("Condition", name);
   };
 
@@ -123,6 +152,7 @@ const UpdateMyProduct = () => {
   };
 
   const handlefilter = (event, newValue, model) => {
+    console.log(newValue, "newValue");
     setForm((prevForm) => ({
       ...prevForm,
       [model]: newValue || "", // Use the field model as the key
@@ -169,15 +199,6 @@ const UpdateMyProduct = () => {
     }
   }, []);
 
-  const { error, data: eventsData } = useQuery(
-    "footerCategory",
-    fetchUpcomingEventsData
-  );
-
-  async function fetchUpcomingEventsData() {
-    const response = await NewRequest.get("/footerCategory/megamenu");
-    return response?.data.filter((item) => item.status === 1) || [];
-  }
 
   useEffect(() => {
     const SubCategorydata = async () => {
@@ -203,7 +224,6 @@ const UpdateMyProduct = () => {
 
   const handleCategoryChange = (e, newValue) => {
     // setCategory(eventsData)
-    setSelectedCategory(newValue);
     // const selectedCategory = eventsData.find(
     //   (item) => item._id === e.target.value
     // );
@@ -242,8 +262,6 @@ const UpdateMyProduct = () => {
         );
         const filterdata = response.data.find((item) => item.model);
 
-        console.log("filterdata", filterdata);
-
         setfilterdata(filterdata.data);
         const conditionData = response.data.find(
           (item) => item.model === "Condition"
@@ -256,12 +274,9 @@ const UpdateMyProduct = () => {
 
         setFields(response.data || []);
         setIsLoading(false);
+        
       } catch (err) {
         console.log(err);
-        //  setDeviceTypes([]);
-        //  setConditions([]);
-        //  setfilterdata([]);
-        //  setFields([]);
         setIsLoading(false);
       }
     } else {
@@ -272,8 +287,6 @@ const UpdateMyProduct = () => {
         setFields(response.data || []);
 
         const filterdata = response.data.find((item) => item.model);
-        console.log(filterdata, "filterdata");
-        console.log("Length of data:", filterdata.data.length);
         setfilterdata(filterdata.data);
         const conditionData = response.data.find(
           (item) => item.model === "Condition"
@@ -287,9 +300,6 @@ const UpdateMyProduct = () => {
         setIsLoading(false);
       } catch (err) {
         console.log(err);
-        // setDeviceTypes([])
-        // setConditions([])
-        // setfilterdata([])
         setFields([]);
         setIsLoading(false);
       }
@@ -320,12 +330,15 @@ const UpdateMyProduct = () => {
       }
     });
 
+    
+    
     fields.forEach((field) => {
       if (field.model) {
         formData.append(field.model, form[field.model]._id);
-        console.log(field.model, form[field.model]._id);
       }
     });
+
+    
 
     try {
       const response = await NewRequest.put(
@@ -438,6 +451,7 @@ const UpdateMyProduct = () => {
                   options={eventsData}
                   getOptionLabel={(option) => option.name}
                   onChange={handleCategoryChange}
+                  value={Category}
                   renderInput={(params) => (
                     <TextField
                       autoComplete="off"

@@ -40,7 +40,6 @@ const PostAttributes = () => {
   
   const subCategoriesdataget = sessionStorage.getItem("subCategories");
   const subCategoriesResponse = JSON.parse(subCategoriesdataget);
-  console.log(subCategoriesResponse?._id, "ID");
 
   const handleImageChange = (e, index) => {
     const file = e.target.files[0];
@@ -76,7 +75,6 @@ const PostAttributes = () => {
         setFields(response.data || []);
         setIsLoading(false);
       } catch (err) {
-        console.log(err);
         setIsLoading(false);
       }
 
@@ -90,7 +88,6 @@ const PostAttributes = () => {
       );
       setFields(response.data || []);
       const filterdata = response.data.find((item) => item.model);
-      console.log("Length of data:", filterdata.data.length);
       setfilterdata(filterdata.data);
       const conditionData = response.data.find(
         (item) => item.model === "Condition"
@@ -103,7 +100,6 @@ const PostAttributes = () => {
 
       setIsLoading(false);
     } catch (err) {
-      console.log(err);
       setIsLoading(false);
     }
 
@@ -200,7 +196,6 @@ const PostAttributes = () => {
         ...prevForm,
         Location: place.formatted_address || place.name,
       }));
-      console.log("Selected place:", place.formatted_address || place.name);
     };
 
     if (!window.google) {
@@ -243,7 +238,6 @@ const PostAttributes = () => {
     fields.forEach((field) => {
       if (field.model) {
         formData.append(field.model, form[field.model]._id);
-        console.log(field.model, form[field.model]._id);
       }
     });
 
@@ -263,8 +257,6 @@ const PostAttributes = () => {
       });
       navigate("/Post");
     } catch (error) {
-      console.log(error);
-
       setIsLoading(false);
       toast.error(error?.response?.data?.error || "Error", {
         position: "top-right",
