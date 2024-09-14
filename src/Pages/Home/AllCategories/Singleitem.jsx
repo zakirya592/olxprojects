@@ -292,10 +292,10 @@ const fetchData = async () => {
                     <h3 className="font-bold text-lg mb-2">
                       Rs {data?.price || ""}
                     </h3>
-                    <FaRegHeart
+                    {/* <FaRegHeart
                       className="cursor-pointer"
                       //   onClick={() => postcard(item._id)}
-                    />
+                    /> */}
                   </div>
                   <p className="text-gray-700 mb-5">{data?.name || ""}</p>
                   <div className=" flex text-gray-500 text-sm">
@@ -381,10 +381,10 @@ const fetchData = async () => {
                               <p className="text-headingcolor sm:text-lg text-base">
                                 Rs {card.price}
                               </p>
-                              <FaRegHeart
+                              {/* <FaRegHeart
                                 className="cursor-pointer"
                                 onClick={() => postcard(card)}
-                              />
+                              /> */}
                             </div>
                             <p className="px-3 mt-3 font-normal">
                               <DescriptionWithToggle description={card.name} />

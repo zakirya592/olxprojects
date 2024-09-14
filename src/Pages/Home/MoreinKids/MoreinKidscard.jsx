@@ -157,7 +157,7 @@ const Hadersilder = () => {
                               <p className="text-secondary sm:text-lg text-base">
                                 Rs {card.price}
                               </p>
-                              <FaRegHeart onClick={() => postcard(card)} />
+                              {/* <FaRegHeart onClick={() => postcard(card)} /> */}
                             </div>
                             <p className="px-3 mt-3 text-detailscolor font-normal">
                               {card.description}
@@ -196,10 +196,10 @@ const Hadersilder = () => {
                             <p className="text-[#002147] sm:text-lg text-base">
                               Rs {card.price}
                             </p>
-                            <FaRegHeart
+                            {/* <FaRegHeart
                               className="cursor-pointer"
                               onClick={() => postcard(card)}
-                            />
+                            /> */}
                           </div>
                         </div>
                       </div>

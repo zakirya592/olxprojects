@@ -146,7 +146,7 @@ console.log(productsdataVichels);
                         <p className="text-secondary sm:text-lg text-base">
                           {card.price}
                         </p>
-                        <FaRegHeart />
+                        {/* <FaRegHeart /> */}
                       </div>
                       <p className="px-3 mt-3 text-headingcolor font-normal">
                         {card.description}
@@ -188,7 +188,7 @@ console.log(productsdataVichels);
                       <p className="text-secondary sm:text-lg text-base">
                         {card.price}
                       </p>
-                      <FaRegHeart />
+                      {/* <FaRegHeart /> */}
                     </div>
                     <p className="px-3 mt-3 text-detailscolor font-normal">
                       {card.description}

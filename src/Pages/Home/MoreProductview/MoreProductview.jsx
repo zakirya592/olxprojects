@@ -187,10 +187,10 @@ const MoreProductview = () => {
                           <h3 className="font-bold text-lg mb-2">
                             Rs {item?.price || ""}
                           </h3>
-                          <FaRegHeart
+                          {/* <FaRegHeart
                             className="cursor-pointer"
                             onClick={() => postcard(item._id)}
-                          />
+                          /> */}
                         </div>
                         <p className="text-gray-500 text-sm">
                           {item?.location || ""} - 2 weeks ago

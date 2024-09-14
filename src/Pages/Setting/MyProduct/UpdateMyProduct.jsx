@@ -54,9 +54,8 @@ const UpdateMyProduct = () => {
   const [fields, setFields] = useState([]);
   
   const [selectedCondition, setSelectedCondition] = useState(
-    cardData?.ProductData?.Condition.name || conditions[0]?.name || null
+    cardData?.ProductData?.Condition?.name || conditions[0]?.name || null
   );
-
    
   const [selectedDeviceType, setSelectedDeviceType] = useState(
     cardData?.ProductData?.DeviceType?.name  || null
@@ -74,11 +73,11 @@ const UpdateMyProduct = () => {
     cardData?.ProductData || []
   );
   
-  
   const [Category, setCategory] = useState({
     name: cardData?.ProductData?.Category?.name || "",
     _id: cardData?.ProductData?.Category?._id || "",
   });
+  console.log("Category", Category.name);
   
   const [SubCategory, setSubCategory] = useState({
     name: cardData?.ProductData?.SubCategory?.name || "",
@@ -91,6 +90,8 @@ const UpdateMyProduct = () => {
   });
   const [footerCategorydropdown, setfooterCategorydropdown] = useState([]);
   
+  console.log(cardData, "cardData?.ProductData");
+
   const handleImageChange = (e, index) => {
     const file = e.target.files[0];
     if (file) {
@@ -108,10 +109,8 @@ const UpdateMyProduct = () => {
     setForm((prevForm) => ({
       ...prevForm,
       [model]: selectedData || "", // Store the _id in form state
-    }));    
-
+    }));
     
-   console.log(selectedData, "selectedData");
   };
 
   const handleConditionChange = (name) => {
@@ -152,7 +151,6 @@ const UpdateMyProduct = () => {
   };
 
   const handlefilter = (event, newValue, model) => {
-    console.log(newValue, "newValue");
     setForm((prevForm) => ({
       ...prevForm,
       [model]: newValue || "", // Use the field model as the key
@@ -243,6 +241,8 @@ const UpdateMyProduct = () => {
       (item) => item._id === e.target.value
     );
     setSubCategory(selectedSubCategory || { _id: "", name: "" });
+    console.log(selectedSubCategory, "selectedSubCategory");
+    
     // Check if sub-category has footer categories
     if (selectedSubCategory?.footerCategories) {
       setfooterCategorydropdown(selectedSubCategory.footerCategories);
@@ -262,6 +262,8 @@ const UpdateMyProduct = () => {
         );
         const filterdata = response.data.find((item) => item.model);
 
+        console.log("filterdata", filterdata);
+
         setfilterdata(filterdata.data);
         const conditionData = response.data.find(
           (item) => item.model === "Condition"
@@ -274,9 +276,12 @@ const UpdateMyProduct = () => {
 
         setFields(response.data || []);
         setIsLoading(false);
-        
       } catch (err) {
         console.log(err);
+        //  setDeviceTypes([]);
+        //  setConditions([]);
+        //  setfilterdata([]);
+        //  setFields([]);
         setIsLoading(false);
       }
     } else {
@@ -287,6 +292,8 @@ const UpdateMyProduct = () => {
         setFields(response.data || []);
 
         const filterdata = response.data.find((item) => item.model);
+        console.log(filterdata, "filterdata");
+        console.log("Length of data:", filterdata.data.length);
         setfilterdata(filterdata.data);
         const conditionData = response.data.find(
           (item) => item.model === "Condition"
@@ -300,6 +307,9 @@ const UpdateMyProduct = () => {
         setIsLoading(false);
       } catch (err) {
         console.log(err);
+        // setDeviceTypes([])
+        // setConditions([])
+        // setfilterdata([])
         setFields([]);
         setIsLoading(false);
       }
@@ -337,8 +347,6 @@ const UpdateMyProduct = () => {
         formData.append(field.model, form[field.model]._id);
       }
     });
-
-    
 
     try {
       const response = await NewRequest.put(
