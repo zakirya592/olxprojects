@@ -83,16 +83,17 @@ function Sellpage() {
                   </button>
                   <h2 className="text-2xl font-bold mb-4">Choose a category</h2>
 
-                  <div className="w-full border rounded-sm">
+                  <div className="w-full border py-6 shadow-lg rounded-sm">
                     <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 w-full">
                       <div className="border-r">
                         {eventsData.map((category) => (
                           <div
                             key={category._id}
-                            className={`flex border-b py-1 justify-between my-auto cursor-pointer ${selectedCategory._id === category._id
-                              ? "bg-headingcolor text-white"
-                              : "bg-transparent hover:bg-[#406367]  active:bg-[#406367] text-headingcolor hover:text-white active:text-white"
-                              }`}
+                            className={`flex border-b py-1 justify-between my-auto cursor-pointer ${
+                              selectedCategory._id === category._id
+                                ? "bg-headingcolor text-white"
+                                : "bg-transparent hover:bg-[#406367]  active:bg-[#406367] text-headingcolor hover:text-white active:text-white"
+                            }`}
                             onClick={() => handleCategoryClick(category)}
                           >
                             <div className="flex my-auto">
@@ -119,28 +120,29 @@ function Sellpage() {
                       </div>
                       <div className="border-r">
                         {selectedCategory.subCategories &&
-                          selectedCategory.subCategories.length > 0 ? (
+                        selectedCategory.subCategories.length > 0 ? (
                           selectedCategory.subCategories.map((sub, index) => (
                             <div
                               key={index}
                               onClick={() => handlefooterCategoryClick(sub)}
-                            // onClick={() => {
-                            //   if (
-                            //     sub.footerCategories &&
-                            //     sub.footerCategories.length > 0
-                            //   ) {
-                            //     handlefooterCategoryClick(sub);
-                            //   } else {
-                            //     handleClick(sub);
-                            //   }
-                            // }}
+                              // onClick={() => {
+                              //   if (
+                              //     sub.footerCategories &&
+                              //     sub.footerCategories.length > 0
+                              //   ) {
+                              //     handlefooterCategoryClick(sub);
+                              //   } else {
+                              //     handleClick(sub);
+                              //   }
+                              // }}
                             >
                               <p
-                                className={`p-3 border-b py-4 justify-between cursor-pointer flex my-auto ${selectedfooter &&
+                                className={`p-3 border-b py-4 justify-between cursor-pointer flex my-auto ${
+                                  selectedfooter &&
                                   selectedfooter._id === sub._id
-                                  ? "bg-headingcolor text-white"
-                                  : "bg-transparent hover:bg-[#406367]  active:bg-[#406367] text-headingcolor hover:text-white active:text-white"
-                                  }`}
+                                    ? "bg-headingcolor text-white"
+                                    : "bg-transparent hover:bg-[#406367]  active:bg-[#406367] text-headingcolor hover:text-white active:text-white"
+                                }`}
                               >
                                 {sub.name}
                                 {sub.footerCategories &&
@@ -156,13 +158,13 @@ function Sellpage() {
                       </div>
                       <div className="border-r">
                         {selectedfooter &&
-                          selectedfooter.footerCategories &&
-                          selectedfooter.footerCategories.length > 0 ? (
+                        selectedfooter.footerCategories &&
+                        selectedfooter.footerCategories.length > 0 ? (
                           selectedfooter.footerCategories.map(
                             (footer, index) => (
                               <div
                                 key={index}
-                              // className="flex border-b py-3 justify-between my-auto bg-transparent hover:bg-[#406367] cursor-pointer"
+                                // className="flex border-b py-3 justify-between my-auto bg-transparent hover:bg-[#406367] cursor-pointer"
                               >
                                 <div className="flex my-auto">
                                   <div className="w-full my-auto">
@@ -189,7 +191,7 @@ function Sellpage() {
                   {eventsData.map((category) => (
                     <div
                       key={category._id}
-                      className="flex border border-black rounded-lg py-3 justify-between my-auto text-[#406367] hover:text-white bg-transparent hover:bg-[#406367]  cursor-pointer"
+                      className="flex border-b shadow-lg border-black rounded-lg py-3 justify-between my-auto text-[#406367] hover:text-white bg-transparent hover:bg-[#406367]  cursor-pointer"
                       onClick={() => handleCategoryClick(category)}
                     >
                       <div className="flex my-auto">
