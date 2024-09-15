@@ -135,7 +135,7 @@ return mobilesCategory;
             //     </div>
             //   </div>
             // </div>
-            <div key={item.id} className="w-full py-4 bg-[#303030]">
+            <div key={item.id} className="w-full py-4 bg-[#303030] rounded-lg">
               <div
                 onClick={() => viewmore(item)}
                 className="font-semibold text-white sm:text-lg text-base hover:text-primary mt-3 cursor-pointer"
