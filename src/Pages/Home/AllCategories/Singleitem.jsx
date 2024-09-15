@@ -273,29 +273,31 @@ const fetchData = async () => {
               id="swiper-button-prev"
               className="absolute bottom-0 z-20 -translate-y-1/2 transform right-20"
             >
-              <IoIosArrowDropleftCircle className="cursor-pointer rounded-full text-5xl text-white opacity-80 hover:opacity-100" />
+              <IoIosArrowDropleftCircle className="cursor-pointer rounded-full text-5xl text-black opacity-80 hover:opacity-100" />
             </div>
             <div
               id="swiper-button-next"
               className="absolute bottom-0 z-20 -translate-y-1/2 transform right-6"
             >
-              <IoIosArrowDroprightCircle className="cursor-pointer rounded-full text-5xl text-white opacity-80 hover:opacity-100" />
+              <IoIosArrowDroprightCircle className="cursor-pointer rounded-full text-5xl text-black opacity-80 hover:opacity-100" />
             </div>
           </div>
           <div className="border rounded shadow mt-10">
             <div className="w-full mb-5 p-4">
               {isLoading ? (
-                <Skeleton height={30} width={150} /> // Skeleton for the price
+                <Skeleton height={30} width={150} />
               ) : (
                 <>
                   <div className="flex justify-between">
                     <h3 className="font-bold text-lg mb-2">
                       Rs {data?.price || ""}
                     </h3>
-                    {/* <FaRegHeart
-                      className="cursor-pointer"
-                      //   onClick={() => postcard(item._id)}
-                    /> */}
+                    {/* <button
+                      className="bg-black text-yellow-50 px-5 py-2 rounded-full hover:bg-white hover:text-black hover:border border-black"
+                      onClick={() => postcard(item._id)}
+                    >
+                      Add To Cart
+                    </button> */}
                   </div>
                   <p className="text-gray-700 mb-5">{data?.name || ""}</p>
                   <div className=" flex text-gray-500 text-sm">
@@ -361,41 +363,37 @@ const fetchData = async () => {
                     <SwiperSlide>
                       <div
                         key={card.id}
-                        className="h-auto w-full py-1  border my-3 border-gray-300 rounded-md shadow-lg"
+                        className="h-full w-full py-1  border my-3 border-gray-300 rounded-md shadow-lg"
                         // onClick={() => singproductitem(card)}
                       >
                         <div
                           // to={card.link}
                           className="font-semibold text-secondary sm:text-lg text-base hover:text-primary mt-3"
                         >
+                          <center>
                           <img
                             src={card.images[0]}
                             alt=""
-                            className="w-full h-44 object-cover"
+                            className="w-52 h-44 object-cover cursor-pointer"
                           />
+                          </center>
                           <div className="w-full">
-                            <div className="px-3 flex flex-row mt-5 justify-between gap-2">
-                              {/* <p className="text-headingcolor sm:text-lg text-base">
-                        {card.name}
-                      </p> */}
-                              <p className="text-headingcolor sm:text-lg text-base">
-                                Rs {card.price}
-                              </p>
-                              {/* <FaRegHeart
-                                className="cursor-pointer"
-                                onClick={() => postcard(card)}
-                              /> */}
-                            </div>
                             <p className="px-3 mt-3 font-normal">
                               <DescriptionWithToggle description={card.name} />
                             </p>
-
-                            <p className="px-3 mt-3 text-headingcolor font-normal">
-                              {card.location}
-                            </p>
-                            {/* <span className="px-3 text-loactioncolor font-light mb-7 text-sm">
-                      {card.daysAgo}
-                    </span> */}
+                            <div className="px-3 flex flex-row mt-5 justify-between gap-2">
+                              <p className="text-headingcolor sm:text-lg text-base">
+                                Rs {card.price}
+                              </p>
+                            </div>
+                            <div className="w-full flex justify-center items-end mt-auto py-3">
+                              <button
+                                className="bg-black text-yellow-50 px-5 py-2 rounded-full"
+                                onClick={() => postcard(card)}
+                              >
+                                Add To Cart
+                              </button>
+                            </div>
                           </div>
                         </div>
                       </div>

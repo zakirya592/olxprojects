@@ -93,7 +93,7 @@ const viewmorefooter = (product) => {
 
   return (
     <div>
-      <div className="py-4 gap-2 sm:px-16 px-8 3xl::h-[300px] 2xl:h-[300px] xl:h-[300px] lg:h-[300px] h-auto w-full bg-[#111111] text-[#F0FFFF] relative">
+      <div className="py-4 gap-2 sm:px-16 px-8 h-auto w-full bg-[#111111] text-[#F0FFFF] relative">
         <div className="w-full grid 2xl:grid-cols-3 lg:grid-cols-3 grid-cols-1">
           <div className={`h-auto w-full flex flex-col gap-8 relative `}>
             <h2 className="text-xl uppercase font-semibold text-start relativ e">
@@ -129,49 +129,6 @@ const viewmorefooter = (product) => {
                 ))}
             </div>
           </div>
-
-          {/* <div className={`h-auto w-full flex flex-col gap-8 relative `}>
-            <h2 className="text-xl uppercase font-semibold text-start relative">
-              ABOUT US
-            </h2>
-            <div className={`text-white flex flex-col gap-1 `}>
-              <a
-                // href="#"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="text-white duration-300 hover:text-white cursor-pointer"
-              >
-                {" "}
-                About Dubizzle Group
-              </a>
-              <a
-                // href="#"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="text-white duration-300 hover:text-white cursor-pointer"
-              >
-                OLX Blog
-              </a>
-              <a
-                // href="#"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="text-white duration-300 hover:text-white cursor-pointer"
-              >
-                {" "}
-                Contact Us
-              </a>
-              <a
-                // href="#"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="text-white duration-300 hover:text-white cursor-pointer"
-              >
-                {" "}
-                OLX for Businesses
-              </a>
-            </div>
-          </div> */}
 
           <div className={`h-auto w-full flex flex-col gap-8 relative `}>
             <h2 className="text-xl uppercase font-semibold text-start relative">

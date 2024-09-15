@@ -94,9 +94,9 @@ const Myfavorites = () => {
                 ""
               ) : wishlistData.length === 0 ? (
                 <>
-                  <div className="flex  items-center justify-center w-full"></div>
-                  <div className="flex  items-center justify-center w-full">
-                    <p className="text-gray-500 text-xl items-center">
+                  <div className="flex  w-full"></div>
+                  <div className="flex w-full">
+                    <p className="text-gray-500 text-xl ">
                       No favorites yet.
                     </p>
                   </div>
@@ -106,7 +106,7 @@ const Myfavorites = () => {
                   <div className="border rounded shadow " key={index}>
                     <div className="flex gap-3 flex-col lg:flex-row sm:flex-col">
                       <img
-                        src={item?.images?.[0] || ""} // Provide a fallback image URL if mages[0] is undefined
+                        src={item?.images?.[0] || ""} 
                         alt="Product"
                         className="w-full sm:w-full lg:w-full h-52 object-cover"
                       />
@@ -116,22 +116,18 @@ const Myfavorites = () => {
                           <h3 className="font-bold text-lg mb-2">
                             Rs {item?.price || ""}
                           </h3>
-                          {/* <FaRegHeart
-                            className="cursor-pointer"
+                          <button
+                            className="bg-black text-yellow-50 px-5 py-2 rounded-full"
                             onClick={() => postcard(item._id)}
-                          /> */}
+                          >
+                            Remove To Cart
+                          </button>
                         </div>
-                        {/* <p className="text-gray-700 mb-5">
-                          {item?.description || ""}
-                        </p> */}
                         <DescriptionWithToggle description={item.name} />
                         <p className="text-gray-500 text-sm">
-                          {item?.location || ""} - 2 weeks ago
+                          {item?.location || ""}
                         </p>
                         <div className="flex mt-4">
-                          {/* <button className="text-blue-500 border border-blue-500 px-4 py-2 rounded mr-2">
-                            Call
-                          </button> */}
                           <button
                             className="text-green-500 border border-green-500 px-4 py-2 rounded"
                             onClick={() => charfunction(item)}

@@ -114,7 +114,7 @@ const Hadersilder = () => {
         return (
           <div key={category._id}>
             <div className="flex justify-between my-auto">
-              <h6 className="text-headingcolor text-3xl font-bold overflow-hidden">
+              <h6 className="text-headingcolor text-3xl font-bold overflow-hidden mt-5">
                 {category?.category?.name}
               </h6>
               <div className="text-viewmorebutton text-xl flex cursor-pointer my-auto">
@@ -142,29 +142,32 @@ const Hadersilder = () => {
                 >
                   {activeProducts.map((card) => (
                     <SwiperSlide key={card.id}>
-                      <div className="h-auto w-full py-1 border border-gray-300 rounded-md shadow-lg transition-transform transform hover:scale-110">
-                        <div
-                          onClick={() => singproductitem(card)}
-                          className="font-semibold text-secondary sm:text-lg text-base hover:text-primary mt-3"
-                        >
+                      <div className="h-auto w-full py-1 border border-gray-300 rounded-md shadow-lg px-5 hover:shadow-2xl hover:border-primary">
+                        <div className="font-semibold text-secondary sm:text-lg text-base hover:text-primary mt-3">
                           <img
                             src={card.images[0]}
                             alt=""
-                            className="w-full h-44 object-cover"
+                            className="w-52 h-44 object-cover cursor-pointer"
+                            onClick={() => singproductitem(card)}
                           />
                           <div className="w-full">
+                            <p className="px-3 mt-3 text-detailscolor font-normal">
+                              <DescriptionWithToggle description={card.name} />
+                            </p>
                             <div className="px-3 flex flex-row mt-5 justify-between gap-2">
                               <p className="text-secondary sm:text-lg text-base">
                                 Rs {card.price}
                               </p>
-                              {/* <FaRegHeart onClick={() => postcard(card)} /> */}
                             </div>
-                            <p className="px-3 mt-3 text-detailscolor font-normal">
-                              {card.description}
-                            </p>
-                            <p className="px-3 mt-3 text-loactioncolor font-normal">
-                              {card.location}
-                            </p>
+
+                            <div className="w-full flex justify-center items-end mt-auto py-3">
+                              <button
+                                className="bg-black text-yellow-50 px-5 py-2 rounded-full"
+                                onClick={() => postcard(card)}
+                              >
+                                Add To Cart
+                              </button>
+                            </div>
                           </div>
                         </div>
                       </div>
@@ -172,36 +175,42 @@ const Hadersilder = () => {
                   ))}
                 </Swiper>
               ) : (
-                <div className="grid 2xl:grid-cols-5 xl:grid-cols-5 gap-7 lg:grid-cols-4 md:grid-cols-4 grid-cols-1 sm:px-2 px-2 mb-3">
+                <div className="grid 2xl:grid-cols-6 xl:grid-cols-6 gap-7 lg:grid-cols-5 md:grid-cols-5 grid-cols-1 sm:px-2 px-2 mb-3">
                   {activeProducts.slice(0, 4).map((card) => (
                     <div
                       key={card.id}
-                      className="h-auto w-full py-1 border my-3 border-gray-300 rounded-md shadow-lg transition-transform transform hover:scale-110"
+                      className="h-full w-full py-1 border my-3 border-gray-300 hover:border-primary rounded-md shadow-lg hover:shadow-2xl flex flex-col"
                     >
-                      <div className="font-semibold text-secondary sm:text-lg text-base hover:text-primary mt-3">
-                        <img
-                          src={card.images[0]}
-                          alt=""
-                          className="w-full h-44 object-cover"
-                          onClick={() => singproductitem(card)}
-                        />
+                      <div className="font-semibold text-secondary sm:text-lg text-base hover:text-primary flex-grow">
+                        <center>
+                          <img
+                            src={card.images[0]}
+                            alt=""
+                            className="w-52 h-44 object-cover rounded-md cursor-pointer"
+                            onClick={() => singproductitem(card)}
+                          />
+                        </center>
                         <div className="w-full mt-3">
                           <div className="flex text-[#17BCDC] mx-2">
-                            <p className="mt-3">Title</p>
                             <div className="my-auto ms-2">
                               <DescriptionWithToggle description={card.name} />
                             </div>
                           </div>
-                          <div className="px-3 flex flex-row mt-5 justify-between gap-2">
+                          <div className="px-3 flex flex-row mt-3 justify-between gap-2">
                             <p className="text-[#002147] sm:text-lg text-base">
                               Rs {card.price}
                             </p>
-                            {/* <FaRegHeart
-                              className="cursor-pointer"
-                              onClick={() => postcard(card)}
-                            /> */}
                           </div>
                         </div>
+                      </div>
+                      {/* Button at the bottom */}
+                      <div className="w-full flex justify-center items-end mt-auto py-3">
+                        <button
+                          className="bg-black text-yellow-50 px-5 py-2 rounded-full"
+                          onClick={() => postcard(card)}
+                        >
+                          Add To Cart
+                        </button>
                       </div>
                     </div>
                   ))}
