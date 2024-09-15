@@ -17,7 +17,7 @@ import { FaRegUser } from "react-icons/fa";
 import { useMutation } from "react-query";
 import NewRequest from "../../../utils/NewRequest";
 import { toast } from "react-toastify";
-
+import { useQuery } from "react-query";
 
 // import { FaSearch } from "react-icons/fa";
 function Header() {
@@ -163,6 +163,29 @@ function Header() {
     };
 
 
+      const {
+        isLoading,
+        error,
+        data: productsdata,
+      } = useQuery("productgetcategory", fetchproductData);
+
+      async function fetchproductData() {
+        const response = await NewRequest.get("/product/getcategoryproduct");
+
+        // Filter products that are active across all categories
+        const activeProducts = response?.data.flatMap((category) =>
+          category.products.filter(
+            (product) => product.status.toLowerCase() === "active"
+          )
+        );
+
+        return { categories: response.data, products: activeProducts };
+      }
+
+      if (isLoading) return <p>Loading...</p>;
+      if (error) return <p>Error loading products</p>;
+
+ const categories = productsdata.categories;
   return (
     <>
       <div className="bg-[#7B6C9C] text-white shadow-md px-0 smm:px-0 lg:px-12 lg:fixed top-0 left-0 right-0 z-50">
@@ -226,10 +249,16 @@ function Header() {
                       // onChange={(e) => setCategory(e.target.value)}
                     >
                       <option value="All Categories">All Categories</option>
-                      <option value="Electronics">Electronics</option>
-                      <option value="Fashion">Fashion</option>
-                      <option value="Home & Garden">Home & Garden</option>
-                      <option value="Toys">Toys</option>
+                      {categories.map((category) => {
+                        category.products.filter(
+                          (product) => product.status.toLowerCase() === "active"
+                        );
+                        return (
+                          <option value={category?.category?.name}>
+                            {category?.category?.name}
+                          </option>
+                        );
+                      })}
                     </select>
 
                     {/* Search Input */}
