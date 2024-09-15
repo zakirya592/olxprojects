@@ -141,16 +141,6 @@ function Header() {
       onSuccess: (data) => {
         setSearchResults(data);
          navigate("/search-results", { state: { searchResults: data } });
-        // toast.success("Search successful!", {
-        //   position: "top-right",
-        //   autoClose: 2000,
-        //   hideProgressBar: false,
-        //   closeOnClick: true,
-        //   pauseOnHover: true,
-        //   draggable: true,
-        //   progress: undefined,
-        //   theme: "light",
-        // });
       },
       onError: (error) => {
         console.log(error,'errpr');
@@ -215,7 +205,7 @@ function Header() {
               />
               {/* </div> */}
               <div className="flex items-center w-full px-2">
-                <div className="relative w-full">
+                {/* <div className="relative w-full">
                   <div className="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
                     <FaSearch className="text-gray-500" />
                   </div>
@@ -226,7 +216,54 @@ function Header() {
                     className="outline-none text-gray-700 py-2 px-10 border rounded-md w-full"
                     placeholder="Enter a location"
                   />
+                </div> */}
+                <div className="flex w-full mt-2 lg:mt-0 sm:mt-2 px-2">
+                  <div className="bg-white flex items-center rounded-full w-full max-w-2xl shadow-lg">
+                    {/* Category Dropdown */}
+                    <select
+                      className="bg-white text-gray-600 py-2 px-4 rounded-l-full focus:outline-none"
+                      // value={category}
+                      // onChange={(e) => setCategory(e.target.value)}
+                    >
+                      <option value="All Categories">All Categories</option>
+                      <option value="Electronics">Electronics</option>
+                      <option value="Fashion">Fashion</option>
+                      <option value="Home & Garden">Home & Garden</option>
+                      <option value="Toys">Toys</option>
+                    </select>
+
+                    {/* Search Input */}
+                    <input
+                      type="text"
+                      placeholder="Search for products ..."
+                      className="ml-0 lg:ml-2 sm:ml-0 py-2 px-2 border rounded-l-md flex-grow focus:outline-none text-black"
+                      value={query}
+                      onChange={(e) => setQuery(e.target.value)}
+                    />
+
+                    {/* Search Button */}
+                    <button
+                      onClick={handleSearch}
+                      className="bg-cyan-500 text-white p-2 rounded-full hover:bg-cyan-600 transition mx-1"
+                    >
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        className="h-6 w-6"
+                        fill="none"
+                        viewBox="0 0 24 24"
+                        stroke="currentColor"
+                      >
+                        <path
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          strokeWidth={2}
+                          d="M21 21l-4.35-4.35M16.65 11a6.65 6.65 0 11-13.3 0 6.65 6.65 0 0113.3 0z"
+                        />
+                      </svg>
+                    </button>
+                  </div>
                 </div>
+
                 <span className="ml-2 border-l border-gray-300"></span>
                 {isUserLoggedIn && (
                   <FaBell
@@ -235,8 +272,8 @@ function Header() {
                   />
                 )}
               </div>
-              <div className="flex w-full mt-2 lg:mt-0 sm:mt-2 px-2">
-              <input
+              {/* <div className="flex w-full mt-2 lg:mt-0 sm:mt-2 px-2">
+                <input
                   type="text"
                   value={query}
                   onChange={(e) => setQuery(e.target.value)}
@@ -249,7 +286,7 @@ function Header() {
                 >
                   <FaSearch className="text-white" />
                 </span>
-              </div>
+              </div> */}
             </div>
             <div className="flex items-center space-x-4 w-1/2 justify-center lg:justify-end sm:justify-start smm:justify-normal mt-2 lg:mt-0 sm:mt-2">
               <div className="flex items-center space-x-4">

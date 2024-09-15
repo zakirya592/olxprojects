@@ -12,8 +12,11 @@ const LoginForm = () => {
       const [email, setemail] = useState("");
       const [password, setpassword] = useState("");
       const [showPassword, setShowPassword] = useState(false);
+      const [loading, setloading] = useState(false);
+      
 
       const handleAddCompany = async (e) => {
+        setloading(true)
         try {
           const response = await NewRequest.post("/users/login", {
             email: email,
@@ -21,6 +24,7 @@ const LoginForm = () => {
           });
 
           const userstatus = response.data.user.status;
+          setloading(false);
           if (userstatus === 1) {
             navigator("/");
 
@@ -59,6 +63,7 @@ const LoginForm = () => {
           }
           localStorage.setItem("authToken", response.data.token);
         } catch (error) {
+          setloading(false);
           toast.error(error?.response?.data?.error || "Error", {
             position: "top-right",
             autoClose: 2000,
@@ -71,6 +76,7 @@ const LoginForm = () => {
           });
         }
       };
+
 
       const toggleShowPassword = () => {
         setShowPassword(!showPassword);
@@ -98,7 +104,11 @@ const LoginForm = () => {
           window.location.href = `${baseUrl}/users/login_with_google`;
         };
 
-
+  const handleKeyDown = (event) => {
+    if (event.key === "Enter") {
+      handleAddCompany();
+    }
+  };
 
   return (
     <section className="bg-gray-50">
@@ -179,12 +189,12 @@ const LoginForm = () => {
                 </a>
               </div> */}
               <button
-                // type="submit"
                 type="button"
                 onClick={handleAddCompany}
+                onKeyDown={handleKeyDown}
                 className="w-full text-white bg-headingcolor hover:bg-viewmorebutton focus:ring-4 focus:outline-none  font-medium rounded-lg text-md px-5 py-2.5 text-center"
               >
-                Sign in
+                {loading ? "Login ..." : "Sign in"}
               </button>
             </form>
             <div className="flex w-full my-auto">
