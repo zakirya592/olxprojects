@@ -240,11 +240,11 @@ function Header() {
                     placeholder="Enter a location"
                   />
                 </div> */}
-                <div className="flex w-full mt-2 lg:mt-0 sm:mt-2 px-2">
+                <div className="flex w-auto sm:w-auto lg:w-full mt-2 lg:mt-0 sm:mt-2 px-2">
                   <div className="bg-white flex items-center rounded-full w-full max-w-2xl shadow-lg">
                     {/* Category Dropdown */}
                     <select
-                      className="bg-white text-gray-600 py-2 px-4 rounded-l-full focus:outline-none"
+                      className="bg-white text-gray-600 py-2 px-4 rounded-l-full focus:outline-none w-full"
                       // value={category}
                       // onChange={(e) => setCategory(e.target.value)}
                     >
@@ -265,7 +265,8 @@ function Header() {
                     <input
                       type="text"
                       placeholder="Search for products ..."
-                      className="ml-0 lg:ml-2 sm:ml-0 py-2 px-2 border rounded-l-md flex-grow focus:outline-none text-black"
+                      className="ml-0 lg:ml-2 sm:ml-0 py-2 px-2 border rounded-l-md flex-grow focus:outline-none text-black w-full"
+                      // className="outline-none text-black py-2 px-10 border rounded-l-md w-full"
                       value={query}
                       onChange={(e) => setQuery(e.target.value)}
                     />
@@ -294,12 +295,12 @@ function Header() {
                 </div>
 
                 <span className="ml-2 border-l border-gray-300"></span>
-                {isUserLoggedIn && (
+                {/* {isUserLoggedIn && (
                   <FaBell
                     className="text-white cursor-pointer lg:hidden"
                     size={25}
                   />
-                )}
+                )} */}
               </div>
               {/* <div className="flex w-full mt-2 lg:mt-0 sm:mt-2 px-2">
                 <input

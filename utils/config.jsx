@@ -1,3 +1,3 @@
-let mainUrl = "https://talhaolx.vercel.app";
+let mainUrl = "https://backend.pakardi.com";
 
 export const baseUrl = mainUrl;

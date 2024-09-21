@@ -82,7 +82,7 @@ return mobilesCategory;
           ) : (
             eventsData.map((item) => (
               <SwiperSlide key={item.id}>
-                <div className="relative w-100">
+                {/* <div className="relative w-100">
                   {item?.icon ? (
                     <img
                       src={item.icon}
@@ -95,6 +95,27 @@ return mobilesCategory;
                     </div>
                   )}
                   <div className="text-center mt-2 text-white">{item.name}</div>
+                </div> */}
+                <div
+                  onClick={() => viewmore(item)}
+                  className="font-semibold text-white sm:text-lg text-base hover:text-primary mt-3 cursor-pointer"
+                >
+                  <div className="flex flex-col items-center w-full justify-center">
+                    {item?.icon ? (
+                      <img
+                        src={item.icon}
+                        alt="icon"
+                        className="w-14 h-14 object-contain"
+                      />
+                    ) : (
+                      <div className="w-14 h-14 mt-1 flex justify-center items-center">
+                        <div className="w-10 h-10 border border-gray-300 rounded-full"></div>
+                      </div>
+                    )}
+                    <div className="w-full mt-3 text-center">
+                      <p className="text-white">{item.name}</p>
+                    </div>
+                  </div>
                 </div>
               </SwiperSlide>
             ))
@@ -110,31 +131,6 @@ return mobilesCategory;
           ""
         ) : (
           eventsData.map((item) => (
-            // <div key={item.id} className="w-full mx-auto flex flex-col justify-center bg-[#303030] rounded-xl py-5">
-            //   <div
-            //     onClick={() => viewmore(item)}
-            //     className="font-semibold text-white text-center sm:text-lg text-base hover:text-primary mt-3 cursor-pointer"
-            //   >
-            //     {/* <div className="flex w-full items-center"> */}
-            //       {item?.icon ? (
-            //         <img
-            //           src={item.icon}
-            //           alt="icon"
-            //           className="w-14 h-14 object-contain ml-3"
-            //         />
-            //       ) : (
-            //         <div className="w-14 h-14 flex justify-center items-center">
-            //           <div className="w-10 h-10 border border-gray-300 rounded-full"></div>
-            //         </div>
-            //       )}
-            //       <div className="w-full my-auto pl-3">
-            //         {" "}
-            //         {/* Add padding to the left here */}
-            //         <div className="flex gap-2">{item.name}</div>
-            //       {/* </div> */}
-            //     </div>
-            //   </div>
-            // </div>
             <div key={item.id} className="w-full py-4 bg-[#303030] rounded-lg">
               <div
                 onClick={() => viewmore(item)}

@@ -112,9 +112,9 @@ const Hadersilder = () => {
         }
 
         return (
-          <div key={category._id}>
+          <div key={category._id} className="mt-5">
             <div className="flex justify-between my-auto">
-              <h6 className="text-headingcolor text-3xl font-bold overflow-hidden mt-5">
+              <h6 className="text-headingcolor text-3xl font-bold overflow-hidden">
                 {category?.category?.name}
               </h6>
               <div className="text-viewmorebutton text-xl flex cursor-pointer my-auto">
@@ -147,7 +147,7 @@ const Hadersilder = () => {
                           <img
                             src={card.images[0]}
                             alt=""
-                            className="w-52 h-44 object-cover cursor-pointer"
+                            className="w-full h-44 object-cover cursor-pointer"
                             onClick={() => singproductitem(card)}
                           />
                           <div className="w-full">
