@@ -136,20 +136,20 @@ const viewmorefooter = (product) => {
             </h2>
             <div className={`text-[#F0FFFF] flex flex-col gap-1 `}>
               <div className="flex flex-row">
-                <TiSocialTwitterCircular
+                {/* <TiSocialTwitterCircular
                   size={40}
                   style={{ color: "#F0FFFF" }}
-                />
+                /> */}
                 <Link to="https://www.facebook.com/profile.php?id=61565875032026" className="cursor-pointer " target="_black">
                   <CiFacebook
                     size={35}
                     style={{ color: "#F0FFFF", marginLeft: "10px" }}
                   />
                 </Link>
-                <FaRegCirclePlay
+                {/* <FaRegCirclePlay
                   size={34}
                   style={{ color: "#F0FFFF", marginLeft: "12px" }}
-                />
+                /> */}
                 <Link to="https://www.instagram.com/pakardicom" className="cursor-pointer " target="_black">
                 <FiInstagram
                   size={32}
@@ -157,7 +157,7 @@ const viewmorefooter = (product) => {
                 />
                 </Link>
               </div>
-              <div className="flex flex-row w-full justify-between mt-4">
+              {/* <div className="flex flex-row w-full justify-between mt-4">
                 <img
                   src={Googleplay}
                   alt="Google Play"
@@ -173,7 +173,7 @@ const viewmorefooter = (product) => {
                   alt="App Gallery"
                   className="w-1/3 h-30 object-contain  mx-0 lg:mx-2 sm:mx-0"
                 />
-              </div>
+              </div> */}
             </div>
           </div>
         </div>

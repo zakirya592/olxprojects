@@ -226,13 +226,18 @@ function Header() {
                 // className="h-14 w-14 cursor-pointer   me-5"
                 onClick={() => navigate("/")}
               /> */}
-              <img
+              {/* <img
                 src={log}
                 alt="Logo"
                 className="h-14 w-28 object-cover cursor-pointer me-5"
                 // className="h-14 w-14 cursor-pointer   me-5"
                 onClick={() => navigate("/")}
-              />
+              /> */}
+              <div onClick={() => navigate("/")} className="cursor-pointer -rotate-12 mr-5">
+              <p  className="text-2xl">Pakardi</p>
+              <p  className="text-sm">Pakardi.com</p>
+
+              </div>
               {/* </div> */}
               <div className="flex items-center w-full px-2">
                 {/* <div className="relative w-full">
