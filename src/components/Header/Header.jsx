@@ -2,7 +2,7 @@ import React, { useState, useEffect, useRef } from "react";
 import { FaCarAlt, FaSearch, FaCommentDots, FaBell } from "react-icons/fa";
 import { MdOutlineHomeWork } from "react-icons/md";
 import { useNavigate } from "react-router-dom";
-import log from "../../assets/Images/logo1.png";
+import log from "../../assets/Images/logo2.jpeg";
 import Firstloginsinup from "../../Pages/Admin/Login/Firstloginsinup";
 import PropTypes from "prop-types";
 import { Dropdown } from "@mui/base/Dropdown";
@@ -219,10 +219,17 @@ function Header() {
           <header className="flex py-2 w-full flex-col sm:flex-row justify-between">
             <div className="flex items-center w-full flex-col sm:flex-row">
               {/* <div className="logo"> */}
-              <img
+              {/* <img
                 src={log}
                 alt="Logo"
                 className="h-14 w-14 cursor-pointer bg-transparent filter brightness-0 invert me-5"
+                // className="h-14 w-14 cursor-pointer   me-5"
+                onClick={() => navigate("/")}
+              /> */}
+              <img
+                src={log}
+                alt="Logo"
+                className="h-14 w-28 object-cover cursor-pointer me-5"
                 // className="h-14 w-14 cursor-pointer   me-5"
                 onClick={() => navigate("/")}
               />

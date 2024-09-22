@@ -140,18 +140,22 @@ const viewmorefooter = (product) => {
                   size={40}
                   style={{ color: "#F0FFFF" }}
                 />
-                <CiFacebook
-                  size={35}
-                  style={{ color: "#F0FFFF", marginLeft: "10px" }}
-                />
+                <Link to="https://www.facebook.com/profile.php?id=61565875032026" className="cursor-pointer " target="_black">
+                  <CiFacebook
+                    size={35}
+                    style={{ color: "#F0FFFF", marginLeft: "10px" }}
+                  />
+                </Link>
                 <FaRegCirclePlay
                   size={34}
                   style={{ color: "#F0FFFF", marginLeft: "12px" }}
                 />
+                <Link to="https://www.instagram.com/pakardicom" className="cursor-pointer " target="_black">
                 <FiInstagram
                   size={32}
                   style={{ color: "#F0FFFF", marginLeft: "12px" }}
                 />
+                </Link>
               </div>
               <div className="flex flex-row w-full justify-between mt-4">
                 <img
