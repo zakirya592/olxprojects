@@ -5,6 +5,7 @@ import NewRequest from "../../../../utils/NewRequest";
 import { toast } from "react-toastify";
 import DeleteIcon from "@mui/icons-material/Delete";
 import EditIcon from "@mui/icons-material/Edit";
+import imageLiveUrl from "../../../../utils/urlConverter/imageLiveUrl";
 
 const MyProduct = () => {
   const navigate = useNavigate();
@@ -179,12 +180,14 @@ const MyProduct = () => {
                     key={index}
                   >
                     <div className="flex gap-3 flex-col lg:flex-row sm:flex-col">
-                      <img
-                        src={item?.images?.[0] || ""}
-                        alt="Product"
-                        className="w-full h-80 object-cover cursor-pointer"
-                        onClick={() => singproductitem(item)}
-                      />
+                      <div className="w-[25%]">
+                        <img
+                          src={imageLiveUrl(item?.images?.[0]) || ""}
+                          alt="Product"
+                          className="w-auto h-80 object-contain cursor-pointer"
+                          onClick={() => singproductitem(item)}
+                        />
+                      </div>
                       <div className="w-full mb-5 p-4">
                         <div className="flex justify-between">
                           <h1></h1>

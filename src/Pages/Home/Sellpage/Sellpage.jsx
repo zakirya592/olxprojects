@@ -7,6 +7,7 @@ import { useQuery } from "react-query";
 import log from "../../../assets/Images/logo1.png"
 import Headerpost from "../Headeepost/Headerpost";
 import { Selectioncardcontext } from "../../../Contextapi/Selectioncardcontext";
+import imageLiveUrl from "../../../../utils/urlConverter/imageLiveUrl";
 function Sellpage() {
   const navigate = useNavigate();
 
@@ -99,8 +100,8 @@ function Sellpage() {
                             <div className="flex my-auto">
                               {category.icon ? (
                                 <img
-                                  src={category.icon}
-                                  alt="icon"
+                                  src={imageLiveUrl(category.icon)}
+                                  // alt="icon"
                                   className="h-10 mt-1 mx-2"
                                 />
                               ) : (
@@ -197,7 +198,7 @@ function Sellpage() {
                       <div className="flex my-auto">
                         {category.icon ? (
                           <img
-                            src={category.icon}
+                            src={imageLiveUrl(category.icon)}
                             alt="icon"
                             className="h-10 mt-1 mx-2"
                           />

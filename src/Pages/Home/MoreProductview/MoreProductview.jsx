@@ -7,6 +7,8 @@ import { toast } from "react-toastify";
 import Skeleton from "@mui/material/Skeleton";
 import DescriptionWithToggle from "../MoreinKids/DescriptionWithToggle";
 
+import imageLiveUrl from "../../../../utils/urlConverter/imageLiveUrl";
+
 const MoreProductview = () => {
   const navigate = useNavigate();
   const queryClient = useQueryClient();
@@ -176,7 +178,7 @@ const MoreProductview = () => {
                   >
                     <div className="flex gap-3 flex-col lg:flex-row sm:flex-col">
                       <img
-                        src={item?.images?.[0] || ""}
+                        src={imageLiveUrl(item?.images?.[0]) || ""}
                         alt="Product"
                         className="w-full h-52 object-cover"
                         onClick={() => singproductitem(item)}

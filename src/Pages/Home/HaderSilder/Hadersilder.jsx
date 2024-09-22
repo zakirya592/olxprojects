@@ -14,6 +14,7 @@ import { Link } from "react-router-dom";
 import { CircularProgress } from "@mui/material";
 import silder1 from "../../../assets/Images/Slider1.webp"
 import NewRequest from "../../../../utils/NewRequest";
+import imageLiveUrl from "../../../../utils/urlConverter/imageLiveUrl";
 
 const Hadersilder = () => {
   const {
@@ -59,7 +60,7 @@ const Hadersilder = () => {
               <SwiperSlide>
                 <div className="relative w-full lg:h-[420px] h-[300px]  sm:h-[300px]">
                   <img
-                    src={item?.image}
+                    src={imageLiveUrl(item?.image)}
                     className="w-full h-full object-cover"
                     alt="Small Screen Slide"
                   />

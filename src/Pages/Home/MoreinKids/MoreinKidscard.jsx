@@ -22,6 +22,7 @@ import { MdOutlineNavigateNext } from "react-icons/md";
 import useMediaQuery from "@mui/material/useMediaQuery";
 import NewRequest from "../../../../utils/NewRequest";
 import DescriptionWithToggle from "./DescriptionWithToggle";
+import imageLiveUrl from "../../../../utils/urlConverter/imageLiveUrl";
 
 const Hadersilder = () => {
   const isSmallScreen = useMediaQuery("(max-width: 425px)");
@@ -145,7 +146,7 @@ const Hadersilder = () => {
                       <div className="h-auto w-full py-1 border border-gray-300 rounded-md shadow-lg px-5 hover:shadow-2xl hover:border-primary">
                         <div className="font-semibold text-secondary sm:text-lg text-base hover:text-primary mt-3">
                           <img
-                            src={card.images[0]}
+                            src={imageLiveUrl(card.images[0])}
                             alt=""
                             className="w-full h-44 object-cover cursor-pointer"
                             onClick={() => singproductitem(card)}
@@ -184,7 +185,7 @@ const Hadersilder = () => {
                       <div className="font-semibold text-secondary sm:text-lg text-base hover:text-primary flex-grow">
                         <center>
                           <img
-                            src={card.images[0]}
+                            src={imageLiveUrl(card.images[0])}
                             alt=""
                             className="w-52 h-44 object-cover rounded-md cursor-pointer"
                             onClick={() => singproductitem(card)}

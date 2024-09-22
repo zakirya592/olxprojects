@@ -19,6 +19,8 @@ import Stack from "@mui/material/Stack";
 import DescriptionWithToggle from "../MoreinKids/DescriptionWithToggle";
 import { useQuery } from "react-query";
 
+import imageLiveUrl from "../../../../utils/urlConverter/imageLiveUrl";
+
 const Singleitem = () => {
 
   const location = useLocation();
@@ -258,7 +260,7 @@ const fetchData = async () => {
                     <SwiperSlide key={index}>
                       <div className="relative w-100">
                         <img
-                          src={image}
+                          src={imageLiveUrl(image)}
                           className="w-full h-64  object-cover"
                           alt={`Slide ${index}`}
                         />
@@ -371,11 +373,11 @@ const fetchData = async () => {
                           className="font-semibold text-secondary sm:text-lg text-base hover:text-primary mt-3"
                         >
                           <center>
-                          <img
-                            src={card.images[0]}
-                            alt=""
-                            className="w-52 h-44 object-cover cursor-pointer"
-                          />
+                            <img
+                              src={imageLiveUrl(card.images[0])}
+                              alt=""
+                              className="w-52 h-44 object-cover cursor-pointer"
+                            />
                           </center>
                           <div className="w-full">
                             <p className="px-3 mt-3 font-normal">

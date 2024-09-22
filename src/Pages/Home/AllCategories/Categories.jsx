@@ -19,6 +19,7 @@ import NewRequest from "../../../../utils/NewRequest";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { MdOutlineNavigateNext } from "react-icons/md";
 import "swiper/css";
+import imageLiveUrl from "../../../../utils/urlConverter/imageLiveUrl";
 
 function Categories() {
   
@@ -103,7 +104,7 @@ return mobilesCategory;
                   <div className="flex flex-col items-center w-full justify-center">
                     {item?.icon ? (
                       <img
-                        src={item.icon}
+                        src={imageLiveUrl(item.icon)}
                         alt="icon"
                         className="w-14 h-14 object-contain"
                       />
@@ -139,7 +140,7 @@ return mobilesCategory;
                 <div className="flex flex-col items-center w-full justify-center">
                   {item?.icon ? (
                     <img
-                      src={item.icon}
+                      src={imageLiveUrl(item.icon)}
                       alt="icon"
                       className="w-14 h-14 object-contain"
                     />

@@ -5,6 +5,7 @@ import { useNavigate } from "react-router-dom";
 import NewRequest from "../../../../utils/NewRequest";
 import { toast } from "react-toastify";
 import DescriptionWithToggle from "../MoreinKids/DescriptionWithToggle";
+import imageLiveUrl from "../../../../utils/urlConverter/imageLiveUrl";
 
 const Myfavorites = () => {
   const navigate = useNavigate();
@@ -96,20 +97,20 @@ const Myfavorites = () => {
                 <>
                   <div className="flex  w-full"></div>
                   <div className="flex w-full">
-                    <p className="text-gray-500 text-xl ">
-                      No favorites yet.
-                    </p>
+                    <p className="text-gray-500 text-xl ">No favorites yet.</p>
                   </div>
                 </>
               ) : (
                 wishlistData.map((item, index) => (
                   <div className="border rounded shadow " key={index}>
                     <div className="flex gap-3 flex-col lg:flex-row sm:flex-col">
-                      <img
-                        src={item?.images?.[0] || ""} 
-                        alt="Product"
-                        className="w-full sm:w-full lg:w-full h-52 object-cover"
-                      />
+                      <div className="w-[25%]">
+                        <img
+                          src={imageLiveUrl(item?.images?.[0]) || ""}
+                          alt="Product"
+                          className="w-full sm:w-full lg:w-full h-full object-cover"
+                        />
+                      </div>
 
                       <div className="w-full mb-5 p-4">
                         <div className="flex justify-between">
