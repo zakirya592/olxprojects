@@ -19,6 +19,8 @@ import NewRequest from "../../../utils/NewRequest";
 import { toast } from "react-toastify";
 import { useQuery } from "react-query";
 
+import imageLiveUrl from "../../../utils/urlConverter/imageLiveUrl";
+
 // import { FaSearch } from "react-icons/fa";
 function Header() {
   const navigate = useNavigate();
@@ -35,6 +37,10 @@ function Header() {
     const storedUserResponse = JSON.parse(storedUserResponseString);
     const loginuserdata = storedUserResponse?.data || "";
     
+       const imageUrl = loginuserdata?.user?.image || "";
+    const finalUrl = imageUrl && imageUrl.startsWith("https") 
+      ? imageUrl  // Use the direct URL if it's already an https link
+      : imageLiveUrl(imageUrl); 
 
   const handleLogout = () => {
     sessionStorage.removeItem("authToken");
@@ -233,10 +239,12 @@ function Header() {
                 // className="h-14 w-14 cursor-pointer   me-5"
                 onClick={() => navigate("/")}
               /> */}
-              <div onClick={() => navigate("/")} className="cursor-pointer -rotate-12 mr-5">
-              <p  className="text-2xl">Pakardi</p>
-              <p  className="text-sm">Pakardi.com</p>
-
+              <div
+                onClick={() => navigate("/")}
+                className="cursor-pointer -rotate-12 mr-5"
+              >
+                <p className="text-2xl">Pakardi</p>
+                <p className="text-sm">Pakardi.com</p>
               </div>
               {/* </div> */}
               <div className="flex items-center w-full px-2">
@@ -359,11 +367,7 @@ function Header() {
                             color: "black",
                           }}
                         >
-                          <Avatar
-                            src={
-                              loginuserdata?.user?.image || "broken-image.jpg"
-                            }
-                          />
+                          <Avatar src={finalUrl || "broken-image.jpg"} />
                           <ArrowDropDownIcon className="my-auto" />
                         </Stack>
                       </MenuButton>

@@ -4,6 +4,8 @@ import "react-phone-input-2/lib/style.css";
 import { toast } from "react-toastify";
 import NewRequest from "../../../../utils/NewRequest";
 
+import imageLiveUrl from "../../../../utils/urlConverter/imageLiveUrl";
+
 const ProfilePage = () => {
     const [name, setname] = useState("");
     const [email, setemail] = useState("");
@@ -32,7 +34,12 @@ const ProfilePage = () => {
                 setaddress(userdata?.address || "");
                 setaboutMe(userdata?.aboutMe || "");
                 setdateOfBirth(userdata?.dateOfBirth || "");
-                setimageshow(userdata?.image || "");
+                   const imageUrl = userdata?.image || "";
+                   const finalUrl =
+                     imageUrl && imageUrl.startsWith("https")
+                       ? imageUrl // Use the direct URL if it's already an https link
+                       : imageLiveUrl(imageUrl); 
+                        setimageshow(finalUrl || "");
             })
             .catch((err) => {
                 console.log(err);

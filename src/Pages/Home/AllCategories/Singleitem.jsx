@@ -18,13 +18,12 @@ import Skeleton from "@mui/material/Skeleton";
 import Stack from "@mui/material/Stack";
 import DescriptionWithToggle from "../MoreinKids/DescriptionWithToggle";
 import { useQuery } from "react-query";
-
 import imageLiveUrl from "../../../../utils/urlConverter/imageLiveUrl";
 
 const Singleitem = () => {
 
   const location = useLocation();
-  const navigate=useNavigate()
+  const navigate = useNavigate()
   const cardData = location.state;
   const [Userdataget, setUserdataget] = useState('')
   const [moreproductData, setmoreproductData] = useState([])
@@ -32,40 +31,47 @@ const Singleitem = () => {
   const [data, setdata] = useState('')
   const [imageuser, setimageuser] = useState('')
 
-const fetchData = async () => {
-  setIsLoading(true);
-  try {
-    const response = await NewRequest.get(`/product/${cardData.cardData._id}`);
-    const datas = response.data;
-
+  const fetchData = async () => {
+    setIsLoading(true);
     try {
-      const responsesingle = await NewRequest.get(
-        `/product/getProductsByCategory/${datas.Category._id}`
-      );
-      const activeProducts = responsesingle?.data.filter(
-        (product) => product.status.toLowerCase() === "active"
-      );
-      setmoreproductData(activeProducts || []);
+      const response = await NewRequest.get(`/product/${cardData.cardData._id}`);
+      const datas = response.data;
+
+      try {
+        const responsesingle = await NewRequest.get(
+          `/product/getProductsByCategory/${datas.Category._id}`
+        );
+        const activeProducts = responsesingle?.data.filter(
+          (product) => product.status.toLowerCase() === "active"
+        );
+        setmoreproductData(activeProducts || []);
+      } catch (err) {
+        console.log(err);
+      }
+
+      setUserdataget(datas);
+      setdata(datas);
+
+      try {
+        const responsdata = await NewRequest.get(`/users/${datas.User._id}`);
+
+        const imageUrl = responsdata.data?.image || "";
+        const finalUrl =
+          imageUrl && imageUrl.startsWith("https")
+            ? imageUrl // Use the direct URL if it's already an https link
+            : imageLiveUrl(imageUrl);
+        setimageuser(finalUrl || "");
+        console.log(finalUrl);
+      } catch (err) {
+        console.log(err);
+      }
+
+      setIsLoading(false);
     } catch (err) {
       console.log(err);
+      setIsLoading(false);
     }
-
-    setUserdataget(datas);
-    setdata(datas);
-
-    try {
-      const responsdata = await NewRequest.get(`/users/${datas.User._id}`);
-     setimageuser(responsdata.data || "");
-    } catch (err) {
-      console.log(err);
-    }
-
-    setIsLoading(false);
-  } catch (err) {
-    console.log(err);
-    setIsLoading(false);
-  }
-};
+  };
 
 
 
@@ -108,39 +114,39 @@ const fetchData = async () => {
     }
   };
 
-    async function fetchproductData() {
-      const response = await NewRequest.get("/product/getcategoryproduct");
-      const categoriesWithCounts = response?.data.map((item) => ({
-        name: item.category.name,
-        count: item.products.length,
-        id: item,
-      }));
+  async function fetchproductData() {
+    const response = await NewRequest.get("/product/getcategoryproduct");
+    const categoriesWithCounts = response?.data.map((item) => ({
+      name: item.category.name,
+      count: item.products.length,
+      id: item,
+    }));
 
-      return categoriesWithCounts;
-    }
+    return categoriesWithCounts;
+  }
 
-    // Use the data in your component
-    const { data: productsdata } = useQuery(
-      "getcategoryproductget",
-      fetchproductData
-    );
+  // Use the data in your component
+  const { data: productsdata } = useQuery(
+    "getcategoryproductget",
+    fetchproductData
+  );
 
-    console.log("productsdata", productsdata);
-    
+  console.log("productsdata", productsdata);
 
-      const viewmore = (product) => {
-        console.log("product", product.id);
-        const subResponseString = JSON.stringify(product.id);
-        sessionStorage.setItem("productmore", subResponseString);
-        navigate(`/moreproduct/${product.name}`);
-      };
 
-        const charfunction = (Product) => {
-          console.log(Product.User);
-          const subResponsechat = JSON.stringify(Product.User);
-          sessionStorage.setItem("chardata", subResponsechat);
-          navigate("/Chat");
-        };
+  const viewmore = (product) => {
+    console.log("product", product.id);
+    const subResponseString = JSON.stringify(product.id);
+    sessionStorage.setItem("productmore", subResponseString);
+    navigate(`/moreproduct/${product.name}`);
+  };
+
+  const charfunction = (Product) => {
+    console.log(Product.User);
+    const subResponsechat = JSON.stringify(Product.User);
+    sessionStorage.setItem("chardata", subResponsechat);
+    navigate("/Chat");
+  };
 
 
   return (
@@ -172,7 +178,7 @@ const fetchData = async () => {
             ) : (
               <div className="flex my-auto mt-5 justify-between">
                 <div className="flex">
-                  <Avatar className="my-auto" src={imageuser?.image || ""} />
+                  <Avatar className="my-auto" src={imageuser || ""} />
                   <div className="ml-5">
                     <p className="text-secondary">
                       {Userdataget?.User?.username || ""}
@@ -366,7 +372,7 @@ const fetchData = async () => {
                       <div
                         key={card.id}
                         className="h-full w-full py-1  border my-3 border-gray-300 rounded-md shadow-lg"
-                        // onClick={() => singproductitem(card)}
+                      // onClick={() => singproductitem(card)}
                       >
                         <div
                           // to={card.link}
