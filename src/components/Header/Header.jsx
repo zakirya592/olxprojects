@@ -28,30 +28,32 @@ function Header() {
   const [isCreatePopupVisible, setCreatePopupVisibility] = useState(false);
   const [isUserLoggedIn, setIsUserLoggedIn] = useState(false);
 
+  
     useEffect(() => {
-         const handleGoogleRedirect = () => {
-           const urlParams = new URLSearchParams(window.location.search);
-           const token = urlParams.get("token");
-           const userId = urlParams.get("userId");
+      const handleGoogleRedirect = () => {
+        const urlParams = new URLSearchParams(window.location.search);
+        const token = urlParams.get("token");
+        const userId = urlParams.get("userId");
 
-           console.log("URLSearchParams: ", urlParams.toString()); // To print the full query string
-           console.log("Token: ", token);
-           console.log("UserId: ", userId);
+        console.log("URLSearchParams: ", urlParams.toString()); // To print the full query string
+        console.log("Token: ", token);
+        console.log("UserId: ", userId);
 
-           if (token && userId) {
-             sessionStorage.setItem("authToken", token);
-             localStorage.setItem("userdata", userId);
-             // navigator("/"); // Uncomment to navigate to the dashboard
-           }
-         };
+        if (token && userId) {
+          sessionStorage.setItem("authToken", token);
+          localStorage.setItem("userdata", userId);
+          // navigator("/"); // Uncomment to navigate to the dashboard
+        }
+      };
 
-         handleGoogleRedirect();
-       }, []);
+      handleGoogleRedirect();
+    }, []);
 
   useEffect(() => {
     const authToken = sessionStorage.getItem("authToken");
     setIsUserLoggedIn(!!authToken);
   }, [isCreatePopupVisible]); // Add isCreatePopupVisible to the dependency array
+
 
     const storedUserResponseString = sessionStorage.getItem("userResponse");
     const storedUserResponse = JSON.parse(storedUserResponseString);
