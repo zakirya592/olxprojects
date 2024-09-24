@@ -105,8 +105,8 @@ const MoreProductview = () => {
 
   return (
     <>
-      <div className="lg:px-10 mt-5 lg:mt-40 sm:mt-2">
-        <div className="my-5">
+      <div className="lg:px-7 mt-5 lg:mt-28 sm:mt-2">
+        <div className="my-5 bg-fourthcolor py-2 shadow-md px-3">
           <span className="cursor-pointer" onClick={() => navigate("/")}>
             Home
           </span>{" "}
@@ -187,7 +187,10 @@ const MoreProductview = () => {
                         <DescriptionWithToggle description={item.name} />
                         <div className="flex justify-between mt-3">
                           <h3 className="font-bold text-lg mb-2">
-                            Rs {item?.price || ""}
+                            Rs{" "}
+                            <span className="text-rscolor">
+                              {item?.price || ""}
+                            </span>
                           </h3>
                           {/* <FaRegHeart
                             className="cursor-pointer"
@@ -195,11 +198,11 @@ const MoreProductview = () => {
                           /> */}
                         </div>
                         <p className="text-gray-500 text-sm">
-                          {item?.location || ""} - 2 weeks ago
+                          {item?.location || ""}
                         </p>
                         <div className="flex mt-4">
                           <button
-                            className="text-green-500 border border-green-500 px-4 py-2 rounded"
+                            className="text-[#30D5C8] border border-[#30D5C8]  px-4 py-2 rounded"
                             onClick={() => charfunction(item)}
                           >
                             Chat

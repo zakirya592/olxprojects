@@ -161,14 +161,14 @@ const Hadersilder = () => {
                               </p>
                             </div>
 
-                            <div className="w-full flex justify-center items-end mt-auto py-3">
+                            {/* <div className="w-full flex justify-center items-end mt-auto py-3">
                               <button
                                 className="bg-black text-yellow-50 px-5 py-2 rounded-full"
                                 onClick={() => postcard(card)}
                               >
                                 Add To Cart
                               </button>
-                            </div>
+                            </div> */}
                           </div>
                         </div>
                       </div>
@@ -205,14 +205,14 @@ const Hadersilder = () => {
                         </div>
                       </div>
                       {/* Button at the bottom */}
-                      <div className="w-full flex justify-center items-end mt-auto py-3">
+                      {/* <div className="w-full flex justify-center items-end mt-auto py-3">
                         <button
                           className="bg-black text-yellow-50 px-5 py-2 rounded-full"
                           onClick={() => postcard(card)}
                         >
                           Add To Cart
                         </button>
-                      </div>
+                      </div> */}
                     </div>
                   ))}
                 </div>

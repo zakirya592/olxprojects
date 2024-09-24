@@ -150,8 +150,8 @@ const Singleitem = () => {
 
 
   return (
-    <div className="lg:px-10 mt-5 lg:mt-40 sm:mt-2  mx-auto w-full lg:w-[90%] sm:w-full">
-      <div className="my-5">
+    <div className="lg:px-10 mt-3 lg:mt-28 sm:mt-2  mx-auto w-full lg:w-[90%] sm:w-full">
+      <div className="my-5 bg-fourthcolor py-2 shadow-md px-3">
         <span
           className="cursor-pointer"
           onClick={() => {
@@ -168,7 +168,7 @@ const Singleitem = () => {
       </div>
       <div className="flex gap-6   flex-col sm:flex-row">
         <div className="w-full lg:w-[35%] sm:w-full ">
-          <div className="border rounded shadow py-6 px-4">
+          <div className="border rounded shadow py-6 px-4 bg-cardbg">
             <p className="text-primary">Listed by private user</p>
             {isLoading ? (
               <div className="flex">
@@ -189,7 +189,7 @@ const Singleitem = () => {
                 </div>
                 <div>
                   <button
-                    className="text-green-500 border border-green-500 px-4 rounded mt-4"
+                    className="text-[#30D5C8] border border-[#30D5C8] px-4 rounded mt-4"
                     onClick={() => charfunction(Userdataget)}
                   >
                     Chat
@@ -198,7 +198,7 @@ const Singleitem = () => {
               </div>
             )}
           </div>
-          <div className="border rounded shadow py-6 px-4 mt-5">
+          <div className="border rounded shadow py-6 px-4 mt-5 bg-cardbg">
             <p className="text-primary">Location</p>
             <div className="flex my-auto mt-5">
               <div className=" flex">
@@ -207,7 +207,7 @@ const Singleitem = () => {
                     <Skeleton height={30} width={150} /> // Skeleton for location
                   ) : (
                     <div className="flex my-auto mt-5">
-                      <PinDropIcon />
+                      <PinDropIcon className="text-[#757575]" />
                       <p className="text-secondary ml-2">
                         {data?.location || "location"}
                       </p>
@@ -218,7 +218,7 @@ const Singleitem = () => {
             </div>
           </div>
 
-          <div className="border rounded shadow py-6 px-4 mt-5">
+          <div className="border rounded shadow py-6 px-4 mt-5 bg-cardbg">
             <div className="mb-4">
               <h2 className="font-bold text-lg mb-2">Product Categories</h2>
               <ul>
@@ -290,15 +290,16 @@ const Singleitem = () => {
               <IoIosArrowDroprightCircle className="cursor-pointer rounded-full text-5xl text-black opacity-80 hover:opacity-100" />
             </div>
           </div>
-          <div className="border rounded shadow mt-10">
+          <div className="border rounded bg-cardbg shadow mt-10">
             <div className="w-full mb-5 p-4">
               {isLoading ? (
                 <Skeleton height={30} width={150} />
               ) : (
                 <>
                   <div className="flex justify-between">
-                    <h3 className="font-bold text-lg mb-2">
-                      Rs {data?.price || ""}
+                    <h3 className="font-bold text-lg mb-2 ">
+                      Rs{" "}
+                      <span className="text-rscolor">{data?.price || ""}</span>
                     </h3>
                     {/* <button
                       className="bg-black text-yellow-50 px-5 py-2 rounded-full hover:bg-white hover:text-black hover:border border-black"
@@ -309,20 +310,22 @@ const Singleitem = () => {
                   </div>
                   <p className="text-gray-700 mb-5">{data?.name || ""}</p>
                   <div className=" flex text-gray-500 text-sm">
-                    <PinDropIcon />
+                    <PinDropIcon className="text-[#757575]" />
                     <p className=" ml-5">{data?.location || "location"}</p>
                   </div>
                 </>
               )}
             </div>
           </div>
-          <div className="border rounded shadow mt-10">
+          <div className="border rounded shadow mt-10 bg-cardbg">
             <div className="w-full mb-5 p-4">
               <p className="text-primary mb-5">Description</p>
               {isLoading ? (
                 <Skeleton count={3} /> // Skeleton for the description
               ) : (
-                <p className="text-gray-700 mb-5">{data?.description || ""}</p>
+                <p className="text-productdesc mb-5 ">
+                  {data?.description || ""}
+                </p>
               )}
             </div>
           </div>
@@ -372,7 +375,7 @@ const Singleitem = () => {
                       <div
                         key={card.id}
                         className="h-full w-full py-1  border my-3 border-gray-300 rounded-md shadow-lg"
-                      // onClick={() => singproductitem(card)}
+                        // onClick={() => singproductitem(card)}
                       >
                         <div
                           // to={card.link}
@@ -390,18 +393,22 @@ const Singleitem = () => {
                               <DescriptionWithToggle description={card.name} />
                             </p>
                             <div className="px-3 flex flex-row mt-5 justify-between gap-2">
-                              <p className="text-headingcolor sm:text-lg text-base">
-                                Rs {card.price}
+                              <p className="sm:text-lg text-base">
+                                Rs{" "}
+                                <span className="text-rscolor">
+                                  {" "}
+                                  {card.price}
+                                </span>
                               </p>
                             </div>
-                            <div className="w-full flex justify-center items-end mt-auto py-3">
+                            {/* <div className="w-full flex justify-center items-end mt-auto py-3">
                               <button
                                 className="bg-black text-yellow-50 px-5 py-2 rounded-full"
                                 onClick={() => postcard(card)}
                               >
                                 Add To Cart
                               </button>
-                            </div>
+                            </div> */}
                           </div>
                         </div>
                       </div>
