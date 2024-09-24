@@ -14,7 +14,7 @@ const PostAttributes = () => {
   const navigate = useNavigate();
   const storedUserResponseString = sessionStorage.getItem("userResponse");
   const storedUserResponse = JSON.parse(storedUserResponseString);
-  const loginuserdata = storedUserResponse.data.user;
+  const loginuserdata = storedUserResponse?.data?.user || "";
   const [form, setForm] = useState({
     brand: "",
     condition: "",

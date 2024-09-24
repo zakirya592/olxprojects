@@ -18,7 +18,10 @@ const Chat = () => {
   const chatResponse = JSON.parse(chatproduct);
 
 
-  const senderId = loginuserdata?._id || "";
+  let senderId = loginuserdata?._id || "";
+    if (!senderId) {
+      senderId = localStorage.getItem("userdata") || "";
+    }
 
   const [selectedUser, setSelectedUser] = useState(chatResponse || "");
 

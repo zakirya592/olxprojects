@@ -13,8 +13,12 @@ const MyProduct = () => {
   const subCategoriesResponse = JSON.parse(moreproduct);
   const storedUserResponseString = sessionStorage.getItem("userResponse");
   const storedUserResponse = JSON.parse(storedUserResponseString);
-  const loginuserid = storedUserResponse?.data?.user?._id || "";
+  let loginuserid = storedUserResponse?.data?.user?._id || "";
 
+    if (!loginuserid) {
+      loginuserid = localStorage.getItem("userdata") || "";
+    }
+    
   const {
     isLoading,
     error,
