@@ -10,11 +10,16 @@ import { DotLoader } from "react-spinners";
 import { useNavigate } from "react-router-dom";
 const PostAttributes = () => {
   const { DataSelectionModel } = useContext(Selectioncardcontext);
+  const [userdataget, setuserdataget] = useState('')
 
   const navigate = useNavigate();
   const storedUserResponseString = sessionStorage.getItem("userResponse");
   const storedUserResponse = JSON.parse(storedUserResponseString);
-  const loginuserdata = storedUserResponse?.data?.user || "";
+  let loginuserdata = storedUserResponse?.data?.user?._id || "";
+   if (!loginuserdata) {
+     loginuserdata = localStorage.getItem("userdata") || "";
+   }
+      
   const [form, setForm] = useState({
     brand: "",
     condition: "",
@@ -22,9 +27,11 @@ const PostAttributes = () => {
     description: "",
     Location: "",
     price: "",
-    user: loginuserdata?.username || "",
+    user: "",
   });
-  const [phoneNumber, setphoneNumber] = useState(loginuserdata?.phone || "");
+
+
+  const [phoneNumber, setphoneNumber] = useState("");
   const updateBrandData = JSON.parse(sessionStorage.getItem("footer"));
 
   const [images, setImages] = useState(Array(6).fill(null));
@@ -40,6 +47,22 @@ const PostAttributes = () => {
   
   const subCategoriesdataget = sessionStorage.getItem("subCategories");
   const subCategoriesResponse = JSON.parse(subCategoriesdataget);
+
+    
+     useEffect(() => {
+       NewRequest.get(`/users/${loginuserdata || ""}`)
+         .then((response) => {
+           const userdata = response.data;
+            setForm({
+              ...form,
+              user: userdata?.username || "",
+            });
+           setphoneNumber(userdata?.phone || "");
+         })
+         .catch((err) => {
+           console.log(err);
+         });
+     }, []);
 
   const handleImageChange = (e, index) => {
     const file = e.target.files[0];
@@ -221,7 +244,7 @@ const PostAttributes = () => {
     formData.append("description", form.description);
     formData.append("price", form.price);
     formData.append("location", form.Location);
-    formData.append("User", loginuserdata?._id || "");
+    formData.append("User", loginuserdata || "");
     formData.append("Category", categorydata);
     formData.append("SubCategory", subCategoriesResponse?._id || "");
     // formData.append("FooterCategory", updateBrandData?._id || "");
