@@ -27,27 +27,28 @@ function Header() {
   const [selectedLocation, setSelectedLocation] = useState("");
   const [isCreatePopupVisible, setCreatePopupVisibility] = useState(false);
   const [isUserLoggedIn, setIsUserLoggedIn] = useState(false);
+  const [userprofileimage, setuserprofileimage] = useState("")
 
-  
-    useEffect(() => {
-      const handleGoogleRedirect = () => {
-        const urlParams = new URLSearchParams(window.location.search);
-        const token = urlParams.get("token");
-        const userId = urlParams.get("userId");
 
-        console.log("URLSearchParams: ", urlParams.toString()); // To print the full query string
-        console.log("Token: ", token);
-        console.log("UserId: ", userId);
+  useEffect(() => {
+    const handleGoogleRedirect = () => {
+      const urlParams = new URLSearchParams(window.location.search);
+      const token = urlParams.get("token");
+      const userId = urlParams.get("userId");
 
-        if (token && userId) {
-          sessionStorage.setItem("authToken", token);
-          localStorage.setItem("userdata", userId);
-          // navigator("/"); // Uncomment to navigate to the dashboard
-        }
-      };
+      console.log("URLSearchParams: ", urlParams.toString()); // To print the full query string
+      console.log("Token: ", token);
+      console.log("UserId: ", userId);
 
-      handleGoogleRedirect();
-    }, []);
+      if (token && userId) {
+        sessionStorage.setItem("authToken", token);
+        localStorage.setItem("userdata", userId);
+        // navigator("/"); // Uncomment to navigate to the dashboard
+      }
+    };
+
+    handleGoogleRedirect();
+  }, []);
 
   useEffect(() => {
     const authToken = sessionStorage.getItem("authToken");
@@ -55,21 +56,36 @@ function Header() {
   }, [isCreatePopupVisible]); // Add isCreatePopupVisible to the dependency array
 
 
-    const storedUserResponseString = sessionStorage.getItem("userResponse");
-    const storedUserResponse = JSON.parse(storedUserResponseString);
-    const loginuserdata = storedUserResponse?.data || "";
-    
-       const imageUrl = loginuserdata?.user?.image || "";
-    const finalUrl = imageUrl && imageUrl.startsWith("https") 
-      ? imageUrl  // Use the direct URL if it's already an https link
-      : imageLiveUrl(imageUrl); 
+  const storedUserResponseString = sessionStorage.getItem("userResponse");
+  const storedUserResponse = JSON.parse(storedUserResponseString);
+  let loginuserdata = storedUserResponse?.data.user._id || "";
+
+  if (!loginuserdata) {
+    loginuserdata = localStorage.getItem("userdata") || "";
+  }
+
+
+
+  useEffect(() => {
+    NewRequest.get(`/users/${loginuserdata || ""}`)
+      .then((response) => {
+        const userdata = response.data;
+        const imageUrl = userdata?.image || "";
+        console.log("loginuserdata", imageUrl);
+        const finalUrl = imageUrl && imageUrl.startsWith("https")? imageUrl : imageLiveUrl(imageUrl);
+          setuserprofileimage(finalUrl);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  }, []);
 
   const handleLogout = () => {
     sessionStorage.removeItem("authToken");
-     sessionStorage.removeItem("productmore");
-     sessionStorage.removeItem("userResponse");
-      sessionStorage.clear();
-      localStorage.clear();
+    sessionStorage.removeItem("productmore");
+    sessionStorage.removeItem("userResponse");
+    sessionStorage.clear();
+    localStorage.clear();
     navigate('/')
     setIsUserLoggedIn(false); // Set user as logged out
   };
@@ -129,7 +145,7 @@ function Header() {
       handleScriptLoad();
     }
   }, []);
-  
+
 
   const handleSellButtonClick = () => {
     if (isUserLoggedIn) {
@@ -155,114 +171,77 @@ function Header() {
 
 
 
-    const [query, setQuery] = useState("");
-    const [searchResults, setSearchResults] = useState([]);
+  const [query, setQuery] = useState("");
+  const [searchResults, setSearchResults] = useState([]);
 
-    const searchMutation = useMutation({
-      mutationFn: async (query) => {
-        const response = await NewRequest.post("/product/searchProduct", {
-          query,
-        });
-        return response.data;
-      },
-      
-      onSuccess: (data) => {
-        setSearchResults(data);
-         navigate("/search-results", { state: { searchResults: data } });
-      },
-      onError: (error) => {
-        console.log(error,'errpr');
-        toast.error(error?.response?.data?.error || "Search failed", {
-          position: "top-right",
-          autoClose: 2000,
-          hideProgressBar: false,
-          closeOnClick: true,
-          pauseOnHover: true,
-          draggable: true,
-          progress: undefined,
-          theme: "light",
-        });
-      },
-    });
+  const searchMutation = useMutation({
+    mutationFn: async (query) => {
+      const response = await NewRequest.post("/product/searchProduct", {
+        query,
+      });
+      return response.data;
+    },
 
-    const handleSearch = (e) => {
-      e.preventDefault();
-      searchMutation.mutate(query);
-    };
+    onSuccess: (data) => {
+      setSearchResults(data);
+      navigate("/search-results", { state: { searchResults: data } });
+    },
+    onError: (error) => {
+      console.log(error, 'errpr');
+      toast.error(error?.response?.data?.error || "Search failed", {
+        position: "top-right",
+        autoClose: 2000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "light",
+      });
+    },
+  });
+
+  const handleSearch = (e) => {
+    e.preventDefault();
+    searchMutation.mutate(query);
+  };
 
 
-      const {
-        isLoading,
-        error,
-        data: productsdata,
-      } = useQuery("productgetcategory", fetchproductData);
+  const {
+    isLoading,
+    error,
+    data: productsdata,
+  } = useQuery("productgetcategory", fetchproductData);
 
-      async function fetchproductData() {
-        const response = await NewRequest.get("/product/getcategoryproduct");
+  async function fetchproductData() {
+    const response = await NewRequest.get("/product/getcategoryproduct");
 
-        // Filter products that are active across all categories
-        const activeProducts = response?.data.flatMap((category) =>
-          category.products.filter(
-            (product) => product.status.toLowerCase() === "active"
-          )
-        );
+    // Filter products that are active across all categories
+    const activeProducts = response?.data.flatMap((category) =>
+      category.products.filter(
+        (product) => product.status.toLowerCase() === "active"
+      )
+    );
 
-        return { categories: response.data, products: activeProducts };
-      }
+    return { categories: response.data, products: activeProducts };
+  }
 
-      if (isLoading) return <p>Loading...</p>;
-      if (error) return <p>Error loading products</p>;
+  if (isLoading) return <p>Loading...</p>;
+  if (error) return <p>Error loading products</p>;
 
-     
 
- const categories = productsdata.categories;
+
+  const categories = productsdata.categories;
   return (
     <>
       <div className="bg-[#7B6C9C] text-white shadow-md px-0 smm:px-0 lg:px-12 lg:fixed top-0 left-0 right-0 z-50">
         <div className="py-2 mx-3">
           <div className="topdev flex my-auto container gap-1 lg:gap-5 smm:gap-1 w-full flex-col lg:flex-row sm:flex-col">
             <div className="flex gap-1 lg:gap-5 smm:gap-1">
-              {/* <div className="logo">
-                <img
-                  src={log}
-                  alt="Logo"
-                  className="h-14 w-auto cursor-pointer bg-transparent filter brightness-0 invert"
-                  onClick={() => navigate("/")}
-                />
-              </div> */}
-              {/* <div className="flex mx-5 lg:mx-5 sm:mx-1 smm:mx-0 cursor-pointer text-white hover:text-secondary my-auto">
-                <div className="customgradient h-10 w-10 flex justify-center items-center rounded-full">
-                  <FaCarAlt size={24} />
-                </div>
-                <h6 className="text-xl ms-2 lg:ms-2 sm:ms-1 smm:ms-0 font-bold my-auto">
-                  Motors
-                </h6>
-              </div>
-              <div className="flex mx-5 lg:mx-5 sm:mx-2 smm-mx-0 cursor-pointer text-white hover:text-secondary my-auto">
-                <div className="customgradient h-10 w-10 flex justify-center items-center rounded-full">
-                  <MdOutlineHomeWork size={24} />
-                </div>
-                <h6 className="text-xl ms-2 font-bold my-auto">Property</h6>
-              </div> */}
             </div>
           </div>
           <header className="flex py-2 w-full flex-col sm:flex-row justify-between">
             <div className="flex items-center w-full flex-col sm:flex-row">
-              {/* <div className="logo"> */}
-              {/* <img
-                src={log}
-                alt="Logo"
-                className="h-14 w-14 cursor-pointer bg-transparent filter brightness-0 invert me-5"
-                // className="h-14 w-14 cursor-pointer   me-5"
-                onClick={() => navigate("/")}
-              /> */}
-              {/* <img
-                src={log}
-                alt="Logo"
-                className="h-14 w-28 object-cover cursor-pointer me-5"
-                // className="h-14 w-14 cursor-pointer   me-5"
-                onClick={() => navigate("/")}
-              /> */}
               <div
                 onClick={() => navigate("/")}
                 className="cursor-pointer lg:-rotate-12 mr-5"
@@ -272,25 +251,13 @@ function Header() {
               </div>
               {/* </div> */}
               <div className="flex items-center w-full px-2">
-                {/* <div className="relative w-full">
-                  <div className="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
-                    <FaSearch className="text-gray-500" />
-                  </div>
-                  <input
-                    ref={inputRef}
-                    id="location"
-                    type="text"
-                    className="outline-none text-gray-700 py-2 px-10 border rounded-md w-full"
-                    placeholder="Enter a location"
-                  />
-                </div> */}
                 <div className="flex w-auto sm:w-auto lg:w-full mt-2 lg:mt-0 sm:mt-2 px-2">
                   <div className="bg-white flex items-center rounded-full w-full max-w-2xl shadow-lg">
                     {/* Category Dropdown */}
                     <select
                       className="bg-white text-gray-600 py-2 px-4 rounded-l-full focus:outline-none w-full"
-                      // value={category}
-                      // onChange={(e) => setCategory(e.target.value)}
+                    // value={category}
+                    // onChange={(e) => setCategory(e.target.value)}
                     >
                       <option value="All Categories">All Categories</option>
                       {categories.map((category) => {
@@ -346,21 +313,6 @@ function Header() {
                   />
                 )} */}
               </div>
-              {/* <div className="flex w-full mt-2 lg:mt-0 sm:mt-2 px-2">
-                <input
-                  type="text"
-                  value={query}
-                  onChange={(e) => setQuery(e.target.value)}
-                  placeholder="Search for products..."
-                  className="ml-0 lg:ml-2 sm:ml-0 py-2 px-2 border rounded-l-md flex-grow outline-none text-black"
-                />
-                <span
-                  className="flex items-center border border-detailscolor px-4 bg-detailscolor rounded-r-md cursor-pointer"
-                  onClick={handleSearch}
-                >
-                  <FaSearch className="text-white" />
-                </span>
-              </div> */}
             </div>
             <div className="flex items-center space-x-4 w-1/2 justify-center lg:justify-end sm:justify-start smm:justify-normal mt-2 lg:mt-0 sm:mt-2">
               <div className="flex items-center space-x-4">
@@ -375,12 +327,6 @@ function Header() {
                       className="text-white cursor-pointer hidden lg:block"
                       size={25}
                     />
-                    {/* <button
-                      onClick={handleLogout}
-                      className="text-white text-xl border-b-4 border-[#2D6A3C] cursor-pointer"
-                    >
-                      Logout
-                    </button> */}
                     <Dropdown>
                       <MenuButton>
                         <Stack
@@ -391,7 +337,7 @@ function Header() {
                             color: "black",
                           }}
                         >
-                          <Avatar src={finalUrl || "broken-image.jpg"} />
+                          <Avatar src={userprofileimage || "broken-image.jpg"} />
                           <ArrowDropDownIcon className="my-auto" />
                         </Stack>
                       </MenuButton>
@@ -511,9 +457,8 @@ const Listbox = styled("ul")(
   background: ${theme.palette.mode === "dark" ? grey[900] : "#fff"};
   border: 1px solid ${theme.palette.mode === "dark" ? grey[700] : grey[200]};
   color: ${theme.palette.mode === "dark" ? grey[300] : grey[900]};
-  box-shadow: 0px 4px 6px ${
-    theme.palette.mode === "dark" ? "rgba(0,0,0, 0.50)" : "rgba(0,0,0, 0.05)"
-  };
+  box-shadow: 0px 4px 6px ${theme.palette.mode === "dark" ? "rgba(0,0,0, 0.50)" : "rgba(0,0,0, 0.05)"
+    };
   z-index: 200;
   position: relative;
   `
