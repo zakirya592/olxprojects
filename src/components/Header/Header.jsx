@@ -28,6 +28,26 @@ function Header() {
   const [isCreatePopupVisible, setCreatePopupVisibility] = useState(false);
   const [isUserLoggedIn, setIsUserLoggedIn] = useState(false);
 
+    useEffect(() => {
+         const handleGoogleRedirect = () => {
+           const urlParams = new URLSearchParams(window.location.search);
+           const token = urlParams.get("token");
+           const userId = urlParams.get("userId");
+
+           console.log("URLSearchParams: ", urlParams.toString()); // To print the full query string
+           console.log("Token: ", token);
+           console.log("UserId: ", userId);
+
+           if (token && userId) {
+             sessionStorage.setItem("authToken", token);
+             localStorage.setItem("userdata", userId);
+             // navigator("/"); // Uncomment to navigate to the dashboard
+           }
+         };
+
+         handleGoogleRedirect();
+       }, []);
+
   useEffect(() => {
     const authToken = sessionStorage.getItem("authToken");
     setIsUserLoggedIn(!!authToken);
@@ -190,6 +210,8 @@ function Header() {
 
       if (isLoading) return <p>Loading...</p>;
       if (error) return <p>Error loading products</p>;
+
+     
 
  const categories = productsdata.categories;
   return (

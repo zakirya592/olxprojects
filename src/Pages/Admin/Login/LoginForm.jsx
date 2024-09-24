@@ -28,7 +28,6 @@ const LoginForm = () => {
           if (userstatus === 1) {
             navigator("/");
 
-            console.log(response, "dataaa");
             sessionStorage.setItem("authToken", response.data.token);
             // Correct way to store an object in sessionStorage
             localStorage.setItem("userdata", response.data);

@@ -166,7 +166,7 @@ return mobilesCategory;
                     style={{ textDecoration: "none" }}
                     className="text-lg font-bold cursor-pointer"
                   >
-                    <p>gemstone</p>
+                    <p>Gemstone</p>
                   </div>
                 </li>
                 <li className="menu-item-has-children">
@@ -176,7 +176,7 @@ return mobilesCategory;
                     style={{ textDecoration: "none" }}
                     className="text-lg font-bold cursor-pointer"
                   >
-                    <p>handmade </p>
+                    <p>Handmade </p>
                   </div>
                 </li>
                 <li className="menu-item-has-children">
@@ -186,7 +186,7 @@ return mobilesCategory;
                     style={{ textDecoration: "none" }}
                     className="text-lg font-bold cursor-pointer"
                   >
-                    <p>carpets rawala</p>
+                    <p>Carpets Rawala</p>
                   </div>
                 </li>
               </ul>
