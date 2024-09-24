@@ -124,9 +124,16 @@ const Chat = () => {
               key={index}
               onClick={() => handleChatSelection(chatlist)}
             >
+             
               <img
                 // src={chatlist?.user?.image || ""}
-                  src={chatlist.user.image ? (chatlist.user.image.startsWith("https") ? chatlist.user.image : imageLiveUrl(chatlist.user.image)) : ""}
+                src={
+                  chatlist?.user?.image
+                    ? chatlist?.user?.image.startsWith("https")
+                      ? chatlist?.user?.image
+                      : imageLiveUrl(chatlist.user.image)
+                    : ""
+                }
                 alt="User"
                 className="w-10 h-10 rounded-full mr-3"
               />
@@ -187,9 +194,15 @@ const Chat = () => {
                       {/* Avatar for the sender */}
                       {chat.sender._id !== senderId && (
                         <img
-                          // src={chat.sender.image} // Assuming 'avatar' holds the URL for the sender's image
-                            src={chat.sender.image ? (chat.sender.image.startsWith("https") ? chat.sender.image : imageLiveUrl(chat.sender.image)) : ""}
-                          alt={chat.sender.name} // Assuming 'name' holds the sender's name
+                          src={
+                            chat.sender.image
+                              ? chat.sender.image.startsWith("https")
+                                ? chat.sender.image
+                                : imageLiveUrl(chat.sender.image)
+                              : ""
+                          }
+                          // src={chat.sender.image ? (chat.sender.image.startsWith("https") ? chat.sender.image : imageLiveUrl(chat.sender.image)) : ""}
+                          alt={chat.sender.name}
                           className="w-8 h-8 rounded-full mr-2"
                         />
                       )}
@@ -221,7 +234,13 @@ const Chat = () => {
                       {chat.sender._id === senderId && (
                         <img
                           // src={chat.sender.image} // URL for the current user's image
-                           src={chat.sender.image ? (chat.sender.image.startsWith("https") ? chat.sender.image : imageLiveUrl(chat.sender.image)) : ""}
+                          src={
+                            chat.sender.image
+                              ? chat.sender.image.startsWith("https")
+                                ? chat.sender.image
+                                : imageLiveUrl(chat.sender.image)
+                              : ""
+                          }
                           alt={chat.sender.name} // Current user's name
                           className="w-8 h-8 rounded-full ml-2"
                         />
