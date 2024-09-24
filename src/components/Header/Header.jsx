@@ -241,7 +241,7 @@ function Header() {
               /> */}
               <div
                 onClick={() => navigate("/")}
-                className="cursor-pointer -rotate-12 mr-5"
+                className="cursor-pointer lg:-rotate-12 mr-5"
               >
                 <p className="text-2xl">Pakardi</p>
                 <p className="text-sm">Pakardi.com</p>

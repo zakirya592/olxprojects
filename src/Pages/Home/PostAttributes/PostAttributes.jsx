@@ -304,46 +304,50 @@ const PostAttributes = () => {
       )}
       <div className="w-full sm:w-1/2 lg:w-[900px] my-10 mx-auto bg-white border border-bordderscolor shadow-md rounded-lg">
         <form>
-          <div className="border-t border-b border-bordderscolor p-6">
-            <div className="mb-4 flex items-center">
-              <label className="w-1/4 mb-1 font-semibold">Upload Images</label>
+          <div className="border-t border-b border-bordderscolor p-3 lg:p-6 sm:3">
+            <div className="mb-4 flex flex-col lg:flex-row items-start lg:items-center">
+              <label className="w-full lg:w-1/4 mb-1 font-semibold">
+                Upload Images
+              </label>
               <div className="w-full p-2 flex space-x-2">
-                {images.map((image, index) => (
-                  <div key={index} className="relative">
-                    <input
-                      type="file"
-                      accept="image/*"
-                      className="hidden"
-                      id={`image-upload-${index}`}
-                      onChange={(e) => handleImageChange(e, index)}
-                    />
-                    <label htmlFor={`image-upload-${index}`}>
-                      <div className="w-16 h-16 bg-gray-200 border border-dashed border-gray-400 flex items-center justify-center cursor-pointer">
-                        {image ? (
-                          <img
-                            src={URL.createObjectURL(image)} // Create a preview URL for the image
-                            alt={`Uploaded ${index}`}
-                            className="w-full h-full object-cover"
-                          />
-                        ) : (
-                          <span className="text-gray-400">+</span>
-                        )}
-                      </div>
-                    </label>
-                  </div>
-                ))}
+                <div className="grid grid-cols-4 sm:grid-cols-4 md:grid-cols-6 gap-4">
+                  {images.map((image, index) => (
+                    <div key={index} className="relative">
+                      <input
+                        type="file"
+                        accept="image/*"
+                        className="hidden"
+                        id={`image-upload-${index}`}
+                        onChange={(e) => handleImageChange(e, index)}
+                      />
+                      <label htmlFor={`image-upload-${index}`}>
+                        <div className="w-16 h-16 bg-gray-200 border border-dashed border-gray-400 flex items-center justify-center cursor-pointer">
+                          {image ? (
+                            <img
+                              src={URL.createObjectURL(image)} // Create a preview URL for the image
+                              alt={`Uploaded ${index}`}
+                              className="w-full h-full object-cover"
+                            />
+                          ) : (
+                            <span className="text-gray-400">+</span>
+                          )}
+                        </div>
+                      </label>
+                    </div>
+                  ))}
+                </div>
               </div>
             </div>
           </div>
 
-          <div className="border-t border-b border-bordderscolor p-6">
+          <div className="border-t border-b border-bordderscolor p-3 lg:p-6 sm:3">
             {fields.map((field, index) => (
               <div
                 key={index}
                 className="flex flex-row gap-3 sm:flex-row sm:justify-between mt-6"
               >
                 <div className="w-full font-body sm:text-base text-sm flex flex-row items-center">
-                  <label className="w-1/4 mb-1 font-semibold">
+                  <label className="w-full lg:w-1/4 mb-1 font-semibold">
                     {field.model} <span className="text-red-600"> *</span>
                   </label>
                   {field.model === "Condition" ? (
@@ -416,10 +420,10 @@ const PostAttributes = () => {
             ))}
           </div>
 
-          <div className="border-t border-b border-bordderscolor p-6">
-            <div className="mb-4 flex items-center">
-              <label className="w-1/4 mb-1 font-semibold">
-                Ad title <span className="text-red-600"> *</span>
+          <div className="border-t border-b border-bordderscolor p-3 lg:p-6 sm:3">
+            <div className="mb-4 flex flex-col lg:flex-row items-start lg:items-center">
+              <label className="w-1/4  mb-1 font-semibold">
+                Ad title <span className="text-red-600">*</span>
               </label>
               <div className="w-full">
                 <input
@@ -437,13 +441,12 @@ const PostAttributes = () => {
               </div>
             </div>
 
-            <div className="mb-4 flex items-center">
-              <label className="w-1/4 mb-1 font-semibold">
+            <div className="mb-4 flex flex-col lg:flex-row items-start lg:items-center">
+              <label className="w-full lg:w-1/4 mb-1 font-semibold">
                 Description <span className="text-red-600"> *</span>
               </label>
               <div className="w-full">
                 <textarea
-                  type="text"
                   value={form.description}
                   onChange={(e) => {
                     setForm({
@@ -457,8 +460,8 @@ const PostAttributes = () => {
               </div>
             </div>
 
-            <div className="mb-4 flex items-center">
-              <label className="w-1/4 mb-1 font-semibold">
+            <div className="mb-4 flex flex-col lg:flex-row items-start lg:items-center">
+              <label className="w-full lg:w-1/4 mb-1 font-semibold">
                 Location <span className="text-red-600"> *</span>
               </label>
               <div className="w-full">
@@ -485,9 +488,9 @@ const PostAttributes = () => {
             </div>
           </div>
 
-          <div className="border-t border-b border-bordderscolor p-6">
-            <div className="mb-4 flex items-center">
-              <label className="w-1/4 mb-1 font-semibold">
+          <div className="border-t border-b border-bordderscolor p-3 lg:p-6 sm:3">
+            <div className="mb-4 flex flex-col lg:flex-row items-start lg:items-center">
+              <label className="w-full lg:w-1/4 mb-1 font-semibold">
                 Price <span className="text-red-600"> *</span>
               </label>
               <div className="w-full">
@@ -507,9 +510,9 @@ const PostAttributes = () => {
             </div>
           </div>
 
-          <div className="border-t border-b border-bordderscolor p-6">
-            <div className="mb-4 flex items-center">
-              <label className="w-1/4 mb-1 font-semibold">Name</label>
+          <div className="border-t border-b border-bordderscolor p-3 lg:p-6 sm:3">
+            <div className="mb-4 flex flex-col lg:flex-row items-start lg:items-center">
+              <label className="w-full lg:w-1/4 mb-1 font-semibold">Name</label>
               <div className="w-full">
                 <input
                   type="text"
@@ -525,8 +528,8 @@ const PostAttributes = () => {
                 />
               </div>
             </div>
-            <div className="mb-4 flex">
-              <label className="w-1/4 mb-1 font-semibold">
+            <div className="mb-4 flex flex-col lg:flex-row items-start lg:items-center">
+              <label className="w-full lg:w-1/4 mb-1 font-semibold ">
                 Your phone number
               </label>
               <div className="w-full">
@@ -552,7 +555,7 @@ const PostAttributes = () => {
             </div>
           </div>
 
-          <div className="border-t border-b border-bordderscolor p-6">
+          <div className="border-t border-b border-bordderscolor p-3 lg:p-6 sm:3">
             <button
               type="button"
               onClick={handleAddCompany}
