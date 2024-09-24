@@ -8,6 +8,7 @@ import { toast } from "react-toastify";
 import { DotLoader } from "react-spinners";
 import { useLocation, useNavigate } from "react-router-dom";
 import { useQuery } from "react-query";
+import imageLiveUrl from "../../../../utils/urlConverter/imageLiveUrl";
 const UpdateMyProduct = () => {
   const { DataSelectionModel } = useContext(Selectioncardcontext);
   const location = useLocation();
@@ -32,7 +33,12 @@ const UpdateMyProduct = () => {
 
   const storedUserResponseString = sessionStorage.getItem("userResponse");
   const storedUserResponse = JSON.parse(storedUserResponseString);
-  const loginuserdata = storedUserResponse.data.user;
+  // const loginuserdata = storedUserResponse.data.user;
+    let loginuserid = storedUserResponse?.data?.user?._id || "";
+
+    if (!loginuserid) {
+      loginuserid = localStorage.getItem("userdata") || "";
+    }
   const [form, setForm] = useState({
     brand: "",
     condition: "",
@@ -40,9 +46,10 @@ const UpdateMyProduct = () => {
     description: cardData?.ProductData?.description || "",
     Location: cardData?.ProductData?.location || "",
     price: cardData?.ProductData?.price || "",
-    user: loginuserdata?.username || "",
+    user:"",
   });
-  const [phoneNumber, setphoneNumber] = useState(loginuserdata?.phone || "");
+  const [phoneNumber, setphoneNumber] = useState("");
+
 
   // const [images, setImages] = useState(Array(6).fill(null));
   const [images, setImages] = useState(() => {
@@ -54,7 +61,7 @@ const UpdateMyProduct = () => {
   const [fields, setFields] = useState([]);
   
   const [selectedCondition, setSelectedCondition] = useState(
-    cardData?.ProductData?.Condition?.name || conditions[0]?.name || null
+    cardData?.ProductData?.Condition?.name || cardData?.ProductData?.conditions?.name || null
   );
    
   const [selectedDeviceType, setSelectedDeviceType] = useState(
@@ -62,7 +69,6 @@ const UpdateMyProduct = () => {
   );
   const [deviceTypes, setDeviceTypes] = useState([]);
   const [conditions, setConditions] = useState(
-    // cardData?.ProductData?.Condition?._id || []
     {
     name: cardData.ProductData?.Category?.name || [],
     _id: cardData?.ProductData?.Condition?._id || [],
@@ -77,7 +83,6 @@ const UpdateMyProduct = () => {
     name: cardData?.ProductData?.Category?.name || "",
     _id: cardData?.ProductData?.Category?._id || "",
   });
-  console.log("Category", Category.name);
   
   const [SubCategory, setSubCategory] = useState({
     name: cardData?.ProductData?.SubCategory?.name || "",
@@ -156,6 +161,22 @@ const UpdateMyProduct = () => {
       [model]: newValue || "", // Use the field model as the key
     }));
   };
+
+  
+    useEffect(() => {
+      NewRequest.get(`/users/${loginuserid || ""}`)
+        .then((response) => {
+          const userdata = response.data;
+          setForm({
+            ...form,
+            user: userdata?.username || "",
+          });
+          setphoneNumber(userdata?.phone || "");
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    }, []);
 
   useEffect(() => {
     const loadScript = (url, callback) => {
@@ -327,7 +348,7 @@ const UpdateMyProduct = () => {
     formData.append("description", form.description);
     formData.append("price", form.price);
     formData.append("location", form.Location);
-    formData.append("User", loginuserdata?._id || "");
+    formData.append("User", loginuserid || "");
     formData.append("Category", Category?._id);
     formData.append("SubCategory", SubCategory?._id || "");
     if (footerCategory?._id) {
@@ -436,7 +457,11 @@ const UpdateMyProduct = () => {
                               className="w-full h-full object-cover"
                             />
                           ) : (
-                            <img src={image} alt="" />
+                            <img 
+                            // src={image}
+                             src={image ? (image.startsWith("https") ? image : imageLiveUrl(image)) : ""}
+               
+                            alt="" />
                           )
                         ) : (
                           <span className="text-gray-400">+</span>
