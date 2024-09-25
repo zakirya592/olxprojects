@@ -47,7 +47,7 @@ const LoginForm = () => {
               theme: "light",
             });
             // handleCloseCreatePopup();
-            setParentVisibility(false);
+            // setParentVisibility(false);
           } else {
             toast.error("Your account is not Active.", {
               position: "top-right",
@@ -65,7 +65,7 @@ const LoginForm = () => {
           setloading(false);
           console.log(error,'errorr');
           
-          toast.error(error?.response?.data?.error || "Error show", {
+          toast.error(error?.response?.data?.message || "Error show", {
             position: "top-right",
             autoClose: 2000,
             hideProgressBar: false,
