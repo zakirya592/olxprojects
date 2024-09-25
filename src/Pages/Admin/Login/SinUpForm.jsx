@@ -356,7 +356,7 @@ const SinUpForm = () => {
             </p>
           </div>
         </div>
-        <div className="w-full lg:w-1/2 h-screen ">
+        <div className="w-full lg:w-1/2 h-screen smm:hidden lg:flex hidden">
           <img
             src={logimage}
             alt="Login Illustration"

@@ -46,7 +46,7 @@ const LoginForm = () => {
               progress: undefined,
               theme: "light",
             });
-            handleCloseCreatePopup();
+            // handleCloseCreatePopup();
             setParentVisibility(false);
           } else {
             toast.error("Your account is not Active.", {
@@ -63,7 +63,9 @@ const LoginForm = () => {
           localStorage.setItem("authToken", response.data.token);
         } catch (error) {
           setloading(false);
-          toast.error(error?.response?.data?.error || "Error", {
+          console.log(error,'errorr');
+          
+          toast.error(error?.response?.data?.error || "Error show", {
             position: "top-right",
             autoClose: 2000,
             hideProgressBar: false,
@@ -103,11 +105,11 @@ const LoginForm = () => {
           window.location.href = `${baseUrl}/users/login_with_google`;
         };
 
-  const handleKeyDown = (event) => {
-    if (event.key === "Enter") {
-      handleAddCompany();
-    }
-  };
+  // const handleKeyDown = (event) => {
+  //   if (event.key === "Enter") {
+  //     handleAddCompany();
+  //   }
+  // };
 
   return (
     <section className="bg-gray-50">
@@ -190,7 +192,7 @@ const LoginForm = () => {
               <button
                 type="button"
                 onClick={handleAddCompany}
-                onKeyDown={handleKeyDown}
+                // onKeyDown={handleKeyDown}
                 className="w-full text-white bg-headingcolor hover:bg-viewmorebutton focus:ring-4 focus:outline-none  font-medium rounded-lg text-md px-5 py-2.5 text-center"
               >
                 {loading ? "Login ..." : "Sign in"}
@@ -223,7 +225,7 @@ const LoginForm = () => {
             </p>
           </div>
         </div>
-        <div className="w-full lg:w-1/2 h-screen ">
+        <div className="w-full lg:w-1/2 h-screen smm:hidden lg:flex hidden">
           <img
             src={logimage}
             alt="Login Illustration"
