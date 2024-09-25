@@ -19,6 +19,8 @@ import Stack from "@mui/material/Stack";
 import DescriptionWithToggle from "../MoreinKids/DescriptionWithToggle";
 import { useQuery } from "react-query";
 import imageLiveUrl from "../../../../utils/urlConverter/imageLiveUrl";
+import phoneicon from "../../../assets/Images/phoneicon.png"
+import emailicon from "../../../assets/Images/emailicon.jpg";
 
 const Singleitem = () => {
 
@@ -183,8 +185,18 @@ const Singleitem = () => {
                     <p className="text-secondary">
                       {Userdataget?.User?.username || ""}
                     </p>
-                    <p>{Userdataget?.User?.email || ""}</p>
-                    <p>{Userdataget?.User?.phone || ""}</p>
+                    <p className="flex my-3">
+                       <img src={emailicon} alt="" className="w-full h-5 object-contain"/>
+                      <a href={`mailto:${Userdataget?.User?.email || ""}`} className="text-blue-500 hover:underline ms-5 my-auto" >
+                        {Userdataget?.User?.email || ""}
+                      </a>
+                    </p>
+                    <p className="flex ">
+                      <img src={phoneicon} alt="" className="w-7 h-7 object-contain"/>
+                      <a href={`tel:${Userdataget?.User?.phone || ""}`} className="text-blue-500 hover:underline ms-5 my-auto">
+                        {Userdataget?.User?.phone || ""}
+                      </a>
+                    </p>
                   </div>
                 </div>
                 <div>
@@ -375,7 +387,7 @@ const Singleitem = () => {
                       <div
                         key={card.id}
                         className="h-full w-full py-1  border my-3 border-gray-300 rounded-md shadow-lg"
-                        // onClick={() => singproductitem(card)}
+                      // onClick={() => singproductitem(card)}
                       >
                         <div
                           // to={card.link}
