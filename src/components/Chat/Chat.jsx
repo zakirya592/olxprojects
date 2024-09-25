@@ -42,7 +42,7 @@ const Chat = () => {
 
   const fetchchatlist = async () => {
     try {
-      const response = await NewRequest.get(`/chat/getmychat?userId=${loginuserdata?._id || ""}`
+      const response = await NewRequest.get(`/chat/getmychat?userId=${senderId || ""}`
       );
       console.log(response, "response");
 
