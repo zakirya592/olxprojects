@@ -186,14 +186,28 @@ const Singleitem = () => {
                       {Userdataget?.User?.username || ""}
                     </p>
                     <p className="flex my-3">
-                       <img src={emailicon} alt="" className="w-full h-5 object-contain"/>
-                      <a href={`mailto:${Userdataget?.User?.email || ""}`} className="text-blue-500 hover:underline ms-5 my-auto" >
+                      <img
+                        src={emailicon}
+                        alt=""
+                        className="w-full h-5 object-contain"
+                      />
+                      <a
+                        href={`mailto:${Userdataget?.User?.email || ""}`}
+                        className="text-blue-500 hover:underline ms-5 my-auto"
+                      >
                         {Userdataget?.User?.email || ""}
                       </a>
                     </p>
                     <p className="flex ">
-                      <img src={phoneicon} alt="" className="w-7 h-7 object-contain"/>
-                      <a href={`tel:${Userdataget?.User?.phone || ""}`} className="text-blue-500 hover:underline ms-5 my-auto">
+                      <img
+                        src={phoneicon}
+                        alt=""
+                        className="w-7 h-7 object-contain"
+                      />
+                      <a
+                        href={`tel:${Userdataget?.User?.phone || ""}`}
+                        className="text-blue-500 hover:underline ms-5 my-auto"
+                      >
                         {Userdataget?.User?.phone || ""}
                       </a>
                     </p>
@@ -251,7 +265,7 @@ const Singleitem = () => {
           </div>
         </div>
         <div className="relative h-auto w-full lg:w-[65%] sm:w-full bg-white border-b mb-20 ">
-          <div className="relative  w-full">
+          <div className="relative h-[300px] w-full">
             {isLoading ? (
               <Skeleton height={200} /> // Skeleton for the image slider
             ) : (
@@ -276,10 +290,10 @@ const Singleitem = () => {
                 <div className="relative w-100">
                   {data?.images?.map((image, index) => (
                     <SwiperSlide key={index}>
-                      <div className="relative w-100">
+                      <div className="relative w-full h-[300px]">
                         <img
                           src={imageLiveUrl(image)}
-                          className="w-full h-64  object-cover"
+                          className="w-full h-full  object-cover"
                           alt={`Slide ${index}`}
                         />
                       </div>
@@ -387,7 +401,7 @@ const Singleitem = () => {
                       <div
                         key={card.id}
                         className="h-full w-full py-1  border my-3 border-gray-300 rounded-md shadow-lg"
-                      // onClick={() => singproductitem(card)}
+                        // onClick={() => singproductitem(card)}
                       >
                         <div
                           // to={card.link}
