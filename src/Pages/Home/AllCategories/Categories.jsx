@@ -67,7 +67,7 @@ return mobilesCategory;
   
 
   return (
-    <div className="bg-[#111111] py-10">
+    <div className="py-10">
       {/* <div className="flex justify-between my-auto">
         <h6 className="text-headingcolor text-3xl font-bold overflow-hidden">
           All categories
@@ -83,20 +83,6 @@ return mobilesCategory;
           ) : (
             eventsData.map((item) => (
               <SwiperSlide key={item.id}>
-                {/* <div className="relative w-100">
-                  {item?.icon ? (
-                    <img
-                      src={item.icon}
-                      alt="icon"
-                      className="w-full p-5 mt-1"
-                    />
-                  ) : (
-                    <div className="w-full p-5 mt-1 flex justify-center items-center">
-                      <div className="w-14 h-11 border border-gray-300 rounded-full"></div>
-                    </div>
-                  )}
-                  <div className="text-center mt-2 text-white">{item.name}</div>
-                </div> */}
                 <div
                   onClick={() => viewmore(item)}
                   className="font-semibold text-white sm:text-lg text-base hover:text-primary mt-3 cursor-pointer"
@@ -114,7 +100,7 @@ return mobilesCategory;
                       </div>
                     )}
                     <div className="w-full mt-3 text-center">
-                      <p className="text-white">{item.name}</p>
+                      <p className="text-black">{item.name}</p>
                     </div>
                   </div>
                 </div>
@@ -125,7 +111,7 @@ return mobilesCategory;
       </div>
 
       {/* Grid for Large Screens */}
-      <div className="hidden lg:grid 2xl:grid-cols-4 xl:grid-cols-4 gap-4 lg:grid-cols-4 md:grid-cols-3 grid-cols-1 sm:px-2 px-2 w-[90%] sm:w-full lg:w-[90%] mx-auto mb-3">
+      <div className="hidden lg:grid 2xl:grid-cols-4 xl:grid-cols-4 gap-4 lg:grid-cols-4 md:grid-cols-3 grid-cols-1 sm:px-2 px-2 w-full mx-auto mb-3">
         {isLoading ? (
           <div>Loading...</div>
         ) : error ? (

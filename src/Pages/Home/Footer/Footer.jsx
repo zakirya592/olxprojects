@@ -93,7 +93,7 @@ const viewmorefooter = (product) => {
 
   return (
     <div>
-      <div className="py-4 gap-2 sm:px-16 px-8 h-auto w-full bg-[#111111] text-[#F0FFFF] relative">
+      <div className="py-4 gap-2 sm:px-16 px-8 h-auto w-full bg-[#7B6C9C] text-[#F0FFFF] relative">
         <div className="w-full grid 2xl:grid-cols-3 lg:grid-cols-3 grid-cols-1">
           <div className={`h-auto w-full flex flex-col gap-8 relative `}>
             <h2 className="text-xl uppercase font-semibold text-start relativ e">
@@ -140,7 +140,11 @@ const viewmorefooter = (product) => {
                   size={40}
                   style={{ color: "#F0FFFF" }}
                 /> */}
-                <Link to="https://www.facebook.com/profile.php?id=61565875032026" className="cursor-pointer " target="_black">
+                <Link
+                  to="https://www.facebook.com/profile.php?id=61565875032026"
+                  className="cursor-pointer "
+                  target="_black"
+                >
                   <CiFacebook
                     size={35}
                     style={{ color: "#F0FFFF", marginLeft: "10px" }}
@@ -150,11 +154,15 @@ const viewmorefooter = (product) => {
                   size={34}
                   style={{ color: "#F0FFFF", marginLeft: "12px" }}
                 /> */}
-                <Link to="https://www.instagram.com/pakardicom" className="cursor-pointer " target="_black">
-                <FiInstagram
-                  size={32}
-                  style={{ color: "#F0FFFF", marginLeft: "12px" }}
-                />
+                <Link
+                  to="https://www.instagram.com/pakardicom"
+                  className="cursor-pointer "
+                  target="_black"
+                >
+                  <FiInstagram
+                    size={32}
+                    style={{ color: "#F0FFFF", marginLeft: "12px" }}
+                  />
                 </Link>
               </div>
               {/* <div className="flex flex-row w-full justify-between mt-4">

@@ -23,6 +23,8 @@ import useMediaQuery from "@mui/material/useMediaQuery";
 import NewRequest from "../../../../utils/NewRequest";
 import DescriptionWithToggle from "./DescriptionWithToggle";
 import imageLiveUrl from "../../../../utils/urlConverter/imageLiveUrl";
+import { ThumbUpAlt } from "@mui/icons-material";
+import likeicon from "../../../assets/Images/like.jpg"
 
 const Hadersilder = () => {
   const isSmallScreen = useMediaQuery("(max-width: 425px)");
@@ -101,7 +103,7 @@ const Hadersilder = () => {
   const categories = productsdata.categories;
 
   return (
-    <div className="relative h-auto w-full bg-white border-b mt-10 mb-20">
+    <div className="relative  h-auto w-full bg-white border-b mt-10 mb-20">
       {categories.map((category) => {
         const activeProducts = category.products.filter(
           (product) => product.status.toLowerCase() === "active"
@@ -159,6 +161,10 @@ const Hadersilder = () => {
                               <p className="text-secondary sm:text-lg text-base">
                                 Rs {card.price}
                               </p>
+                                <img src={likeicon}
+                                className=" text-black cursor-pointer h-7 w-7"
+                                onClick={() => postcard(card)}
+                              ></img>
                             </div>
 
                             {/* <div className="w-full flex justify-center items-end mt-auto py-3">
@@ -201,18 +207,16 @@ const Hadersilder = () => {
                             <p className="text-[#002147] sm:text-lg text-base">
                               Rs {card.price}
                             </p>
+                            {/* Button at the bottom */}
+                           
+                              <img src={likeicon}
+                                className=" text-black cursor-pointer h-7 w-7"
+                                onClick={() => postcard(card)}
+                              ></img>
+                            
                           </div>
                         </div>
                       </div>
-                      {/* Button at the bottom */}
-                      {/* <div className="w-full flex justify-center items-end mt-auto py-3">
-                        <button
-                          className="bg-black text-yellow-50 px-5 py-2 rounded-full"
-                          onClick={() => postcard(card)}
-                        >
-                          Add To Cart
-                        </button>
-                      </div> */}
                     </div>
                   ))}
                 </div>

@@ -168,7 +168,7 @@ const Singleitem = () => {
           {cardData?.cardData?.name || ""}
         </span>
       </div>
-      <div className="flex gap-6   flex-col sm:flex-row">
+      <div className="flex gap-6 flex-col sm:flex-row">
         <div className="w-full lg:w-[35%] sm:w-full ">
           <div className="border rounded shadow py-6 px-4 bg-cardbg">
             <p className="text-primary">Listed by private user</p>
@@ -179,17 +179,30 @@ const Singleitem = () => {
               </div> // Skeleton for user avatar
             ) : (
               <div className="flex my-auto mt-5 justify-between">
-                <div className="flex">
+                <div className="flex w-full">
                   <Avatar className="my-auto" src={imageuser || ""} />
-                  <div className="ml-5">
-                    <p className="text-secondary">
-                      {Userdataget?.User?.username || ""}
-                    </p>
-                    <p className="flex my-3">
+                  <div className="ml-5 w-full">
+                    <div className="flex justify-between  my-auto w-full">
+                      <div className="my-auto">
+                        <p className="text-secondary">
+                          {Userdataget?.User?.username || ""}
+                        </p>
+                      </div>
+                      <div className="my-auto">
+                        <button
+                          className="text-[#30D5C8] border border-[#30D5C8] px-4 rounded "
+                          onClick={() => charfunction(Userdataget)}
+                        >
+                          Chat
+                        </button>
+                      </div>
+                    </div>
+
+                    <p className="flex my-3 w-full">
                       <img
                         src={emailicon}
                         alt=""
-                        className="w-full h-5 object-contain"
+                        className="w-7 h-5 object-contain"
                       />
                       <a
                         href={`mailto:${Userdataget?.User?.email || ""}`}
@@ -212,14 +225,6 @@ const Singleitem = () => {
                       </a>
                     </p>
                   </div>
-                </div>
-                <div>
-                  <button
-                    className="text-[#30D5C8] border border-[#30D5C8] px-4 rounded mt-4"
-                    onClick={() => charfunction(Userdataget)}
-                  >
-                    Chat
-                  </button>
                 </div>
               </div>
             )}
@@ -251,7 +256,7 @@ const Singleitem = () => {
                 {productsdata &&
                   productsdata.length > 0 &&
                   productsdata.map((category, index) => (
-                    <li key={index} className="mb-2">
+                    <li key={index} className="mb-2 text-gray-500">
                       <p
                         onClick={() => viewmore(category)}
                         className="cursor-pointer"
@@ -323,7 +328,7 @@ const Singleitem = () => {
               ) : (
                 <>
                   <div className="flex justify-between">
-                    <h3 className="font-bold text-lg mb-2 ">
+                    <h3 className="font-bold text-2xl mb-2 ">
                       Rs{" "}
                       <span className="text-rscolor">{data?.price || ""}</span>
                     </h3>
@@ -334,7 +339,9 @@ const Singleitem = () => {
                       Add To Cart
                     </button> */}
                   </div>
-                  <p className="text-gray-700 mb-5">{data?.name || ""}</p>
+                  <p className="text-gray-700 text-lg mb-5">
+                    {data?.name || ""}
+                  </p>
                   <div className=" flex text-gray-500 text-sm">
                     <PinDropIcon className="text-[#757575]" />
                     <p className=" ml-5">{data?.location || "location"}</p>
@@ -419,13 +426,13 @@ const Singleitem = () => {
                               <DescriptionWithToggle description={card.name} />
                             </p>
                             <div className="px-3 flex flex-row mt-5 justify-between gap-2">
-                              <p className="sm:text-lg text-base">
+                              <h1 className="sm:text-lg text-base">
                                 Rs{" "}
                                 <span className="text-rscolor">
                                   {" "}
                                   {card.price}
                                 </span>
-                              </p>
+                              </h1>
                             </div>
                             {/* <div className="w-full flex justify-center items-end mt-auto py-3">
                               <button

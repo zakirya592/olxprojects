@@ -206,6 +206,12 @@ function Header() {
     searchMutation.mutate(query);
   };
 
+    const handleKeyDown = (e) => {
+      if (e.key === "Enter") {
+        searchMutation.mutate(query);
+      }
+    };
+
 
   const {
     isLoading,
@@ -237,8 +243,7 @@ function Header() {
       <div className="bg-[#7B6C9C] text-white shadow-md px-0 smm:px-0 lg:px-12 lg:fixed top-0 left-0 right-0 z-50">
         <div className="py-2 mx-3">
           <div className="topdev flex my-auto container gap-1 lg:gap-5 smm:gap-1 w-full flex-col lg:flex-row sm:flex-col">
-            <div className="flex gap-1 lg:gap-5 smm:gap-1">
-            </div>
+            <div className="flex gap-1 lg:gap-5 smm:gap-1"></div>
           </div>
           <header className="flex py-2 w-full flex-col sm:flex-row justify-between">
             <div className="flex items-center w-full flex-col sm:flex-row">
@@ -252,12 +257,12 @@ function Header() {
               {/* </div> */}
               <div className="flex items-center w-full px-2">
                 <div className="flex w-auto sm:w-auto lg:w-full mt-2 lg:mt-0 sm:mt-2 px-2">
-                  <div className="bg-white flex items-center rounded-full w-full max-w-2xl shadow-lg">
+                  <div className="bg-white flex items-center rounded-md w-full max-w-2xl shadow-lg">
                     {/* Category Dropdown */}
                     <select
-                      className="bg-white text-gray-600 py-2 px-4 rounded-l-full focus:outline-none w-full"
-                    // value={category}
-                    // onChange={(e) => setCategory(e.target.value)}
+                      className=" text-gray-600 py-2 px-4 rounded focus:outline-none  mx-4"
+                      // value={category}
+                      // onChange={(e) => setCategory(e.target.value)}
                     >
                       <option value="All Categories">All Categories</option>
                       {categories.map((category) => {
@@ -279,13 +284,14 @@ function Header() {
                       className="ml-0 lg:ml-2 sm:ml-0 py-2 px-2 border rounded-l-md flex-grow focus:outline-none text-black w-full"
                       // className="outline-none text-black py-2 px-10 border rounded-l-md w-full"
                       value={query}
+                      onKeyDown={handleKeyDown}
                       onChange={(e) => setQuery(e.target.value)}
                     />
 
                     {/* Search Button */}
                     <button
                       onClick={handleSearch}
-                      className="bg-cyan-500 text-white p-2 rounded-full hover:bg-cyan-600 transition mx-1"
+                      className="bg-[#7B6C9C] text-white p-2 rounded-full hover:bg-cyan-600 transition mx-1"
                     >
                       <svg
                         xmlns="http://www.w3.org/2000/svg"
@@ -337,7 +343,9 @@ function Header() {
                             color: "black",
                           }}
                         >
-                          <Avatar src={userprofileimage || "broken-image.jpg"} />
+                          <Avatar
+                            src={userprofileimage || "broken-image.jpg"}
+                          />
                           <ArrowDropDownIcon className="my-auto" />
                         </Stack>
                       </MenuButton>

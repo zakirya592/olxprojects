@@ -31,7 +31,7 @@ const Hadersilder = () => {
 
   return (
     <div className="relative h-auto w-full bg-white border-b mb-20">
-      <div className="relative lg:h-[420px] h-[300px]  w-full sm:h-[300px]">
+      <div className="relative  h-[250px]  w-full ">
         <Swiper
           spaceBetween={30}
           centeredSlides={true}
@@ -50,7 +50,7 @@ const Hadersilder = () => {
           className="mySwiper"
         >
           {isLoading ? (
-            <div className="flex justify-center items-center lg:h-[420px] h-[300px]  sm:h-[300px]">
+            <div className="flex justify-center items-center  h-[250px] ">
               <CircularProgress />
             </div>
           ) : error ? (
@@ -58,7 +58,7 @@ const Hadersilder = () => {
           ) : (
             slidersData.map((item) => (
               <SwiperSlide>
-                <div className="relative w-full lg:h-[420px] h-[300px]  sm:h-[300px]">
+                <div className="relative w-full  h-[250px] rounded">
                   <img
                     src={imageLiveUrl(item?.image)}
                     className="w-full h-full object-cover"

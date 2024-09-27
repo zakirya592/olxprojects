@@ -75,11 +75,10 @@ function App() {
         </div>
         {/* <QueryClientProvider client={queryClient}> */}
         <main className="mx-auto flex max-w-[1760px] flex-col justify-center">
-          <Outlet /> {/* Nested routes will render here */}
+          <Outlet />
         </main>
         {/* </QueryClientProvider> */}
         <Footer />
-        {/* <NewFooter /> */}
       </div>
     );
   };

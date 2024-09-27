@@ -216,14 +216,14 @@ const MoreProductview = () => {
             </div>
           </main>
           {/* Sidebar */}
-          <aside className="w-full sm:w-full lg:w-1/4 p-4 border my-3 border-gray-300 rounded-md shadow-lg">
+          <aside className="w-full sm:w-full lg:w-1/4 p-4 border my-3 border-gray-300 bg-cardbg rounded shadow">
             <div className="mb-4">
               <h2 className="font-bold text-lg mb-2">Product Categories</h2>
               <ul>
                 {productsdata &&
                   productsdata.length > 0 &&
                   productsdata.map((category, index) => (
-                    <li key={index} className="mb-2">
+                    <li key={index} className="mb-2 text-gray-500">
                       <p
                         onClick={() => viewmore(category)}
                         className="cursor-pointer"
