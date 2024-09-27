@@ -1,6 +1,7 @@
 import { Skeleton } from "@mui/material";
 import React, { useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
+import imageLiveUrl from "../../../utils/urlConverter/imageLiveUrl";
 
 function SearchResultsPage() {
     const location = useLocation();
@@ -18,7 +19,7 @@ function SearchResultsPage() {
       <div className="lg:px-10 my-5 lg:my-32 sm:mt-2">
         <h1>Search Results</h1>
 
-        <div className="grid grid-cols-1 md:grid-cols-1 lg:grid-cols-1 gap-4">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-4">
           {searchResults.length === 0 && !isLoading && <p>No products found</p>}
 
           {searchResults.map((item, index) => (
@@ -29,9 +30,16 @@ function SearchResultsPage() {
             >
               <div className="flex gap-3">
                 <img
-                  src={item?.images?.[0] || ""}
+                  // src={item?.images?.[0] || ""}
+                  src={
+                    item?.images?.[0]
+                      ? item?.images?.[0].startsWith("https")
+                        ? item?.images?.[0]
+                        : imageLiveUrl(item?.images?.[0])
+                      : ""
+                  }
                   alt="Product"
-                  className="w-full h-64 object-cover"
+                  className="w-auto h-52  object-contain"
                 />
                 <div className="w-full mb-5 p-4">
                   {/* <DescriptionWithToggle description={item.name} /> */}
@@ -53,7 +61,7 @@ function SearchResultsPage() {
                     {item?.status || ""}
                   </p>
                   <p className="text-gray-500 text-sm">
-                    {item?.location || ""} - 2 weeks ago
+                    {item?.location || ""}
                   </p>
                   {/* <div className="flex mt-4">
             <button
