@@ -107,6 +107,24 @@ return mobilesCategory;
                     <p>Carpets Rawala</p>
                   </div>
                 </li>
+                <li className="menu-item-has-children">
+                  <div
+                    onClick={() => navigate("/contactus")}
+                    style={{ textDecoration: "none" }}
+                    className="text-lg font-bold cursor-pointer"
+                  >
+                    <p>Contact Us</p>
+                  </div>
+                </li>
+                <li className="menu-item-has-children">
+                  <div
+                    onClick={() => navigate("/Aboutus")}
+                    style={{ textDecoration: "none" }}
+                    className="text-lg font-bold cursor-pointer"
+                  >
+                    <p>About</p>
+                  </div>
+                </li>
               </ul>
             </nav>
           </div>

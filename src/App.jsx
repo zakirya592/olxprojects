@@ -63,6 +63,8 @@ import SearchResultsPage from "./Pages/SearchResults/SearchResultsPage";
 import UpdateMyProduct from "./Pages/Setting/MyProduct/UpdateMyProduct";
 import LoginForm from "./Pages/Admin/Login/LoginForm";
 import SinUpForm from "./Pages/Admin/Login/SinUpForm";
+import ContactUs from "./Pages/Home/ContactUs/ContactUs";
+import Aboutus from "./Pages/Home/Aboutus/Aboutus";
 
 const queryClient = new QueryClient();
 
@@ -118,6 +120,8 @@ function App() {
                 element={<GoogleCallbackHandler />}
               />
               <Route path="/search-results" element={<SearchResultsPage />} />
+              <Route path="/contactus" element={<ContactUs />} />
+              <Route path="/Aboutus" element={<Aboutus />} />
             </Route>
 
             <Route
