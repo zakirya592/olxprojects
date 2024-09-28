@@ -11,7 +11,7 @@ import { MenuButton as BaseMenuButton } from "@mui/base/MenuButton";
 import { MenuItem as BaseMenuItem, menuItemClasses } from "@mui/base/MenuItem";
 import { styled } from "@mui/system";
 import Avatar from "@mui/material/Avatar";
-import { Stack } from "@mui/material";
+import { Autocomplete, Stack, TextField } from "@mui/material";
 import ArrowDropDownIcon from "@mui/icons-material/ArrowDropDown";
 import { FaRegUser } from "react-icons/fa";
 import { useMutation } from "react-query";
@@ -72,8 +72,8 @@ function Header() {
         const userdata = response.data;
         const imageUrl = userdata?.image || "";
         console.log("loginuserdata", imageUrl);
-        const finalUrl = imageUrl && imageUrl.startsWith("https")? imageUrl : imageLiveUrl(imageUrl);
-          setuserprofileimage(finalUrl);
+        const finalUrl = imageUrl && imageUrl.startsWith("https") ? imageUrl : imageLiveUrl(imageUrl);
+        setuserprofileimage(finalUrl);
       })
       .catch((err) => {
         console.log(err);
@@ -206,11 +206,11 @@ function Header() {
     searchMutation.mutate(query);
   };
 
-    const handleKeyDown = (e) => {
-      if (e.key === "Enter") {
-        searchMutation.mutate(query);
-      }
-    };
+  const handleKeyDown = (e) => {
+    if (e.key === "Enter") {
+      searchMutation.mutate(query);
+    }
+  };
 
 
   const {
@@ -231,6 +231,24 @@ function Header() {
 
     return { categories: response.data, products: activeProducts };
   }
+
+  const [productdata, setproductdata] = useState([])
+  const fetchData = async () => {
+    try {
+      const response = await NewRequest.get("/product/getallproductbyadmin");
+
+      const Activeproduct = response?.data.filter(product => product.status.toLowerCase() == "active");
+      setproductdata(Activeproduct || []);
+      console.log(Activeproduct, "datdataa");
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
+  useEffect(() => {
+    fetchData()
+  }, [])
+
 
   if (isLoading) return <p>Loading...</p>;
   if (error) return <p>Error loading products</p>;
@@ -256,11 +274,11 @@ function Header() {
               </div>
               {/* </div> */}
               <div className="flex items-center w-full px-2">
-                <div className="flex w-auto sm:w-auto lg:w-full mt-2 lg:mt-0 sm:mt-2 px-2">
-                  <div className="bg-white flex items-center rounded-md w-full max-w-2xl shadow-lg">
+                <div className="flex w-full mt-2 lg:mt-0 px-2">
+                  <div className="bg-white flex items-center rounded-md w-full shadow-lg">
                     {/* Category Dropdown */}
                     <select
-                      className=" text-gray-600 py-2 px-4 rounded focus:outline-none  mx-4"
+                      className="text-gray-600 py-2 px-4 rounded focus:outline-none mx-4"
                       // value={category}
                       // onChange={(e) => setCategory(e.target.value)}
                     >
@@ -277,21 +295,49 @@ function Header() {
                       })}
                     </select>
 
-                    {/* Search Input */}
-                    <input
-                      type="text"
-                      placeholder="Search for products ..."
-                      className="ml-0 lg:ml-2 sm:ml-0 py-2 px-2 border rounded-l-md flex-grow focus:outline-none text-black w-full"
-                      // className="outline-none text-black py-2 px-10 border rounded-l-md w-full"
+                    {/* Autocomplete Input */}
+                    <Autocomplete
+                      id="test"
+                      options={productdata}
                       value={query}
-                      onKeyDown={handleKeyDown}
-                      onChange={(e) => setQuery(e.target.value)}
+                      getOptionLabel={(option) => option?.name || ""}
+                      onChange={(event, value) => {
+                        setQuery(value?.name || ""); 
+                        searchMutation.mutate(value?.name || ""); 
+                      }}
+                      onInputChange={(event, value) => {
+                        if (!value) {
+                          console.log("Input cleared");
+                        }
+                      }}
+                      renderInput={(params) => (
+                        <TextField
+                          {...params}
+                          InputProps={{
+                            ...params.InputProps,
+                            className: "text-black",
+                          }}
+                          InputLabelProps={{
+                            ...params.InputLabelProps,
+                            style: { color: "black" },
+                          }}
+                          className="ml-2 px-2 border border-black rounded-l-md w-full focus:outline-none"
+                          placeholder="Search for products ..."
+                          onKeyDown={handleKeyDown} // Trigger search on "Enter"
+                        />
+                      )}
+                      sx={{
+                        flexGrow: 1, // Ensures the Autocomplete grows to fill available space
+                        "& .MuiAutocomplete-endAdornment": {
+                          color: "black",
+                        },
+                      }}
                     />
 
                     {/* Search Button */}
                     <button
                       onClick={handleSearch}
-                      className="bg-[#7B6C9C] text-white p-2 rounded-full hover:bg-cyan-600 transition mx-1"
+                      className="bg-[#7B6C9C] text-white p-2 rounded-full hover:bg-cyan-600 transition ml-1"
                     >
                       <svg
                         xmlns="http://www.w3.org/2000/svg"
@@ -312,12 +358,13 @@ function Header() {
                 </div>
 
                 <span className="ml-2 border-l border-gray-300"></span>
+                {/* Notification Icon (Hidden for larger screens) */}
                 {/* {isUserLoggedIn && (
-                  <FaBell
-                    className="text-white cursor-pointer lg:hidden"
-                    size={25}
-                  />
-                )} */}
+    <FaBell
+      className="text-white cursor-pointer lg:hidden"
+      size={25}
+    />
+  )} */}
               </div>
             </div>
             <div className="flex items-center space-x-4 w-1/2 justify-center lg:justify-end sm:justify-start smm:justify-normal mt-2 lg:mt-0 sm:mt-2">
@@ -399,7 +446,7 @@ function Header() {
         </div>
       </div>
       <div className="w-full flex justify-center">
-        <div className="fixed justify-center text-center w-fit items-center z-50 bottom-0 bg-white sm:hidden">
+        <div className="fixed justify-center text-center w-fit items-center z-50 bottom-0 sm:hidden">
           <div className="flex justify-center gradient-border border rounded-full p-1">
             <button
               className=" p-2 rounded-full bg-white text-gray-800 border-none"

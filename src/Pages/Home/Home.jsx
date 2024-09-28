@@ -16,7 +16,7 @@ function Home() {
       {/* </div> */}
       {/* <hr className="lg:px-10 mt-4 lg:mt-24 sm:mt-2" /> */}
 
-      <div className="container mx-auto mt-4 lg:mt-24 sm:mt-2 px-4">
+      <div className="w-full lg:w-[90%]  sm:w-full mx-auto mt-4 lg:mt-24 sm:mt-2 px-4">
         <DropDownSelection />
         <Hadersilder />
         <Categories />

@@ -12,53 +12,105 @@ import "react-phone-input-2/lib/style.css";
 const SinUpForm = () => {
   const navigator = useNavigate();
 
-    const [name, setname] = useState("");
-    const [email, setemail] = useState("");
-    const [password, setpassword] = useState("");
-    const [dateOfBirth, setdateOfBirth] = useState("");
-    const [address, setaddress] = useState("");
-    const [aboutMe, setaboutMe] = useState("");
-    const [companyLandLine, setCompanyLandLine] = useState("");
+  const [name, setname] = useState("");
+  const [email, setemail] = useState("");
+  const [password, setpassword] = useState("");
+  const [dateOfBirth, setdateOfBirth] = useState("");
+  const [address, setaddress] = useState("");
+  const [aboutMe, setaboutMe] = useState("");
+  const [companyLandLine, setCompanyLandLine] = useState("");
+  const [showPassword, setShowPassword] = useState(false);
+  const [status, setStatus] = useState(""); // State to track selected status
+  const handleChangeStatus = (e) => {
+    setStatus(e.target.value);
+  };
 
-    const [companyLandlineError, setCompanyLandlineError] = useState("");
+  const [companyLandlineError, setCompanyLandlineError] = useState("");
 
+  const [selectedFile, setSelectedFile] = useState(null);
+  const [imageshow, setimageshow] = useState("");
 
-    const [selectedFile, setSelectedFile] = useState(null);
-    const [imageshow, setimageshow] = useState("");
+  function handleChangeback(e) {
+    setSelectedFile(e.target.files[0]);
+    setimageshow(e.target.files[0]);
+  }
 
-    function handleChangeback(e) {
-      setSelectedFile(e.target.files[0]);
-      setimageshow(e.target.files[0]);
-    }
-
-    const handlecompanyLandLine = (value) => {
-      // Reset error message
-      setCompanyLandlineError("");
-      if (value.startsWith("966")) {
-        if (value.length > 12) {
-          setCompanyLandlineError("Number must be a maximum of 12 digits");
-        }
+  const handlecompanyLandLine = (value) => {
+    // Reset error message
+    setCompanyLandlineError("");
+    if (value.startsWith("966")) {
+      if (value.length > 12) {
+        setCompanyLandlineError("Number must be a maximum of 12 digits");
       }
-      setCompanyLandLine(value);
-    };
+    }
+    setCompanyLandLine(value);
+  };
 
-    const handleAddCompany = async () => {
-      const formData = new FormData();
-      formData.append("username", name);
-      formData.append("email", email);
-      formData.append("password", password);
-      formData.append("dateOfBirth", dateOfBirth);
-      formData.append("aboutMe", aboutMe);
-      formData.append("phone", companyLandLine);
-      formData.append("address", address);
-      formData.append("image", imageshow);
-      try {
-        const response = await NewRequest.post("/users", formData, {
-          headers: {
-            "Content-Type": "multipart/form-data",
-          },
-        });
-        console.log(response);
+  const handleAddCompany = async () => {
+    const formData = new FormData();
+    formData.append("username", name);
+    formData.append("email", email);
+    formData.append("password", password);
+    formData.append("dateOfBirth", dateOfBirth);
+    formData.append("aboutMe", aboutMe);
+    formData.append("phone", companyLandLine);
+    formData.append("address", address);
+    formData.append("image", imageshow);
+    try {
+      const response = await NewRequest.post("/users", formData, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      });
+      console.log(response);
+      toast.success(`Sign Up has been successfully".`, {
+        position: "top-right",
+        autoClose: 2000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "light",
+      });
+      navigator("/LoginForm");
+    } catch (error) {
+      toast.error(error?.response?.data?.error || "Error", {
+        position: "top-right",
+        autoClose: 2000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "light",
+      });
+      // console.log(error);
+    }
+  };
+
+  const handleGoogleSignup = () => {
+    window.location.href = `${baseUrl}/users/signup_with_google`;
+  };
+
+  useEffect(() => {
+    const handleRedirect = () => {
+      // This is just an example. You would need to integrate with actual success status or auth context
+      const signupSuccess = false; // Replace with actual check
+      const response = {
+        success: false,
+        redirectUrl: "login", // Example response
+      };
+      if (response.success) {
+        navigator(`/LoginForm`);
+      } else {
+        // Handle case where signup failed or response is unsuccessful
+        console.error("Signup failed. Redirect URL:", response.redirectUrl);
+        // Optionally show an error message or handle failure
+      }
+      if (signupSuccess) {
+        // window.location.href = "/home";
+        navigator("/LoginForm");
         toast.success(`Sign Up has been successfully".`, {
           position: "top-right",
           autoClose: 2000,
@@ -69,65 +121,21 @@ const SinUpForm = () => {
           progress: undefined,
           theme: "light",
         });
-        navigator("/LoginForm");
-      } catch (error) {
-        toast.error(error?.response?.data?.error || "Error", {
-          position: "top-right",
-          autoClose: 2000,
-          hideProgressBar: false,
-          closeOnClick: true,
-          pauseOnHover: true,
-          draggable: true,
-          progress: undefined,
-          theme: "light",
-        });
-        // console.log(error);
       }
     };
 
+    handleRedirect();
+  }, []);
 
-      const handleGoogleSignup = () => {
-           window.location.href = `${baseUrl}/users/signup_with_google`;
-      };
-
-      useEffect(() => {
-        const handleRedirect = () => {
-          // This is just an example. You would need to integrate with actual success status or auth context
-          const signupSuccess = false; // Replace with actual check
-          const response = {
-            success: false,
-            redirectUrl: "login", // Example response
-          };
-          if (response.success) {
-            navigator(`/LoginForm`);
-          } else {
-            // Handle case where signup failed or response is unsuccessful
-            console.error("Signup failed. Redirect URL:", response.redirectUrl);
-            // Optionally show an error message or handle failure
-          }
-          if (signupSuccess) {
-            // window.location.href = "/home";
-            navigator("/LoginForm");
-            toast.success(`Sign Up has been successfully".`, {
-              position: "top-right",
-              autoClose: 2000,
-              hideProgressBar: false,
-              closeOnClick: true,
-              pauseOnHover: true,
-              draggable: true,
-              progress: undefined,
-              theme: "light",
-            });
-          }
-        };
-
-        handleRedirect();
-      }, []);
+  const toggleShowPassword = () => {
+    setShowPassword(!showPassword);
+  };
 
   return (
     <section className="bg-gray-50">
-      <div className="flex flex-col lg:flex-row items-center justify-between bg-gray-900 mx-auto">
-        <div className="w-full lg:w-1/2 sm:w-full dark:bg-gray-800 border rounded-lg shadow dark:border-gray-700 flex flex-col items-center justify-between overflow-y-auto h-full">
+      {/* <div className="flex flex-col lg:flex-row items-center justify-between bg-gray-900 mx-auto"> */}
+      <div className="h-full w-[85%] lg:w-1/2  sm:w-full mx-auto rounded-md shadow-xl bg-white flex flex-col items-center justify-between p-0 lg:p-8 sm:p-0">
+        <div className="w-full sm:w-full dark:bg-gray-800 border rounded-lg shadow dark:border-gray-700 flex flex-col items-center justify-between overflow-y-auto h-full">
           <div className="w-full mx-auto bg-white rounded-lg shadow dark:bg-gray-800 dark:border-gray-700 p-6 h-[100%] overflow-y-auto space-y-4 md:space-y-6">
             <h1 className="text-xl font-bold leading-tight tracking-tight text-gray-900 md:text-2xl dark:text-white">
               Create a new account
@@ -203,7 +211,7 @@ const SinUpForm = () => {
                   <p className="text-red-600">{companyLandlineError}</p>
                 )}
                 {/* Password */}
-                <div className="w-full font-body sm:text-base text-sm flex flex-col gap-2">
+                <div className="w-full font-body sm:text-base text-sm flex flex-col gap-2 relative">
                   <label
                     htmlFor="password"
                     className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
@@ -211,7 +219,7 @@ const SinUpForm = () => {
                     Password
                   </label>
                   <input
-                    type="password"
+                    type={showPassword ? "text" : "password"}
                     id="password"
                     required
                     value={password}
@@ -219,9 +227,19 @@ const SinUpForm = () => {
                     placeholder={`Enter password`}
                     className="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 pr-10"
                   />
+                  <div
+                    className="absolute inset-y-0 right-0 text-white mt-7 flex items-center pr-3 cursor-pointer"
+                    onClick={toggleShowPassword}
+                  >
+                    {showPassword ? (
+                      <AiOutlineEye />
+                    ) : (
+                      <AiOutlineEyeInvisible />
+                    )}
+                  </div>
                 </div>
                 {/*  Date Of Birth */}
-                <div className="w-full font-body sm:text-base text-sm flex flex-col gap-2">
+                {/* <div className="w-full font-body sm:text-base text-sm flex flex-col gap-2">
                   <label
                     htmlFor="dateOfBirth"
                     className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
@@ -237,9 +255,9 @@ const SinUpForm = () => {
                     //   placeholder={`User Name`}
                     className="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 pr-10"
                   />
-                </div>
+                </div> */}
                 {/* Address */}
-                <div className="w-full font-body sm:text-base text-sm flex flex-col gap-2">
+                {/* <div className="w-full font-body sm:text-base text-sm flex flex-col gap-2">
                   <label
                     htmlFor="address"
                     className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
@@ -255,9 +273,9 @@ const SinUpForm = () => {
                     placeholder={`Enter your Address`}
                     className="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 pr-10"
                   />
-                </div>
+                </div> */}
                 {/* aboutMe */}
-                <div className="w-full font-body sm:text-base text-sm flex flex-col gap-2">
+                {/* <div className="w-full font-body sm:text-base text-sm flex flex-col gap-2">
                   <label
                     htmlFor="aboutMe"
                     className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
@@ -272,51 +290,149 @@ const SinUpForm = () => {
                     placeholder={`Enter your About Me`}
                     className="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 pr-10"
                   />
-                </div>
-                {/* IMage */}
-                <div className="flex justify-between flex-col sm:flex-row">
-                  <div className="printerPic font-body sm:text-base text-sm flex flex-col gap-2">
-                    {/* <center> */}
-                    <label
-                      htmlFor="Image"
-                      className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
-                    >
-                      Image
-                    </label>
-                    <div className="imgesection">
-                      <img
-                        src={
-                          selectedFile
-                            ? URL.createObjectURL(selectedFile)
-                            : imageshow != null
-                            ? imageshow
-                            : ""
-                        }
-                        className="printerpic"
-                        style={{
-                          width: selectedFile || imageshow ? "200px" : "200px",
-                          height: selectedFile || imageshow ? "200px" : "200px",
-                        }}
-                      />
+                </div> */}
 
-                      <div className="row " htmlFor="file-inputs">
-                        <label
-                          htmlFor="file-inputs"
-                          className="choosefile bg-loactioncolor hover:bg-primary"
-                        >
-                          choose file
-                        </label>
-                        <input
-                          id="file-inputs"
-                          type="file"
-                          onChange={handleChangeback}
-                          style={{ display: "none" }}
-                        />
-                      </div>
+                <div className="w-full font-body sm:text-base text-sm flex flex-col gap-2">
+                  <label
+                    htmlFor="status"
+                    className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+                  >
+                    status
+                  </label>
+                  <select
+                    id="status"
+                    value={status}
+                    onChange={handleChangeStatus}
+                    className="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 pr-10"
+                  >
+                    <option>-- status --</option>
+                    <option value="Gemstone">Gemstone </option>
+                    <option value="wholesale">wholesale</option>
+                  </select>
+                </div>
+
+                {(status === "wholesale" || status === "Gemstone") && (
+                  <>
+                    {/* ID Card Number */}
+                    <div className="w-full font-body sm:text-base text-sm flex flex-col gap-2">
+                      <label
+                        htmlFor="idCardNumber"
+                        className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+                      >
+                        ID Card Number
+                      </label>
+                      <input
+                        type="text"
+                        id="idCardNumber"
+                        className="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                        placeholder="Enter your ID Card Number"
+                      />
                     </div>
 
-                    {/* </center> */}
+                    {/* Business Certificate */}
+                    <div className="w-full font-body sm:text-base text-sm flex flex-col gap-2">
+                      <label
+                        htmlFor="businessCertificate"
+                        className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+                      >
+                        Business Certificate
+                      </label>
+                      <input
+                        type="text"
+                        id="businessCertificate"
+                        className="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                        placeholder="Enter your Business Certificate Number"
+                      />
+                    </div>
+
+                    {/* Tax Number */}
+                    <div className="w-full font-body sm:text-base text-sm flex flex-col gap-2">
+                      <label
+                        htmlFor="taxNumber"
+                        className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+                      >
+                        Tax Number
+                      </label>
+                      <input
+                        type="text"
+                        id="taxNumber"
+                        className="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                        placeholder="Enter your Tax Number"
+                      />
+                    </div>
+
+                    {/* Image Upload Section */}
+                    <div className="flex justify-between flex-col sm:flex-row">
+                      <div className="printerPic font-body sm:text-base text-sm flex flex-col gap-2">
+                        <label
+                          htmlFor="Image"
+                          className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+                        >
+                          Upload Business Image
+                        </label>
+                        <div className="imgesection">
+                          <img
+                            src={
+                              selectedFile
+                                ? URL.createObjectURL(selectedFile)
+                                : imageshow != null
+                                ? imageshow
+                                : ""
+                            }
+                            className="printerpic"
+                            style={{
+                              width:
+                                selectedFile || imageshow ? "200px" : "200px",
+                              height:
+                                selectedFile || imageshow ? "200px" : "200px",
+                            }}
+                          />
+                          <div className="row " htmlFor="file-inputs">
+                            <label
+                              htmlFor="file-inputs"
+                              className="choosefile bg-loactioncolor hover:bg-primary"
+                            >
+                              choose file
+                            </label>
+                            <input
+                              id="file-inputs"
+                              type="file"
+                              onChange={handleChangeback}
+                              style={{ display: "none" }}
+                            />
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </>
+                )}
+
+                <div className="flex items-center justify-between mt-5">
+                  <div className="flex items-start">
+                    <div className="flex items-center h-5">
+                      <input
+                        id="remember"
+                        aria-describedby="remember"
+                        type="checkbox"
+                        className="w-4 h-4 border border-gray-300 rounded bg-gray-50 focus:ring-3 focus:ring-primary-300 dark:bg-gray-700 dark:border-gray-600 dark:focus:ring-primary-600 dark:ring-offset-gray-800"
+                        required
+                      />
+                    </div>
+                    <div className="ml-3 text-sm">
+                      <label
+                        htmlFor="remember"
+                        className="text-gray-500 dark:text-gray-300"
+                      >
+                        Agree
+                      </label>
+                    </div>
                   </div>
+                  {/* <a
+                  href="#"
+                  className="text-sm font-medium text-primary-600 hover:underline dark:text-primary-500"
+                >
+                  Forgot password?
+                </a> */}
                 </div>
               </div>
 
@@ -351,17 +467,10 @@ const SinUpForm = () => {
             >
               Already have an account?{" "}
               <span className="font-medium text-primary-600 hover:underline dark:text-primary-500">
-                Login up
+                Login
               </span>
             </p>
           </div>
-        </div>
-        <div className="w-full lg:w-1/2 h-screen smm:hidden lg:flex hidden">
-          <img
-            src={logimage}
-            alt="Login Illustration"
-            className="object-contain w-full h-full"
-          />
         </div>
       </div>
     </section>

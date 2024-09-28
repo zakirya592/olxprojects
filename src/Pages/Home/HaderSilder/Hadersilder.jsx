@@ -30,8 +30,8 @@ const Hadersilder = () => {
   }
 
   return (
-    <div className="relative h-auto w-full bg-white border-b mb-20">
-      <div className="relative  h-[250px]  w-full ">
+    <div className="relative h-auto w-full bg-white border-b mb-10">
+      <div className="relative  h-[150px] lg:h-[250px] sm:h-[150px]  w-full ">
         <Swiper
           spaceBetween={30}
           centeredSlides={true}
@@ -50,7 +50,7 @@ const Hadersilder = () => {
           className="mySwiper"
         >
           {isLoading ? (
-            <div className="flex justify-center items-center  h-[250px] ">
+            <div className="flex justify-center items-center  h-[150px] lg:h-[250px] sm:h-[150px] ">
               <CircularProgress />
             </div>
           ) : error ? (
@@ -58,17 +58,12 @@ const Hadersilder = () => {
           ) : (
             slidersData.map((item) => (
               <SwiperSlide>
-                <div className="relative w-full  h-[250px] rounded">
+                <div className="relative w-full  h-[150px] lg:h-[250px] sm:h-[150px] rounded">
                   <img
                     src={imageLiveUrl(item?.image)}
                     className="w-full h-full object-cover"
                     alt="Small Screen Slide"
                   />
-                  {/* <img
-                    src={silder1}
-                    className="w-full h-full object-contain hidden lg:block"
-                    alt="Large Screen Slide"
-                  /> */}
                 </div>
               </SwiperSlide>
             ))
