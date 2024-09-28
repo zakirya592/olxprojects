@@ -273,12 +273,12 @@ function Header() {
                 <p className="text-sm">Pakardi.com</p>
               </div>
               {/* </div> */}
-              <div className="flex items-center w-full px-2">
-                <div className="flex w-full mt-2 lg:mt-0 px-2">
+              <div className="flex items-center w-full sm:px-0 px-0 lg:px-2">
+                <div className="flex w-full mt-2 lg:mt-0 sm:px-0 px-0 lg:px-2">
                   <div className="bg-white flex items-center rounded-md w-full shadow-lg">
                     {/* Category Dropdown */}
                     <select
-                      className="text-gray-600 py-2 px-4 rounded focus:outline-none mx-4"
+                      className="text-gray-600 py-2 px-4 rounded focus:outline-none sm:mx-0 mx-0 lg:mx-4 "
                       // value={category}
                       // onChange={(e) => setCategory(e.target.value)}
                     >
@@ -302,8 +302,8 @@ function Header() {
                       value={query}
                       getOptionLabel={(option) => option?.name || ""}
                       onChange={(event, value) => {
-                        setQuery(value?.name || ""); 
-                        searchMutation.mutate(value?.name || ""); 
+                        setQuery(value?.name || "");
+                        searchMutation.mutate(value?.name || "");
                       }}
                       onInputChange={(event, value) => {
                         if (!value) {
@@ -321,8 +321,13 @@ function Header() {
                             ...params.InputLabelProps,
                             style: { color: "black" },
                           }}
-                          className="ml-2 px-2 border border-black rounded-l-md w-full focus:outline-none"
+                          className="ml-2 px-2 py-1 border border-black rounded-l-md w-full focus:outline-none"
                           placeholder="Search for products ..."
+                          sx={{
+                            "& .MuiOutlinedInput-root .MuiAutocomplete-input": {
+                              padding: "2.5px 4px 2.5px 5px",
+                            },
+                          }}
                           onKeyDown={handleKeyDown} // Trigger search on "Enter"
                         />
                       )}
