@@ -8,7 +8,7 @@ function Aboutus() {
   const [data, setdata] = useState([]);
 
   useEffect(() => {
-    NewRequest.get(`/about/contact`)
+    NewRequest.get(`/about`)
       .then((response) => {
         const userdata = response.data;
         setdata(userdata);
