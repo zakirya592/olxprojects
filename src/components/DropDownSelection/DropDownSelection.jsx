@@ -18,7 +18,6 @@ const DropDownSelection = () => {
   const { isLoading, data, error } = useQuery("fetchAllMegaMenus", async () => {
     try {
       const response = await NewRequest.get("/category");
-      console.log("Menu", response.data);
       return response?.data || [];
     } catch (error) {
       console.log(error);
@@ -39,14 +38,12 @@ return mobilesCategory;
   const { data: productsdata } = useQuery("productgetcategoryss", fetchproductData);
 
     const viewmore = (product) => {
-      //  console.log(product);
 
       // const selectedCategory = productsdata.find((item) => item.category.name);
       const selectedCategoryProducts = productsdata.find(
         (item) => item.category.name === product.name
       );
 
-      console.log(selectedCategoryProducts.category._id);
       const subResponseString = JSON.stringify(selectedCategoryProducts);
       sessionStorage.setItem("productmore", subResponseString);
       navigate(`/moreproduct/${selectedCategoryProducts?.category?.name}`);

@@ -25,7 +25,6 @@ const Footer = () => {
     async () => {
       try {
         const response = await NewRequest.get("/category");
-        console.log("Menu", response.data);
         return response?.data || [];
       } catch (error) {
         console.log(error);
@@ -60,29 +59,22 @@ const Footer = () => {
   }, []);
 
   const viewmore = (product) => {
-    //  console.log(product);
-
     // const selectedCategory = productsdata.find((item) => item.category.name);
     const selectedCategoryProducts = productsdata.find(
       (item) => item.category.name === product.name
     );
 
-    console.log(selectedCategoryProducts.category._id);
     const subResponseString = JSON.stringify(selectedCategoryProducts);
     sessionStorage.setItem("productmore", subResponseString);
     navigate(`/moreproduct/${selectedCategoryProducts?.category?.name}`);
   };
 
 const viewmorefooter = (product) => {
-  console.log(product.productId.name);
   NewRequest.post("/product/searchProduct", {
     query: product.productId.name || "",
   })
     .then((response) => {
-      // Handle the response here
-      console.log("Search Results:", response.data);
       navigate("/search-results", { state: { searchResults: response.data } });
-      // You can also navigate to another page or update the state with the response data
     })
     .catch((error) => {
       console.error("Error searching product:", error);
@@ -102,6 +94,7 @@ const viewmorefooter = (product) => {
             <div className={`text-white flex flex-col gap-1 `}>
               {data?.map((section, index) => (
                 <p
+                  key={index}
                   onClick={() => viewmore(section)}
                   style={{ textDecoration: "none" }}
                   className="text-white duration-300 hover:text-white cursor-pointer"
@@ -120,7 +113,7 @@ const viewmorefooter = (product) => {
               {getTrendingProducts &&
                 getTrendingProducts.map((item) => (
                   <p
-                    key={item._id} // Assuming each item has a unique _id
+                    key={item._id}
                     className="text-white duration-300 hover:text-white cursor-pointer"
                     onClick={() => viewmorefooter(item)}
                   >
@@ -136,10 +129,6 @@ const viewmorefooter = (product) => {
             </h2>
             <div className={`text-[#F0FFFF] flex flex-col gap-1 `}>
               <div className="flex flex-row">
-                {/* <TiSocialTwitterCircular
-                  size={40}
-                  style={{ color: "#F0FFFF" }}
-                /> */}
                 <Link
                   to="https://www.facebook.com/profile.php?id=61565875032026"
                   className="cursor-pointer "
@@ -150,10 +139,7 @@ const viewmorefooter = (product) => {
                     style={{ color: "#F0FFFF", marginLeft: "10px" }}
                   />
                 </Link>
-                {/* <FaRegCirclePlay
-                  size={34}
-                  style={{ color: "#F0FFFF", marginLeft: "12px" }}
-                /> */}
+
                 <Link
                   to="https://www.instagram.com/pakardicom"
                   className="cursor-pointer "
@@ -165,23 +151,6 @@ const viewmorefooter = (product) => {
                   />
                 </Link>
               </div>
-              {/* <div className="flex flex-row w-full justify-between mt-4">
-                <img
-                  src={Googleplay}
-                  alt="Google Play"
-                  className="w-1/3 h-30 object-contain mx-0 lg:mx-2 sm:mx-0"
-                />
-                <img
-                  src={appstore}
-                  alt="App Store"
-                  className="w-1/3 h-30 object-contain  mx-0 lg:mx-2 sm:mx-0"
-                />
-                <img
-                  src={Appgallery}
-                  alt="App Gallery"
-                  className="w-1/3 h-30 object-contain  mx-0 lg:mx-2 sm:mx-0"
-                />
-              </div> */}
             </div>
           </div>
         </div>

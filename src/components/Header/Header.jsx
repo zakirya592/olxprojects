@@ -36,10 +36,6 @@ function Header() {
       const token = urlParams.get("token");
       const userId = urlParams.get("userId");
 
-      console.log("URLSearchParams: ", urlParams.toString()); // To print the full query string
-      console.log("Token: ", token);
-      console.log("UserId: ", userId);
-
       if (token && userId) {
         sessionStorage.setItem("authToken", token);
         localStorage.setItem("userdata", userId);
@@ -71,7 +67,6 @@ function Header() {
       .then((response) => {
         const userdata = response.data;
         const imageUrl = userdata?.image || "";
-        console.log("loginuserdata", imageUrl);
         const finalUrl = imageUrl && imageUrl.startsWith("https") ? imageUrl : imageLiveUrl(imageUrl);
         setuserprofileimage(finalUrl);
       })
@@ -93,18 +88,6 @@ function Header() {
   const handleShowCreatePopup = () => {
     // setCreatePopupVisibility(true);
     navigate("/LoginForm");
-  };
-
-  const handleLocationChange = (event) => {
-    const selectedValue = event.target.value;
-    if (selectedValue === "current_location") {
-      navigator.geolocation.getCurrentPosition((position) => {
-        const { latitude, longitude } = position.coords;
-        setSelectedLocation(`Current Location (${latitude}, ${longitude})`);
-      });
-    } else {
-      setSelectedLocation(selectedValue);
-    }
   };
 
   const inputRef = useRef(null);
@@ -133,7 +116,6 @@ function Header() {
 
     const handlePlaceSelect = () => {
       const place = autocompleteRef.current.getPlace();
-      console.log(place);
     };
 
     if (!window.google) {
@@ -187,7 +169,6 @@ function Header() {
       navigate("/search-results", { state: { searchResults: data } });
     },
     onError: (error) => {
-      console.log(error, 'errpr');
       toast.error(error?.response?.data?.error || "Search failed", {
         position: "top-right",
         autoClose: 2000,
@@ -239,7 +220,6 @@ function Header() {
 
       const Activeproduct = response?.data.filter(product => product.status.toLowerCase() == "active");
       setproductdata(Activeproduct || []);
-      console.log(Activeproduct, "datdataa");
     } catch (err) {
       console.log(err);
     }
@@ -283,12 +263,12 @@ function Header() {
                       // onChange={(e) => setCategory(e.target.value)}
                     >
                       <option value="All Categories">All Categories</option>
-                      {categories.map((category) => {
+                      {categories.map((category,index) => {
                         category.products.filter(
                           (product) => product.status.toLowerCase() === "active"
                         );
                         return (
-                          <option value={category?.category?.name}>
+                          <option value={category?.category?.name} key={index}>
                             {category?.category?.name}
                           </option>
                         );
@@ -299,7 +279,9 @@ function Header() {
                     <Autocomplete
                       id="test"
                       options={productdata}
-                      value={query}
+                      // value={query}
+                        value={productdata.find((product) => product.name === query) || null} // Keep selected value in Autocomplete
+
                       getOptionLabel={(option) => option?.name || ""}
                       onChange={(event, value) => {
                         setQuery(value?.name || "");
