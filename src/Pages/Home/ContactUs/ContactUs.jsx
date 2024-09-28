@@ -3,12 +3,13 @@ import DropDownSelection from "../../../components/DropDownSelection/DropDownSel
 import contusimage from "../../../assets/Images/ContactUs.jpg";
 import contusimagebg from "../../../assets/Images/ContactUsbg.jpg";
 import NewRequest from "../../../../utils/NewRequest";
+import { Box } from "@mui/material";
 
 function ContactUs() {
   const [data, setdata] = useState([]);
 
   useEffect(() => {
-    NewRequest.get(`/about`).then((response) => {
+    NewRequest.get(`/about/contact`).then((response) => {
         const userdata = response.data;
         setdata(userdata);
       }).catch((err) => {
@@ -43,7 +44,10 @@ function ContactUs() {
               <p className="font-sans sm:text-lg text-base mt-3">
                 {data &&
                   data.map((item, index) => (
-                    <p key={index}>{item.caption}</p> // Displaying caption
+                    <p key={index}>
+                      {" "}
+                      <Box dangerouslySetInnerHTML={{ __html: item.caption }} />
+                    </p> // Displaying caption
                   ))}
               </p>
             </div>

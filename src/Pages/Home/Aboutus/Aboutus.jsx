@@ -3,6 +3,7 @@ import DropDownSelection from "../../../components/DropDownSelection/DropDownSel
 import contusimage from "../../../assets/Images/ContactUs.jpg";
 import contusimagebg from "../../../assets/Images/Aboutimage.jpg";
 import NewRequest from "../../../../utils/NewRequest";
+import { Box } from "@mui/material";
 
 function Aboutus() {
   const [data, setdata] = useState([]);
@@ -34,7 +35,6 @@ function Aboutus() {
             <h2 className="sm:text-5xl text-3xl font-sans font-semibold mb-4">
               About Pakardi
             </h2>
-           
           </div>
         </div>
         <div className="w-full py-8">
@@ -43,11 +43,12 @@ function Aboutus() {
               <p className="font-sans sm:text-lg text-base mt-3">
                 {data &&
                   data.map((item, index) => (
-                    <p key={index}>{item.caption}</p> // Displaying caption
+                    <p key={index}>
+                      <Box dangerouslySetInnerHTML={{ __html: item.caption }} />
+                    </p> // Displaying caption
                   ))}
               </p>
             </div>
-         
           </div>
         </div>
       </div>
