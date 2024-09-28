@@ -7,12 +7,9 @@ function SearchResultsPage() {
     const location = useLocation();
     const navigate=useNavigate()
     const searchResults = location.state?.searchResults || [];
-    console.log(searchResults, "searchResults");
     const [isLoading, setisLoading] = useState(false);
 
   const singproductitem = (card) => {
-    console.log(card);
-    
     navigate(`/Singleitem/${card._id}`, { state: { cardData: card } });
   };
     return (
@@ -26,11 +23,10 @@ function SearchResultsPage() {
             <div
               className="border rounded shadow cursor-pointer hover:shadow-lg hover:border-black"
               key={index}
-              onClick={() => singproductitem(item)} // Moved the onClick event to the entire div
+              onClick={() => singproductitem(item)}
             >
-              <div className="flex gap-3">
+              <div className="flex flex-col lg:flex-row gap-3">
                 <img
-                  // src={item?.images?.[0] || ""}
                   src={
                     item?.images?.[0]
                       ? item?.images?.[0].startsWith("https")
@@ -39,7 +35,7 @@ function SearchResultsPage() {
                       : ""
                   }
                   alt="Product"
-                  className="w-auto h-52  object-contain"
+                  className="w-full h-52 lg-w-auto sm:w-full  object-contain"
                 />
                 <div className="w-full mb-5 p-4">
                   {/* <DescriptionWithToggle description={item.name} /> */}
