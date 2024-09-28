@@ -8,18 +8,34 @@ import { Autocomplete, TextField } from "@mui/material";
 import { toast } from "react-toastify";
 import { DotLoader } from "react-spinners";
 import { useNavigate } from "react-router-dom";
+
+
+
+const currencies = [
+  { code: "PKR", name: "Pakistan Rupee", symbol: "₨" }, // Default Pakistan Rupee
+  { code: "USD", name: "United States Dollar", symbol: "$" },
+  { code: "EUR", name: "Euro", symbol: "€" },
+  { code: "JPY", name: "Japanese Yen", symbol: "¥" },
+  { code: "GBP", name: "British Pound Sterling", symbol: "£" },
+  { code: "AUD", name: "Australian Dollar", symbol: "A$" },
+  // Add more currencies as needed
+];
+
+
 const PostAttributes = () => {
   const { DataSelectionModel } = useContext(Selectioncardcontext);
-  const [userdataget, setuserdataget] = useState('')
+  const [userdataget, setuserdataget] = useState("");
 
   const navigate = useNavigate();
   const storedUserResponseString = sessionStorage.getItem("userResponse");
+  const [selectedCurrency, setSelectedCurrency] = useState("PKR"); // Default currency
+
   const storedUserResponse = JSON.parse(storedUserResponseString);
   let loginuserdata = storedUserResponse?.data?.user?._id || "";
-   if (!loginuserdata) {
-     loginuserdata = localStorage.getItem("userdata") || "";
-   }
-      
+  if (!loginuserdata) {
+    loginuserdata = localStorage.getItem("userdata") || "";
+  }
+
   const [form, setForm] = useState({
     brand: "",
     condition: "",
@@ -29,7 +45,6 @@ const PostAttributes = () => {
     price: "",
     user: "",
   });
-
 
   const [phoneNumber, setphoneNumber] = useState("");
   const updateBrandData = JSON.parse(sessionStorage.getItem("footer"));
@@ -44,25 +59,25 @@ const PostAttributes = () => {
   const [filterdata, setfilterdata] = useState([]);
   const [selecteddropdowndata, setselecteddropdowndata] = useState(null);
 
-  
   const subCategoriesdataget = sessionStorage.getItem("subCategories");
   const subCategoriesResponse = JSON.parse(subCategoriesdataget);
-
-    
-     useEffect(() => {
-       NewRequest.get(`/users/${loginuserdata || ""}`)
-         .then((response) => {
-           const userdata = response.data;
-            setForm({
-              ...form,
-              user: userdata?.username || "",
-            });
-           setphoneNumber(userdata?.phone || "");
-         })
-         .catch((err) => {
-           console.log(err);
-         });
-     }, []);
+ const handleCurrencyChange = (e) => {
+   setSelectedCurrency(e.target.value);
+ };
+  useEffect(() => {
+    NewRequest.get(`/users/${loginuserdata || ""}`)
+      .then((response) => {
+        const userdata = response.data;
+        setForm({
+          ...form,
+          user: userdata?.username || "",
+        });
+        setphoneNumber(userdata?.phone || "");
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  }, []);
 
   const handleImageChange = (e, index) => {
     const file = e.target.files[0];
@@ -73,35 +88,31 @@ const PostAttributes = () => {
     }
   };
 
-
-
   // Get api
   const fetchData = async () => {
     setIsLoading(true);
-    
-      try {
-        const response = await NewRequest.get(
-          `/brand/getAllModelsByFooterCategory/${updateBrandData?._id || ""}`
-        );
-        const filterdata = response.data.find((item) => item.model);
 
-        setfilterdata(filterdata.data);
-        const conditionData = response.data.find(
-          (item) => item.model === "Condition"
-        );
-        setConditions(conditionData.data);
-        const deviceTypeData = response.data.find(
-          (item) => item.model === "DeviceType"
-        );
-        setDeviceTypes(deviceTypeData ? deviceTypeData.data : []);
+    try {
+      const response = await NewRequest.get(
+        `/brand/getAllModelsByFooterCategory/${updateBrandData?._id || ""}`
+      );
+      const filterdata = response.data.find((item) => item.model);
 
-        setFields(response.data || []);
-        setIsLoading(false);
-      } catch (err) {
-        setIsLoading(false);
-      }
+      setfilterdata(filterdata.data);
+      const conditionData = response.data.find(
+        (item) => item.model === "Condition"
+      );
+      setConditions(conditionData.data);
+      const deviceTypeData = response.data.find(
+        (item) => item.model === "DeviceType"
+      );
+      setDeviceTypes(deviceTypeData ? deviceTypeData.data : []);
 
-
+      setFields(response.data || []);
+      setIsLoading(false);
+    } catch (err) {
+      setIsLoading(false);
+    }
 
     try {
       const response = await NewRequest.get(
@@ -125,9 +136,6 @@ const PostAttributes = () => {
     } catch (err) {
       setIsLoading(false);
     }
-
-  
-
   };
 
   useEffect(() => {
@@ -161,10 +169,11 @@ const PostAttributes = () => {
         {options.map((option) => (
           <div
             key={option._id}
-            className={`cursor-pointer border rounded px-4 py-2 ${selectedOption === option.name
+            className={`cursor-pointer border rounded px-4 py-2 ${
+              selectedOption === option.name
                 ? "bg-teal-100 border-teal-500"
                 : "border-gray-500"
-              }`}
+            }`}
             onClick={() => onChange(option.name)}
           >
             {option.name}
@@ -236,7 +245,6 @@ const PostAttributes = () => {
   const categoryResponse = JSON.parse(Categorydataget);
   const categorydata = categoryResponse?._id || "";
 
-
   const handleAddCompany = async (e) => {
     setIsLoading(true);
     const formData = new FormData();
@@ -248,9 +256,9 @@ const PostAttributes = () => {
     formData.append("Category", categorydata);
     formData.append("SubCategory", subCategoriesResponse?._id || "");
     // formData.append("FooterCategory", updateBrandData?._id || "");
-     if (updateBrandData?._id) {
-       formData.append("FooterCategory", updateBrandData._id);
-     }
+    if (updateBrandData?._id) {
+      formData.append("FooterCategory", updateBrandData._id);
+    }
     // For the image append
     images.forEach((image, index) => {
       if (image) {
@@ -293,6 +301,12 @@ const PostAttributes = () => {
       });
     }
   };
+
+    const selectedCurrencySymbol = currencies.find(
+      (currency) => currency.code === selectedCurrency
+    )?.symbol;
+
+
 
   return (
     <>
@@ -513,10 +527,33 @@ const PostAttributes = () => {
 
           <div className="border-t border-b border-bordderscolor p-3 lg:p-6 sm:3">
             <div className="mb-4 flex flex-col lg:flex-row items-start lg:items-center">
+              <label
+                htmlFor="currency"
+                className="w-full lg:w-1/4 mb-1 font-semibold"
+              >
+                Select Currency:
+              </label>
+              <select
+                id="currency"
+                value={selectedCurrency}
+                onChange={handleCurrencyChange}
+                className="w-full p-2 border border-gray-300 rounded"
+              >
+                {currencies.map((currency) => (
+                  <option key={currency.code} value={currency.code}>
+                    {currency.name} ({currency.code})
+                  </option>
+                ))}
+              </select>
+            </div>
+            <div className="mb-4 flex flex-col lg:flex-row items-start lg:items-center">
               <label className="w-full lg:w-1/4 mb-1 font-semibold">
                 Price <span className="text-red-600"> *</span>
               </label>
-              <div className="w-full">
+              <div className="w-full relative">
+                <span className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-500">
+                  {selectedCurrencySymbol}: 
+                </span>
                 <input
                   type="number"
                   value={form.price}
@@ -526,8 +563,8 @@ const PostAttributes = () => {
                       price: e.target.value,
                     });
                   }}
-                  className="w-full p-2 border border-gray-300 rounded"
-                  placeholder="Enter price"
+                  className="w-full p-2 border ps-8 border-gray-300 rounded"
+                  placeholder=" Enter price"
                 />
               </div>
             </div>
