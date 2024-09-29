@@ -94,8 +94,6 @@ const Hadersilder = () => {
   };
 
   const singproductitem = (card) => {
-    console.log(card,'card');
-    
     navigate(`/Singleitem/${card._id}`, { state: { cardData: card } });
   };
 

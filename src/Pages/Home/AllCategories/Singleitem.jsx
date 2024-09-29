@@ -7,20 +7,18 @@ import "swiper/css/navigation";
 import { Autoplay, Pagination, Navigation, Scrollbar, Keyboard } from "swiper/modules";
 import { IoIosArrowDroprightCircle } from "react-icons/io";
 import { IoIosArrowDropleftCircle } from "react-icons/io";
-import silder1 from "../../../assets/Images/Slider1.webp";
-import { FaRegHeart } from "react-icons/fa";
 import Avatar from "@mui/material/Avatar";
 import NewRequest from "../../../../utils/NewRequest";
 import { useLocation, useNavigate } from "react-router-dom";
 import PinDropIcon from "@mui/icons-material/PinDrop";
 import { toast } from "react-toastify";
 import Skeleton from "@mui/material/Skeleton";
-import Stack from "@mui/material/Stack";
 import DescriptionWithToggle from "../MoreinKids/DescriptionWithToggle";
 import { useQuery } from "react-query";
 import imageLiveUrl from "../../../../utils/urlConverter/imageLiveUrl";
 import phoneicon from "../../../assets/Images/phoneicon.png"
 import emailicon from "../../../assets/Images/emailicon.jpg";
+import likeicon from "../../../assets/Images/like.jpg";
 
 const Singleitem = () => {
 
@@ -38,7 +36,6 @@ const Singleitem = () => {
     try {
       const response = await NewRequest.get(`/product/${cardData.cardData._id}`);
       const datas = response.data;
-
       try {
         const responsesingle = await NewRequest.get(
           `/product/getProductsByCategory/${datas.Category._id}`
@@ -56,14 +53,9 @@ const Singleitem = () => {
 
       try {
         const responsdata = await NewRequest.get(`/users/${datas.User._id}`);
-
         const imageUrl = responsdata.data?.image || "";
-        const finalUrl =
-          imageUrl && imageUrl.startsWith("https")
-            ? imageUrl // Use the direct URL if it's already an https link
-            : imageLiveUrl(imageUrl);
+        const finalUrl = imageUrl && imageUrl.startsWith("https") ? imageUrl : imageLiveUrl(imageUrl);
         setimageuser(finalUrl || "");
-        console.log(finalUrl);
       } catch (err) {
         console.log(err);
       }
@@ -85,8 +77,6 @@ const Singleitem = () => {
   const storedUserResponse = JSON.parse(storedUserResponseString);
   const loginuserid = storedUserResponse?.data?.user?._id || "";
   const postcard = (Product) => {
-    console.log(Product._id);
-
     try {
       const response = NewRequest.post(`/wishlist/${loginuserid}`, {
         productId: Product._id,
@@ -102,7 +92,6 @@ const Singleitem = () => {
         theme: "light",
       });
     } catch (error) {
-      console.log(error);
       toast.error(error?.response?.data?.error || "Error", {
         position: "top-right",
         autoClose: 2000,
@@ -133,18 +122,13 @@ const Singleitem = () => {
     fetchproductData
   );
 
-  console.log("productsdata", productsdata);
-
-
   const viewmore = (product) => {
-    console.log("product", product.id);
     const subResponseString = JSON.stringify(product.id);
     sessionStorage.setItem("productmore", subResponseString);
     navigate(`/moreproduct/${product.name}`);
   };
 
   const charfunction = (Product) => {
-    console.log(Product.User);
     const subResponsechat = JSON.stringify(Product.User);
     sessionStorage.setItem("chardata", subResponsechat);
     navigate("/Chat");
@@ -198,7 +182,7 @@ const Singleitem = () => {
                       </div>
                     </div>
 
-                    <p className="flex my-3 w-full">
+                    <div className="flex my-3 w-full">
                       <img
                         src={emailicon}
                         alt=""
@@ -210,8 +194,8 @@ const Singleitem = () => {
                       >
                         {Userdataget?.User?.email || ""}
                       </a>
-                    </p>
-                    <p className="flex ">
+                    </div>
+                    <div className="flex ">
                       <img
                         src={phoneicon}
                         alt=""
@@ -223,7 +207,7 @@ const Singleitem = () => {
                       >
                         {Userdataget?.User?.phone || ""}
                       </a>
-                    </p>
+                    </div>
                   </div>
                 </div>
               </div>
@@ -233,7 +217,7 @@ const Singleitem = () => {
             <p className="text-primary">Location</p>
             <div className="flex my-auto mt-5">
               <div className=" flex">
-                <p className="text-secondary">
+                <div className="text-secondary">
                   {isLoading ? (
                     <Skeleton height={30} width={150} /> // Skeleton for location
                   ) : (
@@ -244,7 +228,7 @@ const Singleitem = () => {
                       </p>
                     </div>
                   )}
-                </p>
+                </div>
               </div>
             </div>
           </div>
@@ -403,12 +387,12 @@ const Singleitem = () => {
                 {isLoading ? (
                   <Skeleton height={250} count={3} /> // Skeleton for related ads
                 ) : (
-                  moreproductData.map((card) => (
+                  moreproductData.map((card, index) => (
                     <SwiperSlide>
                       <div
-                        key={card.id}
+                        key={index}
                         className="h-full w-full py-1  border my-3 border-gray-300 rounded-md shadow-lg"
-                        // onClick={() => singproductitem(card)}
+                      // onClick={() => singproductitem(card)}
                       >
                         <div
                           // to={card.link}
@@ -434,14 +418,18 @@ const Singleitem = () => {
                                 </span>
                               </h1>
                             </div>
-                            {/* <div className="w-full flex justify-center items-end mt-auto py-3">
-                              <button
+                            <div className="w-full flex justify-center items-end mt-auto py-3">
+                              {/* <button
                                 className="bg-black text-yellow-50 px-5 py-2 rounded-full"
                                 onClick={() => postcard(card)}
                               >
                                 Add To Cart
-                              </button>
-                            </div> */}
+                              </button> */}
+                              <img src={likeicon}
+                                className=" text-black cursor-pointer h-7 w-7"
+                                onClick={() => postcard(card)}
+                              ></img>
+                            </div>
                           </div>
                         </div>
                       </div>
