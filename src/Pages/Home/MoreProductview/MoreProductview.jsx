@@ -177,12 +177,14 @@ const MoreProductview = () => {
                     key={index}
                   >
                     <div className="flex gap-3 flex-col lg:flex-row sm:flex-col">
-                      <img
-                        src={imageLiveUrl(item?.images?.[0]) || ""}
-                        alt="Product"
-                        className="w-full h-52 object-cover"
-                        onClick={() => singproductitem(item)}
-                      />
+                      <div className="lg:w-1/2 w-full sm:w-full">
+                        <img
+                          src={imageLiveUrl(item?.images?.[0]) || ""}
+                          alt="Product"
+                          className="w-full h-full object-cover"
+                          onClick={() => singproductitem(item)}
+                        />
+                      </div>
                       <div className="w-full mb-5 p-4">
                         <DescriptionWithToggle description={item.name} />
                         <div className="flex justify-between mt-3">
