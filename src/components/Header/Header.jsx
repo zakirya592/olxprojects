@@ -258,12 +258,12 @@ function Header() {
                   <div className="bg-white flex items-center rounded-md w-full shadow-lg">
                     {/* Category Dropdown */}
                     <select
-                      className="text-gray-600 py-2 px-4 rounded focus:outline-none sm:mx-0 mx-0 lg:mx-4 "
+                      className="text-gray-600 py-2 px-4 rounded focus:outline-none  "
                       // value={category}
                       // onChange={(e) => setCategory(e.target.value)}
                     >
                       <option value="All Categories">All Categories</option>
-                      {categories.map((category,index) => {
+                      {categories.map((category, index) => {
                         category.products.filter(
                           (product) => product.status.toLowerCase() === "active"
                         );
@@ -280,8 +280,10 @@ function Header() {
                       id="test"
                       options={productdata}
                       // value={query}
-                        value={productdata.find((product) => product.name === query) || null} // Keep selected value in Autocomplete
-
+                      value={
+                        productdata.find((product) => product.name === query) ||
+                        null
+                      } // Keep selected value in Autocomplete
                       getOptionLabel={(option) => option?.name || ""}
                       onChange={(event, value) => {
                         setQuery(value?.name || "");
@@ -324,7 +326,7 @@ function Header() {
                     {/* Search Button */}
                     <button
                       onClick={handleSearch}
-                      className="bg-[#7B6C9C] text-white p-2 rounded-full hover:bg-cyan-600 transition ml-1"
+                      className="bg-[#7B6C9C] text-white p-2 rounded-full hover:bg-cyan-600 transition ml-1 sm:hidden lg:block hidden"
                     >
                       <svg
                         xmlns="http://www.w3.org/2000/svg"
