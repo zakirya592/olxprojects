@@ -26,17 +26,19 @@ function SearchResultsPage() {
               onClick={() => singproductitem(item)}
             >
               <div className="flex flex-col lg:flex-row gap-3">
-                <img
-                  src={
-                    item?.images?.[0]
-                      ? item?.images?.[0].startsWith("https")
-                        ? item?.images?.[0]
-                        : imageLiveUrl(item?.images?.[0])
-                      : ""
-                  }
-                  alt="Product"
-                  className="w-full h-52 lg-w-auto sm:w-full  object-contain"
-                />
+                <div className="w-full lg:w-1/2 sm:full">
+                  <img
+                    src={
+                      item?.images?.[0]
+                        ? item?.images?.[0].startsWith("https")
+                          ? item?.images?.[0]
+                          : imageLiveUrl(item?.images?.[0])
+                        : ""
+                    }
+                    alt="Product"
+                    className="w-full h-full lg-w-auto sm:w-full  object-cover"
+                  />
+                </div>
                 <div className="w-full mb-5 p-4">
                   {/* <DescriptionWithToggle description={item.name} /> */}
                   <p className="text-gray-500 text-sm">
