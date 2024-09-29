@@ -65,6 +65,7 @@ import LoginForm from "./Pages/Admin/Login/LoginForm";
 import SinUpForm from "./Pages/Admin/Login/SinUpForm";
 import ContactUs from "./Pages/Home/ContactUs/ContactUs";
 import Aboutus from "./Pages/Home/Aboutus/Aboutus";
+import UserProductlist from "./Pages/Home/UserProductlist/UserProductlist";
 
 const queryClient = new QueryClient();
 
@@ -111,6 +112,7 @@ function App() {
               <Route path="/Myfavorites" element={<Myfavorites />} />
               <Route path="/ProfilePage" element={<ProfilePage />} />
               <Route path="/MyProduct" element={<MyProduct />} />
+              <Route path="/Productlist/:_id" element={<UserProductlist />} />
               <Route
                 path="/UpdateMyProduct/:name"
                 element={<UpdateMyProduct />}

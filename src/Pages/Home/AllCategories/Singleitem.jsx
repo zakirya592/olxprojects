@@ -134,6 +134,12 @@ const Singleitem = () => {
     navigate("/Chat");
   };
 
+  const productlist = (product) => {
+    const subResponseString = JSON.stringify(product);
+    sessionStorage.setItem("productlist", subResponseString);
+    navigate(`/Productlist/${product._id}`);
+  };
+
 
   return (
     <div className="lg:px-10 mt-3 lg:mt-28 sm:mt-2  mx-auto w-full lg:w-[90%] sm:w-full">
@@ -164,7 +170,11 @@ const Singleitem = () => {
             ) : (
               <div className="flex my-auto mt-5 justify-between">
                 <div className="flex w-full">
-                  <Avatar className="my-auto" src={imageuser || ""} />
+                  <Avatar
+                    className="my-auto cursor-pointer"
+                    src={imageuser || ""}
+                    onClick={() => productlist(Userdataget)}
+                  />
                   <div className="ml-5 w-full">
                     <div className="flex justify-between  my-auto w-full">
                       <div className="my-auto">
@@ -392,7 +402,7 @@ const Singleitem = () => {
                       <div
                         key={index}
                         className="h-full w-full py-1  border my-3 border-gray-300 rounded-md shadow-lg"
-                      // onClick={() => singproductitem(card)}
+                        // onClick={() => singproductitem(card)}
                       >
                         <div
                           // to={card.link}
@@ -425,7 +435,8 @@ const Singleitem = () => {
                               >
                                 Add To Cart
                               </button> */}
-                              <img src={likeicon}
+                              <img
+                                src={likeicon}
                                 className=" text-black cursor-pointer h-7 w-7"
                                 onClick={() => postcard(card)}
                               ></img>
