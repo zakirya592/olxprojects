@@ -184,11 +184,11 @@ const MyProduct = () => {
                     key={index}
                   >
                     <div className="flex gap-3 flex-col lg:flex-row sm:flex-col">
-                      <div className="w-[25%]">
+                      <div className="w-full lg:w-1/2 sm:full">
                         <img
                           src={imageLiveUrl(item?.images?.[0]) || ""}
                           alt="Product"
-                          className="w-auto h-80 object-contain cursor-pointer"
+                          className="w-full h-full lg-w-auto sm:w-full object-cover cursor-pointer"
                           onClick={() => singproductitem(item)}
                         />
                       </div>

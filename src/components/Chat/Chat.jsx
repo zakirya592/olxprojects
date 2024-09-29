@@ -15,8 +15,18 @@ const Chat = () => {
   const loginuserdata = storedUserResponse?.data?.user || "";
 
   const chatproduct = sessionStorage.getItem("chardata");
-  const chatResponse = JSON.parse(chatproduct);
+  
+  // const chatResponse = JSON.parse(chatproduct);
 
+  let chatResponse = null;
+
+  try {
+    chatResponse = chatproduct ? JSON.parse(chatproduct) : null; // Only parse if it's not null
+  } catch (error) {
+    console.error("Error parsing JSON:", error); // Catch any JSON parsing errors
+  }
+
+  
 
   let senderId = loginuserdata?._id || "";
     if (!senderId) {

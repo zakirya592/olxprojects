@@ -104,7 +104,7 @@ const Myfavorites = () => {
                 wishlistData.map((item, index) => (
                   <div className="border rounded shadow " key={index}>
                     <div className="flex gap-3 flex-col lg:flex-row sm:flex-col">
-                      <div className="w-[25%]">
+                      <div className="w-full lg:w-1/2 sm:full">
                         <img
                           src={imageLiveUrl(item?.images?.[0]) || ""}
                           alt="Product"
