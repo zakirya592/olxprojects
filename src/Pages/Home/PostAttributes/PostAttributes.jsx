@@ -9,16 +9,17 @@ import { toast } from "react-toastify";
 import { DotLoader } from "react-spinners";
 import { useNavigate } from "react-router-dom";
 import { FaSearch } from "react-icons/fa";
+import { currencies } from "./CountryData.js"; 
 
-const currencies = [
-  { code: "PKR", name: "Pakistan Rupee", symbol: "₨" }, // Default Pakistan Rupee
-  { code: "USD", name: "United States Dollar", symbol: "$" },
-  { code: "EUR", name: "Euro", symbol: "€" },
-  { code: "JPY", name: "Japanese Yen", symbol: "¥" },
-  { code: "GBP", name: "British Pound Sterling", symbol: "£" },
-  { code: "AUD", name: "Australian Dollar", symbol: "A$" },
-  // Add more currencies as needed
-];
+// const currencies = [
+//   { code: "PKR", name: "Pakistan Rupee", symbol: "₨" }, // Default Pakistan Rupee
+//   { code: "USD", name: "United States Dollar", symbol: "$" },
+//   { code: "EUR", name: "Euro", symbol: "€" },
+//   { code: "JPY", name: "Japanese Yen", symbol: "¥" },
+//   { code: "GBP", name: "British Pound Sterling", symbol: "£" },
+//   { code: "AUD", name: "Australian Dollar", symbol: "A$" },
+//   // Add more currencies as needed
+// ];
 
 
 const PostAttributes = () => {
