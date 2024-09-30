@@ -1,78 +1,46 @@
 import React from "react";
-import { Link, useNavigate } from "react-router-dom";
-import Mobliceimg from "../../../assets/Images/mobiles.png";
-import vehicles from "../../../assets/Images/vehicles.png";
-import PropertyforSale from "../../../assets/Images/PropertyforSale.png";
-import PropertyForRent from "../../../assets/Images/property-for-rent.png";
-import electronicshome from "../../../assets/Images/electronics-home-appliances.png";
-import Bikes from "../../../assets/Images/bikes.png";
-import BusinessIndustrialAgriculture from "../../../assets/Images/business-industrial-agriculture.png";
-import Services from "../../../assets/Images/services.png";
-import Jobs from "../../../assets/Images/jobs.png";
-import Animals from "../../../assets/Images/animals.png";
-import FurnitureHomeDecor from "../../../assets/Images/furniture-home-decor.png";
-import FashionBeauty from "../../../assets/Images/fashion-beauty.png";
-import BooksSportsHobbies from "../../../assets/Images/books-sports-hobbies.png";
-import Kids from "../../../assets/Images/kids.png";
+import { useNavigate } from "react-router-dom";
 import { useQuery } from "react-query";
 import NewRequest from "../../../../utils/NewRequest";
 import { Swiper, SwiperSlide } from "swiper/react";
-import { MdOutlineNavigateNext } from "react-icons/md";
 import "swiper/css";
 import imageLiveUrl from "../../../../utils/urlConverter/imageLiveUrl";
 
 function Categories() {
-  
+
   const navigate = useNavigate();
   const {
     isLoading,
     error,
     data: eventsData,
   } = useQuery("category", fetchUpcomingEventsData);
-const navigator =useNavigate()
+  const navigator = useNavigate()
   async function fetchUpcomingEventsData() {
     const response = await NewRequest.get("/category");
     return response?.data.filter((item) => item.status === 1) || [];
   }
 
-
-
-    async function fetchproductData() {
+  async function fetchproductData() {
     const response = await NewRequest.get("/product/getcategoryproduct");
     const mobilesCategory = response?.data
-
-return mobilesCategory;
-    
+    return mobilesCategory;
   }
 
-  // Use the data in your component
   const { data: productsdata } = useQuery("productgetcategoryss", fetchproductData);
 
- 
-  
-
   const viewmore = (product) => {
-//  console.log(product);
- 
-    // const selectedCategory = productsdata.find((item) => item.category.name);
-      const selectedCategoryProducts = productsdata.find(
-        (item) => item.category.name === product.name
-      );
-    
-    console.log(selectedCategoryProducts.category._id);
+    const selectedCategoryProducts = productsdata.find(
+      (item) => item.category.name === product.name
+    );
+
     const subResponseString = JSON.stringify(selectedCategoryProducts);
     sessionStorage.setItem("productmore", subResponseString);
     navigate(`/moreproduct/${selectedCategoryProducts?.category?.name}`);
   };
-  
+
 
   return (
     <div className="py-10">
-      {/* <div className="flex justify-between my-auto">
-        <h6 className="text-headingcolor text-3xl font-bold overflow-hidden">
-          All categories
-        </h6>
-      </div> */}
       {/* Slider for Small Screens */}
       <div className="lg:hidden">
         <Swiper spaceBetween={50} slidesPerView={3}>

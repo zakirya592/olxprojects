@@ -8,6 +8,7 @@ import log from "../../../assets/Images/logo1.png"
 import Headerpost from "../Headeepost/Headerpost";
 import { Selectioncardcontext } from "../../../Contextapi/Selectioncardcontext";
 import imageLiveUrl from "../../../../utils/urlConverter/imageLiveUrl";
+import { toast } from "react-toastify";
 function Sellpage() {
   const navigate = useNavigate();
 
@@ -22,13 +23,7 @@ function Sellpage() {
     return response?.data.filter((item) => item.status === 1) || [];
   }
 
-  console.log(eventsData, "eventsData");
-  
-
-  const { setDataSelectionModel } = useContext(Selectioncardcontext);
-
   const handleClick = (footer) => {
-    //  setDataSelectionModel((prev) => [...prev, footer]);
     sessionStorage.setItem("footer", JSON.stringify(footer));
     navigate("/Post/Attributes");
   };
@@ -36,13 +31,37 @@ function Sellpage() {
   const [selectedCategory, setSelectedCategory] = useState(null);
   const [selectedfooter, setselectedfooter] = useState(null);
 
-  const handleCategoryClick = (category) => {
-    setSelectedCategory(category);
-    const userResponseString = JSON.stringify(category);
-    sessionStorage.setItem("category", userResponseString);
-    setselectedfooter(null);
-  };
+   const storedUserResponseString = sessionStorage.getItem("userResponse");
+   const storedUserResponse = JSON.parse(storedUserResponseString);
+   let loginuserdata = storedUserResponse?.data.user || "";
 
+   if (!loginuserdata) {
+     loginuserdata = localStorage.getItem("userdata") || "";
+   }
+
+  const handleCategoryClick = (category) => {
+
+     if ( (category.name === "Gemstone" && !loginuserdata.isGemstone) ||
+       (category.name === "Handmade" && !loginuserdata.isGemstone) ||
+       (category.name === "Carpets Rawala" && !loginuserdata.isGemstone)) {
+       toast.error(`You are not a ${category.name} user!`, {
+         position: "top-right",
+         autoClose: 2000,
+         hideProgressBar: false,
+         closeOnClick: true,
+         pauseOnHover: true,
+         draggable: true,
+         progress: undefined,
+         theme: "light",
+       });
+     } else {
+       setSelectedCategory(category);
+       const userResponseString = JSON.stringify(category);
+       sessionStorage.setItem("category", userResponseString);
+       setselectedfooter(null);
+     }
+
+  };
 
   const handlefooterCategoryClick = (sub) => {
     const subResponseString = JSON.stringify(sub);
@@ -58,8 +77,6 @@ function Sellpage() {
   const handleBackClick = () => {
     setSelectedCategory(null);
   };
-
-
 
   return (
     <div>
@@ -101,7 +118,6 @@ function Sellpage() {
                               {category.icon ? (
                                 <img
                                   src={imageLiveUrl(category.icon)}
-                                  // alt="icon"
                                   className="h-10 mt-1 mx-2"
                                 />
                               ) : (

@@ -6,44 +6,16 @@ import NewRequest from "../../../utils/NewRequest";
 import { toast } from "react-toastify";
 
 const DropDownSelection = () => {
-
   const navigate = useNavigate();
   const [isMobileMenuOpen, setMobileMenuOpen] = useState(false);
 
-    const storedUserResponseString = sessionStorage.getItem("userResponse");
-    const storedUserResponse = JSON.parse(storedUserResponseString);
-    let loginuserdata = storedUserResponse?.data.user || "";
+  const storedUserResponseString = sessionStorage.getItem("userResponse");
+  const storedUserResponse = JSON.parse(storedUserResponseString);
+  let loginuserdata = storedUserResponse?.data.user || "";
 
-    if (!loginuserdata) {
-      loginuserdata = localStorage.getItem("userdata") || "";
-    }
-
-  const handleGemstoneClick = (item) => {
-    if (loginuserdata?.isGemstone === true) {
-         toast.success(`You are a ${item} user!`, {
-           position: "top-right",
-           autoClose: 2000,
-           hideProgressBar: false,
-           closeOnClick: true,
-           pauseOnHover: true,
-           draggable: true,
-           progress: undefined,
-           theme: "light",
-         });
-      // navigate("/gemstonePage"); // Replace with the actual page
-    } else {
-     toast.error(`You are not a ${item} user!`, {
-       position: "top-right",
-       autoClose: 2000,
-       hideProgressBar: false,
-       closeOnClick: true,
-       pauseOnHover: true,
-       draggable: true,
-       progress: undefined,
-       theme: "light",
-     });
-    }
-  };
+  if (!loginuserdata) {
+    loginuserdata = localStorage.getItem("userdata") || "";
+  }
 
   const toggleMobileMenu = () => {
     setMobileMenuOpen(!isMobileMenuOpen);
@@ -51,25 +23,37 @@ const DropDownSelection = () => {
 
   async function fetchproductData() {
     const response = await NewRequest.get("/product/getcategoryproduct");
-    const mobilesCategory = response?.data
-
-    return mobilesCategory;
-
+    return response?.data;
   }
 
-  // Use the data in your component
-  const { data: productsdata } = useQuery("productgetcategoryss", fetchproductData);
+  const { data: productsdata } = useQuery(
+    "productgetcategoryss",
+    fetchproductData
+  );
 
-  const viewmore = (product) => {
+  const handleGemstoneClick = (item) => {
+    if (loginuserdata?.isGemstone === true) {
+      const selectedCategoryProducts = productsdata.find(
+        (product) => product.category.name === item // Use the item directly here
+      );
 
-    // const selectedCategory = productsdata.find((item) => item.category.name);
-    const selectedCategoryProducts = productsdata.find(
-      (item) => item.category.name === product.name
-    );
-
-    const subResponseString = JSON.stringify(selectedCategoryProducts);
-    sessionStorage.setItem("productmore", subResponseString);
-    navigate(`/moreproduct/${selectedCategoryProducts?.category?.name}`);
+      if (selectedCategoryProducts) {
+        const subResponseString = JSON.stringify(selectedCategoryProducts);
+        sessionStorage.setItem("productmore", subResponseString);
+        navigate(`/moreproduct/${selectedCategoryProducts.category.name}`);
+      }
+    } else {
+      toast.error(`You are not a ${item} user!`, {
+        position: "top-right",
+        autoClose: 2000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "light",
+      });
+    }
   };
 
   return (
@@ -112,7 +96,7 @@ const DropDownSelection = () => {
                     style={{ textDecoration: "none" }}
                     className="text-lg font-bold cursor-pointer"
                   >
-                    <p>Handmade </p>
+                    <p>Handmade</p>
                   </div>
                 </li>
                 <li className="menu-item-has-children">

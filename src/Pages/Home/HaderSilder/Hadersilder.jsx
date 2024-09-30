@@ -1,4 +1,3 @@
-// static Data Slider
 import React from "react";
 import { Swiper, SwiperSlide } from "swiper/react";
 import "swiper/css";
@@ -7,12 +6,8 @@ import "swiper/css/navigation";
 import { Autoplay, Pagination, Navigation } from "swiper/modules";
 import { IoIosArrowDroprightCircle } from "react-icons/io";
 import { IoIosArrowDropleftCircle } from "react-icons/io";
-import Button from "@mui/material/Button";
-import ArrowRightAltIcon from "@mui/icons-material/ArrowRightAlt";
 import { useQuery } from "react-query";
-import { Link } from "react-router-dom";
 import { CircularProgress } from "@mui/material";
-import silder1 from "../../../assets/Images/Slider1.webp"
 import NewRequest from "../../../../utils/NewRequest";
 import imageLiveUrl from "../../../../utils/urlConverter/imageLiveUrl";
 
@@ -56,9 +51,9 @@ const Hadersilder = () => {
           ) : error ? (
             " "
           ) : (
-            slidersData.map((item) => (
+            slidersData.map((item,index) => (
               <SwiperSlide>
-                <div className="relative w-full  h-[150px] lg:h-[250px] sm:h-[150px] rounded">
+                <div className="relative w-full  h-[150px] lg:h-[250px] sm:h-[150px] rounded" key={index}>
                   <img
                     src={imageLiveUrl(item?.image)}
                     className="w-full h-full object-cover"
