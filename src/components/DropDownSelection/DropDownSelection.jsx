@@ -99,7 +99,7 @@ const DropDownSelection = () => {
                     <p>Handmade</p>
                   </div>
                 </li>
-                <li className="menu-item-has-children">
+                {/* <li className="menu-item-has-children">
                   <div
                     onClick={() => handleGemstoneClick("Carpets Rawala")}
                     style={{ textDecoration: "none" }}
@@ -107,7 +107,7 @@ const DropDownSelection = () => {
                   >
                     <p>Carpets Rawala</p>
                   </div>
-                </li>
+                </li> */}
                 <li className="menu-item-has-children">
                   <div
                     onClick={() => navigate("/contactus")}
