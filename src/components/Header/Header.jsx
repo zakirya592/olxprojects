@@ -436,9 +436,9 @@ function Header() {
       </div>
       <div className="w-full flex justify-center">
         <div className="fixed justify-center text-center w-fit items-center z-50 bottom-0 sm:hidden">
-          <div className="flex justify-center gradient-border border rounded-full p-1">
+          <div className="flex justify-center rounded-full p-1">
             <button
-              className=" p-2 rounded-full bg-white text-gray-800 border-none"
+              className=" p-2 rounded-full text-2xl gra font-bold text-blue-700 border-blue-700 border-4"
               onClick={handleSellButtonClick}
             >
               + SELL
