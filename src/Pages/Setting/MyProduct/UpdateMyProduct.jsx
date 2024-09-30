@@ -10,14 +10,16 @@ import { useLocation, useNavigate } from "react-router-dom";
 import { useQuery } from "react-query";
 import imageLiveUrl from "../../../../utils/urlConverter/imageLiveUrl";
 
-const currencies = [
-  { code: "PKR", name: "Pakistan Rupee", symbol: "₨" },
-  { code: "USD", name: "United States Dollar", symbol: "$" },
-  { code: "EUR", name: "Euro", symbol: "€" },
-  { code: "JPY", name: "Japanese Yen", symbol: "¥" },
-  { code: "GBP", name: "British Pound Sterling", symbol: "£" },
-  { code: "AUD", name: "Australian Dollar", symbol: "A$" },
-];
+import { currencies } from "../../Home/PostAttributes/CountryData"; 
+
+// const currencies = [
+//   { code: "PKR", name: "Pakistan Rupee", symbol: "₨" },
+//   { code: "USD", name: "United States Dollar", symbol: "$" },
+//   { code: "EUR", name: "Euro", symbol: "€" },
+//   { code: "JPY", name: "Japanese Yen", symbol: "¥" },
+//   { code: "GBP", name: "British Pound Sterling", symbol: "£" },
+//   { code: "AUD", name: "Australian Dollar", symbol: "A$" },
+// ];
 
 const UpdateMyProduct = () => {
   const { DataSelectionModel } = useContext(Selectioncardcontext);
