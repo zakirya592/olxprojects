@@ -20,9 +20,16 @@ const SinUpForm = () => {
   const [aboutMe, setaboutMe] = useState("");
   const [companyLandLine, setCompanyLandLine] = useState("");
   const [showPassword, setShowPassword] = useState(false);
-  const [status, setStatus] = useState(""); // State to track selected status
+  const [status, setStatus] = useState(""); // State to track selected status  
+  const [isGemstone, setIsGemstone] = useState(false);
+  const [isChecked, setIsChecked] = useState(false);
+
+  const [taxNo, settaxNo] = useState('')
+  const [id_cardNo, setid_cardNo] = useState('')
+
   const handleChangeStatus = (e) => {
     setStatus(e.target.value);
+    setIsGemstone(true)
   };
 
   const [companyLandlineError, setCompanyLandlineError] = useState("");
@@ -45,8 +52,37 @@ const SinUpForm = () => {
     }
     setCompanyLandLine(value);
   };
+    const formatIDCardNumber = (value) => {
+      const match = value.match(/^(\d{0,5})(\d{0,7})(\d{0,1})$/);
+      if (!match) return "";
+      return `${match[1]}-${match[2]}-${match[3]}`;
+    };
+  const handleChange = (e) => {
+    const value = e.target.value;
+    // Remove non-numeric characters to enforce the format
+    const formattedValue = value.replace(/[^0-9]/g, "");
+
+    // Check if the length is within the allowed range
+    if (formattedValue.length <= 13) {
+      const parts = [];
+      if (formattedValue.length > 5) {
+        parts.push(formattedValue.substring(0, 5));
+        if (formattedValue.length > 12) {
+          parts.push(formattedValue.substring(5, 12));
+          parts.push(formattedValue.substring(12, 13));
+        } else {
+          parts.push(formattedValue.substring(5));
+        }
+      } else {
+        parts.push(formattedValue);
+      }
+      setid_cardNo(parts.join("-")); // Join the parts with a dash
+    }
+  };
+
 
   const handleAddCompany = async () => {
+
     const formData = new FormData();
     formData.append("username", name);
     formData.append("email", email);
@@ -56,14 +92,48 @@ const SinUpForm = () => {
     formData.append("phone", companyLandLine);
     formData.append("address", address);
     formData.append("image", imageshow);
-    try {
-      const response = await NewRequest.post("/users", formData, {
-        headers: {
-          "Content-Type": "multipart/form-data",
-        },
-      });
-      console.log(response);
-      toast.success(`Sign Up has been successfully".`, {
+
+    if (isGemstone) {
+      formData.append("isGemstone", true);
+      formData.append("pictureBusinessCertificate", imageshow);
+      formData.append("taxNo", taxNo);
+      formData.append("id_cardNo", id_cardNo);
+    }
+
+    if (isChecked) {
+      try {
+        const response = await NewRequest.post("/users", formData, {
+          headers: {
+            "Content-Type": "multipart/form-data",
+          },
+        });
+        console.log(response);
+        toast.success(`Sign Up has been successfully".`, {
+          position: "top-right",
+          autoClose: 2000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "light",
+        });
+        navigator("/LoginForm");
+      } catch (error) {
+        toast.error(error?.response?.data?.error || "Error", {
+          position: "top-right",
+          autoClose: 2000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "light",
+        });
+        // console.log(error);
+      }
+    } else {
+      toast.error("Error: Are you sure you want to submit the form?", {
         position: "top-right",
         autoClose: 2000,
         hideProgressBar: false,
@@ -73,19 +143,6 @@ const SinUpForm = () => {
         progress: undefined,
         theme: "light",
       });
-      navigator("/LoginForm");
-    } catch (error) {
-      toast.error(error?.response?.data?.error || "Error", {
-        position: "top-right",
-        autoClose: 2000,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-        progress: undefined,
-        theme: "light",
-      });
-      // console.log(error);
     }
   };
 
@@ -238,59 +295,6 @@ const SinUpForm = () => {
                     )}
                   </div>
                 </div>
-                {/*  Date Of Birth */}
-                {/* <div className="w-full font-body sm:text-base text-sm flex flex-col gap-2">
-                  <label
-                    htmlFor="dateOfBirth"
-                    className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
-                  >
-                    Date Of Birth
-                  </label>
-                  <input
-                    type="date"
-                    id="dateOfBirth"
-                    required
-                    value={dateOfBirth}
-                    onChange={(e) => setdateOfBirth(e.target.value)}
-                    //   placeholder={`User Name`}
-                    className="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 pr-10"
-                  />
-                </div> */}
-                {/* Address */}
-                {/* <div className="w-full font-body sm:text-base text-sm flex flex-col gap-2">
-                  <label
-                    htmlFor="address"
-                    className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
-                  >
-                    Address
-                  </label>
-                  <input
-                    type="text"
-                    id="address"
-                    required
-                    value={address}
-                    onChange={(e) => setaddress(e.target.value)}
-                    placeholder={`Enter your Address`}
-                    className="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 pr-10"
-                  />
-                </div> */}
-                {/* aboutMe */}
-                {/* <div className="w-full font-body sm:text-base text-sm flex flex-col gap-2">
-                  <label
-                    htmlFor="aboutMe"
-                    className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
-                  >
-                    About Me
-                  </label>
-                  <textarea
-                    type="text"
-                    id="aboutMe"
-                    value={aboutMe}
-                    onChange={(e) => setaboutMe(e.target.value)}
-                    placeholder={`Enter your About Me`}
-                    className="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 pr-10"
-                  />
-                </div> */}
 
                 <div className="w-full font-body sm:text-base text-sm flex flex-col gap-2">
                   <label
@@ -305,7 +309,7 @@ const SinUpForm = () => {
                     onChange={handleChangeStatus}
                     className="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 pr-10"
                   >
-                    <option>-- status --</option>
+                    <option value="">-- status --</option>
                     <option value="Gemstone">Gemstone </option>
                     <option value="wholesale">wholesale</option>
                   </select>
@@ -324,13 +328,16 @@ const SinUpForm = () => {
                       <input
                         type="text"
                         id="idCardNumber"
+                        value={id_cardNo}
+                        // onChange={(e) => setid_cardNo(e.target.value)}
+                        onChange={handleChange}
                         className="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                         placeholder="Enter your ID Card Number"
                       />
                     </div>
 
                     {/* Business Certificate */}
-                    <div className="w-full font-body sm:text-base text-sm flex flex-col gap-2">
+                    {/* <div className="w-full font-body sm:text-base text-sm flex flex-col gap-2">
                       <label
                         htmlFor="businessCertificate"
                         className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
@@ -343,7 +350,7 @@ const SinUpForm = () => {
                         className="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                         placeholder="Enter your Business Certificate Number"
                       />
-                    </div>
+                    </div> */}
 
                     {/* Tax Number */}
                     <div className="w-full font-body sm:text-base text-sm flex flex-col gap-2">
@@ -356,6 +363,8 @@ const SinUpForm = () => {
                       <input
                         type="text"
                         id="taxNumber"
+                        value={taxNo}
+                        onChange={(e) => settaxNo(e.target.value)}
                         className="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                         placeholder="Enter your Tax Number"
                       />
@@ -416,6 +425,8 @@ const SinUpForm = () => {
                         type="checkbox"
                         className="w-4 h-4 border border-gray-300 rounded bg-gray-50 focus:ring-3 focus:ring-primary-300 dark:bg-gray-700 dark:border-gray-600 dark:focus:ring-primary-600 dark:ring-offset-gray-800"
                         required
+                        checked={isChecked}
+                        onChange={(e) => setIsChecked(e.target.checked)}
                       />
                     </div>
                     <div className="ml-3 text-sm">
