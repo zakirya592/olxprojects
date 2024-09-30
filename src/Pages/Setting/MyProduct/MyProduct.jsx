@@ -218,7 +218,7 @@ const MyProduct = () => {
                           <strong>Price:</strong> Rs {item?.price || ""}
                         </h3>
                         <p className="text-gray-500 text-sm">
-                          {item?.location || ""} - 2 weeks ago
+                          {item?.location || ""} 
                         </p>
                       </div>
                     </div>

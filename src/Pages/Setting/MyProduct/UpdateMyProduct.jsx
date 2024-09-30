@@ -9,6 +9,17 @@ import { DotLoader } from "react-spinners";
 import { useLocation, useNavigate } from "react-router-dom";
 import { useQuery } from "react-query";
 import imageLiveUrl from "../../../../utils/urlConverter/imageLiveUrl";
+
+const currencies = [
+  { code: "PKR", name: "Pakistan Rupee", symbol: "₨" }, // Default Pakistan Rupee
+  { code: "USD", name: "United States Dollar", symbol: "$" },
+  { code: "EUR", name: "Euro", symbol: "€" },
+  { code: "JPY", name: "Japanese Yen", symbol: "¥" },
+  { code: "GBP", name: "British Pound Sterling", symbol: "£" },
+  { code: "AUD", name: "Australian Dollar", symbol: "A$" },
+  // Add more currencies as needed
+];
+
 const UpdateMyProduct = () => {
   const { DataSelectionModel } = useContext(Selectioncardcontext);
   const location = useLocation();
@@ -16,9 +27,7 @@ const UpdateMyProduct = () => {
   const cardData = location.state;
   const inputRef = useRef(null);
   const autocompleteRef = useRef(null);
-
-
-  
+  const [selectedCurrency, setSelectedCurrency] = useState("₨");
   const { error, data: eventsData = [] } = useQuery(
     "footerCategory",
     fetchUpcomingEventsData
@@ -29,16 +38,13 @@ const UpdateMyProduct = () => {
     return response?.data.filter((item) => item.status === 1) || [];
   }
 
-  console.log(cardData, "dataaa");
-
   const storedUserResponseString = sessionStorage.getItem("userResponse");
   const storedUserResponse = JSON.parse(storedUserResponseString);
-  // const loginuserdata = storedUserResponse.data.user;
-    let loginuserid = storedUserResponse?.data?.user?._id || "";
+  let loginuserid = storedUserResponse?.data?.user?._id || "";
 
-    if (!loginuserid) {
-      loginuserid = localStorage.getItem("userdata") || "";
-    }
+  if (!loginuserid) {
+    loginuserid = localStorage.getItem("userdata") || "";
+  }
   const [form, setForm] = useState({
     brand: "",
     condition: "",
@@ -46,10 +52,9 @@ const UpdateMyProduct = () => {
     description: cardData?.ProductData?.description || "",
     Location: cardData?.ProductData?.location || "",
     price: cardData?.ProductData?.price || "",
-    user:"",
+    user: "",
   });
   const [phoneNumber, setphoneNumber] = useState("");
-
 
   // const [images, setImages] = useState(Array(6).fill(null));
   const [images, setImages] = useState(() => {
@@ -59,31 +64,29 @@ const UpdateMyProduct = () => {
 
   const [isLoading, setIsLoading] = useState(false);
   const [fields, setFields] = useState([]);
-  
+
   const [selectedCondition, setSelectedCondition] = useState(
-    cardData?.ProductData?.Condition?.name || cardData?.ProductData?.conditions?.name || null
+    cardData?.ProductData?.Condition?.name ||
+      cardData?.ProductData?.conditions?.name ||
+      null
   );
-   
+
   const [selectedDeviceType, setSelectedDeviceType] = useState(
-    cardData?.ProductData?.DeviceType?.name  || null
+    cardData?.ProductData?.DeviceType?.name || null
   );
   const [deviceTypes, setDeviceTypes] = useState([]);
-  const [conditions, setConditions] = useState(
-    {
+  const [conditions, setConditions] = useState({
     name: cardData.ProductData?.Category?.name || [],
     _id: cardData?.ProductData?.Condition?._id || [],
-  }
-  );
-  
-  const [filterdata, setfilterdata] = useState(
-    cardData?.ProductData || []
-  );
-  
+  });
+
+  const [filterdata, setfilterdata] = useState(cardData?.ProductData || []);
+
   const [Category, setCategory] = useState({
     name: cardData?.ProductData?.Category?.name || "",
     _id: cardData?.ProductData?.Category?._id || "",
   });
-  
+
   const [SubCategory, setSubCategory] = useState({
     name: cardData?.ProductData?.SubCategory?.name || "",
     _id: cardData?.ProductData?.SubCategory?._id || "",
@@ -94,8 +97,6 @@ const UpdateMyProduct = () => {
     _id: cardData?.ProductData?.FooterCategory?._id || "",
   });
   const [footerCategorydropdown, setfooterCategorydropdown] = useState([]);
-  
-  console.log(cardData, "cardData?.ProductData");
 
   const handleImageChange = (e, index) => {
     const file = e.target.files[0];
@@ -115,12 +116,11 @@ const UpdateMyProduct = () => {
       ...prevForm,
       [model]: selectedData || "", // Store the _id in form state
     }));
-    
   };
 
   const handleConditionChange = (name) => {
     setSelectedCondition(name);
-   
+
     handleChange("Condition", name);
   };
 
@@ -162,21 +162,20 @@ const UpdateMyProduct = () => {
     }));
   };
 
-  
-    useEffect(() => {
-      NewRequest.get(`/users/${loginuserid || ""}`)
-        .then((response) => {
-          const userdata = response.data;
-          setForm({
-            ...form,
-            user: userdata?.username || "",
-          });
-          setphoneNumber(userdata?.phone || "");
-        })
-        .catch((err) => {
-          console.log(err);
+  useEffect(() => {
+    NewRequest.get(`/users/${loginuserid || ""}`)
+      .then((response) => {
+        const userdata = response.data;
+        setForm({
+          ...form,
+          user: userdata?.username || "",
         });
-    }, []);
+        setphoneNumber(userdata?.phone || "");
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  }, []);
 
   useEffect(() => {
     const loadScript = (url, callback) => {
@@ -205,7 +204,6 @@ const UpdateMyProduct = () => {
         ...prevForm,
         Location: place.formatted_address || place.name,
       }));
-      console.log("Selected place:", place.formatted_address || place.name);
     };
 
     if (!window.google) {
@@ -217,7 +215,6 @@ const UpdateMyProduct = () => {
       handleScriptLoad();
     }
   }, []);
-
 
   useEffect(() => {
     const SubCategorydata = async () => {
@@ -248,13 +245,15 @@ const UpdateMyProduct = () => {
     // );
     setCategory(newValue);
     setSubCategorydropdown(newValue.subCategories);
-    console.log(newValue, "newValue");
   };
 
   const handleFooterCategoryChange = (e) => {
     const value = e.target.value;
     setfooterCategory({ _id: value });
   };
+   const handleCurrencyChange = (e) => {
+     setSelectedCurrency(e.target.value);
+   };
 
   // Handle sub-category change
   const handleSubCategoryChange = (e) => {
@@ -262,8 +261,7 @@ const UpdateMyProduct = () => {
       (item) => item._id === e.target.value
     );
     setSubCategory(selectedSubCategory || { _id: "", name: "" });
-    console.log(selectedSubCategory, "selectedSubCategory");
-    
+
     // Check if sub-category has footer categories
     if (selectedSubCategory?.footerCategories) {
       setfooterCategorydropdown(selectedSubCategory.footerCategories);
@@ -282,9 +280,6 @@ const UpdateMyProduct = () => {
           `/brand/getAllModelsByFooterCategory/${footerCategory?._id || ""}`
         );
         const filterdata = response.data.find((item) => item.model);
-
-        console.log("filterdata", filterdata);
-
         setfilterdata(filterdata.data);
         const conditionData = response.data.find(
           (item) => item.model === "Condition"
@@ -294,7 +289,6 @@ const UpdateMyProduct = () => {
           (item) => item.model === "DeviceType"
         );
         setDeviceTypes(deviceTypeData ? deviceTypeData.data : []);
-
         setFields(response.data || []);
         setIsLoading(false);
       } catch (err) {
@@ -313,8 +307,6 @@ const UpdateMyProduct = () => {
         setFields(response.data || []);
 
         const filterdata = response.data.find((item) => item.model);
-        console.log(filterdata, "filterdata");
-        console.log("Length of data:", filterdata.data.length);
         setfilterdata(filterdata.data);
         const conditionData = response.data.find(
           (item) => item.model === "Condition"
@@ -327,7 +319,6 @@ const UpdateMyProduct = () => {
 
         setIsLoading(false);
       } catch (err) {
-        console.log(err);
         // setDeviceTypes([])
         // setConditions([])
         // setfilterdata([])
@@ -350,7 +341,8 @@ const UpdateMyProduct = () => {
     formData.append("location", form.Location);
     formData.append("User", loginuserid || "");
     formData.append("Category", Category?._id);
-    formData.append("SubCategory", SubCategory?._id || "");
+    formData.append("SubCategory", SubCategory?._id || ""); 
+    formData.append("currency", selectedCurrency);
     if (footerCategory?._id) {
       formData.append("FooterCategory", footerCategory._id);
     }
@@ -361,8 +353,6 @@ const UpdateMyProduct = () => {
       }
     });
 
-    
-    
     fields.forEach((field) => {
       if (field.model) {
         formData.append(field.model, form[field.model]._id);
@@ -401,6 +391,10 @@ const UpdateMyProduct = () => {
       });
     }
   };
+
+     const selectedCurrencySymbol = currencies.find(
+       (currency) => currency.symbol === selectedCurrency
+     )?.symbol;
 
   return (
     <>
@@ -457,11 +451,17 @@ const UpdateMyProduct = () => {
                               className="w-full h-full object-cover"
                             />
                           ) : (
-                            <img 
-                            // src={image}
-                             src={image ? (image.startsWith("https") ? image : imageLiveUrl(image)) : ""}
-               
-                            alt="" />
+                            <img
+                              // src={image}
+                              src={
+                                image
+                                  ? image.startsWith("https")
+                                    ? image
+                                    : imageLiveUrl(image)
+                                  : ""
+                              }
+                              alt=""
+                            />
                           )
                         ) : (
                           <span className="text-gray-400">+</span>
@@ -697,11 +697,34 @@ const UpdateMyProduct = () => {
           </div>
 
           <div className="border-t border-b border-bordderscolor p-6">
+            <div className="mb-4 flex flex-col lg:flex-row items-start lg:items-center">
+              <label
+                htmlFor="currency"
+                className="w-full lg:w-1/4 mb-1 font-semibold"
+              >
+                Select Currency:
+              </label>
+              <select
+                id="currency"
+                value={selectedCurrency}
+                onChange={handleCurrencyChange}
+                className="w-full p-2 border border-gray-300 rounded"
+              >
+                {currencies.map((currency) => (
+                  <option key={currency.code} value={currency.symbol}>
+                    {currency.name} ({currency.code})
+                  </option>
+                ))}
+              </select>
+            </div>
             <div className="mb-4 flex items-center">
               <label className="w-1/4 mb-1 font-semibold">
                 Price <span className="text-red-600"> *</span>
               </label>
-              <div className="w-full">
+              <div className="w-full relative">
+                <span className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-500">
+                  {selectedCurrencySymbol}:
+                </span>
                 <input
                   type="number"
                   value={form.price}
@@ -711,7 +734,7 @@ const UpdateMyProduct = () => {
                       price: e.target.value,
                     });
                   }}
-                  className="w-full p-2 border border-gray-300 rounded"
+                  className="w-full p-2 border ps-9 border-gray-300 rounded"
                   placeholder="Enter price"
                 />
               </div>

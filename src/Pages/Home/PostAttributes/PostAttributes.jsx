@@ -8,8 +8,7 @@ import { Autocomplete, TextField } from "@mui/material";
 import { toast } from "react-toastify";
 import { DotLoader } from "react-spinners";
 import { useNavigate } from "react-router-dom";
-
-
+import { FaSearch } from "react-icons/fa";
 
 const currencies = [
   { code: "PKR", name: "Pakistan Rupee", symbol: "₨" }, // Default Pakistan Rupee
@@ -28,7 +27,7 @@ const PostAttributes = () => {
 
   const navigate = useNavigate();
   const storedUserResponseString = sessionStorage.getItem("userResponse");
-  const [selectedCurrency, setSelectedCurrency] = useState("PKR"); // Default currency
+  const [selectedCurrency, setSelectedCurrency] = useState("₨"); // Default currency
 
   const storedUserResponse = JSON.parse(storedUserResponseString);
   let loginuserdata = storedUserResponse?.data?.user?._id || "";
@@ -255,7 +254,7 @@ const PostAttributes = () => {
     formData.append("User", loginuserdata || "");
     formData.append("Category", categorydata);
     formData.append("SubCategory", subCategoriesResponse?._id || "");
-    // formData.append("FooterCategory", updateBrandData?._id || "");
+    formData.append("currency", selectedCurrency);
     if (updateBrandData?._id) {
       formData.append("FooterCategory", updateBrandData._id);
     }
@@ -303,7 +302,7 @@ const PostAttributes = () => {
   };
 
     const selectedCurrencySymbol = currencies.find(
-      (currency) => currency.code === selectedCurrency
+      (currency) => currency.symbol === selectedCurrency
     )?.symbol;
 
 
@@ -501,19 +500,7 @@ const PostAttributes = () => {
               <label className="w-full lg:w-1/4 mb-1 font-semibold">
                 Location <span className="text-red-600"> *</span>
               </label>
-              <div className="w-full">
-                {/* <input
-                  type="text"
-                  value={form.Location}
-                  onChange={(e) => {
-                    setForm({
-                      ...form,
-                      Location: e.target.value,
-                    });
-                  }}
-                  className="w-full p-2 border border-gray-300 rounded"
-                  placeholder="Select Location"
-                /> */}
+              <div className="w-full relative">
                 <input
                   ref={inputRef}
                   id="location"
@@ -521,6 +508,9 @@ const PostAttributes = () => {
                   className="w-full p-2 border border-gray-300 rounded"
                   placeholder="Select Location"
                 />
+                <span className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-500">
+                  <FaSearch />
+                </span>
               </div>
             </div>
           </div>
@@ -540,7 +530,7 @@ const PostAttributes = () => {
                 className="w-full p-2 border border-gray-300 rounded"
               >
                 {currencies.map((currency) => (
-                  <option key={currency.code} value={currency.code}>
+                  <option key={currency.code} value={currency.symbol}>
                     {currency.name} ({currency.code})
                   </option>
                 ))}
@@ -552,7 +542,7 @@ const PostAttributes = () => {
               </label>
               <div className="w-full relative">
                 <span className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-500">
-                  {selectedCurrencySymbol}: 
+                  {selectedCurrencySymbol}:
                 </span>
                 <input
                   type="number"
