@@ -181,7 +181,7 @@ const MoreProductview = () => {
                         <img
                           src={imageLiveUrl(item?.images?.[0]) || ""}
                           alt="Product"
-                          className="w-full h-full object-cover"
+                          className="w-full h-64 object-contain"
                           onClick={() => singproductitem(item)}
                         />
                       </div>

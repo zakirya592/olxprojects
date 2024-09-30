@@ -188,7 +188,8 @@ const MyProduct = () => {
                         <img
                           src={imageLiveUrl(item?.images?.[0]) || ""}
                           alt="Product"
-                          className="w-full h-full lg-w-auto sm:w-full object-cover cursor-pointer"
+                          // className="w-full h-64 object-cover cursor-pointer"
+                          className="w-full h-64 object-contain cursor-pointer"
                           onClick={() => singproductitem(item)}
                         />
                       </div>
