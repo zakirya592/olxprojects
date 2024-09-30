@@ -3,51 +3,74 @@ import "./DropDownSelection.css";
 import { Link, useNavigate } from "react-router-dom";
 import { useQuery } from "react-query";
 import NewRequest from "../../../utils/NewRequest";
-// import { useTranslation } from "react-i18next";
+import { toast } from "react-toastify";
 
 const DropDownSelection = () => {
-  const [megaMenu, setMegaMenu] = useState([]);
-  
+
   const navigate = useNavigate();
   const [isMobileMenuOpen, setMobileMenuOpen] = useState(false);
-  // const { t, i18n } = useTranslation();
+
+    const storedUserResponseString = sessionStorage.getItem("userResponse");
+    const storedUserResponse = JSON.parse(storedUserResponseString);
+    let loginuserdata = storedUserResponse?.data.user || "";
+
+    if (!loginuserdata) {
+      loginuserdata = localStorage.getItem("userdata") || "";
+    }
+
+  const handleGemstoneClick = (item) => {
+    if (loginuserdata?.isGemstone === true) {
+         toast.success(`You are a ${item} user!`, {
+           position: "top-right",
+           autoClose: 2000,
+           hideProgressBar: false,
+           closeOnClick: true,
+           pauseOnHover: true,
+           draggable: true,
+           progress: undefined,
+           theme: "light",
+         });
+      // navigate("/gemstonePage"); // Replace with the actual page
+    } else {
+     toast.error(`You are not a ${item} user!`, {
+       position: "top-right",
+       autoClose: 2000,
+       hideProgressBar: false,
+       closeOnClick: true,
+       pauseOnHover: true,
+       draggable: true,
+       progress: undefined,
+       theme: "light",
+     });
+    }
+  };
+
   const toggleMobileMenu = () => {
     setMobileMenuOpen(!isMobileMenuOpen);
   };
 
-  const { isLoading, data, error } = useQuery("fetchAllMegaMenus", async () => {
-    try {
-      const response = await NewRequest.get("/category");
-      return response?.data || [];
-    } catch (error) {
-      console.log(error);
-      throw error;
-    }
-  });
-
-
-      async function fetchproductData() {
+  async function fetchproductData() {
     const response = await NewRequest.get("/product/getcategoryproduct");
     const mobilesCategory = response?.data
 
-return mobilesCategory;
-    
+    return mobilesCategory;
+
   }
 
   // Use the data in your component
   const { data: productsdata } = useQuery("productgetcategoryss", fetchproductData);
 
-    const viewmore = (product) => {
+  const viewmore = (product) => {
 
-      // const selectedCategory = productsdata.find((item) => item.category.name);
-      const selectedCategoryProducts = productsdata.find(
-        (item) => item.category.name === product.name
-      );
+    // const selectedCategory = productsdata.find((item) => item.category.name);
+    const selectedCategoryProducts = productsdata.find(
+      (item) => item.category.name === product.name
+    );
 
-      const subResponseString = JSON.stringify(selectedCategoryProducts);
-      sessionStorage.setItem("productmore", subResponseString);
-      navigate(`/moreproduct/${selectedCategoryProducts?.category?.name}`);
-    };
+    const subResponseString = JSON.stringify(selectedCategoryProducts);
+    sessionStorage.setItem("productmore", subResponseString);
+    navigate(`/moreproduct/${selectedCategoryProducts?.category?.name}`);
+  };
 
   return (
     <header className="header">
@@ -76,8 +99,7 @@ return mobilesCategory;
               >
                 <li className="menu-item-has-children">
                   <div
-                    // to="javascript:void(0)"
-                    // onClick={() => viewmore(section)}
+                    onClick={() => handleGemstoneClick("Gemstone")}
                     style={{ textDecoration: "none" }}
                     className="text-lg font-bold cursor-pointer"
                   >
@@ -86,8 +108,7 @@ return mobilesCategory;
                 </li>
                 <li className="menu-item-has-children">
                   <div
-                    // to="javascript:void(0)"
-                    // onClick={() => viewmore(section)}
+                    onClick={() => handleGemstoneClick("Handmade")}
                     style={{ textDecoration: "none" }}
                     className="text-lg font-bold cursor-pointer"
                   >
@@ -96,8 +117,7 @@ return mobilesCategory;
                 </li>
                 <li className="menu-item-has-children">
                   <div
-                    // to="javascript:void(0)"
-                    // onClick={() => viewmore(section)}
+                    onClick={() => handleGemstoneClick("Carpets Rawala")}
                     style={{ textDecoration: "none" }}
                     className="text-lg font-bold cursor-pointer"
                   >
