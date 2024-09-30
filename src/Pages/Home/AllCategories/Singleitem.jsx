@@ -158,7 +158,7 @@ const Singleitem = () => {
           {cardData?.cardData?.name || ""}
         </span>
       </div>
-      <div className="flex gap-6 flex-col sm:flex-row">
+      <div className="flex flex-col sm:flex-col md:flex-col lg:flex-row gap-6">
         <div className="w-full lg:w-[35%] sm:w-full ">
           <div className="border rounded shadow py-6 px-4 bg-cardbg">
             <p className="text-primary">Listed by private user</p>
@@ -169,13 +169,15 @@ const Singleitem = () => {
               </div> // Skeleton for user avatar
             ) : (
               <div className="flex my-auto mt-5 justify-between">
-                <div className="flex w-full">
-                  <Avatar
-                    className="my-auto cursor-pointer"
-                    src={imageuser || ""}
-                    onClick={() => productlist(Userdataget)}
-                  />
-                  <div className="ml-5 w-full">
+                <div className="flex lg:flex-row sm:flex-col flex-col w-full">
+                  <div className="flex sm:justify-center lg:justify-start justify-center items-center">
+                    <Avatar
+                      className="my-auto cursor-pointer"
+                      src={imageuser || ""}
+                      onClick={() => productlist(Userdataget)}
+                    />
+                  </div>
+                  <div className="lg:ml-5 sm:ml-1 ml-1  w-full">
                     <div className="flex justify-between  my-auto w-full">
                       <div className="my-auto">
                         <p className="text-secondary">
@@ -200,7 +202,7 @@ const Singleitem = () => {
                       />
                       <a
                         href={`mailto:${Userdataget?.User?.email || ""}`}
-                        className="text-blue-500 hover:underline ms-5 my-auto"
+                        className="text-blue-500 hover:underline lg:ms-5 sm:ms-1 ms-1  my-auto "
                       >
                         {Userdataget?.User?.email || ""}
                       </a>
@@ -213,7 +215,7 @@ const Singleitem = () => {
                       />
                       <a
                         href={`tel:${Userdataget?.User?.phone || ""}`}
-                        className="text-blue-500 hover:underline ms-5 my-auto"
+                        className="text-blue-500 hover:underline lg:ms-5 sm:ms-1 ms-1  my-auto"
                       >
                         {Userdataget?.User?.phone || ""}
                       </a>
@@ -346,20 +348,20 @@ const Singleitem = () => {
               )}
             </div>
           </div>
-          <div className="border rounded shadow mt-10 bg-cardbg">
+          <div className="border rounded shadow mt-10 bg-cardbg w-full">
             <div className="w-full mb-5 p-4">
               <p className="text-primary mb-5">Description</p>
               {isLoading ? (
                 <Skeleton count={3} /> // Skeleton for the description
               ) : (
-                <p className="text-productdesc mb-5 ">
+                <p className="text-productdesc mb-5 w-full">
                   {data?.description || ""}
                 </p>
               )}
             </div>
           </div>
           {/* Related ads */}
-          <div className="mt-5">
+          <div className="mt-5 w-full">
             <p className="text-primary mb-5 font-sans font-bold text-2xl">
               Related ads
             </p>
@@ -381,7 +383,7 @@ const Singleitem = () => {
                   slidesPerView: 3,
                   slidesPerGroup: 3,
                 },
-                325: {
+                320: {
                   slidesPerView: 1,
                   slidesPerGroup: 1,
                 },
@@ -431,12 +433,6 @@ const Singleitem = () => {
                               </h1>
                             </div>
                             <div className="w-full flex justify-center items-end mt-auto py-3">
-                              {/* <button
-                                className="bg-black text-yellow-50 px-5 py-2 rounded-full"
-                                onClick={() => postcard(card)}
-                              >
-                                Add To Cart
-                              </button> */}
                               <img
                                 src={likeicon}
                                 className=" text-black cursor-pointer h-7 w-7"

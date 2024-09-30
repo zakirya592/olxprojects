@@ -182,7 +182,7 @@ const Hadersilder = () => {
                   ))}
                 </Swiper>
               ) : (
-                <div className="grid 2xl:grid-cols-6 xl:grid-cols-6 gap-7 lg:grid-cols-5 md:grid-cols-5 grid-cols-1 sm:px-2 px-2 mb-3">
+                <div className="grid 2xl:grid-cols-6 xl:grid-cols-6 gap-7 lg:grid-cols-5 md:grid-cols-3 grid-cols-1 sm:px-2 px-2 mb-3">
                   {activeProducts.slice(0, 4).map((card) => (
                     <div
                       key={card.id}
