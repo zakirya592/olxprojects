@@ -115,7 +115,7 @@ const Hadersilder = () => {
         return (
           <div key={category._id} className="mt-5">
             <div className="flex justify-between my-auto">
-              <h6 className="text-headingcolor text-3xl font-bold overflow-hidden">
+              <h6 className="text-headingcolor text-3xl font-bold overflow-hidden my-7">
                 {category?.category?.name}
               </h6>
               <div className="text-viewmorebutton text-xl flex cursor-pointer my-auto">
@@ -123,7 +123,7 @@ const Hadersilder = () => {
                 <MdOutlineNavigateNext size={30} />
               </div>
             </div>
-            <div className="relative w-full mt-10">
+            <div className="relative w-full ">
               {isSmallScreen ? (
                 <Swiper
                   slidesPerView={1}
