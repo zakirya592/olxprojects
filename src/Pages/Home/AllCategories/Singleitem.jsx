@@ -323,8 +323,10 @@ const Singleitem = () => {
                 <>
                   <div className="flex justify-between">
                     <h3 className="font-bold text-2xl mb-2 ">
-                      Rs{" "}
-                      <span className="text-rscolor">{data?.price || ""}</span>
+                      {data?.currency || "Rs"}
+                      <span className="text-rscolor ms-1">
+                        {data?.price || ""}
+                      </span>
                     </h3>
                     {/* <button
                       className="bg-black text-yellow-50 px-5 py-2 rounded-full hover:bg-white hover:text-black hover:border border-black"
@@ -421,8 +423,8 @@ const Singleitem = () => {
                             </p>
                             <div className="px-3 flex flex-row mt-5 justify-between gap-2">
                               <h1 className="sm:text-lg text-base">
-                                Rs{" "}
-                                <span className="text-rscolor">
+                                {card?.currency || "Rs"}
+                                <span className="text-rscolor ms-1">
                                   {" "}
                                   {card.price}
                                 </span>

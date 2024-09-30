@@ -115,7 +115,7 @@ const Myfavorites = () => {
                       <div className="w-full mb-5 p-4">
                         <div className="flex justify-between">
                           <h3 className="font-bold text-lg mb-2">
-                            Rs {item?.price || ""}
+                            {item?.currency || "Rs"} {item?.price || ""}
                           </h3>
                           <button
                             className="bg-black text-yellow-50 px-5 py-2 rounded-full"

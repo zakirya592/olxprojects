@@ -157,9 +157,11 @@ const Hadersilder = () => {
                             </p>
                             <div className="px-3 flex flex-row mt-5 justify-between gap-2">
                               <p className="text-secondary sm:text-lg text-base">
-                                Rs {card.price}
+                                {card?.currency || "Rs"}
+                                <span className="ms-2">{card.price}</span>
                               </p>
-                                <img src={likeicon}
+                              <img
+                                src={likeicon}
                                 className=" text-black cursor-pointer h-7 w-7"
                                 onClick={() => postcard(card)}
                               ></img>
@@ -203,15 +205,16 @@ const Hadersilder = () => {
                           </div>
                           <div className="px-3 flex flex-row mt-3 justify-between gap-2">
                             <p className="text-[#002147] sm:text-lg text-base">
-                              Rs {card.price}
+                              {card?.currency || "Rs"}:
+                              <span className="ms-1"> {card.price}</span>
                             </p>
                             {/* Button at the bottom */}
-                           
-                              <img src={likeicon}
-                                className=" text-black cursor-pointer h-7 w-7"
-                                onClick={() => postcard(card)}
-                              ></img>
-                            
+
+                            <img
+                              src={likeicon}
+                              className=" text-black cursor-pointer h-7 w-7"
+                              onClick={() => postcard(card)}
+                            ></img>
                           </div>
                         </div>
                       </div>

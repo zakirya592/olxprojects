@@ -136,8 +136,8 @@ const UserProductlist = () => {
                         <DescriptionWithToggle description={item.name} />
                         <div className="flex justify-between mt-3">
                           <h3 className="font-bold text-lg mb-2">
-                            Rs{" "}
-                            <span className="text-rscolor">
+                            {item?.currency || "Rs"}
+                            <span className="text-rscolor ms-1">
                               {item?.price || ""}
                             </span>
                           </h3>
@@ -216,7 +216,6 @@ const UserProductlist = () => {
                   </div>
                 </div>
               </div>
-             
             </div>
           </aside>
         </div>

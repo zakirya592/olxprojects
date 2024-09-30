@@ -189,8 +189,8 @@ const MoreProductview = () => {
                         <DescriptionWithToggle description={item.name} />
                         <div className="flex justify-between mt-3">
                           <h3 className="font-bold text-lg mb-2">
-                            Rs{" "}
-                            <span className="text-rscolor">
+                            {item?.currency || "Rs"} 
+                            <span className="text-rscolor ms-2">
                               {item?.price || ""}
                             </span>
                           </h3>

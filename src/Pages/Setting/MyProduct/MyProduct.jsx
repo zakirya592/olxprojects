@@ -215,7 +215,7 @@ const MyProduct = () => {
                         </div>
                         {renderObject(item)}
                         <h3 className="font-bold text-md mb-2">
-                          <strong>Price:</strong> Rs {item?.price || ""}
+                          <strong>Price:</strong> {item?.currency || "Rs"} {item?.price || ""}
                         </h3>
                         <p className="text-gray-500 text-sm">
                           {item?.location || ""} 

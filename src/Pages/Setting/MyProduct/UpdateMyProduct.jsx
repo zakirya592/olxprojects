@@ -11,13 +11,12 @@ import { useQuery } from "react-query";
 import imageLiveUrl from "../../../../utils/urlConverter/imageLiveUrl";
 
 const currencies = [
-  { code: "PKR", name: "Pakistan Rupee", symbol: "₨" }, // Default Pakistan Rupee
+  { code: "PKR", name: "Pakistan Rupee", symbol: "₨" },
   { code: "USD", name: "United States Dollar", symbol: "$" },
   { code: "EUR", name: "Euro", symbol: "€" },
   { code: "JPY", name: "Japanese Yen", symbol: "¥" },
   { code: "GBP", name: "British Pound Sterling", symbol: "£" },
   { code: "AUD", name: "Australian Dollar", symbol: "A$" },
-  // Add more currencies as needed
 ];
 
 const UpdateMyProduct = () => {
@@ -27,7 +26,6 @@ const UpdateMyProduct = () => {
   const cardData = location.state;
   const inputRef = useRef(null);
   const autocompleteRef = useRef(null);
-  const [selectedCurrency, setSelectedCurrency] = useState("₨");
   const { error, data: eventsData = [] } = useQuery(
     "footerCategory",
     fetchUpcomingEventsData
@@ -45,6 +43,10 @@ const UpdateMyProduct = () => {
   if (!loginuserid) {
     loginuserid = localStorage.getItem("userdata") || "";
   }
+  
+  const [selectedCurrency, setSelectedCurrency] = useState(cardData?.ProductData?.currency || "₨");
+  console.log(cardData?.ProductData?.currency, "cardData?.currency");
+  
   const [form, setForm] = useState({
     brand: "",
     condition: "",
@@ -56,7 +58,6 @@ const UpdateMyProduct = () => {
   });
   const [phoneNumber, setphoneNumber] = useState("");
 
-  // const [images, setImages] = useState(Array(6).fill(null));
   const [images, setImages] = useState(() => {
     const initialImages = cardData?.ProductData?.images || [];
     return [...initialImages, ...Array(6 - initialImages.length).fill(null)];
@@ -395,6 +396,9 @@ const UpdateMyProduct = () => {
      const selectedCurrencySymbol = currencies.find(
        (currency) => currency.symbol === selectedCurrency
      )?.symbol;
+
+     console.log(selectedCurrency, "selectedCurrency");
+     
 
   return (
     <>
