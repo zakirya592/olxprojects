@@ -5,20 +5,27 @@ import { GiPlayButton } from "react-icons/gi";
 import imageLiveUrl from "../../../utils/urlConverter/imageLiveUrl";
 import { FaSearch } from "react-icons/fa";
 import { useNavigate } from "react-router-dom";
+import { IoReorderThree } from "react-icons/io5";
+import { RxCross2 } from "react-icons/rx";
 
 const Chat = () => {
   const navigate = useNavigate();
   const [message, setMessage] = useState("");
   const [chatHistory, setChatHistory] = useState([]);
-  const [chatlist, setchatlist] = useState([])
+  const [chatlist, setchatlist] = useState([]);
   const [activeChatId, setActiveChatId] = useState(null);
   const storedUserResponseString = sessionStorage.getItem("userResponse");
   const storedUserResponse = JSON.parse(storedUserResponseString);
   const loginuserdata = storedUserResponse?.data?.user || "";
-
   const chatproduct = sessionStorage.getItem("chardata");
-  
   let chatResponse = null;
+  const chatContainerRef = useRef(null);
+  const [imageshow, setimageshow] = useState("");
+  const [name, setname] = useState("");
+  const [aboutMe, setaboutMe] = useState("");
+  const [searchQuery, setSearchQuery] = useState("");
+  const [selectedUser, setSelectedUser] = useState(chatResponse || "");
+  const [isChatListVisible, setIsChatListVisible] = useState(false); 
 
   try {
     chatResponse = chatproduct ? JSON.parse(chatproduct) : null;
@@ -27,43 +34,42 @@ const Chat = () => {
   }
 
   let senderId = loginuserdata?._id || "";
+  if (!senderId) {
+    senderId = localStorage.getItem("userdata") || "";
+  }
+
+  useEffect(() => {
     if (!senderId) {
-      senderId = localStorage.getItem("userdata") || "";
+      navigate("/LoginForm");
     }
-
-     useEffect(() => {
-       if (!senderId) {
-         navigate("/LoginForm");
-       }
-     }, [senderId, navigate]);
-
-  const [selectedUser, setSelectedUser] = useState(chatResponse || "");
+  }, [senderId, navigate]);
 
   const receiverId = chatResponse?._id || "";
-
   const handleMessageChange = (e) => {
     setMessage(e.target.value);
   };
 
-  const {
-    data: chatHistorydata,
-    refetch
-  } = useQuery(["chatdata", selectedUser?._id], fetchUpcomingEventsData);
+  const { data: chatHistorydata, refetch } = useQuery(
+    ["chatdata", selectedUser?._id],
+    fetchUpcomingEventsData
+  );
   async function fetchUpcomingEventsData() {
-    const response = await NewRequest.get(`/chat?userId=${senderId}&contactId=${selectedUser?._id || ""}`);
+    const response = await NewRequest.get(
+      `/chat?userId=${senderId}&contactId=${selectedUser?._id || ""}`
+    );
     return response?.data;
   }
 
   const fetchchatlist = async () => {
     try {
-      const response = await NewRequest.get(`/chat/getmychat?userId=${senderId || ""}`
+      const response = await NewRequest.get(
+        `/chat/getmychat?userId=${senderId || ""}`
       );
       setchatlist(response.data);
     } catch (error) {
       console.error("Error fetching chat history:", error);
     }
   };
-
 
   const handleSendMessage = async () => {
     if (!message.trim()) return;
@@ -75,10 +81,10 @@ const Chat = () => {
         content: message,
       });
       //  fetchChatHistory();
-      refetch()
+      refetch();
       setChatHistory([...chatHistory, response.data]);
       setMessage("");
-      fetchchatlist()
+      fetchchatlist();
     } catch (error) {
       console.error("Error sending message:", error);
     }
@@ -87,58 +93,51 @@ const Chat = () => {
   const handleChatSelection = (chat) => {
     setSelectedUser(chat?.user);
     setActiveChatId(chat?.user._id);
-
   };
 
   useEffect(() => {
     if (selectedUser) {
-      refetch(); 
+      refetch();
     }
   }, [selectedUser, refetch]);
 
   const handleKeyDown = (e) => {
     if (e.key === "Enter") {
-      e.preventDefault(); 
+      e.preventDefault();
       handleSendMessage();
     }
   };
 
   useEffect(() => {
-    fetchchatlist()
+    fetchchatlist();
   }, [senderId]);
-
-  const chatContainerRef = useRef(null);
 
   useEffect(() => {
     // Scroll to the bottom of the chat container whenever chatHistorydata changes
     if (chatContainerRef.current) {
-      chatContainerRef.current.scrollTop = chatContainerRef.current.scrollHeight;
+      chatContainerRef.current.scrollTop =
+        chatContainerRef.current.scrollHeight;
     }
   }, [chatHistorydata]);
 
-  
-    const [imageshow, setimageshow] = useState("");
-    const [name, setname] = useState("");
-    const [aboutMe, setaboutMe] = useState("");
-
   // User profile data
-    useEffect(() => {
-      NewRequest.get(`/users/${senderId || ""}`)
-        .then((response) => {
-          const userdata = response.data;
-          const imageUrl = userdata?.image || "";
-          const finalUrl = imageUrl && imageUrl.startsWith("https") ? imageUrl: imageLiveUrl(imageUrl);
-          setimageshow(finalUrl || "");
-          setname(userdata?.username || "");
-          setaboutMe(userdata?.aboutMe || "");
-        })
-        .catch((err) => {
-          console.log(err);
-        });
-    }, []);
-
-
-     const [searchQuery, setSearchQuery] = useState("");
+  useEffect(() => {
+    NewRequest.get(`/users/${senderId || ""}`)
+      .then((response) => {
+        const userdata = response.data;
+        const imageUrl = userdata?.image || "";
+        const finalUrl =
+          imageUrl && imageUrl.startsWith("https")
+            ? imageUrl
+            : imageLiveUrl(imageUrl);
+        setimageshow(finalUrl || "");
+        setname(userdata?.username || "");
+        setaboutMe(userdata?.aboutMe || "");
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  }, []);
 
   // Filtered chatlist based on the search query
   const filteredChatList = chatlist.filter(
@@ -147,12 +146,22 @@ const Chat = () => {
       chat?.lastMessage?.toLowerCase().includes(searchQuery.toLowerCase())
   );
 
-
   return (
     <>
-      <div className="flex flex-col sm:flex-col lg:flex-row h-[80vh] w-full overflow-y-scroll lg:px-10 mt-5 lg:mt-28 sm:mt-2">
+      <div className="flex flex-col sm:flex-col lg:flex-row h-[80vh] w-full overflow-y-scroll lg:px-10 mt-5 lg:mt-28 sm:mt-1">
         {/* Sidebar */}
-        <div className="w-full lg:w-1/4 sm:w-full h-auto  border-gray-300  rounded-md shadow-lg ">
+        <div
+          className="sm:block lg:hidden p-2 text--blue-600 rounded-md"
+          onClick={() => setIsChatListVisible(!isChatListVisible)}
+        >
+          {isChatListVisible ? <div className="flex"><RxCross2 className="my-auto"/> <span className="my-auto">Hide Chat List</span>  </div> : <div className="flex"><IoReorderThree className="my-auto"/> <span className="my-auto">Show Chat List</span>  </div>}
+        </div>
+
+        <div
+          className={`w-full lg:w-1/4 sm:w-full h-auto border-gray-300 rounded-md shadow-lg transition-all ${
+            isChatListVisible ? "block" : "hidden sm:block"
+          }`}
+        >
           <div className="flex items-center bg-gray-300 p-4 rounded-sm">
             <img
               src={imageshow || ""}
@@ -294,7 +303,7 @@ const Chat = () => {
                                     : imageLiveUrl(chat.sender.image)
                                   : ""
                               }
-                             alt={chat.sender.name}
+                              alt={chat.sender.name}
                               className="w-8 h-8 rounded-full mr-2"
                             />
                           )}
