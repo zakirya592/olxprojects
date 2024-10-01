@@ -41,7 +41,7 @@ const Commentproduct = () => {
             value={email}
             onChange={handleEmailChange}
             required
-            className="w-full p-2 border-b border-gray-300 focus:border-b-2 focus:border-blue-500 active:border-b-2 rounded-none"
+            className="w-full p-2 border-b border-gray-300 focus:border-b-2 focus:border-blue-500 outline-none active:border-b-2 rounded-none"
             placeholder="Enter your email"
           />
         </div>
@@ -54,17 +54,19 @@ const Commentproduct = () => {
             value={comment}
             onChange={handleCommentChange}
             required
-            className="w-full p-2 border-b border-gray-300 focus:border-b-2 focus:border-blue-500 active:border-b-2 rounded-none"
-            rows="2"
+            className="w-full p-2 border-b border-gray-300 focus:border-b-2 focus:border-blue-500 outline-none active:border-b-2 rounded-none"
+            rows="1"
             placeholder="Write your comment here"
           ></textarea>
         </div>
-        <button
-          type="submit"
-          className="bg-[#03C3FF] text-white py-2 px-4 rounded hover:bg-blue-600"
-        >
-          Post
-        </button>
+        <div className="flex justify-end">
+          <button
+            type="submit"
+            className="bg-[#03C3FF] text-white py-2 px-4 rounded hover:bg-blue-600"
+          >
+            Post
+          </button>
+        </div>
       </form>
     </div>
   );
