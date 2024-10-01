@@ -4,8 +4,10 @@ import { useQuery } from "react-query";
 import { GiPlayButton } from "react-icons/gi";
 import imageLiveUrl from "../../../utils/urlConverter/imageLiveUrl";
 import { FaSearch } from "react-icons/fa";
+import { useNavigate } from "react-router-dom";
 
 const Chat = () => {
+  const navigate = useNavigate();
   const [message, setMessage] = useState("");
   const [chatHistory, setChatHistory] = useState([]);
   const [chatlist, setchatlist] = useState([])
@@ -21,17 +23,24 @@ const Chat = () => {
   let chatResponse = null;
 
   try {
-    chatResponse = chatproduct ? JSON.parse(chatproduct) : null; // Only parse if it's not null
+    chatResponse = chatproduct ? JSON.parse(chatproduct) : null;
   } catch (error) {
-    console.error("Error parsing JSON:", error); // Catch any JSON parsing errors
+    console.error("Error parsing JSON:", error);
   }
 
-  
 
   let senderId = loginuserdata?._id || "";
     if (!senderId) {
       senderId = localStorage.getItem("userdata") || "";
     }
+
+
+     useEffect(() => {
+       if (!senderId) {
+         // If senderId is not available, redirect the user to the login page
+         navigate("/LoginForm");
+       }
+     }, [senderId, navigate]);
 
   const [selectedUser, setSelectedUser] = useState(chatResponse || "");
 
@@ -258,7 +267,7 @@ const Chat = () => {
               {/* <p className="text-sm text-gray-600 truncate w-40">{aboutMe}</p> */}
             </div>
           </div>
-          <div className="p-1 h-screen sm:h-screen lg:h-[650px]">
+          <div className="p-1 h-[350px] sm:h-[200px] lg:h-[600px]">
             <div className="border border-gray-300 bg-[#FFFFFF] p-4 h-full flex flex-col justify-between w-full">
               <div
                 className=" overflow-y-auto mb-5 flex-grow"
