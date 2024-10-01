@@ -400,7 +400,7 @@ const PostAttributes = () => {
                 key={index}
                 className="flex flex-row gap-3 sm:flex-row sm:justify-between mt-6"
               >
-                <div className="w-full font-body sm:text-base text-sm flex flex-row items-center">
+                <div className="w-full font-body sm:text-base text-sm flex flex-col lg:flex-row items-start lg:items-center">
                   <label className="w-full lg:w-1/4 mb-1 font-semibold">
                     {field.model} <span className="text-red-600"> *</span>
                   </label>
