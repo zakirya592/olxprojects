@@ -67,9 +67,6 @@ const Singleitem = () => {
     }
   };
 
-
-
-
   useEffect(() => {
     fetchData();
   }, []);
@@ -330,12 +327,6 @@ const Singleitem = () => {
                         {data?.price || ""}
                       </span>
                     </h3>
-                    {/* <button
-                      className="bg-black text-yellow-50 px-5 py-2 rounded-full hover:bg-white hover:text-black hover:border border-black"
-                      onClick={() => postcard(item._id)}
-                    >
-                      Add To Cart
-                    </button> */}
                   </div>
                   <p className="text-gray-700 text-lg mb-5">
                     {data?.name || ""}
@@ -450,6 +441,7 @@ const Singleitem = () => {
           </div>
         </div>
       </div>
+      
     </div>
   );
 };
