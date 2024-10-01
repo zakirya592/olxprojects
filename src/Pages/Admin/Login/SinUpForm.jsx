@@ -8,6 +8,7 @@ import { AiOutlineEye, AiOutlineEyeInvisible } from "react-icons/ai";
 import { baseUrl } from "../../../../utils/config";
 import PhoneInput from "react-phone-input-2";
 import "react-phone-input-2/lib/style.css";
+import TermsAndCondition from "./TermsAndCondition/TermsAndCondition";
 
 const SinUpForm = () => {
   const navigator = useNavigate();
@@ -23,9 +24,9 @@ const SinUpForm = () => {
   const [status, setStatus] = useState(""); // State to track selected status  
   const [isGemstone, setIsGemstone] = useState(false);
   const [isChecked, setIsChecked] = useState(false);
-
   const [taxNo, settaxNo] = useState('')
   const [id_cardNo, setid_cardNo] = useState('')
+  const [isTermsAndConditionPopUp, setIsTermsAndConditionPopUp] = useState(false);
 
   const handleChangeStatus = (e) => {
     setStatus(e.target.value);
@@ -52,11 +53,7 @@ const SinUpForm = () => {
     }
     setCompanyLandLine(value);
   };
-    const formatIDCardNumber = (value) => {
-      const match = value.match(/^(\d{0,5})(\d{0,7})(\d{0,1})$/);
-      if (!match) return "";
-      return `${match[1]}-${match[2]}-${match[3]}`;
-    };
+  
   const handleChange = (e) => {
     const value = e.target.value;
     // Remove non-numeric characters to enforce the format
@@ -79,6 +76,20 @@ const SinUpForm = () => {
       setid_cardNo(parts.join("-")); // Join the parts with a dash
     }
   };
+
+    const handleTermsAndCondition = () => {
+      setIsTermsAndConditionPopUp(true);
+    };
+
+    const handleAccept = () => {
+      setIsChecked(true);
+      setIsTermsAndConditionPopUp(false);
+    };
+
+    const handleClose = () => {
+      setIsChecked(false);
+      setIsTermsAndConditionPopUp(false);
+    };
 
 
   const handleAddCompany = async () => {
@@ -427,7 +438,7 @@ const SinUpForm = () => {
                         className="w-4 h-4 border border-gray-300 rounded bg-gray-50 focus:ring-3 focus:ring-primary-300 dark:bg-gray-700 dark:border-gray-600 dark:focus:ring-primary-600 dark:ring-offset-gray-800"
                         required
                         checked={isChecked}
-                        onChange={(e) => setIsChecked(e.target.checked)}
+                        onChange={handleTermsAndCondition}
                       />
                     </div>
                     <div className="ml-3 text-sm">
@@ -435,7 +446,7 @@ const SinUpForm = () => {
                         htmlFor="remember"
                         className="text-gray-500 dark:text-gray-300"
                       >
-                        Agree
+                        Accept Term & Conditions
                       </label>
                     </div>
                   </div>
@@ -485,6 +496,13 @@ const SinUpForm = () => {
           </div>
         </div>
       </div>
+      {isTermsAndConditionPopUp && (
+        <TermsAndCondition
+          isVisible={isTermsAndConditionPopUp}
+          handleClose={handleClose}
+          handleAccept={handleAccept}
+        />
+      )}
     </section>
   );
 };

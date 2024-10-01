@@ -1,0 +1,9 @@
+/* Button72.css */
+.button-72 {
+    background-image: linear-gradient(rgba(179, 132, 201, 0.84), rgba(57, 31, 91, 0.84) 50%);
+    text-shadow: rgba(255, 255, 255, 0.4) 0 0 4px, rgba(255, 255, 255, 0.2) 0 0 12px, rgba(57, 31, 91, 0.6) 1px 1px 4px, rgba(57, 31, 91, 0.32) 4px 4px 16px;
+}
+
+.button-72:hover {
+    background-image: linear-gradient(#B384C9, #391F5B 50%);
+}

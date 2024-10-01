@@ -18,8 +18,8 @@ import { useMutation } from "react-query";
 import NewRequest from "../../../utils/NewRequest";
 import { toast } from "react-toastify";
 import { useQuery } from "react-query";
-
 import imageLiveUrl from "../../../utils/urlConverter/imageLiveUrl";
+import "./Header.css"
 
 // import { FaSearch } from "react-icons/fa";
 function Header() {
@@ -423,10 +423,10 @@ function Header() {
                 </h6>
               )}
               <div
-                className="gradient-border p-1 rounded-full hidden lg:block mt-2 sm:mt-0"
+                className=" p-1  hidden lg:block mt-2 sm:mt-0"
                 onClick={handleSellButtonClick}
               >
-                <button className="text-gray-800 border-none bg-white px-4 py-2 rounded-full">
+                <button className="button-72 flex justify-center items-center text-white font-bold tracking-wide text-[18px] leading-[16px] px-[18px] py-[18px] rounded-[42px] cursor-pointer shadow-[0_2px_2px_rgba(57,31,91,0.24),0_8px_12px_rgba(179,132,201,0.4)] transition-all duration-200 hover:bg-gradient-to-b from-[#B384C9] to-[#391F5B] md:text-[21px] md:px-[34px]">
                   + SELL
                 </button>
               </div>
@@ -438,7 +438,7 @@ function Header() {
         <div className="fixed justify-center text-center w-fit items-center z-50 bottom-0 sm:hidden">
           <div className="flex justify-center rounded-full p-1">
             <button
-              className=" p-2 rounded-full text-2xl gra font-bold text-blue-700 border-blue-700 border-4"
+              className="button-72 flex justify-center items-center text-white font-bold tracking-wide text-[18px] leading-[16px] px-[18px] py-[18px] rounded-[42px] cursor-pointer shadow-[0_2px_2px_rgba(57,31,91,0.24),0_8px_12px_rgba(179,132,201,0.4)] transition-all duration-200 hover:bg-gradient-to-b from-[#B384C9] to-[#391F5B] md:text-[21px] md:px-[34px]"
               onClick={handleSellButtonClick}
             >
               + SELL
