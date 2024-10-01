@@ -442,7 +442,7 @@ const Singleitem = () => {
           </div>
         </div>
       </div>
-      <Commentproduct/>
+      <Commentproduct productdata={cardData}/>
     </div>
   );
 };

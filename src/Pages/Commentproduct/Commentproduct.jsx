@@ -1,6 +1,8 @@
 import React, { useState } from "react";
 
-const Commentproduct = () => {
+const Commentproduct = (productdata) => {
+    console.log(productdata.productdata.cardData, "productdata");
+    
   const [email, setEmail] = useState("");
   const [comment, setComment] = useState("");
   const [submittedComments, setSubmittedComments] = useState([]);
