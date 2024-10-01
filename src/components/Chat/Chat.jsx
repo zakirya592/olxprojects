@@ -18,8 +18,6 @@ const Chat = () => {
 
   const chatproduct = sessionStorage.getItem("chardata");
   
-  // const chatResponse = JSON.parse(chatproduct);
-
   let chatResponse = null;
 
   try {
@@ -28,16 +26,13 @@ const Chat = () => {
     console.error("Error parsing JSON:", error);
   }
 
-
   let senderId = loginuserdata?._id || "";
     if (!senderId) {
       senderId = localStorage.getItem("userdata") || "";
     }
 
-
      useEffect(() => {
        if (!senderId) {
-         // If senderId is not available, redirect the user to the login page
          navigate("/LoginForm");
        }
      }, [senderId, navigate]);
@@ -97,20 +92,18 @@ const Chat = () => {
 
   useEffect(() => {
     if (selectedUser) {
-      refetch(); // Refetch chat history for the selected user
+      refetch(); 
     }
   }, [selectedUser, refetch]);
 
-
   const handleKeyDown = (e) => {
     if (e.key === "Enter") {
-      e.preventDefault(); // Prevent the default action of the enter key (which is usually submitting a form)
+      e.preventDefault(); 
       handleSendMessage();
     }
   };
 
   useEffect(() => {
-    //  fetchChatHistory();
     fetchchatlist()
   }, [senderId]);
 
@@ -284,7 +277,6 @@ const Chat = () => {
                       }`}
                     >
                       <div>
-                        {/* {chat.sender} */}
                         <div
                           className={`flex ${
                             chat.sender._id === senderId
@@ -302,8 +294,7 @@ const Chat = () => {
                                     : imageLiveUrl(chat.sender.image)
                                   : ""
                               }
-                              // src={chat.sender.image ? (chat.sender.image.startsWith("https") ? chat.sender.image : imageLiveUrl(chat.sender.image)) : ""}
-                              alt={chat.sender.name}
+                             alt={chat.sender.name}
                               className="w-8 h-8 rounded-full mr-2"
                             />
                           )}
@@ -322,9 +313,6 @@ const Chat = () => {
                               {new Date(chat.timestamp).toLocaleString(
                                 "en-US",
                                 {
-                                  // day: "2-digit",
-                                  // month: "2-digit",
-                                  // year: "numeric",
                                   hour: "2-digit",
                                   minute: "2-digit",
                                   second: "2-digit",
@@ -355,19 +343,19 @@ const Chat = () => {
                   ))}
               </div>
 
-              <div className="p-4 border-t border-gray-300">
+              <div className="lg:p-4 md:p-3 sm:p-1 p-1 border-t border-gray-300">
                 <div className="flex">
                   <input
                     type="text"
                     value={message}
                     onChange={handleMessageChange}
-                    className="flex-1 px-2 py-4 border border-gray-300 rounded focus:outline-none bg-[#E6EBF5] focus:ring-2 focus:ring-blue-500"
+                    className="flex-1 px-2 lg:py-4 md:py-3 sm:py-1 py:1 border border-gray-300 rounded focus:outline-none bg-[#E6EBF5] focus:ring-2 focus:ring-blue-500"
                     placeholder="Enter your message..."
                     onKeyDown={handleKeyDown}
                   />
                   <button
                     onClick={handleSendMessage}
-                    className="ml-2 px-4 bg-[#7269EF] text-white rounded hover:bg-blue-600 transition duration-300"
+                    className="ml-2 px-1 lg:px-4 md:px-3 sm:px-1 bg-[#7269EF] text-white rounded hover:bg-blue-600 transition duration-300"
                   >
                     {/* Send */}
                     <GiPlayButton size={34} />
