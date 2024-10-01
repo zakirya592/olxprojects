@@ -88,6 +88,23 @@ const PostAttributes = () => {
     }
   };
 
+   const formatPrice = (value) => {
+     // Remove any non-digit characters before formatting
+     const cleanValue = value.replace(/\D/g, "");
+
+     // Format the value with commas for every 3 digits
+     return cleanValue.replace(/\B(?=(\d{4})+(?!\d))/g, ",");
+   };
+
+    const handlePriceChange = (e) => {
+      const formattedPrice = formatPrice(e.target.value);
+
+      setForm({
+        ...form,
+        price: formattedPrice,
+      });
+    };
+
   // Get api
   const fetchData = async () => {
     setIsLoading(true);
@@ -546,14 +563,15 @@ const PostAttributes = () => {
                   {selectedCurrencySymbol}:
                 </span>
                 <input
-                  type="number"
+                  type="text"
                   value={form.price}
-                  onChange={(e) => {
-                    setForm({
-                      ...form,
-                      price: e.target.value,
-                    });
-                  }}
+                  // onChange={(e) => {
+                  //   setForm({
+                  //     ...form,
+                  //     price: e.target.value,
+                  //   });
+                  // }}
+                  onChange={handlePriceChange}
                   className="w-full p-2 border ps-8 border-gray-300 rounded"
                   placeholder=" Enter price"
                 />
