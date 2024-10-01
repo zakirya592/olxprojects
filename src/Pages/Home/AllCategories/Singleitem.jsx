@@ -19,6 +19,7 @@ import imageLiveUrl from "../../../../utils/urlConverter/imageLiveUrl";
 import phoneicon from "../../../assets/Images/phoneicon.png"
 import emailicon from "../../../assets/Images/emailicon.jpg";
 import likeicon from "../../../assets/Images/like.jpg";
+import Commentproduct from "../../Commentproduct/Commentproduct";
 
 const Singleitem = () => {
 
@@ -441,7 +442,7 @@ const Singleitem = () => {
           </div>
         </div>
       </div>
-      
+      <Commentproduct/>
     </div>
   );
 };
