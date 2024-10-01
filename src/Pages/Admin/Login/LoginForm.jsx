@@ -116,7 +116,7 @@ const LoginForm = () => {
   return (
     <section className="bg-gray-50 h-screen">
       {/* <div className="flex flex-col lg:flex-row items-center justify-between bg-gray-900 mx-auto"> */}
-      <div className="h-full w-[85%] lg:w-1/2  sm:w-full mx-auto rounded-md shadow-xl bg-white flex flex-col items-center justify-between p-0 lg:p-8 sm:p-0">
+      <div className="h-full w-full lg:w-1/2  sm:w-full mx-auto rounded-md shadow-xl bg-white flex flex-col items-center justify-between p-0 lg:p-8 sm:p-0">
         <div className="w-full  sm:w-full dark:bg-gray-800 border rounded-lg shadow dark:border-gray-700 h-screen flex flex-col lg:flex-row items-center justify-between ">
           <div className="w-full  mx-auto bg-white rounded-lg shadow  dark:bg-gray-800 dark:border-gray-700 p-6 space-y-4 md:space-y-6">
             <h1 className="text-xl font-bold leading-tight tracking-tight text-gray-900 md:text-2xl dark:text-white">
@@ -167,7 +167,7 @@ const LoginForm = () => {
                   {showPassword ? <AiOutlineEye /> : <AiOutlineEyeInvisible />}
                 </div>
               </div>
-             
+
               <button
                 type="button"
                 onClick={handleAddCompany}
@@ -183,7 +183,7 @@ const LoginForm = () => {
               <hr className="w-full my-auto" />
             </div>
             <p
-              className="w-full flex justify-center text-white shadow-lg text-lg hover:border-white cursor-pointer dark:bg-gray-800 dark:border-gray-700 border  font-medium rounded-lg  px-5 py-2.5 text-center "
+              className="w-full flex justify-center text-black dark:text-white shadow-lg text-lg hover:border-white cursor-pointer dark:bg-gray-800 dark:border-gray-700 border  font-medium rounded-lg  px-5 py-2.5 text-center "
               onClick={handleGoogleLogin}
             >
               <img
