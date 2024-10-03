@@ -1,77 +1,282 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
+import NewRequest from "../../../utils/NewRequest";
+import { toast } from "react-toastify";
+import imageLiveUrl from "../../../utils/urlConverter/imageLiveUrl";
+import { useNavigate } from "react-router-dom";
 
 const Commentproduct = (productdata) => {
-    console.log(productdata.productdata.cardData, "productdata");
-    
-  const [email, setEmail] = useState("");
-  const [comment, setComment] = useState("");
-  const [submittedComments, setSubmittedComments] = useState([]);
 
-  const handleEmailChange = (e) => {
-    setEmail(e.target.value);
-  };
+    const navigate = useNavigate();
+    const productid = productdata?.productdata?.cardData?._id || "";
+    const [comment, setComment] = useState("");
+    const [comments, setComments] = useState([]);
+    const [userDetails, setUserDetails] = useState({});
+    const [replyText, setReplyText] = useState("");
+    const storedUserResponseString = sessionStorage.getItem("userResponse");
+    const storedUserResponse = JSON.parse(storedUserResponseString);
+    const loginuserdata = storedUserResponse?.data?.user || "";
+    let senderId = loginuserdata?._id || "";
 
-  const handleCommentChange = (e) => {
-    setComment(e.target.value);
-  };
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
+    const getcommentdata = () => {
+        NewRequest.get(`/comment/replay/${productid}`)
+            .then((response) => {
+                console.log(response.data, "response data");
+                setComments(response?.data || []);
+            })
+            .catch((error) => {
+                console.error(error, "error in posting comment");
+            });
+    };
 
-    if (!email || !comment) {
-      alert("Please fill in both fields.");
-      return;
+    useEffect(() => {
+        getcommentdata();
+    }, []);
+
+    useEffect(() => {
+        const fetchUserDetails = async () => {
+            try {
+                // Collect all userIds from both comments and replies
+                const userIds = [];
+
+                comments.forEach((comment) => {
+                    const userId = comment?.userId?._id;
+                    if (userId) userIds.push(userId);
+
+                    // Collect userIds from replies
+                    comment.replies.forEach((reply) => {
+                        const replyUserId = reply?.userId?._id;
+                        if (replyUserId) userIds.push(replyUserId);
+                    });
+                });
+
+                // Fetch unique user details
+                const uniqueUserIds = [...new Set(userIds)];
+                const userPromises = uniqueUserIds.map((userId) =>
+                    NewRequest.get(`/users/${userId}`)
+                );
+                const responses = await Promise.all(userPromises);
+                const fetchedUserDetails = responses.map((res) => res.data);
+
+                // Store user details mapped by userId for quick lookup
+                const userDetailsMap = {};
+                fetchedUserDetails.forEach((user) => {
+                    userDetailsMap[user._id] = user;
+                });
+                setUserDetails(userDetailsMap);
+            } catch (error) {
+                console.log(error, "Error fetching user data");
+            }
+        };
+
+        if (comments.length) fetchUserDetails();
+    }, [comments]);
+
+    if (!senderId) {
+        senderId = localStorage.getItem("userdata") || "";
     }
 
-    const newComment = { email, comment };
-    setSubmittedComments([...submittedComments, newComment]);
-    setEmail("");
-    setComment("");
-  };
+    const handleCommentChange = (e) => {
+        setComment(e.target.value);
+    };
 
-  return (
-    <div className="p-4 shadow w-full">
-      <h2 className="font-bold text-lg mb-2">Comment</h2>
-      <form onSubmit={handleSubmit}>
-        <div className="mb-4">
-          <label htmlFor="email" className="block  font-medium mb-1">
-            Email:
-          </label>
-          <input
-            type="email"
-            id="email"
-            value={email}
-            onChange={handleEmailChange}
-            required
-            className="w-full p-2 border-b border-gray-300 focus:border-b-2 focus:border-blue-500 outline-none active:border-b-2 rounded-none"
-            placeholder="Enter your email"
-          />
-        </div>
-        <div className="mb-4">
-          <label htmlFor="comment" className="block font-medium mb-1">
-            Comment:
-          </label>
-          <textarea
-            id="comment"
-            value={comment}
-            onChange={handleCommentChange}
-            required
-            className="w-full p-2 border-b border-gray-300 focus:border-b-2 focus:border-blue-500 outline-none active:border-b-2 rounded-none"
-            rows="1"
-            placeholder="Write your comment here"
-          ></textarea>
-        </div>
-        <div className="flex justify-end">
-          <button
-            type="submit"
-            className="bg-[#03C3FF] text-white py-2 px-4 rounded hover:bg-blue-600"
-          >
-            Post
-          </button>
-        </div>
-      </form>
-    </div>
-  );
+    const handleAddCompany = async (e) => {
+        if (!senderId) {
+            navigate("/LoginForm");
+        }
+        e.preventDefault();
+        try {
+            const response = await NewRequest.post("/comment", {
+                userId: senderId,
+                productId: productid,
+                commentText: comment,
+                rating: "5",
+            });
+            toast.success(response?.data?.message || `Comment added successfully.`, {
+                position: "top-right",
+                autoClose: 2000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+                theme: "light",
+            });
+            setComment("");
+            getcommentdata();
+        } catch (error) {
+            console.log(error, "errorr");
+        }
+    };
+    const [replyCommentId, setReplyCommentId] = useState(null);
+    const handleReplyChange = (e) => {
+        setReplyText(e.target.value);
+    };
+    const handleReplyClick = (commentId) => {
+        setReplyCommentId(commentId);
+    };
+
+    const handleAddReply = async (commentId) => {
+        if (!senderId) {
+            navigate("/LoginForm");
+        }
+        try {
+            const response = await NewRequest.post("/comment/replay", {
+                userId: senderId,
+                productId: productid,
+                commentId: commentId,
+                commentText: replyText,
+                rating: "5",
+            });
+            toast.success(response?.data?.message || `Reply added successfully.`,
+                {
+                    position: "top-right",
+                    autoClose: 2000,
+                    hideProgressBar: false,
+                    closeOnClick: true,
+                    pauseOnHover: true,
+                    draggable: true,
+                    progress: undefined,
+                    theme: "light",
+                }
+            );
+            setReplyText("");
+            setReplyCommentId(null);
+            getcommentdata();
+        } catch (error) {
+            console.log(error, "error adding reply");
+        }
+    };
+
+    return (
+        <>
+            <div className="p-4 shadow w-full">
+                <form onSubmit={handleAddCompany}>
+                    <div className="mb-4">
+                        <label htmlFor="comment" className="block font-medium mb-1">
+                            Comment:
+                        </label>
+                        <textarea
+                            id="comment"
+                            value={comment}
+                            onChange={handleCommentChange}
+                            required
+                            className="w-full p-2 border-b border-gray-300 focus:border-b-2 focus:border-blue-500 outline-none active:border-b-2 rounded-none"
+                            rows="1"
+                            placeholder="Write your comment here"
+                        ></textarea>
+                    </div>
+                    <div className="flex justify-end">
+                        <button
+                            type="submit"
+                            className="bg-[#03C3FF] text-white py-2 px-4 rounded hover:bg-blue-600"
+                        >
+                            Post
+                        </button>
+                    </div>
+                </form>
+            </div>
+
+            <div className="mt-3 p-4">
+                {comments.map((comment, index) => {
+                    const user = userDetails[comment?.userId?._id] || {};
+                    const userImage = user.image ? user.image : "fallback-image-url.png";
+                    const finalUrl =
+                        userImage && userImage.startsWith("https")
+                            ? userImage
+                            : imageLiveUrl(userImage);
+
+                    return (
+                        <div key={index} className="mb-6">
+                            <div className="flex items-start space-x-3">
+                                <div className="flex-shrink-0">
+                                    <img
+                                        src={finalUrl}
+                                        alt={user?.username || "User"}
+                                        className="h-10 w-10 rounded-full"
+                                    />
+                                </div>
+                                <div>
+                                    <div className="text-sm font-bold">
+                                        {user?.username || "User Name"}
+                                    </div>
+                                    <div className="text-gray-700">{comment.commentText}</div>
+                                    <button
+                                        className="text-blue-500 text-sm hover:underline mt-1"
+                                        onClick={() => handleReplyClick(comment._id)}
+                                    >
+                                        Reply
+                                    </button>
+                                </div>
+                            </div>
+                            {replyCommentId === comment._id && (
+                                <div className="ml-12 mt-3">
+                                    <textarea
+                                        value={replyText}
+                                        onChange={handleReplyChange}
+                                        className="w-full p-2 border rounded"
+                                        placeholder="Write your reply..."
+                                        rows={1}
+                                    ></textarea>
+                                    <button
+                                        onClick={() => handleAddReply(comment._id)}
+                                        className="mt-2 bg-[#03C3FF] text-white py-1 px-3 rounded"
+                                    >
+                                        Post Reply
+                                    </button>
+                                </div>
+                            )}
+
+                            {/* Replies */}
+                            {comment.replies.length > 0 && (
+                                <div className="ml-12 mt-3 space-y-3">
+                                    {comment.replies.map((reply, replyIndex) => {
+                                        const replyUser = userDetails[reply?.userId?._id] || {};
+                                        const replyUserImage = replyUser.image ? replyUser.image : "fallback-image-url.png";
+                                        const replyImageUrl = replyUserImage.startsWith("https") ? replyUserImage : imageLiveUrl(replyUserImage);
+
+                                        return (
+                                          <div
+                                            key={replyIndex}
+                                            className="flex items-start space-x-3"
+                                          >
+                                            <div className="flex-shrink-0">
+                                              <img
+                                                src={replyImageUrl}
+                                                alt={
+                                                  replyUser?.username || "User"
+                                                }
+                                                className="h-10 w-10 rounded-full"
+                                              />
+                                            </div>
+                                            <div>
+                                              <div className="text-sm font-bold">
+                                                {replyUser?.username ||
+                                                  "User Name"}
+                                              </div>
+                                              <div className="text-gray-700">
+                                                {reply.commentText}
+                                              </div>
+                                              {/* <button
+                                                className="text-blue-500 text-sm hover:underline mt-1"
+                                                onClick={() =>
+                                                  handleReplyClick(replyUser._id)
+                                                }
+                                              >
+                                                Reply
+                                              </button> */}
+                                            </div>
+                                          </div>
+                                        );
+                                    })}
+                                </div>
+                            )}
+                        </div>
+                    );
+                })}
+            </div>
+        </>
+    );
 };
 
 export default Commentproduct;
