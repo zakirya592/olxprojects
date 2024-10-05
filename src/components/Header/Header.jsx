@@ -1,6 +1,5 @@
 import React, { useState, useEffect, useRef } from "react";
 import { FaCarAlt, FaSearch, FaCommentDots, FaBell, FaCartPlus } from "react-icons/fa";
-import { MdOutlineHomeWork } from "react-icons/md";
 import { useNavigate } from "react-router-dom";
 import log from "../../assets/Images/pakardilogo.png";
 import Firstloginsinup from "../../Pages/Admin/Login/Firstloginsinup";
@@ -11,7 +10,7 @@ import { MenuButton as BaseMenuButton } from "@mui/base/MenuButton";
 import { MenuItem as BaseMenuItem, menuItemClasses } from "@mui/base/MenuItem";
 import { styled } from "@mui/system";
 import Avatar from "@mui/material/Avatar";
-import { Autocomplete, Stack, TextField } from "@mui/material";
+import { Stack } from "@mui/material";
 import ArrowDropDownIcon from "@mui/icons-material/ArrowDropDown";
 import { FaRegUser } from "react-icons/fa";
 import { useMutation } from "react-query";
@@ -20,15 +19,13 @@ import { toast } from "react-toastify";
 import { useQuery } from "react-query";
 import imageLiveUrl from "../../../utils/urlConverter/imageLiveUrl";
 import "./Header.css"
+import DropDownSelection from "../DropDownSelection/DropDownSelection";
 
-// import { FaSearch } from "react-icons/fa";
 function Header() {
   const navigate = useNavigate();
-  const [selectedLocation, setSelectedLocation] = useState("");
   const [isCreatePopupVisible, setCreatePopupVisibility] = useState(false);
   const [isUserLoggedIn, setIsUserLoggedIn] = useState(false);
   const [userprofileimage, setuserprofileimage] = useState("")
-
 
   useEffect(() => {
     const handleGoogleRedirect = () => {
@@ -49,8 +46,7 @@ function Header() {
   useEffect(() => {
     const authToken = sessionStorage.getItem("authToken");
     setIsUserLoggedIn(!!authToken);
-  }, [isCreatePopupVisible]); // Add isCreatePopupVisible to the dependency array
-
+  }, [isCreatePopupVisible]);
 
   const storedUserResponseString = sessionStorage.getItem("userResponse");
   const storedUserResponse = JSON.parse(storedUserResponseString);
@@ -59,8 +55,6 @@ function Header() {
   if (!loginuserdata) {
     loginuserdata = localStorage.getItem("userdata") || "";
   }
-
-
 
   useEffect(() => {
     NewRequest.get(`/users/${loginuserdata || ""}`)
@@ -128,7 +122,6 @@ function Header() {
     }
   }, []);
 
-
   const handleSellButtonClick = () => {
     if (isUserLoggedIn) {
       navigate("/Post");
@@ -151,10 +144,7 @@ function Header() {
     label: PropTypes.string.isRequired,
   };
 
-
-
   const [query, setQuery] = useState("");
-  const [searchResults, setSearchResults] = useState([]);
 
   const searchMutation = useMutation({
     mutationFn: async (query) => {
@@ -165,7 +155,6 @@ function Header() {
     },
 
     onSuccess: (data) => {
-      setSearchResults(data);
       navigate("/search-results", { state: { searchResults: data } });
     },
     onError: (error) => {
@@ -192,7 +181,6 @@ function Header() {
       searchMutation.mutate(query);
     }
   };
-
 
   const {
     isLoading,
@@ -229,66 +217,56 @@ function Header() {
     fetchData()
   }, [])
 
-
   if (isLoading) return <p>Loading...</p>;
   if (error) return <p>Error loading products</p>;
 
-
-
   const categories = productsdata.categories;
+
   return (
     <>
       <div className="bg-maincolor text-white shadow-md px-0 smm:px-0 lg:px-12 lg:fixed top-0 left-0 right-0 z-50">
-        <div className="py-2 mx-3">
-          {/* <div className="topdev flex my-auto container gap-1 lg:gap-5 smm:gap-1 w-full flex-col lg:flex-row sm:flex-col">
-            <div className="flex gap-1 lg:gap-5 smm:gap-1"></div>
-          </div> */}
-          <header className="flex py-2 w-full flex-col sm:flex-row justify-between">
-            <div className="flex items-center w-full flex-col sm:flex-row">
+        <div className="pt-2 mx-3">
+          <header className="flex pt-2 w-full flex-col sm:flex-row justify-between">
+            <div className="flex  lg:w-1/4 sm:w-full w-full justify-center lg:justify-start sm:justify-center smm:justify-center">
               <div
                 onClick={() => navigate("/")}
                 className="cursor-pointer  mr-5" //lg:-rotate-12
               >
-                {/* <p className="text-2xl">Pakardi</p>
-                <p className="text-sm">Pakardi.com</p> */}
                 <img
                   src={log}
                   alt="logo"
                   className="h-14 w-full object-contain"
                 />
               </div>
-              {/* </div> */}
-              <div className="flex items-center w-full sm:px-0 px-0 lg:px-2">
-                <div className="flex w-full mt-2 lg:mt-0 sm:px-0 px-0 lg:px-2">
-                  <div className="bg-white flex items-center rounded-md w-full shadow-lg">
-                    {/* Category Dropdown */}
-                    <select
-                      className="text-gray-600 py-2 px-4 rounded focus:outline-none  "
-                      // value={category}
-                      // onChange={(e) => setCategory(e.target.value)}
-                    >
-                      <option value="All Categories">All Categories</option>
-                      {categories.map((category, index) => {
-                        category.products.filter(
-                          (product) => product.status.toLowerCase() === "active"
-                        );
-                        return (
-                          <option value={category?.category?.name} key={index}>
-                            {category?.category?.name}
-                          </option>
-                        );
-                      })}
-                    </select>
+            </div>
+            <div className="w-full">
+              <div className="flex items-center space-x-4 w-full flex-col sm:flex-row  justify-center lg:justify-end sm:justify-center smm:justify-center mt-2 lg:mt-0 sm:mt-2">
+                <div className="flex items-center w-full sm:px-0 px-0 lg:px-2">
+                  <div className="flex w-full mt-2 lg:mt-0 sm:px-0 px-0 lg:px-2">
+                    <div className="bg-white flex items-center rounded-md w-full shadow-lg">
+                      {/* Category Dropdown */}
+                      <select className="text-gray-600 py-2 px-4 rounded focus:outline-none  ">
+                        <option value="All Categories">All Categories</option>
+                        {categories.map((category, index) => {
+                          category.products.filter(
+                            (product) => product.status.toLowerCase() === "active"
+                          );
+                          return (
+                            <option value={category?.category?.name} key={index}>
+                              {category?.category?.name}
+                            </option>
+                          );
+                        })}
+                      </select>
 
-                    {/* Autocomplete Input */}
-                    <Autocomplete
+                      {/* Autocomplete Input */}
+                      {/* <Autocomplete
                       id="test"
                       options={productdata}
-                      // value={query}
                       value={
                         productdata.find((product) => product.name === query) ||
                         null
-                      } // Keep selected value in Autocomplete
+                      } 
                       getOptionLabel={(option) => option?.name || ""}
                       onChange={(event, value) => {
                         setQuery(value?.name || "");
@@ -317,145 +295,142 @@ function Header() {
                               padding: "2.5px 4px 2.5px 5px",
                             },
                           }}
-                          onKeyDown={handleKeyDown} // Trigger search on "Enter"
+                          onKeyDown={handleKeyDown} 
                         />
                       )}
                       sx={{
-                        flexGrow: 1, // Ensures the Autocomplete grows to fill available space
+                        flexGrow: 1,
                         "& .MuiAutocomplete-endAdornment": {
                           color: "black",
                         },
                       }}
-                    />
+                    /> */}
+                      <input
+                        type="text"
+                        className="ml-2 px-2 py-1 text-maincolor border rounded-l-md w-full focus:outline-none"
+                        value={query}
+                        onChange={(e) => setQuery(e.target.value)}
+                        onKeyDown={handleKeyDown}
+                      />
 
-                    {/* Search Button */}
-                    <button
-                      onClick={handleSearch}
-                      className="bg-maincolor text-white p-2 rounded-full hover:bg-cyan-600 transition ml-1 sm:hidden lg:block hidden"
-                    >
-                      <svg
-                        xmlns="http://www.w3.org/2000/svg"
-                        className="h-6 w-6"
-                        fill="none"
-                        viewBox="0 0 24 24"
-                        stroke="currentColor"
+                      {/* Search Button */}
+                      <button
+                        onClick={handleSearch}
+                        className="bg-maincolor text-white p-2 rounded-full hover:bg-cyan-600 transition ml-1 sm:hidden lg:block hidden"
                       >
-                        <path
-                          strokeLinecap="round"
-                          strokeLinejoin="round"
-                          strokeWidth={2}
-                          d="M21 21l-4.35-4.35M16.65 11a6.65 6.65 0 11-13.3 0 6.65 6.65 0 0113.3 0z"
-                        />
-                      </svg>
-                    </button>
+                        <svg
+                          xmlns="http://www.w3.org/2000/svg"
+                          className="h-6 w-6"
+                          fill="none"
+                          viewBox="0 0 24 24"
+                          stroke="currentColor"
+                        >
+                          <path
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                            strokeWidth={2}
+                            d="M21 21l-4.35-4.35M16.65 11a6.65 6.65 0 11-13.3 0 6.65 6.65 0 0113.3 0z"
+                          />
+                        </svg>
+                      </button>
+                    </div>
                   </div>
-                </div>
 
-                <span className="ml-2 border-l border-gray-300"></span>
-                {/* Notification Icon (Hidden for larger screens) */}
-                {/* {isUserLoggedIn && (
+                  <span className="ml-2 border-l border-gray-300"></span>
+                  {/* Notification Icon (Hidden for larger screens) */}
+                  {/* {isUserLoggedIn && (
     <FaBell
       className="text-white cursor-pointer lg:hidden"
       size={25}
     />
   )} */}
-              </div>
-            </div>
-            <div className="flex items-center space-x-4 lg:w-1/2 sm:w-full w-full justify-center lg:justify-end sm:justify-center smm:justify-center mt-2 lg:mt-0 sm:mt-2">
-              <div
-                className=" p-1  lg:block mt-2 sm:mt-0"
-                onClick={handleSellButtonClick}
-              >
-                <button className="bg-white flex justify-center items-center text-maincolor hover:text-white font-semibold  px-2 rounded-full cursor-pointer shadow-[0_2px_2px_rgba(57,31,91,0.24),0_8px_12px_rgba(179,132,201,0.4)] transition-all duration-200 hover:bg-gradient-to-b from-[#B384C9] to-[#391F5B] md:text-[21px] md:px-[20px]">
-                  SELL
-                </button>
-              </div>
-              <div className="flex items-center space-x-4">
-                {isUserLoggedIn && (
-                  <>
-                    <FaCommentDots
-                      className="text-white cursor-pointer  lg:block"
-                      size={25}
-                      onClick={() => navigate("/Chat")}
-                    />
-
-                    <FaBell
-                      className="text-white cursor-pointer  lg:block"
-                      size={25}
-                    />
-                    <FaCartPlus
-                      className="text-white cursor-pointer  lg:block"
-                      size={25}
-                    />
-                    <Dropdown>
-                      <MenuButton>
-                        <Stack
-                          style={{
-                            borderRadius: "12px",
-                            display: "flex",
-                            flexDirection: "row",
-                            color: "black",
-                          }}
-                        >
-                          <Avatar
-                            src={userprofileimage || "broken-image.jpg"}
-                          />
-                          <ArrowDropDownIcon className="my-auto text-white hover:text-black" />
-                        </Stack>
-                      </MenuButton>
-                      <Menu
-                        slots={{ listbox: Listbox }}
-                        style={{ zIndex: "200" }}
-                      >
-                        <MenuSection>
-                          <MenuItem onClick={() => navigate("/ProfilePage")}>
-                            profile
-                          </MenuItem>
-                          <MenuItem onClick={() => navigate("/MyProduct")}>
-                            My Product
-                          </MenuItem>
-                          <MenuItem onClick={() => navigate("/Myfavorites")}>
-                            Favourites & Saved searches
-                          </MenuItem>
-
-                          <MenuItem onClick={handleLogout}>Logout</MenuItem>
-                        </MenuSection>
-                      </Menu>
-                    </Dropdown>
-                  </>
-                )}
-              </div>
-
-              {!isUserLoggedIn && (
-                <h6
-                  className="text-white flexcursor-pointer flex mx-4 cursor-pointer hover:text-black"
-                  onClick={handleShowCreatePopup}
-                >
-                  <div className="my-auto">
-                    <FaRegUser size={24} />
+                </div>
+                <div className="flex mt-2 gap-2 lg:mt-0 sm:mt-2">
+                  <div
+                    className="p-1 lg:block my-auto mx-3"
+                    onClick={handleSellButtonClick}
+                  >
+                    <button className="bg-white flex justify-center items-center text-maincolor hover:text-white font-semibold  px-2 rounded-full cursor-pointer shadow-[0_2px_2px_rgba(57,31,91,0.24),0_8px_12px_rgba(179,132,201,0.4)] transition-all duration-200 hover:bg-gradient-to-b from-[#B384C9] to-[#391F5B] md:text-[21px] md:px-[20px]">
+                      SELL
+                    </button>
                   </div>
-                  <div className="ms-3 my-auto flex flex-col">
-                    <span className="text-sm">Login</span>
-                    <span className="text-md">Account</span>
+                  <div className="flex items-center space-x-4 my-auto">
+                    {isUserLoggedIn && (
+                      <>
+                        <FaCommentDots
+                          className="text-white cursor-pointer  lg:block"
+                          size={25}
+                          onClick={() => navigate("/Chat")}
+                        />
+
+                        <FaBell
+                          className="text-white cursor-pointer  lg:block"
+                          size={25}
+                        />
+                        <FaCartPlus
+                          className="text-white cursor-pointer  lg:block"
+                          size={25}
+                        />
+                        <Dropdown>
+                          <MenuButton>
+                            <Stack
+                              style={{
+                                borderRadius: "12px",
+                                display: "flex",
+                                flexDirection: "row",
+                                color: "black",
+                              }}
+                            >
+                              <Avatar
+                                src={userprofileimage || "broken-image.jpg"}
+                              />
+                              <ArrowDropDownIcon className="my-auto text-white hover:text-black" />
+                            </Stack>
+                          </MenuButton>
+                          <Menu
+                            slots={{ listbox: Listbox }}
+                            style={{ zIndex: "200" }}
+                          >
+                            <MenuSection>
+                              <MenuItem onClick={() => navigate("/ProfilePage")}>
+                                profile
+                              </MenuItem>
+                              <MenuItem onClick={() => navigate("/MyProduct")}>
+                                My Product
+                              </MenuItem>
+                              <MenuItem onClick={() => navigate("/Myfavorites")}>
+                                Favourites & Saved searches
+                              </MenuItem>
+
+                              <MenuItem onClick={handleLogout}>Logout</MenuItem>
+                            </MenuSection>
+                          </Menu>
+                        </Dropdown>
+                      </>
+                    )}
                   </div>
-                </h6>
-              )}
+
+                  {!isUserLoggedIn && (
+                    <h6
+                      className="text-white flexcursor-pointer flex mx-4 cursor-pointer hover:text-black"
+                      onClick={handleShowCreatePopup}
+                    >
+                      <div className="my-auto">
+                        <FaRegUser size={24} />
+                      </div>
+                      <div className="ms-3 my-auto flex flex-col">
+                        <span className="text-sm">Login</span>
+                        <span className="text-md">Account</span>
+                      </div>
+                    </h6>
+                  )}
+                </div>
+              </div>
+              <DropDownSelection />
             </div>
           </header>
         </div>
       </div>
-      {/* <div className="w-full flex justify-center">
-        <div className="fixed justify-center text-center w-fit items-center z-50 bottom-0 sm:hidden">
-          <div className="flex justify-center rounded-full p-1">
-            <button
-              className="button-72 bg-white flex justify-center items-center text-white font-bold tracking-wide text-[18px] leading-[16px] px-[18px] py-[18px] rounded-[42px] cursor-pointer shadow-[0_2px_2px_rgba(57,31,91,0.24),0_8px_12px_rgba(179,132,201,0.4)] transition-all duration-200 hover:bg-gradient-to-b from-[#B384C9] to-[#391F5B] md:text-[21px] md:px-[34px]"
-              onClick={handleSellButtonClick}
-            >
-              SELL
-            </button>
-          </div>
-        </div>
-      </div> */}
 
       {isCreatePopupVisible && (
         <Firstloginsinup

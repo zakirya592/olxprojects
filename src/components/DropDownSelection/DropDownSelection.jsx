@@ -57,29 +57,34 @@ const DropDownSelection = () => {
   };
 
   return (
-    <header className="header">
-      <div className="container menu-container">
+    <header className="header text-maincolor ">
+      <div className="menu-container">
         <div className="row v-center">
           <div className="header-item item-center">
             <div className="menu-overlay" onClick={toggleMobileMenu}></div>
             <nav
-              className={`menu ${isMobileMenuOpen ? "active" : ""}`}
+              className={`menu ${
+                isMobileMenuOpen ? "active" : ""
+              } lg:rounded-full sm:rounded-none rounded-none py-1 `}
               style={{ backgroundColor: "white" }}
             >
               <div className="mobile-menu-head">
                 <div className="go-back">
                   <i
-                    className="fa fa-angle-left"
+                    className="fa fa-angle-left text-white"
                     onClick={toggleMobileMenu}
                   ></i>
                 </div>
                 <div className="current-menu-title"></div>
-                <div className="mobile-menu-close" onClick={toggleMobileMenu}>
+                <div
+                  className="mobile-menu-close text-white"
+                  onClick={toggleMobileMenu}
+                >
                   &times;
                 </div>
               </div>
               <ul
-                className={`menu-main flex-row 2xl:flex xl:flex lg:flex 3xl:flex 3xl:justify-center 3xl:items-center 2xl:justify-center xl:justify-center lg:justify-center 2xl:items-center xl:items-center lg:items-center sm:gap-10`}
+                className={`menu-main flex-row lg:rounded-full sm:rounded-none rounded-none 2xl:flex xl:flex lg:flex 3xl:flex 3xl:justify-start 3xl:items-start 2xl:justify-start xl:justify-start lg:justify-start 2xl:items-start xl:items-start lg:items-start sm:gap-10`}
               >
                 <li className="menu-item-has-children">
                   <div

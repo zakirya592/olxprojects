@@ -110,7 +110,7 @@ const ProfilePage = () => {
     };
 
     return (
-      <div className="lg:px-10 my-5 lg:my-28 sm:my-2 flex justify-center items-center flex-col">
+      <div className="lg:px-10 my-5 lg:my-40 sm:my-2 flex justify-center items-center flex-col">
         <div className="from-purple-400 to-blue-200 h-50 bg-gradient-to-b w-full h-40 rounded-lg ">
           <h1 className="text-white p-5 text-2xl"> Edit profile</h1>
         </div>

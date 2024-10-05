@@ -20,6 +20,9 @@ import phoneicon from "../../../assets/Images/phoneicon.png"
 import emailicon from "../../../assets/Images/emailicon.jpg";
 import likeicon from "../../../assets/Images/like.jpg";
 import Commentproduct from "../../Commentproduct/Commentproduct";
+import { MdEmail } from "react-icons/md";
+import { FaPhoneAlt } from "react-icons/fa";
+import { GrLike } from "react-icons/gr";
 
 const Singleitem = () => {
 
@@ -75,6 +78,7 @@ const Singleitem = () => {
   const storedUserResponse = JSON.parse(storedUserResponseString);
   const loginuserid = storedUserResponse?.data?.user?._id || "";
   const postcard = (Product) => {
+    
     try {
       const response = NewRequest.post(`/wishlist/${loginuserid}`, {
         productId: Product._id,
@@ -141,9 +145,9 @@ const Singleitem = () => {
 
   return (
     <div className="lg:px-10 mt-3 lg:mt-28 sm:mt-2  mx-auto w-full lg:w-[90%] sm:w-full">
-      <div className="my-5 bg-fourthcolor py-2 shadow-md px-3">
+      <div className="my-5 bg-maincolor text-white rounded-full py-2 shadow-md px-3">
         <span
-          className="cursor-pointer"
+          className="cursor-pointer ms-4"
           onClick={() => {
             navigate("/");
           }}
@@ -158,8 +162,10 @@ const Singleitem = () => {
       </div>
       <div className="flex flex-col sm:flex-col md:flex-col lg:flex-row gap-6">
         <div className="w-full lg:w-[35%] sm:w-full ">
-          <div className="border rounded shadow py-6 px-4 bg-cardbg">
-            <p className="text-primary">Listed by private user</p>
+          <div className="border rounded shadow py-6 px-4 bg-maincolor">
+            <p className="text-white font-sans text-center text-lg">
+              Listed by private user
+            </p>
             {isLoading ? (
               <div className="flex">
                 <Skeleton height={50} width={50} circle={true} />{" "}
@@ -178,13 +184,13 @@ const Singleitem = () => {
                   <div className="lg:ml-5 sm:ml-1 ml-1  w-full">
                     <div className="flex justify-between  my-auto w-full">
                       <div className="my-auto">
-                        <p className="text-secondary">
+                        <p className="text-white font-sans ">
                           {Userdataget?.User?.username || ""}
                         </p>
                       </div>
                       <div className="my-auto">
                         <button
-                          className="text-[#30D5C8] border border-[#30D5C8] px-4 rounded "
+                          className="text-maincolor border bg-white rounded-full text-lg font-sans font-bold px-4 "
                           onClick={() => charfunction(Userdataget)}
                         >
                           Chat
@@ -192,28 +198,20 @@ const Singleitem = () => {
                       </div>
                     </div>
 
-                    <div className="flex my-3 w-full">
-                      <img
-                        src={emailicon}
-                        alt=""
-                        className="w-7 h-5 object-contain"
-                      />
+                    <div className="flex my-3 w-full lg:flex-row sm:flex-col flex-col justify-center items-center sm:justify-center lg:justify-start">
+                      <MdEmail className="text-white w-7 h-7" />
                       <a
                         href={`mailto:${Userdataget?.User?.email || ""}`}
-                        className="text-blue-500 hover:underline lg:ms-5 sm:ms-1 ms-1  my-auto "
+                        className="text-white font-sans  hover:underline lg:ms-5 sm:ms-1 ms-1  my-auto mt-3 sm:mt-3 lg:mt-0"
                       >
                         {Userdataget?.User?.email || ""}
                       </a>
                     </div>
-                    <div className="flex ">
-                      <img
-                        src={phoneicon}
-                        alt=""
-                        className="w-7 h-7 object-contain"
-                      />
+                    <div className="flex mt-3 lg:flex-row sm:flex-col flex-col justify-center items-center sm:justify-center lg:justify-start">
+                      <FaPhoneAlt className="text-white w-6 h-6" />
                       <a
                         href={`tel:${Userdataget?.User?.phone || ""}`}
-                        className="text-blue-500 hover:underline lg:ms-5 sm:ms-1 ms-1  my-auto"
+                        className="text-white font-sans  hover:underline lg:ms-5 sm:ms-1 mt-3 sm:mt-3 lg:mt-0 ms-1  my-auto"
                       >
                         {Userdataget?.User?.phone || ""}
                       </a>
@@ -224,7 +222,9 @@ const Singleitem = () => {
             )}
           </div>
           <div className="border rounded shadow py-6 px-4 mt-5 bg-cardbg">
-            <p className="text-primary">Location</p>
+            <p className="text-maincolor text-lg font-sans font-semibold">
+              Location
+            </p>
             <div className="flex my-auto mt-5">
               <div className=" flex">
                 <div className="text-secondary">
@@ -245,7 +245,9 @@ const Singleitem = () => {
 
           <div className="border rounded shadow py-6 px-4 mt-5 bg-cardbg">
             <div className="mb-4">
-              <h2 className="font-bold text-lg mb-2">Product Categories</h2>
+              <h2 className=" text-maincolor font-sans font-bold text-lg mb-2">
+                Product Categories
+              </h2>
               <ul>
                 {productsdata &&
                   productsdata.length > 0 &&
@@ -264,7 +266,7 @@ const Singleitem = () => {
           </div>
         </div>
         <div className="relative h-auto w-full lg:w-[65%] sm:w-full bg-white border-b mb-20 ">
-          <div className="relative h-[300px] w-full">
+          <div className="relative h-[150px] lg:h-[250px] sm:h-[150px] w-full">
             {isLoading ? (
               <Skeleton height={200} /> // Skeleton for the image slider
             ) : (
@@ -286,13 +288,13 @@ const Singleitem = () => {
                 className="mySwiper"
               >
                 {/* <SwiperSlide> */}
-                <div className="relative w-100">
+                <div className="relative w-full">
                   {data?.images?.map((image, index) => (
                     <SwiperSlide key={index}>
-                      <div className="relative w-full h-[300px]">
+                      <div className="relative w-full h-[150px] lg:h-[250px] sm:h-[150px]">
                         <img
                           src={imageLiveUrl(image)}
-                          className="w-full h-full  object-cover"
+                          className="w-full h-full object-contain"
                           alt={`Slide ${index}`}
                         />
                       </div>
@@ -324,25 +326,25 @@ const Singleitem = () => {
                   <div className="flex justify-between">
                     <h3 className="font-bold text-2xl mb-2 ">
                       {data?.currency || "Rs"}
-                      <span className="text-rscolor ms-1">
+                      <span className="text-maincolor ms-1">
                         {data?.price || ""}
                       </span>
                     </h3>
+                    <GrLike
+                      className=" text-maincolor cursor-pointer mb-4 font-bold w-6 h-6"
+                      onClick={() => postcard(data)}
+                    />
                   </div>
-                  <p className="text-gray-700 text-lg mb-5">
-                    {data?.name || ""}
-                  </p>
-                  <div className=" flex text-gray-500 text-sm">
-                    <PinDropIcon className="text-[#757575]" />
-                    <p className=" ml-5">{data?.location || "location"}</p>
-                  </div>
+                  <p className="text-gray-700 text-lg ">{data?.name || ""}</p>
                 </>
               )}
             </div>
           </div>
           <div className="border rounded shadow mt-10 bg-cardbg w-full">
             <div className="w-full mb-5 p-4">
-              <p className="text-primary mb-5">Description</p>
+              <p className="text-maincolor text-lg font-sans font-semibold mb-5">
+                Description
+              </p>
               {isLoading ? (
                 <Skeleton count={3} /> // Skeleton for the description
               ) : (
@@ -353,96 +355,94 @@ const Singleitem = () => {
             </div>
           </div>
           {/* Related ads */}
-          <div className="mt-5 w-full">
-            <p className="text-primary mb-5 font-sans font-bold text-2xl">
-              Related ads
-            </p>
-            <Swiper
-              slidesPerView={3}
-              spaceBetween={15}
-              centeredSlides={false}
-              slidesPerGroupSkip={1}
-              grabCursor={true}
-              keyboard={{
-                enabled: true,
-              }}
-              breakpoints={{
-                640: {
-                  slidesPerView: 1,
-                  slidesPerGroup: 1,
-                },
-                768: {
-                  slidesPerView: 3,
-                  slidesPerGroup: 3,
-                },
-                320: {
-                  slidesPerView: 1,
-                  slidesPerGroup: 1,
-                },
-              }}
-              scrollbar={{ draggable: true }}
-              navigation={true}
-              pagination={{
-                clickable: true,
-              }}
-              modules={[Keyboard, Scrollbar, Navigation, Pagination]}
-              className="mySwiper"
-            >
-              <div className="w-full">
-                {/* <SwiperSlide> */}
-                {isLoading ? (
-                  <Skeleton height={250} count={3} /> // Skeleton for related ads
-                ) : (
-                  moreproductData.map((card, index) => (
-                    <SwiperSlide>
-                      <div
-                        key={index}
-                        className="h-full w-full py-1  border my-3 border-gray-300 rounded-md shadow-lg"
-                        // onClick={() => singproductitem(card)}
-                      >
-                        <div
-                          // to={card.link}
-                          className="font-semibold text-secondary sm:text-lg text-base hover:text-primary mt-3"
-                        >
-                          <center>
-                            <img
-                              src={imageLiveUrl(card.images[0])}
-                              alt=""
-                              className="w-52 h-44 object-cover cursor-pointer"
+        </div>
+      </div>
+      <div className="w-full mt-2">
+        <p className="text-maincolor mb-5 font-sans font-bold text-2xl">
+          Related ads
+        </p>
+        <div className=" w-full bg-fourthcolor lg:p-3 p-1  sm:p-1 rounded-sm">
+          <Swiper
+            slidesPerView={1}
+            spaceBetween={15}
+            centeredSlides={false}
+            slidesPerGroupSkip={1}
+            grabCursor={true}
+            keyboard={{
+              enabled: true,
+            }}
+            breakpoints={{
+              640: {
+                slidesPerView: 2,
+                slidesPerGroup: 2,
+                spaceBetween: 20,
+              },
+              768: {
+                slidesPerView: 4,
+                slidesPerGroup: 4,
+                spaceBetween: 30,
+              },
+              1024: {
+                slidesPerView: 5,
+                slidesPerGroup: 5,
+                spaceBetween: 40,
+              },
+            }}
+            scrollbar={{ draggable: true }}
+            navigation={true}
+            pagination={{
+              clickable: true,
+            }}
+            modules={[Keyboard, Scrollbar, Navigation, Pagination]}
+            className="mySwiper"
+          >
+            <div className="w-full ">
+              {/* <SwiperSlide> */}
+              {isLoading ? (
+                <Skeleton height={250} count={3} />
+              ) : (
+                moreproductData.map((card, index) => (
+                  <SwiperSlide>
+                    <div
+                      key={index}
+                      className="h-auto lg:h-[330px] sm:h-auto w-full py-1  border my-3 border-gray-300 bg-white rounded-md shadow-lg"
+                    >
+                      <div className="font-semibold text-secondary sm:text-lg text-base hover:text-maincolor mt-3">
+                        <center>
+                          <img
+                            src={imageLiveUrl(card.images[0])}
+                            alt=""
+                            className="w-52 h-44 object-cover cursor-pointer"
+                          />
+                        </center>
+                        <div className="w-full">
+                          <p className="px-3 mt-3 font-normal">
+                            <DescriptionWithToggle description={card.name} />
+                          </p>
+                          <div className="px-3 flex flex-row mt-5 justify-between gap-2">
+                            <h1 className="sm:text-lg text-base">
+                              {card?.currency || "Rs"}
+                              <span className="text-rscolor ms-1">
+                                {" "}
+                                {card.price}
+                              </span>
+                            </h1>
+                            <GrLike
+                              className=" text-maincolor cursor-pointer mb-4"
+                              onClick={() => postcard(card)}
                             />
-                          </center>
-                          <div className="w-full">
-                            <p className="px-3 mt-3 font-normal">
-                              <DescriptionWithToggle description={card.name} />
-                            </p>
-                            <div className="px-3 flex flex-row mt-5 justify-between gap-2">
-                              <h1 className="sm:text-lg text-base">
-                                {card?.currency || "Rs"}
-                                <span className="text-rscolor ms-1">
-                                  {" "}
-                                  {card.price}
-                                </span>
-                              </h1>
-                            </div>
-                            <div className="w-full flex justify-center items-end mt-auto py-3">
-                              <img
-                                src={likeicon}
-                                className=" text-black cursor-pointer h-7 w-7"
-                                onClick={() => postcard(card)}
-                              ></img>
-                            </div>
                           </div>
                         </div>
                       </div>
-                    </SwiperSlide>
-                  ))
-                )}
-              </div>
-            </Swiper>
-          </div>
+                    </div>
+                  </SwiperSlide>
+                ))
+              )}
+            </div>
+          </Swiper>
         </div>
       </div>
-      <Commentproduct productdata={cardData}/>
+      <Commentproduct productdata={cardData} />
     </div>
   );
 };

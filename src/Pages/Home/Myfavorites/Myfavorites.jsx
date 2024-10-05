@@ -70,7 +70,8 @@ const Myfavorites = () => {
     <>
       {/* <Header /> */}
       <div className=" lg:px-10 mt-5 lg:mt-40 sm:mt-2">
-        <div className="my-5">
+        <div className="mb-5">
+            <div className="bg-maincolor text-white rounded-full py-2 shadow-md px-3">
           <span
             className="cursor-pointer"
             onClick={() => {
@@ -79,7 +80,9 @@ const Myfavorites = () => {
           >
             Home
           </span>
-          <h6 className="text-headingcolor text-3xl font-bold overflow-hidden my-5">
+
+            </div>
+          <h6 className="text-maincolor text-3xl font-bold overflow-hidden my-5">
             Favourites & Saved searches
           </h6>
         </div>
@@ -87,7 +90,7 @@ const Myfavorites = () => {
         <div className="flex">
           {/* Main Content */}
           <main className="flex-1 p-4 ">
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-4">
+            <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-3 gap-4">
               {/* Card 1 */}
               {isLoading ? (
                 <div>Loading...</div>
@@ -103,18 +106,18 @@ const Myfavorites = () => {
               ) : (
                 wishlistData.map((item, index) => (
                   <div className="border rounded shadow " key={index}>
-                    <div className="flex gap-3 flex-col lg:flex-row sm:flex-col">
-                      <div className="w-full lg:w-1/2 sm:full">
+                    <div className="flex gap-3 flex-col">
+                      <div className="w-full ">
                         <img
                           src={imageLiveUrl(item?.images?.[0]) || ""}
                           alt="Product"
-                          className="w-full sm:w-full lg:w-full h-full object-cover"
+                          className="w-full h-52 object-contain"
                         />
                       </div>
 
                       <div className="w-full mb-5 p-4">
                         <div className="flex justify-between">
-                          <h3 className="font-bold text-lg mb-2">
+                          <h3 className="font-bold text-maincolor text-lg mb-2">
                             {item?.currency || "Rs"} {item?.price || ""}
                           </h3>
                           <button
@@ -130,7 +133,7 @@ const Myfavorites = () => {
                         </p>
                         <div className="flex mt-4">
                           <button
-                            className="text-green-500 border border-green-500 px-4 py-2 rounded"
+                            className="text-white hover:bg-white hover:text-maincolor border bg-maincolor border-maincolor rounded-full text-lg font-sans font-bold px-4  "
                             onClick={() => charfunction(item)}
                           >
                             Chat

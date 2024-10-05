@@ -7,7 +7,7 @@ function Headerpost() {
   const navigate = useNavigate();
   return (
     <div>
-      <div className="flex items-center p-4 bg-gray-100 rounded-lg shadow-md hover:bg-gray-100">
+      <div className="flex items-center p-4  bg-maincolor text-white shadow-md">
         <div
           className="cursor-pointer flex my-auto"
           onClick={() => navigate(-1)}

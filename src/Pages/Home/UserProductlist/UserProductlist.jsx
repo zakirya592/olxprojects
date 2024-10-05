@@ -10,6 +10,7 @@ import DescriptionWithToggle from "../MoreinKids/DescriptionWithToggle";
 import { Avatar } from "@mui/material";
 import emailicon from "../../../assets/Images/emailicon.jpg"
 import phoneicon from "../../../assets/Images/phoneicon.png";
+import { GrLike } from "react-icons/gr";
 
 
 const UserProductlist = () => {
@@ -68,7 +69,7 @@ const UserProductlist = () => {
 
   return (
     <>
-      <div className="lg:px-7 mt-5 lg:mt-28 sm:mt-2">
+      <div className="lg:px-7 mt-5 lg:mt-40 sm:mt-2">
         <div className="flex flex-col-reverse lg:flex-row sm:flex-col-reverse">
           {/* Main Content */}
           <main className="flex-1 p-4 flex-col lg:flex-row sm:flex-col">
@@ -122,7 +123,7 @@ const UserProductlist = () => {
               ) : (
                 userdata.map((item, index) => (
                   <div
-                    className="border rounded shadow cursor-pointer"
+                    className="border rounded shadow cursor-pointer hover:shadow-lg"
                     key={index}
                   >
                     <div className="flex gap-3 flex-col lg:flex-col sm:flex-col">
@@ -137,17 +138,21 @@ const UserProductlist = () => {
                         <div className="flex justify-between mt-3">
                           <h3 className="font-bold text-lg mb-2">
                             {item?.currency || "Rs"}
-                            <span className="text-rscolor ms-1">
+                            <span className="text-maincolor ms-1">
                               {item?.price || ""}
                             </span>
                           </h3>
+                          {/* <GrLike
+                            className=" text-maincolor cursor-pointer mb-4"
+                            onClick={() => postcard(item._id)}
+                          /> */}
                         </div>
                         <p className="text-gray-500 text-sm">
                           {item?.location || ""}
                         </p>
                         <div className="flex mt-4">
                           <button
-                            className="text-[#30D5C8] border border-[#30D5C8]  px-4 py-2 rounded"
+                            className="text-white hover:bg-white hover:text-maincolor border bg-maincolor border-maincolor rounded-full text-lg font-sans font-bold px-4  "
                             onClick={() => charfunction(item)}
                           >
                             Chat

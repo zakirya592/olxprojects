@@ -158,7 +158,7 @@ const Commentproduct = (productdata) => {
 
     return (
       <>
-        <div className="p-4 shadow w-full">
+        <div className="p-4 shadow w-full mt-5">
           <form onSubmit={handleAddCompany}>
             <div className="mb-4">
               <label htmlFor="comment" className="block font-medium mb-1">

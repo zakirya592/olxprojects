@@ -7,8 +7,8 @@ import DropDownSelection from '../../components/DropDownSelection/DropDownSelect
 function Home() {
   return (
     <div>
-      <div className="w-full lg:w-[90%]  sm:w-full mx-auto mt-4 lg:mt-24 sm:mt-2 px-4">
-        <DropDownSelection />
+      <div className="w-full lg:w-[90%]  sm:w-full mx-auto mt-4 lg:mt-40 sm:mt-2 px-4">
+        {/* <DropDownSelection /> */}
         <Hadersilder />
         {/* <Categories /> */}
         <MoreinKidscard />

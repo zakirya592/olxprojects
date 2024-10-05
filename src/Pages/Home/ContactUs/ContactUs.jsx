@@ -19,8 +19,8 @@ function ContactUs() {
 
   return (
     <>
-      <div className="lg:px-10 my-5 lg:my-28 sm:my-2">
-        <DropDownSelection />
+      <div className="lg:px-10 my-5 lg:my-40 sm:my-2">
+        {/* <DropDownSelection /> */}
         <div className="relative w-full h-[250px]">
           <img
             src={contusimagebg}

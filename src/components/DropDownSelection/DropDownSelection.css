@@ -48,7 +48,8 @@ a {
     width: 100%;
     position: relative;
     /* z-index: 99; */
-    padding: 15px;
+    /* padding: 15px; */
+    padding-top: 15px;
     /* margin-top: -30px;
     z-index: 50; */
 }
@@ -258,7 +259,7 @@ a {
     .header .mobile-menu-trigger span {
         display: block;
         height: 2px;
-        background-color: #333333;
+        background-color: white;
         width: 24px;
         position: relative;
     }
@@ -270,7 +271,7 @@ a {
         left: 0;
         width: 100%;
         height: 100%;
-        background-color: #333333;
+        background-color: white;
     }
 
     .header .mobile-menu-trigger span:before {

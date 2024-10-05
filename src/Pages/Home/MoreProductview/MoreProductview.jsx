@@ -8,6 +8,7 @@ import Skeleton from "@mui/material/Skeleton";
 import DescriptionWithToggle from "../MoreinKids/DescriptionWithToggle";
 
 import imageLiveUrl from "../../../../utils/urlConverter/imageLiveUrl";
+import { GrLike } from "react-icons/gr";
 
 const MoreProductview = () => {
   const navigate = useNavigate();
@@ -106,7 +107,7 @@ const MoreProductview = () => {
   return (
     <>
       <div className="lg:px-7 mt-5 lg:mt-28 sm:mt-2">
-        <div className="my-5 bg-fourthcolor py-2 shadow-md px-3">
+        <div className="my-5 bg-maincolor text-white rounded-full py-2 shadow-md px-3">
           <span className="cursor-pointer" onClick={() => navigate("/")}>
             Home
           </span>{" "}
@@ -116,14 +117,14 @@ const MoreProductview = () => {
           </span>
         </div>
         <div className="flex justify-between items-center mb-4">
-          <h2 className="text-xl font-bold">
-            {subCategoriesResponse?.category?.name || ""} in Pakistan
+          <h2 className="text-xl font-bold text-maincolor">
+            {subCategoriesResponse?.category?.name || ""}
           </h2>
         </div>
         <div className="flex flex-col lg:flex-row sm:flex-col">
           {/* Main Content */}
           <main className="flex-1 p-4 flex-col lg:flex-row sm:flex-col">
-            <div className="grid grid-cols-1 md:grid-cols-1 lg:grid-cols-1 gap-4">
+            <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-3 gap-4">
               {isLoading ? (
                 <div>
                   {[...Array(3)].map((_, index) => (
@@ -173,15 +174,15 @@ const MoreProductview = () => {
               ) : (
                 moreproductData.map((item, index) => (
                   <div
-                    className="border rounded shadow cursor-pointer"
+                    className="border rounded shadow cursor-pointer hover:shadow-lg "
                     key={index}
                   >
-                    <div className="flex gap-3 flex-col lg:flex-row sm:flex-col">
-                      <div className="lg:w-1/2 w-full sm:w-full">
+                    <div className="flex gap-3 flex-col ">
+                      <div className=" w-full">
                         <img
                           src={imageLiveUrl(item?.images?.[0]) || ""}
                           alt="Product"
-                          className="w-full h-64 object-contain"
+                          className="w-full h-52 object-contain"
                           onClick={() => singproductitem(item)}
                         />
                       </div>
@@ -189,22 +190,22 @@ const MoreProductview = () => {
                         <DescriptionWithToggle description={item.name} />
                         <div className="flex justify-between mt-3">
                           <h3 className="font-bold text-lg mb-2">
-                            {item?.currency || "Rs"} 
-                            <span className="text-rscolor ms-2">
+                            {item?.currency || "Rs"}
+                            <span className="text-maincolor ms-2">
                               {item?.price || ""}
                             </span>
                           </h3>
-                          {/* <FaRegHeart
-                            className="cursor-pointer"
+                          <GrLike
+                            className=" text-maincolor cursor-pointer mb-4"
                             onClick={() => postcard(item._id)}
-                          /> */}
+                          />
                         </div>
                         <p className="text-gray-500 text-sm">
                           {item?.location || ""}
                         </p>
                         <div className="flex mt-4">
                           <button
-                            className="text-[#30D5C8] border border-[#30D5C8]  px-4 py-2 rounded"
+                            className="text-white hover:bg-white hover:text-maincolor border bg-maincolor border-maincolor rounded-full text-lg font-sans font-bold px-4  "
                             onClick={() => charfunction(item)}
                           >
                             Chat
