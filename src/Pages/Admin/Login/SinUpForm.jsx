@@ -334,16 +334,15 @@ const SinUpForm = () => {
                         htmlFor="idCardNumber"
                         className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
                       >
-                        ID card
+                        ID card / Passport Number
                       </label>
                       <input
                         type="text"
                         id="idCardNumber"
                         value={id_cardNo}
-                        // onChange={(e) => setid_cardNo(e.target.value)}
                         onChange={handleChange}
                         className="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                        placeholder="Enter your ID card"
+                        placeholder="Enter your ID card / Passport Number"
                       />
                     </div>
 
@@ -369,7 +368,7 @@ const SinUpForm = () => {
                         htmlFor="taxNumber"
                         className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
                       >
-                        Passport Number
+                        Tax No
                       </label>
                       <input
                         type="text"
