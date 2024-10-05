@@ -129,6 +129,31 @@ function Header() {
       handleShowCreatePopup();
     }
   };
+  const handlemessageButtonClick = () => {
+    if (isUserLoggedIn) {
+      navigate("/Chat");
+    } else {
+      navigate("/LoginForm");
+    }
+  };
+
+  const handlenotificationButtonClick = () => {
+    if (isUserLoggedIn) {
+      // navigate("/Chat");
+      console.log("Notifiaction section");
+    } else {
+      navigate("/LoginForm");
+    }
+  };
+
+  const handlecardButtonClick = () => {
+    if (isUserLoggedIn) {
+      // navigate("/Chat");
+      console.log("Card section");
+    } else {
+      navigate("/LoginForm");
+    }
+  };
 
   function MenuSection({ children, label }) {
     return (
@@ -249,10 +274,14 @@ function Header() {
                         <option value="All Categories">All Categories</option>
                         {categories.map((category, index) => {
                           category.products.filter(
-                            (product) => product.status.toLowerCase() === "active"
+                            (product) =>
+                              product.status.toLowerCase() === "active"
                           );
                           return (
-                            <option value={category?.category?.name} key={index}>
+                            <option
+                              value={category?.category?.name}
+                              key={index}
+                            >
                               {category?.category?.name}
                             </option>
                           );
@@ -337,13 +366,6 @@ function Header() {
                   </div>
 
                   <span className="ml-2 border-l border-gray-300"></span>
-                  {/* Notification Icon (Hidden for larger screens) */}
-                  {/* {isUserLoggedIn && (
-    <FaBell
-      className="text-white cursor-pointer lg:hidden"
-      size={25}
-    />
-  )} */}
                 </div>
                 <div className="flex mt-2 gap-2 lg:mt-0 sm:mt-2">
                   <div
@@ -355,22 +377,23 @@ function Header() {
                     </button>
                   </div>
                   <div className="flex items-center space-x-4 my-auto">
+                    <FaCommentDots
+                      className="text-white cursor-pointer lg:block"
+                      size={25}
+                      onClick={handlemessageButtonClick}
+                    />
+                    <FaBell
+                      className="text-white cursor-pointer  lg:block"
+                      size={25}
+                      onClick={handlenotificationButtonClick}
+                    />
+                    <FaCartPlus
+                      className="text-white cursor-pointer  lg:block"
+                      size={25}
+                      onClick={handlecardButtonClick}
+                    />
                     {isUserLoggedIn && (
                       <>
-                        <FaCommentDots
-                          className="text-white cursor-pointer  lg:block"
-                          size={25}
-                          onClick={() => navigate("/Chat")}
-                        />
-
-                        <FaBell
-                          className="text-white cursor-pointer  lg:block"
-                          size={25}
-                        />
-                        <FaCartPlus
-                          className="text-white cursor-pointer  lg:block"
-                          size={25}
-                        />
                         <Dropdown>
                           <MenuButton>
                             <Stack
@@ -392,13 +415,17 @@ function Header() {
                             style={{ zIndex: "200" }}
                           >
                             <MenuSection>
-                              <MenuItem onClick={() => navigate("/ProfilePage")}>
+                              <MenuItem
+                                onClick={() => navigate("/ProfilePage")}
+                              >
                                 profile
                               </MenuItem>
                               <MenuItem onClick={() => navigate("/MyProduct")}>
                                 My Product
                               </MenuItem>
-                              <MenuItem onClick={() => navigate("/Myfavorites")}>
+                              <MenuItem
+                                onClick={() => navigate("/Myfavorites")}
+                              >
                                 Favourites & Saved searches
                               </MenuItem>
 
@@ -412,7 +439,7 @@ function Header() {
 
                   {!isUserLoggedIn && (
                     <h6
-                      className="text-white flexcursor-pointer flex mx-4 cursor-pointer hover:text-black"
+                      className="text-white flexcursor-pointer flex mx-4 cursor-pointer"
                       onClick={handleShowCreatePopup}
                     >
                       <div className="my-auto">

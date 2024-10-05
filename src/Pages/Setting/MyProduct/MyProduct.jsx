@@ -148,7 +148,7 @@ const MyProduct = () => {
               Home
             </span>
             <button
-              className="cursor-pointer border border-headingcolor px-5 py-3 rounded-md text-headingcolor hover:bg-headingcolor hover:text-white"
+              className="cursor-pointer border border-maincolor px-5 py-3 rounded-md text-maincolor hover:bg-maincolor hover:text-white"
               onClick={() => navigate("/Post")}
             >
               Add Product
@@ -156,11 +156,11 @@ const MyProduct = () => {
           </div>
 
           <div className="flex justify-between flex-col lg:flex-row sm:flex-col">
-            <h6 className="text-headingcolor text-3xl font-bold overflow-hidden my-1 sm:my-1 lg:my-5">
+            <h6 className="text-maincolor text-3xl font-bold overflow-hidden my-1 sm:my-1 lg:my-5">
               My Product
             </h6>
             <h6 className=" text-3xl font-bold overflow-hidden my-1 sm:my-1 lg:my-5">
-              <strong className="text-headingcolor">Total Length</strong> :{" "}
+              <strong className="text-maincolor">Total Length</strong> :{" "}
               {wishlistData?.length || "0"}
             </h6>
           </div>
@@ -215,10 +215,11 @@ const MyProduct = () => {
                         </div>
                         {renderObject(item)}
                         <h3 className="font-bold text-md mb-2">
-                          <strong>Price:</strong> {item?.currency || "Rs"} {item?.price || ""}
+                          <strong>Price:</strong> {item?.currency || "Rs"}{" "}
+                          {item?.price || ""}
                         </h3>
                         <p className="text-gray-500 text-sm">
-                          {item?.location || ""} 
+                          {item?.location || ""}
                         </p>
                       </div>
                     </div>
