@@ -76,11 +76,9 @@ function App() {
         <div className="sticky top-0 z-50 bg-white">
           <Header />
         </div>
-        {/* <QueryClientProvider client={queryClient}> */}
         <main className="mx-auto flex max-w-[1760px] flex-col justify-center">
           <Outlet />
         </main>
-        {/* </QueryClientProvider> */}
         <Footer />
       </div>
     );

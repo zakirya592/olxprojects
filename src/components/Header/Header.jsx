@@ -1,8 +1,8 @@
 import React, { useState, useEffect, useRef } from "react";
-import { FaCarAlt, FaSearch, FaCommentDots, FaBell } from "react-icons/fa";
+import { FaCarAlt, FaSearch, FaCommentDots, FaBell, FaCartPlus } from "react-icons/fa";
 import { MdOutlineHomeWork } from "react-icons/md";
 import { useNavigate } from "react-router-dom";
-import log from "../../assets/Images/logo2.jpeg";
+import log from "../../assets/Images/pakardilogo.png";
 import Firstloginsinup from "../../Pages/Admin/Login/Firstloginsinup";
 import PropTypes from "prop-types";
 import { Dropdown } from "@mui/base/Dropdown";
@@ -238,19 +238,24 @@ function Header() {
   const categories = productsdata.categories;
   return (
     <>
-      <div className="bg-[#7B6C9C] text-white shadow-md px-0 smm:px-0 lg:px-12 lg:fixed top-0 left-0 right-0 z-50">
+      <div className="bg-maincolor text-white shadow-md px-0 smm:px-0 lg:px-12 lg:fixed top-0 left-0 right-0 z-50">
         <div className="py-2 mx-3">
-          <div className="topdev flex my-auto container gap-1 lg:gap-5 smm:gap-1 w-full flex-col lg:flex-row sm:flex-col">
+          {/* <div className="topdev flex my-auto container gap-1 lg:gap-5 smm:gap-1 w-full flex-col lg:flex-row sm:flex-col">
             <div className="flex gap-1 lg:gap-5 smm:gap-1"></div>
-          </div>
+          </div> */}
           <header className="flex py-2 w-full flex-col sm:flex-row justify-between">
             <div className="flex items-center w-full flex-col sm:flex-row">
               <div
                 onClick={() => navigate("/")}
-                className="cursor-pointer lg:-rotate-12 mr-5"
+                className="cursor-pointer  mr-5" //lg:-rotate-12
               >
-                <p className="text-2xl">Pakardi</p>
-                <p className="text-sm">Pakardi.com</p>
+                {/* <p className="text-2xl">Pakardi</p>
+                <p className="text-sm">Pakardi.com</p> */}
+                <img
+                  src={log}
+                  alt="logo"
+                  className="h-14 w-full object-contain"
+                />
               </div>
               {/* </div> */}
               <div className="flex items-center w-full sm:px-0 px-0 lg:px-2">
@@ -326,7 +331,7 @@ function Header() {
                     {/* Search Button */}
                     <button
                       onClick={handleSearch}
-                      className="bg-[#7B6C9C] text-white p-2 rounded-full hover:bg-cyan-600 transition ml-1 sm:hidden lg:block hidden"
+                      className="bg-maincolor text-white p-2 rounded-full hover:bg-cyan-600 transition ml-1 sm:hidden lg:block hidden"
                     >
                       <svg
                         xmlns="http://www.w3.org/2000/svg"
@@ -356,17 +361,30 @@ function Header() {
   )} */}
               </div>
             </div>
-            <div className="flex items-center space-x-4 w-1/2 justify-center lg:justify-end sm:justify-start smm:justify-normal mt-2 lg:mt-0 sm:mt-2">
+            <div className="flex items-center space-x-4 lg:w-1/2 sm:w-full w-full justify-center lg:justify-end sm:justify-center smm:justify-center mt-2 lg:mt-0 sm:mt-2">
+              <div
+                className=" p-1  lg:block mt-2 sm:mt-0"
+                onClick={handleSellButtonClick}
+              >
+                <button className="bg-white flex justify-center items-center text-maincolor hover:text-white font-semibold  px-2 rounded-full cursor-pointer shadow-[0_2px_2px_rgba(57,31,91,0.24),0_8px_12px_rgba(179,132,201,0.4)] transition-all duration-200 hover:bg-gradient-to-b from-[#B384C9] to-[#391F5B] md:text-[21px] md:px-[20px]">
+                  SELL
+                </button>
+              </div>
               <div className="flex items-center space-x-4">
                 {isUserLoggedIn && (
                   <>
                     <FaCommentDots
-                      className="text-white cursor-pointer hidden lg:block"
+                      className="text-white cursor-pointer  lg:block"
                       size={25}
                       onClick={() => navigate("/Chat")}
                     />
+
                     <FaBell
-                      className="text-white cursor-pointer hidden lg:block"
+                      className="text-white cursor-pointer  lg:block"
+                      size={25}
+                    />
+                    <FaCartPlus
+                      className="text-white cursor-pointer  lg:block"
                       size={25}
                     />
                     <Dropdown>
@@ -382,7 +400,7 @@ function Header() {
                           <Avatar
                             src={userprofileimage || "broken-image.jpg"}
                           />
-                          <ArrowDropDownIcon className="my-auto" />
+                          <ArrowDropDownIcon className="my-auto text-white hover:text-black" />
                         </Stack>
                       </MenuButton>
                       <Menu
@@ -422,30 +440,22 @@ function Header() {
                   </div>
                 </h6>
               )}
-              <div
-                className=" p-1  hidden lg:block mt-2 sm:mt-0"
-                onClick={handleSellButtonClick}
-              >
-                <button className="button-72 flex justify-center items-center text-white font-bold tracking-wide text-[18px] leading-[16px] px-[18px] py-[18px] rounded-[42px] cursor-pointer shadow-[0_2px_2px_rgba(57,31,91,0.24),0_8px_12px_rgba(179,132,201,0.4)] transition-all duration-200 hover:bg-gradient-to-b from-[#B384C9] to-[#391F5B] md:text-[21px] md:px-[34px]">
-                  + SELL
-                </button>
-              </div>
             </div>
           </header>
         </div>
       </div>
-      <div className="w-full flex justify-center">
+      {/* <div className="w-full flex justify-center">
         <div className="fixed justify-center text-center w-fit items-center z-50 bottom-0 sm:hidden">
           <div className="flex justify-center rounded-full p-1">
             <button
-              className="button-72 flex justify-center items-center text-white font-bold tracking-wide text-[18px] leading-[16px] px-[18px] py-[18px] rounded-[42px] cursor-pointer shadow-[0_2px_2px_rgba(57,31,91,0.24),0_8px_12px_rgba(179,132,201,0.4)] transition-all duration-200 hover:bg-gradient-to-b from-[#B384C9] to-[#391F5B] md:text-[21px] md:px-[34px]"
+              className="button-72 bg-white flex justify-center items-center text-white font-bold tracking-wide text-[18px] leading-[16px] px-[18px] py-[18px] rounded-[42px] cursor-pointer shadow-[0_2px_2px_rgba(57,31,91,0.24),0_8px_12px_rgba(179,132,201,0.4)] transition-all duration-200 hover:bg-gradient-to-b from-[#B384C9] to-[#391F5B] md:text-[21px] md:px-[34px]"
               onClick={handleSellButtonClick}
             >
-              + SELL
+              SELL
             </button>
           </div>
         </div>
-      </div>
+      </div> */}
 
       {isCreatePopupVisible && (
         <Firstloginsinup

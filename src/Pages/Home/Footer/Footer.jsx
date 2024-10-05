@@ -85,7 +85,7 @@ const viewmorefooter = (product) => {
 
   return (
     <div>
-      <div className="py-4 gap-2 sm:px-16 px-8 h-auto w-full bg-[#7B6C9C] text-[#F0FFFF] relative">
+      <div className="py-4 gap-2 sm:px-16 px-8 h-auto w-full bg-[#4C005A] text-[#F0FFFF] relative">
         <div className="w-full grid 2xl:grid-cols-3 lg:grid-cols-3 grid-cols-1">
           <div className={`h-auto w-full flex flex-col gap-8 relative `}>
             <h2 className="text-xl uppercase font-semibold text-start relativ e">

@@ -33,6 +33,7 @@ export default {
         rscolor:'#B22222',
         productdesc:'#848484',
         cardbg:'#F5F5F5',
+        maincolor:'#4C005A'
         
       }
     }
