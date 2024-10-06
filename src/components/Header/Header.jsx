@@ -272,7 +272,7 @@ function Header() {
                 <img
                   src={log}
                   alt="logo"
-                  className="h-24 w-full object-contain"
+                  className="h-14 lg:h-24 sm:h-14 w-full object-contain"
                 />
               </div>
             </div>
