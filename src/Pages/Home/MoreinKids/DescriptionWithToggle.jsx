@@ -8,7 +8,7 @@ const DescriptionWithToggle = ({ description }) => {
   useEffect(() => {
     const updateCharacterLimit = () => {
       // Set character limit based on screen width
-      setCharacterLimit(window.innerWidth < 640 ? 20 : 60); // 640px is Tailwind's "sm" breakpoint
+      setCharacterLimit(window.innerWidth < 640 ? 30 : 60); // 640px is Tailwind's "sm" breakpoint
     };
 
     // Set initial limit

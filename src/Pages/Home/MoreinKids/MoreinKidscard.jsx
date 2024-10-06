@@ -159,12 +159,12 @@ const Hadersilder = () => {
                 slidesPerGroupSkip={1}
                 grabCursor={true}
                 keyboard={{ enabled: true }}
-                spaceBetween={20}
+                spaceBetween={5}
                 breakpoints={{
                   640: {
                     slidesPerView: 2,
                     slidesPerGroup: 2,
-                    spaceBetween: 20,
+                    spaceBetween: 5,
                   },
                   768: {
                     slidesPerView: 4,
