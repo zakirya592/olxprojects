@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from "react";
-import { FaCarAlt, FaSearch, FaCommentDots, FaBell, FaCartPlus } from "react-icons/fa";
+import {  FaSearch, FaCommentDots, FaBell, FaCartPlus } from "react-icons/fa";
 import { useNavigate } from "react-router-dom";
 import log from "../../assets/Images/pakardilogo.png";
 import Firstloginsinup from "../../Pages/Admin/Login/Firstloginsinup";
@@ -272,7 +272,7 @@ function Header() {
                 <img
                   src={log}
                   alt="logo"
-                  className="h-14 w-full object-contain"
+                  className="h-24 w-full object-contain"
                 />
               </div>
             </div>
@@ -281,85 +281,27 @@ function Header() {
                 <div className="flex items-center w-full sm:px-0 px-0 lg:px-2">
                   <div className="flex w-full mt-2 lg:mt-0 sm:px-0 px-0 lg:px-2">
                     <div className="bg-white flex items-center rounded-full w-full shadow-lg">
-                      {/* Category Dropdown */}
-                      {/* <select className="text-gray-600 py-2 px-4 rounded focus:outline-none  ">
-                        <option value="All Categories">All Categories</option>
-                        {categories.map((category, index) => {
-                          category.products.filter(
-                            (product) =>
-                              product.status.toLowerCase() === "active"
-                          );
-                          return (
-                            <option
-                              value={category?.category?.name}
-                              key={index}
-                            >
-                              {category?.category?.name}
-                            </option>
-                          );
-                        })}
-                      </select> */}
                       <div className="text-maincolor text-lg font-bold py-2 px-4 rounded focus:outline-none  ">
-                        {/* <IoMdMenu onClick={handleShowUpdatePopup} /> */}
                         <Categories />
                       </div>
-
-                      {/* Autocomplete Input */}
-                      {/* <Autocomplete
-                      id="test"
-                      options={productdata}
-                      value={
-                        productdata.find((product) => product.name === query) ||
-                        null
-                      } 
-                      getOptionLabel={(option) => option?.name || ""}
-                      onChange={(event, value) => {
-                        setQuery(value?.name || "");
-                        searchMutation.mutate(value?.name || "");
-                      }}
-                      onInputChange={(event, value) => {
-                        if (!value) {
-                          console.log("Input cleared");
-                        }
-                      }}
-                      renderInput={(params) => (
-                        <TextField
-                          {...params}
-                          InputProps={{
-                            ...params.InputProps,
-                            className: "text-black",
-                          }}
-                          InputLabelProps={{
-                            ...params.InputLabelProps,
-                            style: { color: "black" },
-                          }}
-                          className="ml-2 px-2 py-1 border border-black rounded-l-md w-full focus:outline-none"
-                          placeholder="Search for products ..."
-                          sx={{
-                            "& .MuiOutlinedInput-root .MuiAutocomplete-input": {
-                              padding: "2.5px 4px 2.5px 5px",
-                            },
-                          }}
-                          onKeyDown={handleKeyDown} 
+                      <div className="relative w-full">
+                        <input
+                          type="text"
+                          className="ml-2 px-2 py-1 rounded-full text-maincolor border w-full focus:outline-none"
+                          value={query}
+                          onChange={(e) => setQuery(e.target.value)}
+                          onKeyDown={handleKeyDown}
                         />
-                      )}
-                      sx={{
-                        flexGrow: 1,
-                        "& .MuiAutocomplete-endAdornment": {
-                          color: "black",
-                        },
-                      }}
-                    /> */}
-                      <input
-                        type="text"
-                        className="ml-2 px-2 py-1 rounded-full text-maincolor border rounded-l-md w-full focus:outline-none"
-                        value={query}
-                        onChange={(e) => setQuery(e.target.value)}
-                        onKeyDown={handleKeyDown}
-                      />
-
+                        <span className="absolute inset-y-0 right-2 flex items-center">
+                          <FaSearch
+                            className="text-maincolor"
+                            onClick={handleSearch}
+                          />
+                        </span>
+                      </div>
+                      <div className="p-2"></div>
                       {/* Search Button */}
-                      <button
+                      {/* <button
                         onClick={handleSearch}
                         className="bg-maincolor text-white p-2 rounded-full hover:bg-cyan-600 transition ml-1 sm:hidden lg:block hidden"
                       >
@@ -377,7 +319,7 @@ function Header() {
                             d="M21 21l-4.35-4.35M16.65 11a6.65 6.65 0 11-13.3 0 6.65 6.65 0 0113.3 0z"
                           />
                         </svg>
-                      </button>
+                      </button> */}
                     </div>
                   </div>
 

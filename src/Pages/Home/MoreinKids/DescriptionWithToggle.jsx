@@ -1,10 +1,27 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 
 const DescriptionWithToggle = ({ description }) => {
   const [isExpanded, setIsExpanded] = useState(false);
+  const [characterLimit, setCharacterLimit] = useState(60); // Default limit for larger screens
 
-  // Define the character limit
-  const characterLimit = 60;
+  // Update character limit based on window size
+  useEffect(() => {
+    const updateCharacterLimit = () => {
+      // Set character limit based on screen width
+      setCharacterLimit(window.innerWidth < 640 ? 20 : 60); // 640px is Tailwind's "sm" breakpoint
+    };
+
+    // Set initial limit
+    updateCharacterLimit();
+
+    // Add event listener for window resize
+    window.addEventListener("resize", updateCharacterLimit);
+
+    // Cleanup event listener on unmount
+    return () => {
+      window.removeEventListener("resize", updateCharacterLimit);
+    };
+  }, []);
 
   // Only show the "More" button if the description exceeds the character limit
   const showMore = description.length > characterLimit;

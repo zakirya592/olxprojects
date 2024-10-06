@@ -185,10 +185,9 @@ const Hadersilder = () => {
               >
                 {activeProducts.map((card, index) => (
                   <SwiperSlide>
-                    {/* <div className="h-auto lg:h-[350px] relative sm:h-auto w-full py-1 border border-gray-300 bg-white rounded-md shadow-lg px-5 hover:shadow-2xl hover:border-primary"> */}
                     <div
                       key={index}
-                      className="h-auto lg:h-[320px] relative sm:h-auto w-full py-1 border border-gray-300 bg-white rounded-md shadow-lg hover:shadow-2xl hover:border-primary"
+                      className="h-[300px] lg:h-[320px] sm:h-[300px] relative w-full py-1 border border-gray-300 bg-white rounded-md shadow-lg hover:shadow-2xl hover:border-primary"
                     >
                       <div className="font-semibold text-secondary sm:text-lg text-base hover:text-primary mt-3 w-full">
                         <img
@@ -201,13 +200,19 @@ const Hadersilder = () => {
                           <p className="px-3 mt-3 text-detailscolor font-normal">
                             <DescriptionWithToggle description={card.name} />
                           </p>
-                          <div className="flex flex-row my-5 justify-between w-full lg:absolute lg:bottom-1 lg:px-4 sm:px-2 px-2">
+                          <div className="flex flex-row mt-5 mb-2 justify-between w-full absolute bottom-1 lg:px-4 sm:px-2 px-2">
                             <Rating
                               name="half-rating"
                               precision={0.5}
                               value={productRatings[card._id] || "No ratings"}
                               sx={{
                                 color: "#4C005A",
+                                fontSize: {
+                                  xs: "15px", // Size for extra small screens (e.g., mobile)
+                                  sm: "15pxrem", // Size for small screens (you can adjust this)
+                                  md: "1rem", // Size for medium screens
+                                  lg: "1.5rem", // Size for large screens
+                                },
                               }}
                               readOnly
                             />
