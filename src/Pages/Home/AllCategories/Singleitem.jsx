@@ -23,6 +23,7 @@ import Commentproduct from "../../Commentproduct/Commentproduct";
 import { MdEmail } from "react-icons/md";
 import { FaPhoneAlt } from "react-icons/fa";
 import { GrLike } from "react-icons/gr";
+import { Rating } from "@mui/material";
 
 const Singleitem = () => {
 
@@ -33,6 +34,7 @@ const Singleitem = () => {
   const [moreproductData, setmoreproductData] = useState([])
   const [isLoading, setIsLoading] = useState(false);
   const [data, setdata] = useState('')
+  const [ratings, setratings] = useState(0)
   const [imageuser, setimageuser] = useState('')
 
   const fetchData = async () => {
@@ -47,13 +49,61 @@ const Singleitem = () => {
         const activeProducts = responsesingle?.data.filter(
           (product) => product.status.toLowerCase() === "active"
         );
-        setmoreproductData(activeProducts || []);
+        // setmoreproductData(activeProducts || []);
+
+        if (activeProducts && activeProducts.length > 0) {
+          const productsWithComments = await Promise.all(
+            activeProducts.map(async (product) => {
+
+              try {
+                // Fetch comments for each product
+                const response = await NewRequest.get(
+                  `/comment/replay/${product._id}`
+                );
+                const comments = response?.data?.comments || [];
+                let averageRating = 0;
+
+                if (Array.isArray(comments)) {
+                  const totalRatings = comments.reduce((acc, comment) => acc + (comment.rating || 0), 0);
+                  averageRating = comments ? totalRatings / comments.length : 0;
+                }
+                return {
+                  ...product,
+                  comments,
+                  averageRating,
+                };
+              } catch (err) {
+                return { ...product, comments: [], averageRating: 0 };
+              }
+            })
+          );
+          setmoreproductData(productsWithComments || []);
+        } else {
+          setmoreproductData([]);
+        }
       } catch (err) {
         console.log(err);
       }
-
       setUserdataget(datas);
       setdata(datas);
+
+      NewRequest.get(`/comment/replay/${datas._id}`).then((response) => {
+        const comments = response?.data?.comments || [];
+        if (Array.isArray(comments)) {
+          const totalRatings = comments.reduce(
+            (acc, comment) => acc + (comment.rating || 0),
+            0
+          );
+          const averageRating = comments.length
+            ? totalRatings / comments.length
+            : 0;
+          setratings(averageRating);
+        } else {
+          console.error(comments);
+        }
+      }).catch((err) => {
+        console.log(err);
+      });
 
       try {
         const responsdata = await NewRequest.get(`/users/${datas.User._id}`);
@@ -63,7 +113,6 @@ const Singleitem = () => {
       } catch (err) {
         console.log(err);
       }
-
       setIsLoading(false);
     } catch (err) {
       console.log(err);
@@ -78,7 +127,7 @@ const Singleitem = () => {
   const storedUserResponse = JSON.parse(storedUserResponseString);
   const loginuserid = storedUserResponse?.data?.user?._id || "";
   const postcard = (Product) => {
-    
+
     try {
       const response = NewRequest.post(`/wishlist/${loginuserid}`, {
         productId: Product._id,
@@ -318,7 +367,7 @@ const Singleitem = () => {
             </div>
           </div>
           <div className="border rounded bg-cardbg shadow mt-10">
-            <div className="w-full mb-5 p-4">
+            <div className="w-full mb-1 p-4">
               {isLoading ? (
                 <Skeleton height={30} width={150} />
               ) : (
@@ -336,6 +385,17 @@ const Singleitem = () => {
                     />
                   </div>
                   <p className="text-gray-700 text-lg ">{data?.name || ""}</p>
+                  <div className="mt-4">
+                    <Rating
+                      name="half-rating"
+                      precision={0.5}
+                      value={ratings}
+                      sx={{
+                        color: "#4C005A", // Custom color (e.g., Gold)
+                      }}
+                      readOnly
+                    />
+                  </div>
                 </>
               )}
             </div>
@@ -405,7 +465,7 @@ const Singleitem = () => {
                   <SwiperSlide>
                     <div
                       key={index}
-                      className="h-auto lg:h-[330px] sm:h-auto w-full py-1  border my-3 border-gray-300 bg-white rounded-md shadow-lg"
+                      className="h-auto lg:h-[320px] relative sm:h-auto w-full py-1  border my-3 border-gray-300 bg-white rounded-md shadow-lg"
                     >
                       <div className="font-semibold text-secondary sm:text-lg text-base hover:text-maincolor mt-3">
                         <center>
@@ -419,14 +479,22 @@ const Singleitem = () => {
                           <p className="px-3 mt-3 font-normal">
                             <DescriptionWithToggle description={card.name} />
                           </p>
-                          <div className="px-3 flex flex-row mt-5 justify-between gap-2">
-                            <h1 className="sm:text-lg text-base">
+                          <div className="px-3 flex flex-row mt-5 justify-between gap-2 lg:absolute lg:bottom-1">
+                            {/* <h1 className="sm:text-lg text-base">
                               {card?.currency || "Rs"}
-                              <span className="text-rscolor ms-1">
-                                {" "}
+                              <span className="text-maincolor ms-1">
                                 {card.price}
                               </span>
-                            </h1>
+                            </h1> */}
+                            <Rating
+                              name="half-rating"
+                              precision={0.5}
+                              value={card?.averageRating}
+                              sx={{
+                                color: "#4C005A",
+                              }}
+                              readOnly
+                            />
                             <GrLike
                               className=" text-maincolor cursor-pointer mb-4"
                               onClick={() => postcard(card)}

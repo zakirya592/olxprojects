@@ -24,9 +24,7 @@ const Commentproduct = (productdata) => {
     const getcommentdata = () => {
         NewRequest.get(`/comment/replay/${productid}`)
             .then((response) => {
-                console.log(response.data.comments, "response data");
                 setComments(response?.data?.comments || []);
-
             })
             .catch((error) => {
                 console.error(error, "error in posting comment");
