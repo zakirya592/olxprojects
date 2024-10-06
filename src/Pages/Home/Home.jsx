@@ -10,7 +10,7 @@ function Home() {
       <div className="w-full lg:w-[90%]  sm:w-full mx-auto mt-4 lg:mt-40 sm:mt-2 px-4">
         {/* <DropDownSelection /> */}
         <Hadersilder />
-        {/* <Categories /> */}
+        <Categories />
         <MoreinKidscard />
       </div>
     </div>

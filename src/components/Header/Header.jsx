@@ -20,12 +20,20 @@ import { useQuery } from "react-query";
 import imageLiveUrl from "../../../utils/urlConverter/imageLiveUrl";
 import "./Header.css"
 import DropDownSelection from "../DropDownSelection/DropDownSelection";
+import { CiMenuBurger } from "react-icons/ci";
+import { IoMdMenu } from "react-icons/io";
+import Categories from "../../Pages/Home/AllCategories/Categories";
 
 function Header() {
   const navigate = useNavigate();
   const [isCreatePopupVisible, setCreatePopupVisibility] = useState(false);
   const [isUserLoggedIn, setIsUserLoggedIn] = useState(false);
   const [userprofileimage, setuserprofileimage] = useState("")
+  
+  const [isCategoriesPopupVisible, setCategoriesPopupVisibility] = useState(false);
+   const handleShowUpdatePopup = (row) => {
+     setCategoriesPopupVisibility(true);
+   };
 
   useEffect(() => {
     const handleGoogleRedirect = () => {
@@ -198,6 +206,10 @@ function Header() {
 
   const handleSearch = (e) => {
     e.preventDefault();
+     if (query.trim() === "") {
+       toast.warn("Please enter a search term", { position: "top-right" });
+       return;
+     }
     searchMutation.mutate(query);
   };
 
@@ -270,7 +282,7 @@ function Header() {
                   <div className="flex w-full mt-2 lg:mt-0 sm:px-0 px-0 lg:px-2">
                     <div className="bg-white flex items-center rounded-md w-full shadow-lg">
                       {/* Category Dropdown */}
-                      <select className="text-gray-600 py-2 px-4 rounded focus:outline-none  ">
+                      {/* <select className="text-gray-600 py-2 px-4 rounded focus:outline-none  ">
                         <option value="All Categories">All Categories</option>
                         {categories.map((category, index) => {
                           category.products.filter(
@@ -286,7 +298,11 @@ function Header() {
                             </option>
                           );
                         })}
-                      </select>
+                      </select> */}
+                      <div className="text-maincolor text-lg font-bold py-2 px-4 rounded focus:outline-none  ">
+                        {/* <IoMdMenu onClick={handleShowUpdatePopup} /> */}
+                        <Categories/>
+                      </div>
 
                       {/* Autocomplete Input */}
                       {/* <Autocomplete
@@ -463,6 +479,14 @@ function Header() {
         <Firstloginsinup
           isVisible={isCreatePopupVisible}
           setVisibility={setCreatePopupVisibility}
+        />
+      )}
+
+      {isCategoriesPopupVisible && (
+        <Firstloginsinup
+          isVisible={isCategoriesPopupVisible}
+          setVisibility={setCategoriesPopupVisibility}
+          refreshBrandData={fetchData}
         />
       )}
     </>
