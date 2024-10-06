@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { toast } from "react-toastify";
 import "swiper/css";
@@ -15,7 +15,7 @@ import Button from "@mui/material/Button";
 import ArrowRightAltIcon from "@mui/icons-material/ArrowRightAlt";
 import { useQuery } from "react-query";
 import { Link, useNavigate } from "react-router-dom";
-import { CircularProgress } from "@mui/material";
+import { CircularProgress, Rating } from "@mui/material";
 import imagecard from "../../../assets/Images/imagecard.webp";
 import { FaRegHeart } from "react-icons/fa";
 import { MdOutlineNavigateNext } from "react-icons/md";
@@ -30,6 +30,33 @@ import { GrLike } from "react-icons/gr";
 const Hadersilder = () => {
   const isSmallScreen = useMediaQuery("(max-width: 425px)");
   const navigate = useNavigate();
+
+    const [productRatings, setProductRatings] = useState({});
+    async function fetchProductRatings(products) {
+    const ratings = {};
+
+    // Loop through products and fetch ratings for each product
+    for (const product of products) {
+      try {
+        const ratingResponse = await NewRequest.get(
+          `/comment/replay/${product._id}`
+        );
+
+        const productRatings = ratingResponse?.data?.comments;
+
+        // Calculate the average rating
+        const totalRatings = productRatings.reduce((acc, comment) => acc + (comment.rating || 0), 0);
+         const averageRating = productRatings ? totalRatings / productRatings.length : 0;
+
+        ratings[product._id] = averageRating || 0;
+      } catch (error) {
+        console.log(`Error fetching ratings for product ${product._id}`, error);
+        ratings[product._id] = 0; // Set to 0 in case of error
+      }
+    }
+
+    setProductRatings(ratings);
+  }
 
   // Fetch data and filter based on status
   const {
@@ -47,6 +74,7 @@ const Hadersilder = () => {
         (product) => product.status.toLowerCase() === "active"
       )
     );
+    await fetchProductRatings(activeProducts);
 
     return { categories: response.data, products: activeProducts };
   }
@@ -155,27 +183,36 @@ const Hadersilder = () => {
                 modules={[Keyboard, Scrollbar, Navigation, Pagination]}
                 className="mySwiper"
               >
-                {activeProducts.map((card) => (
-                  <SwiperSlide key={card.id} className="">
-                    <div className="h-auto lg:h-[330px] sm:h-auto w-full py-1 border border-gray-300 bg-white rounded-md shadow-lg px-5 hover:shadow-2xl hover:border-primary">
-                      <div className="font-semibold text-secondary sm:text-lg text-base hover:text-primary mt-3">
+                {activeProducts.map((card, index) => (
+                  <SwiperSlide>
+                    {/* <div className="h-auto lg:h-[350px] relative sm:h-auto w-full py-1 border border-gray-300 bg-white rounded-md shadow-lg px-5 hover:shadow-2xl hover:border-primary"> */}
+                    <div
+                      key={index}
+                      className="h-auto lg:h-[320px] relative sm:h-auto w-full py-1 border border-gray-300 bg-white rounded-md shadow-lg hover:shadow-2xl hover:border-primary"
+                    >
+                      <div className="font-semibold text-secondary sm:text-lg text-base hover:text-primary mt-3 w-full">
                         <img
                           src={imageLiveUrl(card.images[0])}
                           alt=""
-                          className="w-full h-44 object-cover cursor-pointer"
+                          className="w-full h-44 object-cover px-3 cursor-pointer"
                           onClick={() => singproductitem(card)}
                         />
                         <div className="w-full">
                           <p className="px-3 mt-3 text-detailscolor font-normal">
                             <DescriptionWithToggle description={card.name} />
                           </p>
-                          <div className="px-3 flex flex-row mt-5 justify-between gap-2">
-                            <p className="text-secondary sm:text-lg text-base">
-                              {card?.currency || "Rs"}
-                              <span className="ms-2">{card.price}</span>
-                            </p>
+                          <div className="flex flex-row my-5 justify-between w-full lg:absolute lg:bottom-1 px-4">
+                            <Rating
+                              name="half-rating"
+                              precision={0.5}
+                              value={productRatings[card._id] || "No ratings"}
+                              sx={{
+                                color: "#4C005A",
+                              }}
+                              readOnly
+                            />
                             <GrLike
-                              className=" text-maincolor cursor-pointer mb-4"
+                              className=" text-maincolor cursor-pointer"
                               onClick={() => postcard(card)}
                             />
                           </div>
