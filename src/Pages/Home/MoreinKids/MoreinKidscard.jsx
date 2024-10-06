@@ -181,7 +181,7 @@ const Hadersilder = () => {
                 navigation={true}
                 pagination={{ clickable: true }}
                 modules={[Keyboard, Scrollbar, Navigation, Pagination]}
-                className="mySwiper"
+                className="mySwiper py-6"
               >
                 {activeProducts.map((card, index) => (
                   <SwiperSlide>
