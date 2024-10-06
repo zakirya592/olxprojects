@@ -280,7 +280,7 @@ function Header() {
               <div className="flex items-center space-x-4 w-full flex-col sm:flex-row  justify-center lg:justify-end sm:justify-center smm:justify-center mt-2 lg:mt-0 sm:mt-2">
                 <div className="flex items-center w-full sm:px-0 px-0 lg:px-2">
                   <div className="flex w-full mt-2 lg:mt-0 sm:px-0 px-0 lg:px-2">
-                    <div className="bg-white flex items-center rounded-md w-full shadow-lg">
+                    <div className="bg-white flex items-center rounded-full w-full shadow-lg">
                       {/* Category Dropdown */}
                       {/* <select className="text-gray-600 py-2 px-4 rounded focus:outline-none  ">
                         <option value="All Categories">All Categories</option>
@@ -301,7 +301,7 @@ function Header() {
                       </select> */}
                       <div className="text-maincolor text-lg font-bold py-2 px-4 rounded focus:outline-none  ">
                         {/* <IoMdMenu onClick={handleShowUpdatePopup} /> */}
-                        <Categories/>
+                        <Categories />
                       </div>
 
                       {/* Autocomplete Input */}
@@ -352,7 +352,7 @@ function Header() {
                     /> */}
                       <input
                         type="text"
-                        className="ml-2 px-2 py-1 text-maincolor border rounded-l-md w-full focus:outline-none"
+                        className="ml-2 px-2 py-1 rounded-full text-maincolor border rounded-l-md w-full focus:outline-none"
                         value={query}
                         onChange={(e) => setQuery(e.target.value)}
                         onKeyDown={handleKeyDown}
@@ -383,7 +383,7 @@ function Header() {
 
                   <span className="ml-2 border-l border-gray-300"></span>
                 </div>
-                <div className="flex mt-2 gap-2 lg:mt-0 sm:mt-2">
+                <div className="hidden mt-2 gap-2 lg:mt-0 sm:mt-2 lg:flex md:flex sm:hidden">
                   <div
                     className="p-1 lg:block my-auto mx-3"
                     onClick={handleSellButtonClick}
@@ -403,11 +403,11 @@ function Header() {
                       size={25}
                       onClick={handlenotificationButtonClick}
                     />
-                    <FaCartPlus
+                    {/* <FaCartPlus
                       className="text-white cursor-pointer  lg:block"
                       size={25}
                       onClick={handlecardButtonClick}
-                    />
+                    /> */}
                     {isUserLoggedIn && (
                       <>
                         <Dropdown>
@@ -464,6 +464,83 @@ function Header() {
                       <div className="ms-3 my-auto flex flex-col">
                         <span className="text-sm">Login</span>
                         <span className="text-md">Account</span>
+                      </div>
+                    </h6>
+                  )}
+                </div>
+                <div className="fixed bottom-0 -left-4 w-full bg-maincolor text-white flex justify-around items-center py-2 sm:hidden">
+                  {/* Chat Icon */}
+                  <button className="text-white">
+                    <FaCommentDots
+                      size={24}
+                      onClick={handlemessageButtonClick}
+                    />
+                  </button>
+
+                  {/* Notification Icon */}
+                  <button className="text-white">
+                    <FaBell size={24} onClick={handlenotificationButtonClick} />
+                  </button>
+
+                  {/* Sell Button */}
+                  <button
+                    className="bg-white text-purple-800 font-bold py-1 px-4 rounded-full"
+                    onClick={handleSellButtonClick}
+                  >
+                    SELL
+                  </button>
+
+                  {/* Cart Icon */}
+                  <button className="text-white">
+                    <FaCartPlus size={24} />
+                  </button>
+
+                  {isUserLoggedIn && (
+                    <>
+                      <Dropdown>
+                        <MenuButton>
+                          <Stack
+                            style={{
+                              borderRadius: "12px",
+                              display: "flex",
+                              flexDirection: "row",
+                              color: "black",
+                            }}
+                          >
+                            <Avatar
+                              src={userprofileimage || "broken-image.jpg"}
+                            />
+                            <ArrowDropDownIcon className="my-auto text-white hover:text-black" />
+                          </Stack>
+                        </MenuButton>
+                        <Menu
+                          slots={{ listbox: Listbox }}
+                          style={{ zIndex: "200" }}
+                        >
+                          <MenuSection>
+                            <MenuItem onClick={() => navigate("/ProfilePage")}>
+                              profile
+                            </MenuItem>
+                            <MenuItem onClick={() => navigate("/MyProduct")}>
+                              My Product
+                            </MenuItem>
+                            <MenuItem onClick={() => navigate("/Myfavorites")}>
+                              Favourites & Saved searches
+                            </MenuItem>
+
+                            <MenuItem onClick={handleLogout}>Logout</MenuItem>
+                          </MenuSection>
+                        </Menu>
+                      </Dropdown>
+                    </>
+                  )}
+                  {!isUserLoggedIn && (
+                    <h6
+                      className="text-white flexcursor-pointer flex mx-4 cursor-pointer"
+                      onClick={handleShowCreatePopup}
+                    >
+                      <div className="my-auto">
+                        <FaRegUser size={24} />
                       </div>
                     </h6>
                   )}

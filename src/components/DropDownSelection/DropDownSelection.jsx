@@ -84,7 +84,7 @@ const DropDownSelection = () => {
                 </div>
               </div>
               <ul
-                className={`menu-main flex-row lg:rounded-full sm:rounded-none rounded-none 2xl:flex xl:flex lg:flex 3xl:flex 3xl:justify-start 3xl:items-start 2xl:justify-start xl:justify-start lg:justify-start 2xl:items-start xl:items-start lg:items-start sm:gap-10`}
+                className={`menu-main flex-row lg:rounded-full sm:rounded-none rounded-none 2xl:flex xl:flex lg:flex 3xl:flex 3xl:justify-start 3xl:items-start 2xl:justify-start xl:justify-start lg:justify-start 2xl:items-start xl:items-start lg:items-start sm:gap-5`}
               >
                 <li className="menu-item-has-children">
                   <div

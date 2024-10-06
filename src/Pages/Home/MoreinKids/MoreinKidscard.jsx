@@ -154,7 +154,7 @@ const Hadersilder = () => {
             </div>
             <div className="relative w-full bg-fourthcolor lg:p-3 p-1  sm:p-1">
               <Swiper
-                slidesPerView={1}
+                slidesPerView={2}
                 centeredSlides={false}
                 slidesPerGroupSkip={1}
                 grabCursor={true}
@@ -201,7 +201,7 @@ const Hadersilder = () => {
                           <p className="px-3 mt-3 text-detailscolor font-normal">
                             <DescriptionWithToggle description={card.name} />
                           </p>
-                          <div className="flex flex-row my-5 justify-between w-full lg:absolute lg:bottom-1 px-4">
+                          <div className="flex flex-row my-5 justify-between w-full lg:absolute lg:bottom-1 lg:px-4 sm:px-2 px-2">
                             <Rating
                               name="half-rating"
                               precision={0.5}

@@ -72,11 +72,17 @@ function Categories() {
               display: "flex",
               flexDirection: "row",
               color: "black",
+              alignItems: "start",
+              width: "120px",
             }}
           >
-            <IoMdMenu className="my-auto hover:text-black" />
+            <IoMdMenu className=" hover:text-black text-maincolor my-auto" />
+            <span className="ml-2 text-maincolor font-semibold my-auto">
+              All categories
+            </span>
           </Stack>
         </MenuButton>
+
         <Menu
           slots={{ listbox: Listbox }}
           style={{ zIndex: "200" }}
@@ -84,7 +90,9 @@ function Categories() {
         >
           <MenuSection>
             <MenuItem className="bg-[#F5F5F5]">
-             <h2 className="text-maincolor text-lg font-sans font-bold px-2 my-5">All categories</h2>
+              <h2 className="text-maincolor text-lg font-sans font-bold px-2 my-5">
+                All categories
+              </h2>
               <div className="grid 2xl:grid-cols-5 xl:grid-cols-4 gap-4 lg:grid-cols-4 md:grid-cols-4 grid-cols-2 sm:h-[300px] lg:h-full h-[300px] overflow-y-scroll sm:px-2 px-2 w-full mx-auto mb-3 ">
                 {isLoading ? (
                   <div>Loading...</div>
