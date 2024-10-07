@@ -281,13 +281,13 @@ function Header() {
                 <div className="flex items-center w-full sm:px-0 px-0 lg:px-2">
                   <div className="flex w-full mt-2 lg:mt-0 sm:px-0 px-0 lg:px-2">
                     <div className="bg-white flex items-center rounded-full w-full shadow-lg">
-                      <div className="text-maincolor text-lg font-bold py-2 px-4 rounded focus:outline-none  ">
+                      <div className="text-maincolor text-lg font-bold py-2 pl-4 rounded focus:outline-none  ">
                         <Categories />
                       </div>
                       <div className="relative w-full">
                         <input
                           type="text"
-                          className="ml-2 px-2 py-1 rounded-full text-maincolor border w-full focus:outline-none"
+                          className="lg:ml-2 sm:ml-0 ml-0 px-2 py-1 rounded-full text-maincolor border w-full focus:outline-none"
                           value={query}
                           onChange={(e) => setQuery(e.target.value)}
                           onKeyDown={handleKeyDown}
