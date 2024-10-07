@@ -209,7 +209,7 @@ const Singleitem = () => {
           {cardData?.cardData?.name || ""}
         </span>
       </div>
-      <div className="flex flex-col sm:flex-col md:flex-col lg:flex-row gap-6">
+      <div className="flex flex-col-reverse sm:flex-col-reverse md:flex-col lg:flex-row gap-6">
         <div className="w-full lg:w-[35%] sm:w-full ">
           <div className="border rounded shadow py-6 px-4 bg-maincolor">
             <p className="text-white font-sans text-center text-lg">
@@ -278,9 +278,9 @@ const Singleitem = () => {
               <div className=" flex">
                 <div className="text-secondary">
                   {isLoading ? (
-                    <Skeleton height={30} width={150} /> // Skeleton for location
+                    <Skeleton height={30} width={150} />
                   ) : (
-                    <div className="flex my-auto mt-5">
+                    <div className="flex my-auto">
                       <PinDropIcon className="text-[#757575]" />
                       <p className="text-secondary ml-2">
                         {data?.location || "location"}
@@ -314,7 +314,7 @@ const Singleitem = () => {
             </div>
           </div>
         </div>
-        <div className="relative h-auto w-full lg:w-[65%] sm:w-full bg-white border-b mb-20 ">
+        <div className="relative h-auto w-full lg:w-[65%] sm:w-full bg-white border-b lg:mb-20 sm:mb-5 mb-5 ">
           <div className="relative h-[150px] lg:h-[250px] sm:h-[150px] w-full">
             {isLoading ? (
               <Skeleton height={200} /> // Skeleton for the image slider
@@ -400,7 +400,7 @@ const Singleitem = () => {
               )}
             </div>
           </div>
-          <div className="border rounded shadow mt-10 bg-cardbg w-full">
+          <div className="border rounded shadow mt-5 bg-cardbg w-full">
             <div className="w-full mb-5 p-4">
               <p className="text-maincolor text-lg font-sans font-semibold mb-5">
                 Description
@@ -423,8 +423,8 @@ const Singleitem = () => {
         </p>
         <div className=" w-full bg-fourthcolor lg:p-3 p-1  sm:p-1 rounded-sm">
           <Swiper
-            slidesPerView={1}
-            spaceBetween={15}
+            slidesPerView={2}
+            spaceBetween={10}
             centeredSlides={false}
             slidesPerGroupSkip={1}
             grabCursor={true}
@@ -454,7 +454,7 @@ const Singleitem = () => {
               clickable: true,
             }}
             modules={[Keyboard, Scrollbar, Navigation, Pagination]}
-            className="mySwiper"
+            className="mySwiper py-6"
           >
             <div className="w-full ">
               {/* <SwiperSlide> */}
@@ -465,7 +465,7 @@ const Singleitem = () => {
                   <SwiperSlide>
                     <div
                       key={index}
-                      className="h-auto lg:h-[320px] relative sm:h-auto w-full py-1  border my-3 border-gray-300 bg-white rounded-md shadow-lg"
+                      className="h-[300px] lg:h-[340px] sm:h-[300px]  relative w-full py-1  border my-3 border-gray-300 bg-white rounded-md shadow-lg"
                     >
                       <div className="font-semibold text-secondary sm:text-lg text-base hover:text-maincolor mt-3">
                         <center>
