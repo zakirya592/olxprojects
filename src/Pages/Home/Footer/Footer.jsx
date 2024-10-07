@@ -155,7 +155,7 @@ const viewmorefooter = (product) => {
           </div>
         </div>
       </div>
-      <div className={`bg-[#2D6A3C] text-white mb-16 lg:mb-0 sm:mb-16`}>
+      <div className={`bg-[#2D6A3C] text-white mb-14 lg:mb-0 sm:mb-16`}>
         <div className="p-4">
           <Link
             to={`https://g.co/kgs/MQLeL3q`}
