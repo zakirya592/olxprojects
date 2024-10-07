@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { FaRegHeart } from "react-icons/fa";
 import { useQuery, useQueryClient } from "react-query";
 import { useNavigate } from "react-router-dom";
@@ -9,6 +9,7 @@ import DescriptionWithToggle from "../MoreinKids/DescriptionWithToggle";
 
 import imageLiveUrl from "../../../../utils/urlConverter/imageLiveUrl";
 import { GrLike } from "react-icons/gr";
+import { Rating } from "@mui/material";
 
 const MoreProductview = () => {
   const navigate = useNavigate();
@@ -19,6 +20,33 @@ const MoreProductview = () => {
   const storedUserResponseString = sessionStorage.getItem("userResponse");
   const storedUserResponse = JSON.parse(storedUserResponseString);
   const loginuserid = storedUserResponse?.data?.user?._id || "";
+
+  const [productRatings, setProductRatings] = useState({});
+  async function fetchProductRatings(products) {
+    const ratings = {};
+
+    // Loop through products and fetch ratings for each product
+    for (const product of products) {
+      try {
+        const ratingResponse = await NewRequest.get(
+          `/comment/replay/${product._id}`
+        );
+
+        const productRatings = ratingResponse?.data?.comments;
+
+        // Calculate the average rating
+        const totalRatings = productRatings.reduce((acc, comment) => acc + (comment.rating || 0), 0);
+        const averageRating = productRatings ? totalRatings / productRatings.length : 0;
+
+        ratings[product._id] = averageRating || 0;
+      } catch (error) {
+        console.log(`Error fetching ratings for product ${product._id}`, error);
+        ratings[product._id] = 0; // Set to 0 in case of error
+      }
+    }
+
+    setProductRatings(ratings);
+  }
 
   const {
     isLoading,
@@ -39,13 +67,13 @@ const MoreProductview = () => {
 
   async function fetchmoreproductData() {
     const response = await NewRequest.get(
-      `/product/getProductsByCategory/${
-        subCategoriesResponse?.category?._id || ""
+      `/product/getProductsByCategory/${subCategoriesResponse?.category?._id || ""
       }`
     );
     const activeProducts = response?.data.filter(
       (product) => product.status.toLowerCase() === "active"
     );
+    await fetchProductRatings(activeProducts);
     return activeProducts || [];
   }
 
@@ -124,7 +152,7 @@ const MoreProductview = () => {
         <div className="flex flex-col lg:flex-row sm:flex-col">
           {/* Main Content */}
           <main className="flex-1 p-4 flex-col lg:flex-row sm:flex-col">
-            <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-3 gap-4">
+            <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-4 gap-4">
               {isLoading ? (
                 <div>
                   {[...Array(3)].map((_, index) => (
@@ -132,13 +160,13 @@ const MoreProductview = () => {
                       className="border rounded shadow cursor-pointer"
                       key={index}
                     >
-                      <div className="flex gap-3">
+                      <div className="flex flex-col gap-1 sm:gap-1 lg:gap-3 ">
                         <Skeleton
                           variant="rectangular"
                           width="100%"
                           height={208}
                         />
-                        <div className="w-full mb-5 p-4">
+                        <div className="w-full mb-5 p-4 flex flex-col gap-1 sm:gap-1 lg:gap-3">
                           <Skeleton
                             variant="text"
                             width="60%"
@@ -177,32 +205,39 @@ const MoreProductview = () => {
                     className="border rounded shadow cursor-pointer hover:shadow-lg "
                     key={index}
                   >
-                    <div className="flex gap-3 flex-col ">
+                    <div className="flex flex-col gap-1 sm:gap-1 lg:gap-3">
                       <div className=" w-full">
                         <img
                           src={imageLiveUrl(item?.images?.[0]) || ""}
                           alt="Product"
-                          className="w-full h-52 object-contain"
+                          className="w-full h-40 lg:h-52 sm:h-40  lg:object-contain sm:object-cover object-cover"
                           onClick={() => singproductitem(item)}
                         />
                       </div>
-                      <div className="w-full mb-5 p-4">
+                      <div className="w-full  sm:p-1 lg:p-4 p-2">
                         <DescriptionWithToggle description={item.name} />
                         <div className="flex justify-between mt-3">
-                          <h3 className="font-bold text-lg mb-2">
-                            {item?.currency || "Rs"}
-                            <span className="text-maincolor ms-2">
-                              {item?.price || ""}
-                            </span>
-                          </h3>
+                          <Rating
+                            name="half-rating"
+                            precision={0.5}
+                            value={productRatings[item._id] || "0"}
+                            sx={{
+                              color: "#4C005A",
+                              fontSize: {
+                                xs: "15px",
+                                sm: "15px",
+                                md: "1rem",
+                                lg: "1.5rem",
+                              },
+                            }}
+                            readOnly
+                          />
                           <GrLike
                             className=" text-maincolor cursor-pointer mb-4"
                             onClick={() => postcard(item._id)}
                           />
                         </div>
-                        <p className="text-gray-500 text-sm">
-                          {item?.location || ""}
-                        </p>
+
                         <div className="flex mt-4">
                           <button
                             className="text-white hover:bg-white hover:text-maincolor border bg-maincolor border-maincolor rounded-full text-lg font-sans font-bold px-4  "
