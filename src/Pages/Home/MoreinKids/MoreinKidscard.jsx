@@ -15,7 +15,7 @@ import Button from "@mui/material/Button";
 import ArrowRightAltIcon from "@mui/icons-material/ArrowRightAlt";
 import { useQuery } from "react-query";
 import { Link, useNavigate } from "react-router-dom";
-import { CircularProgress, Rating } from "@mui/material";
+import { CircularProgress, Dialog, DialogContent, IconButton, Rating } from "@mui/material";
 import imagecard from "../../../assets/Images/imagecard.webp";
 import { FaRegHeart } from "react-icons/fa";
 import { MdOutlineNavigateNext } from "react-icons/md";
@@ -26,10 +26,21 @@ import imageLiveUrl from "../../../../utils/urlConverter/imageLiveUrl";
 import { ThumbUpAlt } from "@mui/icons-material";
 import likeicon from "../../../assets/Images/like.jpg";
 import { GrLike } from "react-icons/gr";
+import { GridCloseIcon } from "@mui/x-data-grid";
 
 const Hadersilder = () => {
   const isSmallScreen = useMediaQuery("(max-width: 425px)");
   const navigate = useNavigate();
+ const [isDialogOpen, setIsDialogOpen] = useState(false); // For controlling modal visibility
+ const [selectedImage, setSelectedImage] = useState(null); // To store the clicked image
+ const openImagePreview = (image) => {
+   setSelectedImage(image); // Set the clicked image
+   setIsDialogOpen(true); // Open the dialog
+ };
+
+ const closeDialog = () => {
+   setIsDialogOpen(false); // Close the dialog
+ };
 
     const [productRatings, setProductRatings] = useState({});
     async function fetchProductRatings(products) {
@@ -130,7 +141,6 @@ const Hadersilder = () => {
   const categories = productsdata.categories;
 
   return (
-  
     <div className="relative h-auto w-full bg-white border-b mt-10 mb-20">
       {categories.map((category) => {
         const activeProducts = category.products.filter(
@@ -194,10 +204,15 @@ const Hadersilder = () => {
                           src={imageLiveUrl(card.images[0])}
                           alt=""
                           className="w-full h-44 object-cover px-3 cursor-pointer"
-                          onClick={() => singproductitem(card)}
+                          // onClick={() => singproductitem(card)}
+                          onClick={() =>
+                            openImagePreview(imageLiveUrl(card.images[0]))
+                          } // Open image preview on click
                         />
                         <div className="w-full">
-                          <p className="px-3 mt-3 text-detailscolor font-normal">
+                          <p className="px-3 mt-3 text-detailscolor font-normal cursor-pointer" 
+                           onClick={() => singproductitem(card)}
+                           >
                             <DescriptionWithToggle description={card.name} />
                           </p>
                           <div className="flex flex-row mt-5 mb-2 justify-between w-full absolute bottom-1 lg:px-4 sm:px-2 px-2">
@@ -231,6 +246,32 @@ const Hadersilder = () => {
           </div>
         );
       })}
+      <Dialog open={isDialogOpen} onClose={closeDialog} maxWidth="md">
+        <DialogContent>
+          <div className="relative">
+            {/* Close button */}
+            <IconButton
+              aria-label="close"
+              onClick={closeDialog}
+              sx={{
+                position: "absolute",
+                right: 8,
+                top: 8,
+                color: (theme) => theme.palette.grey[500],
+              }}
+            >
+              <GridCloseIcon />
+            </IconButton>
+
+            {/* Image */}
+            <img
+              src={selectedImage}
+              alt="Preview"
+              className="w-full h-auto object-cover"
+            />
+          </div>
+        </DialogContent>
+      </Dialog>
     </div>
   );
 };
