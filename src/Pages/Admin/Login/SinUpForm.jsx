@@ -21,27 +21,37 @@ const SinUpForm = () => {
   const [aboutMe, setaboutMe] = useState("");
   const [companyLandLine, setCompanyLandLine] = useState("");
   const [showPassword, setShowPassword] = useState(false);
-  const [status, setStatus] = useState(""); // State to track selected status  
+  const [status, setStatus] = useState("");
   const [isGemstone, setIsGemstone] = useState(false);
   const [isChecked, setIsChecked] = useState(false);
   const [taxNo, settaxNo] = useState('')
   const [id_cardNo, setid_cardNo] = useState('')
-  const [isTermsAndConditionPopUp, setIsTermsAndConditionPopUp] = useState(false);
+  const [isTermsAndConditionPopUp, setIsTermsAndConditionPopUp] = useState(false);  
+  const [companyLandlineError, setCompanyLandlineError] = useState("");
+  const [selectedFile, setSelectedFile] = useState(null);
+  const [imageshow, setimageshow] = useState("");
+    const [selectedFilefrontcnic, setSelectedFilefrontcnic] = useState(null);
+    const [imageshowfrontcnic, setimageshowfrontcnic] = useState("");
+        const [selectedFilebackcnic, setSelectedFilebackcnic] = useState(null);
+    const [imageshowbackcnic, setimageshowbackcnic] = useState("");
 
   const handleChangeStatus = (e) => {
     setStatus(e.target.value);
     setIsGemstone(true)
   };
 
-  const [companyLandlineError, setCompanyLandlineError] = useState("");
-
-  const [selectedFile, setSelectedFile] = useState(null);
-  const [imageshow, setimageshow] = useState("");
-
   function handleChangeback(e) {
     setSelectedFile(e.target.files[0]);
     setimageshow(e.target.files[0]);
   }
+  function handleChangebackfrontcnic(e) {
+    setSelectedFilefrontcnic(e.target.files[0]);
+    setimageshowfrontcnic(e.target.files[0]);
+  }
+   function handleChangebackbackcnic(e) {
+     setSelectedFilebackcnic(e.target.files[0]);
+     setimageshowbackcnic(e.target.files[0]);
+   }
 
   const handlecompanyLandLine = (value) => {
     // Reset error message
@@ -107,6 +117,8 @@ const SinUpForm = () => {
     if (isGemstone) {
       formData.append("isGemstone", true);
       formData.append("pictureBusinessCertificate", imageshow);
+      formData.append("frontImage", imageshowfrontcnic);
+      formData.append("backImage", imageshowbackcnic);
       formData.append("taxNo", taxNo);
       formData.append("id_cardNo", id_cardNo);
     }
@@ -201,7 +213,6 @@ const SinUpForm = () => {
 
   return (
     <section className="bg-gray-50">
-      {/* <div className="flex flex-col lg:flex-row items-center justify-between bg-gray-900 mx-auto"> */}
       <div className="h-full w-full lg:w-1/2  sm:w-full mx-auto rounded-md shadow-xl bg-white flex flex-col items-center justify-between p-0 lg:p-8 sm:p-0">
         <div className="w-full sm:w-full dark:bg-gray-800 border rounded-lg shadow dark:border-gray-700 flex flex-col items-center justify-between overflow-y-auto h-full">
           <div className="w-full mx-auto bg-white rounded-lg shadow dark:bg-gray-800 dark:border-gray-700 p-6 h-[100%] overflow-y-auto space-y-4 md:space-y-6">
@@ -257,7 +268,6 @@ const SinUpForm = () => {
                   country={"pk"}
                   defaultCountry={"pk"}
                   value={companyLandLine}
-                  // onChange={setCompanyLandLine}
                   onChange={handlecompanyLandLine}
                   inputProps={{
                     id: "landline",
@@ -272,8 +282,6 @@ const SinUpForm = () => {
                     // color: "white",
                   }}
                   className="bg-gray-50 border border-gray-300 rounded-lg focus:ring-primary-600 focus:border-primary-600 text-black dark:text-white  block w-full p-1 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400  dark:focus:ring-blue-500 dark:focus:border-blue-500 pr-10"
-
-                  // required
                 />
                 {companyLandlineError && (
                   <p className="text-red-600">{companyLandlineError}</p>
@@ -346,22 +354,6 @@ const SinUpForm = () => {
                       />
                     </div>
 
-                    {/* Business Certificate */}
-                    {/* <div className="w-full font-body sm:text-base text-sm flex flex-col gap-2">
-                      <label
-                        htmlFor="businessCertificate"
-                        className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
-                      >
-                        Business Certificate
-                      </label>
-                      <input
-                        type="text"
-                        id="businessCertificate"
-                        className="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                        placeholder="Enter your Business Certificate Number"
-                      />
-                    </div> */}
-
                     {/* Tax Number */}
                     <div className="w-full font-body sm:text-base text-sm flex flex-col gap-2">
                       <label
@@ -418,6 +410,90 @@ const SinUpForm = () => {
                               id="file-inputs"
                               type="file"
                               onChange={handleChangeback}
+                              style={{ display: "none" }}
+                            />
+                          </div>
+                        </div>
+                      </div>
+
+                      <div className="printerPic font-body sm:text-base text-sm flex flex-col gap-2">
+                        <label
+                          htmlFor="frontCNIC"
+                          className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+                        >
+                          Front CNIC
+                        </label>
+                        <div className="imgesection">
+                          <img
+                            src={
+                              selectedFilefrontcnic
+                                ? URL.createObjectURL(selectedFilefrontcnic)
+                                : imageshowfrontcnic != null
+                                ? imageshowfrontcnic
+                                : ""
+                            }
+                            className="printerpic text-black"
+                            alt="Front CNIC"
+                            style={{
+                              width:
+                                selectedFilefrontcnic || imageshowfrontcnic ? "200px" : "200px",
+                              height:
+                                selectedFilefrontcnic || imageshowfrontcnic ? "200px" : "200px",
+                            }}
+                          />
+                          <div className="row " htmlFor="file-inputs">
+                            <label
+                              htmlFor="frontCNIC"
+                              className="choosefile bg-loactioncolor hover:bg-primary"
+                            >
+                              Upload
+                            </label>
+                            <input
+                              id="frontCNIC"
+                              type="file"
+                              onChange={handleChangebackfrontcnic}
+                              style={{ display: "none" }}
+                            />
+                          </div>
+                        </div>
+                      </div>
+
+                      <div className="printerPic font-body sm:text-base text-sm flex flex-col gap-2">
+                        <label
+                          htmlFor="backcnic"
+                          className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+                        >
+                          Back CNIC
+                        </label>
+                        <div className="imgesection">
+                          <img
+                            src={
+                              selectedFilebackcnic
+                                ? URL.createObjectURL(selectedFilebackcnic)
+                                : imageshowbackcnic != null
+                                ? imageshowbackcnic
+                                : ""
+                            }
+                            className="printerpic text-black"
+                            alt="Back CNIC"
+                            style={{
+                              width:
+                                selectedFilebackcnic || imageshowbackcnic ? "200px" : "200px",
+                              height:
+                                selectedFilebackcnic || imageshowbackcnic ? "200px" : "200px",
+                            }}
+                          />
+                          <div className="row " htmlFor="backcnic">
+                            <label
+                              htmlFor="backcnic"
+                              className="choosefile bg-loactioncolor hover:bg-primary"
+                            >
+                              Upload
+                            </label>
+                            <input
+                              id="backcnic"
+                              type="file"
+                              onChange={handleChangebackbackcnic}
                               style={{ display: "none" }}
                             />
                           </div>
