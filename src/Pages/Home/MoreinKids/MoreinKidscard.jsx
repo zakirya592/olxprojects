@@ -11,35 +11,28 @@ import {
   Keyboard,
   Scrollbar,
 } from "swiper/modules";
-import Button from "@mui/material/Button";
-import ArrowRightAltIcon from "@mui/icons-material/ArrowRightAlt";
 import { useQuery } from "react-query";
 import { Link, useNavigate } from "react-router-dom";
-import { CircularProgress, Dialog, DialogContent, IconButton, Rating } from "@mui/material";
-import imagecard from "../../../assets/Images/imagecard.webp";
-import { FaRegHeart } from "react-icons/fa";
+import { Dialog, DialogContent, IconButton, Rating } from "@mui/material";
 import { MdOutlineNavigateNext } from "react-icons/md";
 import useMediaQuery from "@mui/material/useMediaQuery";
 import NewRequest from "../../../../utils/NewRequest";
 import DescriptionWithToggle from "./DescriptionWithToggle";
 import imageLiveUrl from "../../../../utils/urlConverter/imageLiveUrl";
-import { ThumbUpAlt } from "@mui/icons-material";
-import likeicon from "../../../assets/Images/like.jpg";
 import { GrLike } from "react-icons/gr";
 import { GridCloseIcon } from "@mui/x-data-grid";
 
 const Hadersilder = () => {
-  const isSmallScreen = useMediaQuery("(max-width: 425px)");
   const navigate = useNavigate();
- const [isDialogOpen, setIsDialogOpen] = useState(false); // For controlling modal visibility
- const [selectedImage, setSelectedImage] = useState(null); // To store the clicked image
+ const [isDialogOpen, setIsDialogOpen] = useState(false); 
+ const [selectedImage, setSelectedImage] = useState(null); 
  const openImagePreview = (image) => {
-   setSelectedImage(image); // Set the clicked image
-   setIsDialogOpen(true); // Open the dialog
+   setSelectedImage(image); 
+   setIsDialogOpen(true); 
  };
 
  const closeDialog = () => {
-   setIsDialogOpen(false); // Close the dialog
+   setIsDialogOpen(false); 
  };
 
     const [productRatings, setProductRatings] = useState({});
@@ -210,11 +203,11 @@ const Hadersilder = () => {
                           } // Open image preview on click
                         />
                         <div className="w-full">
-                          <p className="px-3 mt-3 text-detailscolor font-normal cursor-pointer" 
+                          <div className="px-3 mt-3 text-detailscolor font-normal cursor-pointer" 
                            onClick={() => singproductitem(card)}
                            >
                             <DescriptionWithToggle description={card.name} />
-                          </p>
+                          </div>
                           <div className="flex flex-row mt-5 mb-2 justify-between w-full absolute bottom-1 lg:px-4 sm:px-2 px-2">
                             <Rating
                               name="half-rating"
@@ -223,10 +216,10 @@ const Hadersilder = () => {
                               sx={{
                                 color: "#4C005A",
                                 fontSize: {
-                                  xs: "15px", // Size for extra small screens (e.g., mobile)
-                                  sm: "15pxrem", // Size for small screens (you can adjust this)
-                                  md: "1rem", // Size for medium screens
-                                  lg: "1.5rem", // Size for large screens
+                                  xs: "15px", 
+                                  sm: "15px",
+                                  md: "1rem",
+                                  lg: "1.5rem",
                                 },
                               }}
                               readOnly
@@ -267,7 +260,7 @@ const Hadersilder = () => {
             <img
               src={selectedImage}
               alt="Preview"
-              className="w-full h-auto object-cover"
+              className="w-full h-80 object-cover"
             />
           </div>
         </DialogContent>
