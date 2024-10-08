@@ -23,7 +23,8 @@ import Commentproduct from "../../Commentproduct/Commentproduct";
 import { MdEmail } from "react-icons/md";
 import { FaPhoneAlt } from "react-icons/fa";
 import { GrLike } from "react-icons/gr";
-import { Rating } from "@mui/material";
+import { Dialog, DialogContent, IconButton, Rating } from "@mui/material";
+import { GridCloseIcon } from "@mui/x-data-grid";
 
 const Singleitem = () => {
 
@@ -201,6 +202,17 @@ const Singleitem = () => {
     navigate(`/Productlist/${product._id}`);
   };
 
+   const [isDialogOpen, setIsDialogOpen] = useState(false);
+   const [selectedImage, setSelectedImage] = useState(null);
+   const openImagePreview = (image) => {
+     setSelectedImage(image);
+     setIsDialogOpen(true);
+   };
+
+   const closeDialog = () => {
+     setIsDialogOpen(false);
+   };
+
 
   return (
     <div className="lg:px-10 mt-3 lg:mt-28 sm:mt-2  mx-auto w-full lg:w-[90%] sm:w-full">
@@ -344,7 +356,7 @@ const Singleitem = () => {
                   clickable: true,
                 }}
                 modules={[Autoplay, Pagination, Navigation]}
-                className="mySwiper"
+                className="mySwiper "
               >
                 {/* <SwiperSlide> */}
                 <div className="relative w-full">
@@ -355,6 +367,9 @@ const Singleitem = () => {
                           src={imageLiveUrl(image)}
                           className="w-full h-full object-contain"
                           alt={`Slide ${index}`}
+                          onClick={() =>
+                            openImagePreview(imageLiveUrl(image))
+                          }
                         />
                       </div>
                     </SwiperSlide>
@@ -363,21 +378,9 @@ const Singleitem = () => {
                 {/* </SwiperSlide> */}
               </Swiper>
             )}
-            <div
-              id="swiper-button-prev"
-              className="absolute bottom-0 z-20 -translate-y-1/2 transform right-20"
-            >
-              <IoIosArrowDropleftCircle className="cursor-pointer rounded-full text-5xl text-black opacity-80 hover:opacity-100" />
-            </div>
-            <div
-              id="swiper-button-next"
-              className="absolute bottom-0 z-20 -translate-y-1/2 transform right-6"
-            >
-              <IoIosArrowDroprightCircle className="cursor-pointer rounded-full text-5xl text-black opacity-80 hover:opacity-100" />
-            </div>
           </div>
-          <div className="border rounded bg-cardbg shadow mt-10">
-            <div className="w-full mb-1 p-4">
+          <div className="border rounded bg-cardbg shadow mt-20">
+            <div className="w-full mb-1 p-4 ">
               {isLoading ? (
                 <Skeleton height={30} width={150} />
               ) : (
@@ -512,6 +515,32 @@ const Singleitem = () => {
         </div>
       </div>
       <Commentproduct productdata={cardData} />
+      <Dialog open={isDialogOpen} onClose={closeDialog} maxWidth="md">
+        <DialogContent>
+          <div className="relative">
+            {/* Close button */}
+            <IconButton
+              aria-label="close"
+              onClick={closeDialog}
+              sx={{
+                position: "absolute",
+                right: 1,
+                top: 8,
+                color: (theme) => theme.palette.grey[500],
+              }}
+            >
+              <GridCloseIcon className="text-white bg-black" />
+            </IconButton>
+
+            {/* Image */}
+            <img
+              src={selectedImage}
+              alt="Preview"
+              className="w-full h-80 object-cover"
+            />
+          </div>
+        </DialogContent>
+      </Dialog>
     </div>
   );
 };

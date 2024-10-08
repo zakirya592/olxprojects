@@ -126,7 +126,8 @@ const Hadersilder = () => {
 
   return (
     <div className="relative h-auto w-full bg-white border-b mt-10 mb-20">
-      {categories.map((category,index) => {
+     
+      {categories.map((category, index) => {
         const activeProducts = category.products.filter(
           (product) => product.status.toLowerCase() === "active"
         );
@@ -188,7 +189,7 @@ const Hadersilder = () => {
                           // onClick={() => singproductitem(card)}
                           onClick={() =>
                             openImagePreview(imageLiveUrl(card.images[0]))
-                          } 
+                          }
                         />
                         <div className="w-full">
                           <div
@@ -202,7 +203,11 @@ const Hadersilder = () => {
                               name="half-rating"
                               precision={0.5}
                               // value={productRatings[card._id] || "No ratings"}
-                                value={productRatings[card._id] ? Number(productRatings[card._id]) : 0}
+                              value={
+                                productRatings[card._id]
+                                  ? Number(productRatings[card._id])
+                                  : 0
+                              }
                               sx={{
                                 color: "#4C005A",
                                 fontSize: {
@@ -229,6 +234,7 @@ const Hadersilder = () => {
           </div>
         );
       })}
+
       <Dialog open={isDialogOpen} onClose={closeDialog} maxWidth="md">
         <DialogContent>
           <div className="relative">
@@ -243,7 +249,7 @@ const Hadersilder = () => {
                 color: (theme) => theme.palette.grey[500],
               }}
             >
-              <GridCloseIcon className="text-white bg-black"/>
+              <GridCloseIcon className="text-white bg-black" />
             </IconButton>
 
             {/* Image */}

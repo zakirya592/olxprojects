@@ -17,6 +17,12 @@
 .directionltr {
   direction: ltr;
 }
+.swiper-pagination{
+  position:unset
+}
+.swiper-pagination-bullet-active {
+  background-color: #4C005A !important;
+}
 
 @tailwind base;
 @tailwind components;
