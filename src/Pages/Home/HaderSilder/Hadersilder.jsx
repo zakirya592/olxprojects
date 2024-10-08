@@ -23,7 +23,11 @@ const Hadersilder = () => {
     return response?.data.filter((item) => item.status === 1) || [];
     
   }
-
+ const nextpage = (url) => {
+   if (url) {
+     window.open(url, "_blank");
+   }
+ };
   return (
     <div className="relative h-auto w-full bg-white border-b mb-10">
       <div className="relative  h-[150px] lg:h-[250px] sm:h-[150px]  w-full ">
@@ -56,8 +60,9 @@ const Hadersilder = () => {
                 <div className="relative w-full  h-[150px] lg:h-[250px] sm:h-[150px] rounded">
                   <img
                     src={imageLiveUrl(item?.image)}
-                    className="w-full h-full object-cover"
+                    className="w-full h-full object-cover cursor-pointer"
                     alt="Small Screen Slide"
+                    onClick={() => nextpage(item?.url)}
                   />
                 </div>
               </SwiperSlide>
