@@ -179,7 +179,17 @@ const Singleitem = () => {
     navigate(`/moreproduct/${product.name}`);
   };
 
+  const loginuserdata = storedUserResponse?.data?.user || "";
+  let senderId = loginuserdata?._id || "";
+  if (!senderId) {
+    senderId = localStorage.getItem("userdata") || "";
+  }
+
   const charfunction = (Product) => {
+
+     if (!senderId) {
+       navigate("/LoginForm");
+     }
     const subResponsechat = JSON.stringify(Product.User);
     sessionStorage.setItem("chardata", subResponsechat);
     navigate("/Chat");
