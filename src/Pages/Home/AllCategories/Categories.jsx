@@ -2,21 +2,15 @@ import React from "react";
 import { useNavigate } from "react-router-dom";
 import { useQuery } from "react-query";
 import NewRequest from "../../../../utils/NewRequest";
-import { Swiper, SwiperSlide } from "swiper/react";
 import "swiper/css";
 import imageLiveUrl from "../../../../utils/urlConverter/imageLiveUrl";
-
 import { Dropdown } from "@mui/base/Dropdown";
 import { Menu } from "@mui/base/Menu";
 import { MenuButton as BaseMenuButton } from "@mui/base/MenuButton";
-import { MenuItem as BaseMenuItem, menuItemClasses } from "@mui/base/MenuItem";
+import { MenuItem as BaseMenuItem } from "@mui/base/MenuItem";
 import { styled } from "@mui/system";
-import Avatar from "@mui/material/Avatar";
 import { Stack } from "@mui/material";
-import ArrowDropDownIcon from "@mui/icons-material/ArrowDropDown";
 import PropTypes from "prop-types";
-import { FaRegUser } from "react-icons/fa";
-import { useMutation } from "react-query";
 import { IoMdMenu } from "react-icons/io";
 function Categories() {
 
@@ -49,10 +43,9 @@ function Categories() {
     navigate(`/moreproduct/${selectedCategoryProducts?.category?.name}`);
   };
 
-  function MenuSection({ children, label }) {
+  function MenuSection({ children }) {
     return (
       <MenuSectionRoot role="group">
-        {/* <MenuSectionLabel className="text-maincolor text-lg font-sans font-bold">All categories</MenuSectionLabel> */}
         <ul className="px-10">{children}</ul>
       </MenuSectionRoot>
     );
@@ -60,7 +53,6 @@ function Categories() {
 
   MenuSection.propTypes = {
     children: PropTypes.node,
-    label: PropTypes.string.isRequired,
   };
   return (
     <div className="w-full">
@@ -99,9 +91,9 @@ function Categories() {
                 ) : error ? (
                   ""
                 ) : (
-                  eventsData.map((item) => (
+                  eventsData.map((item, index) => (
                     <div
-                      key={item.id}
+                      key={index}
                       className="w-full py-4 rounded-lg bg-white shadow-md"
                     >
                       <div
@@ -133,40 +125,6 @@ function Categories() {
           </MenuSection>
         </Menu>
       </Dropdown>
-      {/* Grid for Large Screens */}
-      {/* <div className="grid 2xl:grid-cols-4 xl:grid-cols-4 gap-4 lg:grid-cols-4 md:grid-cols-3 grid-cols-1 sm:px-2 px-2 w-full mx-auto mb-3">
-        {isLoading ? (
-          <div>Loading...</div>
-        ) : error ? (
-          ""
-        ) : (
-          eventsData.map((item) => (
-            <div key={item.id} className="w-full py-4 bg-[#303030] rounded-lg">
-              <div
-                onClick={() => viewmore(item)}
-                className="font-semibold text-white sm:text-lg text-base hover:text-primary mt-3 cursor-pointer"
-              >
-                <div className="flex flex-col items-center w-full justify-center">
-                  {item?.icon ? (
-                    <img
-                      src={imageLiveUrl(item.icon)}
-                      alt="icon"
-                      className="w-14 h-14 object-contain"
-                    />
-                  ) : (
-                    <div className="w-14 h-14 mt-1 flex justify-center items-center">
-                      <div className="w-10 h-10 border border-gray-300 rounded-full"></div>
-                    </div>
-                  )}
-                  <div className="w-full mt-3 text-center">
-                    <p className="">{item.name}</p>
-                  </div>
-                </div>
-              </div>
-            </div>
-          ))
-        )}
-      </div> */}
     </div>
   );
 }
@@ -220,6 +178,3 @@ const MenuSectionRoot = styled("li")`
   }
 `;
 
-const MenuSectionLabel = styled("span")`
-  display: block;
-`;

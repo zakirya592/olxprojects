@@ -51,9 +51,9 @@ const Hadersilder = () => {
           ) : error ? (
             " "
           ) : (
-            slidersData.map((item,index) => (
-              <SwiperSlide>
-                <div className="relative w-full  h-[150px] lg:h-[250px] sm:h-[150px] rounded" key={index}>
+            slidersData.map((item, index) => (
+              <SwiperSlide key={index}>
+                <div className="relative w-full  h-[150px] lg:h-[250px] sm:h-[150px] rounded">
                   <img
                     src={imageLiveUrl(item?.image)}
                     className="w-full h-full object-cover"

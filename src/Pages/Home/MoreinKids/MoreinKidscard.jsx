@@ -5,17 +5,15 @@ import "swiper/css";
 import "swiper/css/pagination";
 import "swiper/css/navigation";
 import {
-  Autoplay,
   Pagination,
   Navigation,
   Keyboard,
   Scrollbar,
 } from "swiper/modules";
 import { useQuery } from "react-query";
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { Dialog, DialogContent, IconButton, Rating } from "@mui/material";
 import { MdOutlineNavigateNext } from "react-icons/md";
-import useMediaQuery from "@mui/material/useMediaQuery";
 import NewRequest from "../../../../utils/NewRequest";
 import DescriptionWithToggle from "./DescriptionWithToggle";
 import imageLiveUrl from "../../../../utils/urlConverter/imageLiveUrl";
@@ -47,15 +45,12 @@ const Hadersilder = () => {
         );
 
         const productRatings = ratingResponse?.data?.comments;
-
-        // Calculate the average rating
         const totalRatings = productRatings.reduce((acc, comment) => acc + (comment.rating || 0), 0);
          const averageRating = productRatings ? totalRatings / productRatings.length : 0;
 
         ratings[product._id] = averageRating || 0;
       } catch (error) {
-        console.log(`Error fetching ratings for product ${product._id}`, error);
-        ratings[product._id] = 0; // Set to 0 in case of error
+        ratings[product._id] = 0; 
       }
     }
 
@@ -91,7 +86,6 @@ const Hadersilder = () => {
   const loginuserid = storedUserResponse?.data?.user?._id || "";
 
   const postcard = (Product) => {
-    console.log(Product._id);
     try {
       NewRequest.post(`/wishlist/${loginuserid}`, { productId: Product._id });
       toast.success(`Product has been added successfully`, {
@@ -105,7 +99,6 @@ const Hadersilder = () => {
         theme: "light",
       });
     } catch (error) {
-      console.log(error);
       toast.error(error?.response?.data?.error || "Error", {
         position: "top-right",
         autoClose: 2000,
@@ -120,8 +113,6 @@ const Hadersilder = () => {
   };
 
   const viewmore = (category) => {
-    console.log(category.category.name);
-
     sessionStorage.setItem("productmore", JSON.stringify(category));
     navigate(`/moreproduct/${category.category.name}`);
   };
@@ -135,7 +126,7 @@ const Hadersilder = () => {
 
   return (
     <div className="relative h-auto w-full bg-white border-b mt-10 mb-20">
-      {categories.map((category) => {
+      {categories.map((category,index) => {
         const activeProducts = category.products.filter(
           (product) => product.status.toLowerCase() === "active"
         );
@@ -145,7 +136,7 @@ const Hadersilder = () => {
         }
 
         return (
-          <div key={category._id} className="mt-5">
+          <div key={index} className="mt-5">
             <div className="flex justify-between my-auto">
               <h6 className="text-maincolor text-3xl font-bold overflow-hidden my-7">
                 {category?.category?.name}
@@ -187,11 +178,8 @@ const Hadersilder = () => {
                 className="mySwiper py-6"
               >
                 {activeProducts.map((card, index) => (
-                  <SwiperSlide>
-                    <div
-                      key={index}
-                      className="h-[300px] lg:h-[320px] sm:h-[300px] relative w-full py-1 border border-gray-300 bg-white rounded-md shadow-lg hover:shadow-2xl hover:border-primary"
-                    >
+                  <SwiperSlide key={index}>
+                    <div className="h-[300px] lg:h-[320px] sm:h-[300px] relative w-full py-1 border border-gray-300 bg-white rounded-md shadow-lg hover:shadow-2xl hover:border-primary">
                       <div className="font-semibold text-secondary sm:text-lg text-base hover:text-primary mt-3 w-full">
                         <img
                           src={imageLiveUrl(card.images[0])}
@@ -200,23 +188,25 @@ const Hadersilder = () => {
                           // onClick={() => singproductitem(card)}
                           onClick={() =>
                             openImagePreview(imageLiveUrl(card.images[0]))
-                          } // Open image preview on click
+                          } 
                         />
                         <div className="w-full">
-                          <div className="px-3 mt-3 text-detailscolor font-normal cursor-pointer" 
-                           onClick={() => singproductitem(card)}
-                           >
+                          <div
+                            className="px-3 mt-3 text-detailscolor font-normal cursor-pointer"
+                            onClick={() => singproductitem(card)}
+                          >
                             <DescriptionWithToggle description={card.name} />
                           </div>
                           <div className="flex flex-row mt-5 mb-2 justify-between w-full absolute bottom-1 lg:px-4 sm:px-2 px-2">
                             <Rating
                               name="half-rating"
                               precision={0.5}
-                              value={productRatings[card._id] || "No ratings"}
+                              // value={productRatings[card._id] || "No ratings"}
+                                value={productRatings[card._id] ? Number(productRatings[card._id]) : 0}
                               sx={{
                                 color: "#4C005A",
                                 fontSize: {
-                                  xs: "15px", 
+                                  xs: "15px",
                                   sm: "15px",
                                   md: "1rem",
                                   lg: "1.5rem",
