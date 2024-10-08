@@ -24,7 +24,7 @@ const Chat = () => {
   const [name, setname] = useState("");
   const [aboutMe, setaboutMe] = useState("");
   const [searchQuery, setSearchQuery] = useState("");
-  const [selectedUser, setSelectedUser] = useState(chatResponse || "");
+  const [selectedUser, setSelectedUser] = useState(chatResponse);
   const [isChatListVisible, setIsChatListVisible] = useState(false); 
 
   try {
@@ -55,7 +55,7 @@ const Chat = () => {
   );
   async function fetchUpcomingEventsData() {
     const response = await NewRequest.get(
-      `/chat?userId=${senderId}&contactId=${selectedUser?._id || ""}`
+      `/chat?userId=${senderId}&contactId=${selectedUser ? selectedUser._id : chatResponse?._id || ""}`
     );
     return response?.data;
   }
@@ -77,7 +77,7 @@ const Chat = () => {
     try {
       const response = await NewRequest.post("/chat", {
         senderId,
-        receiverId: selectedUser?._id || "",
+        receiverId: selectedUser ? selectedUser._id : chatResponse?._id || "",
         content: message,
       });
       //  fetchChatHistory();
@@ -138,6 +138,25 @@ const Chat = () => {
         console.log(err);
       });
   }, []);
+  const [Responseimageshow, setResponseimageshow] = useState("");
+  const [Responsename, setResponsename] = useState('')
+
+    useEffect(() => {
+      NewRequest.get(`/users/${chatResponse?._id || ""}`)
+        .then((response) => {
+          const userdata = response.data;
+          const imageUrl = userdata?.image || "";
+          const finalUrl =
+            imageUrl && imageUrl.startsWith("https")
+              ? imageUrl
+              : imageLiveUrl(imageUrl);
+          setResponseimageshow(finalUrl || "");
+          setResponsename(userdata?.username || "");
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    }, []);
 
   // Filtered chatlist based on the search query
   const filteredChatList = chatlist.filter(
@@ -154,7 +173,17 @@ const Chat = () => {
           className="sm:block lg:hidden p-2 text--blue-600 rounded-md"
           onClick={() => setIsChatListVisible(!isChatListVisible)}
         >
-          {isChatListVisible ? <div className="flex"><RxCross2 className="my-auto"/> <span className="my-auto">Hide Chat List</span>  </div> : <div className="flex"><IoReorderThree className="my-auto"/> <span className="my-auto">Show Chat List</span>  </div>}
+          {isChatListVisible ? (
+            <div className="flex">
+              <RxCross2 className="my-auto" />{" "}
+              <span className="my-auto">Hide Chat List</span>{" "}
+            </div>
+          ) : (
+            <div className="flex">
+              <IoReorderThree className="my-auto" />{" "}
+              <span className="my-auto">Show Chat List</span>{" "}
+            </div>
+          )}
         </div>
 
         <div
@@ -249,24 +278,45 @@ const Chat = () => {
         {/* Main Chat Area */}
         <div className="flex-1">
           <div className="flex items-center bg-gray-300 p-4 rounded-sm ms-1">
-            <img
-              // src={imageshow || ""}
-              src={
-                selectedUser.image
-                  ? selectedUser.image.startsWith("https")
-                    ? selectedUser.image
-                    : imageLiveUrl(selectedUser.image)
-                  : ""
-              }
-              alt="Avatar"
-              className="w-10 h-10 rounded-full"
-            />
+            {selectedUser ? (
+              <>
+                <img
+                  src={
+                    selectedUser.image
+                      ? selectedUser.image.startsWith("https")
+                        ? selectedUser.image
+                        : imageLiveUrl(selectedUser.image)
+                      : ""
+                  }
+                  alt="Avatar"
+                  className="w-10 h-10 rounded-full"
+                />
+              </>
+            ) : (
+              <img
+                src={
+                  Responseimageshow
+                    ? Responseimageshow.startsWith("https")
+                      ? Responseimageshow
+                      : imageLiveUrl(Responseimageshow)
+                    : ""
+                }
+                alt="Avatar"
+                className="w-10 h-10 rounded-full"
+              />
+            )}
+
             {/* Username and Message */}
             <div className="ml-4">
-              <h3 className="font-bold text-gray-900">
-                {selectedUser?.username || ""}
-              </h3>
-              {/* <p className="text-sm text-gray-600 truncate w-40">{aboutMe}</p> */}
+              {selectedUser ? (
+                <>
+                  <h3 className="font-bold text-gray-900">
+                    {selectedUser.username}
+                  </h3>
+                </>
+              ) : (
+                <p className="font-bold text-gray-900">{Responsename}</p>
+              )}
             </div>
           </div>
           <div className="p-1 h-[350px] sm:h-[200px] lg:h-[600px]">
