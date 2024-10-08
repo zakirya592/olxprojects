@@ -73,7 +73,7 @@ const Hadersilder = () => {
         (product) => product.status.toLowerCase() === "active"
       )
     );
-    await fetchProductRatings(activeProducts);
+     fetchProductRatings(activeProducts);
 
     return { categories: response.data, products: activeProducts };
   }
