@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from "react";
-import DropDownSelection from "../../../components/DropDownSelection/DropDownSelection";
 import contusimage from "../../../assets/Images/ContactUs.jpg";
 import contusimagebg from "../../../assets/Images/ContactUsbg.jpg";
 import NewRequest from "../../../../utils/NewRequest";
@@ -12,15 +11,12 @@ function ContactUs() {
     NewRequest.get(`/about/contact`).then((response) => {
         const userdata = response.data;
         setdata(userdata);
-      }).catch((err) => {
-        console.log(err);
-      });
+      }).catch((err) => {});
   }, []);
 
   return (
     <>
       <div className="lg:px-10 my-5 lg:my-40 sm:my-2">
-        {/* <DropDownSelection /> */}
         <div className="relative w-full h-[250px]">
           <img
             src={contusimagebg}

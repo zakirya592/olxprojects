@@ -6,7 +6,6 @@ import NewRequest from "../../../../utils/NewRequest";
 import { toast } from "react-toastify";
 import Skeleton from "@mui/material/Skeleton";
 import DescriptionWithToggle from "../MoreinKids/DescriptionWithToggle";
-
 import imageLiveUrl from "../../../../utils/urlConverter/imageLiveUrl";
 import { GrLike } from "react-icons/gr";
 import { Rating } from "@mui/material";
@@ -40,8 +39,7 @@ const MoreProductview = () => {
 
         ratings[product._id] = averageRating || 0;
       } catch (error) {
-        console.log(`Error fetching ratings for product ${product._id}`, error);
-        ratings[product._id] = 0; // Set to 0 in case of error
+        ratings[product._id] = 0; 
       }
     }
 
@@ -56,7 +54,7 @@ const MoreProductview = () => {
     ["category", subCategoriesResponse?.category?._id],
     fetchmoreproductData,
     {
-      enabled: !!subCategoriesResponse?.category?._id, // Only fetch if category ID is available
+      enabled: !!subCategoriesResponse?.category?._id, 
     }
   );
 
@@ -73,7 +71,7 @@ const MoreProductview = () => {
     const activeProducts = response?.data.filter(
       (product) => product.status.toLowerCase() === "active"
     );
-    await fetchProductRatings(activeProducts);
+     fetchProductRatings(activeProducts);
     return activeProducts || [];
   }
 
@@ -138,8 +136,8 @@ const MoreProductview = () => {
         <div className="my-5 bg-maincolor text-white rounded-full py-2 shadow-md px-3">
           <span className="cursor-pointer" onClick={() => navigate("/")}>
             Home
-          </span>{" "}
-          |{" "}
+          </span>
+          |
           <span className="cursor-pointer">
             {subCategoriesResponse?.category?.name || ""}
           </span>
@@ -220,7 +218,7 @@ const MoreProductview = () => {
                           <Rating
                             name="half-rating"
                             precision={0.5}
-                            value={productRatings[item._id] || "0"}
+                             value={productRatings[item._id] ? Number(productRatings[item._id]) : 0}
                             sx={{
                               color: "#4C005A",
                               fontSize: {

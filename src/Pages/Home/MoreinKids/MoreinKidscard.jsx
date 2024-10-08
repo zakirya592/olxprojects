@@ -238,12 +238,12 @@ const Hadersilder = () => {
               onClick={closeDialog}
               sx={{
                 position: "absolute",
-                right: 8,
+                right: 1,
                 top: 8,
                 color: (theme) => theme.palette.grey[500],
               }}
             >
-              <GridCloseIcon />
+              <GridCloseIcon className="text-white bg-black"/>
             </IconButton>
 
             {/* Image */}

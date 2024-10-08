@@ -20,8 +20,6 @@ import { useQuery } from "react-query";
 import imageLiveUrl from "../../../utils/urlConverter/imageLiveUrl";
 import "./Header.css"
 import DropDownSelection from "../DropDownSelection/DropDownSelection";
-import { CiMenuBurger } from "react-icons/ci";
-import { IoMdMenu } from "react-icons/io";
 import Categories from "../../Pages/Home/AllCategories/Categories";
 
 function Header() {
@@ -31,10 +29,6 @@ function Header() {
   const [userprofileimage, setuserprofileimage] = useState("")
   
   const [isCategoriesPopupVisible, setCategoriesPopupVisibility] = useState(false);
-   const handleShowUpdatePopup = (row) => {
-     setCategoriesPopupVisibility(true);
-   };
-
   useEffect(() => {
     const handleGoogleRedirect = () => {
       const urlParams = new URLSearchParams(window.location.search);
@@ -154,15 +148,6 @@ function Header() {
     }
   };
 
-  const handlecardButtonClick = () => {
-    if (isUserLoggedIn) {
-      // navigate("/Chat");
-      console.log("Card section");
-    } else {
-      navigate("/LoginForm");
-    }
-  };
-
   function MenuSection({ children, label }) {
     return (
       <MenuSectionRoot role="group">
@@ -174,7 +159,7 @@ function Header() {
 
   MenuSection.propTypes = {
     children: PropTypes.node,
-    label: PropTypes.string.isRequired,
+    label: PropTypes.string,
   };
 
   const [query, setQuery] = useState("");
@@ -228,7 +213,6 @@ function Header() {
   async function fetchproductData() {
     const response = await NewRequest.get("/product/getcategoryproduct");
 
-    // Filter products that are active across all categories
     const activeProducts = response?.data.flatMap((category) =>
       category.products.filter(
         (product) => product.status.toLowerCase() === "active"
@@ -300,26 +284,6 @@ function Header() {
                         </span>
                       </div>
                       <div className="p-2"></div>
-                      {/* Search Button */}
-                      {/* <button
-                        onClick={handleSearch}
-                        className="bg-maincolor text-white p-2 rounded-full hover:bg-cyan-600 transition ml-1 sm:hidden lg:block hidden"
-                      >
-                        <svg
-                          xmlns="http://www.w3.org/2000/svg"
-                          className="h-6 w-6"
-                          fill="none"
-                          viewBox="0 0 24 24"
-                          stroke="currentColor"
-                        >
-                          <path
-                            strokeLinecap="round"
-                            strokeLinejoin="round"
-                            strokeWidth={2}
-                            d="M21 21l-4.35-4.35M16.65 11a6.65 6.65 0 11-13.3 0 6.65 6.65 0 0113.3 0z"
-                          />
-                        </svg>
-                      </button> */}
                     </div>
                   </div>
 
@@ -345,11 +309,7 @@ function Header() {
                       size={25}
                       onClick={handlenotificationButtonClick}
                     />
-                    {/* <FaCartPlus
-                      className="text-white cursor-pointer  lg:block"
-                      size={25}
-                      onClick={handlecardButtonClick}
-                    /> */}
+                 
                     {isUserLoggedIn && (
                       <>
                         <Dropdown>
@@ -433,9 +393,9 @@ function Header() {
                   </button>
 
                   {/* Cart Icon */}
-                  <button className="text-white">
+                  {/* <button className="text-white">
                     <FaCartPlus size={24} />
-                  </button>
+                  </button> */}
 
                   {isUserLoggedIn && (
                     <>

@@ -1,16 +1,12 @@
 import React, { useEffect, useState } from "react";
-import { FaRegHeart } from "react-icons/fa";
-import { useQuery, useQueryClient } from "react-query";
 import { useNavigate } from "react-router-dom";
 import NewRequest from "../../../../utils/NewRequest";
-import { toast } from "react-toastify";
 import Skeleton from "@mui/material/Skeleton";
 import imageLiveUrl from "../../../../utils/urlConverter/imageLiveUrl";
 import DescriptionWithToggle from "../MoreinKids/DescriptionWithToggle";
 import { Avatar } from "@mui/material";
 import emailicon from "../../../assets/Images/emailicon.jpg"
 import phoneicon from "../../../assets/Images/phoneicon.png";
-import { GrLike } from "react-icons/gr";
 
 
 const UserProductlist = () => {
@@ -27,7 +23,6 @@ const UserProductlist = () => {
     loginuserdata = localStorage.getItem("userdata") || "";
   }
 
-  
   useEffect(() => {
     const fetchmoreproductData = async () => {
          setloading(true);
@@ -53,9 +48,7 @@ const UserProductlist = () => {
          const userdata = response.data;
          setuserdatalist(userdata);
        })
-       .catch((err) => {
-         console.log(err);
-       });
+       .catch((err) => { });
    }, []);
 
   const charfunction = (Product) => {
@@ -142,10 +135,6 @@ const UserProductlist = () => {
                               {item?.price || ""}
                             </span>
                           </h3>
-                          {/* <GrLike
-                            className=" text-maincolor cursor-pointer mb-4"
-                            onClick={() => postcard(item._id)}
-                          /> */}
                         </div>
                         <p className="text-gray-500 text-sm">
                           {item?.location || ""}

@@ -327,7 +327,7 @@ const Singleitem = () => {
         <div className="relative h-auto w-full lg:w-[65%] sm:w-full bg-white border-b lg:mb-20 sm:mb-5 mb-5 ">
           <div className="relative h-[150px] lg:h-[250px] sm:h-[150px] w-full">
             {isLoading ? (
-              <Skeleton height={200} /> // Skeleton for the image slider
+              <Skeleton height={200} />
             ) : (
               <Swiper
                 spaceBetween={30}
@@ -401,7 +401,7 @@ const Singleitem = () => {
                       precision={0.5}
                       value={ratings}
                       sx={{
-                        color: "#4C005A", // Custom color (e.g., Gold)
+                        color: "#4C005A",
                       }}
                       readOnly
                     />
@@ -416,7 +416,7 @@ const Singleitem = () => {
                 Description
               </p>
               {isLoading ? (
-                <Skeleton count={3} /> // Skeleton for the description
+                <Skeleton count={3} />
               ) : (
                 <p className="text-productdesc mb-5 w-full">
                   {data?.description || ""}
@@ -472,11 +472,8 @@ const Singleitem = () => {
                 <Skeleton height={250} count={3} />
               ) : (
                 moreproductData.map((card, index) => (
-                  <SwiperSlide>
-                    <div
-                      key={index}
-                      className="h-[300px] lg:h-[340px] sm:h-[300px]  relative w-full py-1  border my-3 border-gray-300 bg-white rounded-md shadow-lg"
-                    >
+                  <SwiperSlide key={index}>
+                    <div className="h-[300px] lg:h-[340px] sm:h-[300px]  relative w-full py-1  border my-3 border-gray-300 bg-white rounded-md shadow-lg">
                       <div className="font-semibold text-secondary sm:text-lg text-base hover:text-maincolor mt-3">
                         <center>
                           <img
@@ -490,12 +487,6 @@ const Singleitem = () => {
                             <DescriptionWithToggle description={card.name} />
                           </p>
                           <div className="px-3 flex flex-row mt-5 justify-between gap-2 lg:absolute lg:bottom-1">
-                            {/* <h1 className="sm:text-lg text-base">
-                              {card?.currency || "Rs"}
-                              <span className="text-maincolor ms-1">
-                                {card.price}
-                              </span>
-                            </h1> */}
                             <Rating
                               name="half-rating"
                               precision={0.5}

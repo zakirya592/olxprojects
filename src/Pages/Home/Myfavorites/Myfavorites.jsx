@@ -23,7 +23,6 @@ const Myfavorites = () => {
   } = useQuery("wishlist", fetchwishlistData);
   async function fetchwishlistData() {
     const response = await NewRequest.get(`/wishlist/${loginuserid || ""}`);
-    // console.log(response?.data?.products);
     return response?.data?.products || [];
   }
 
@@ -32,7 +31,6 @@ const Myfavorites = () => {
       const response = NewRequest.post(`/wishlist/${loginuserid}`, {
         productId: Product,
       });
-      console.log(response);
       toast.success(`Product has been Remove from wishlist successfully".`, {
         position: "top-right",
         autoClose: 2000,
@@ -45,7 +43,6 @@ const Myfavorites = () => {
       });
         refetch();
     } catch (error) {
-      console.log(error);
       toast.error(error?.response?.data?.error || "Error", {
         position: "top-right",
         autoClose: 2000,
@@ -60,7 +57,6 @@ const Myfavorites = () => {
   };
 
   const charfunction = (Product) => {
-    console.log(Product.User);
     const subResponsechat = JSON.stringify(Product);
     sessionStorage.setItem("chardata", subResponsechat);
     navigate("/Chat");
