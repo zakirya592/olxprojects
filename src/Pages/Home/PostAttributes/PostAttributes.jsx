@@ -93,7 +93,7 @@ const PostAttributes = () => {
      const cleanValue = value.replace(/\D/g, "");
 
      // Format the value with commas for every 3 digits
-     return cleanValue.replace(/\B(?=(\d{4})+(?!\d))/g, ",");
+     return cleanValue.replace(/\B(?=(\d{3})+(?!\d))/g, ",");
    };
 
     const handlePriceChange = (e) => {

@@ -5,11 +5,13 @@ import { toast } from "react-toastify";
 import NewRequest from "../../../../utils/NewRequest";
 
 import imageLiveUrl from "../../../../utils/urlConverter/imageLiveUrl";
+import { AiOutlineEye, AiOutlineEyeInvisible } from "react-icons/ai";
 
 const ProfilePage = () => {
     const [name, setname] = useState("");
     const [email, setemail] = useState("");
     const [password, setpassword] = useState("");
+  const [showPassword, setShowPassword] = useState(false);
     const [dateOfBirth, setdateOfBirth] = useState("");
     const [address, setaddress] = useState("");
     const [aboutMe, setaboutMe] = useState("");
@@ -49,8 +51,6 @@ const ProfilePage = () => {
                 console.log(err);
             });
     }, []);
-
-
 
     const handlecompanyLandLine = (value) => {
         setCompanyLandlineError("");
@@ -108,6 +108,10 @@ const ProfilePage = () => {
             });
         }
     };
+
+      const toggleShowPassword = () => {
+        setShowPassword(!showPassword);
+      };
 
     return (
       <div className="lg:px-10 my-5 lg:my-40 sm:my-2 flex justify-center items-center flex-col">
@@ -252,19 +256,29 @@ const ProfilePage = () => {
                     )}
                   </div>
                   {/* Password */}
-                  <div className="w-full font-body sm:text-base text-sm flex flex-col gap-2">
+                  <div className="w-full font-body sm:text-base text-sm flex flex-col gap-2 relative">
                     <label htmlFor="password" className={`text-loactioncolor`}>
                       Password
                     </label>
                     <input
-                      type="password"
+                      type={showPassword ? "text" : "password"}
                       id="password"
                       required
                       value={password}
                       onChange={(e) => setpassword(e.target.value)}
                       placeholder={`Enter password`}
-                      className={`border w-full rounded-md border-[#8E9CAB] p-2 mb-3`}
+                      className={`border w-full rounded-md border-[#8E9CAB] p-2 mb-3 pr-7`}
                     />
+                    <div
+                      className="absolute inset-y-0 right-0 mt-5 text-maincolor flex items-center pr-3  cursor-pointer"
+                      onClick={toggleShowPassword}
+                    >
+                      {showPassword ? (
+                        <AiOutlineEye />
+                      ) : (
+                        <AiOutlineEyeInvisible />
+                      )}
+                    </div>
                   </div>
                   {/* About Me */}
                   <div className="w-full font-body sm:text-base text-sm flex flex-col gap-2">
