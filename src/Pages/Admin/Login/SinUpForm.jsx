@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
-import logimage from "../../../assets/Images/loginimage.svg";
+import forntpage from "../../../assets/Images/CNICfront.jpg";
+import backpage from "../../../assets/Images/CNICback.jpg";
 import Googleicon from "../../../assets/Images/googleicon.png";
 import { toast } from "react-toastify";
 import NewRequest from "../../../../utils/NewRequest";
@@ -26,14 +27,14 @@ const SinUpForm = () => {
   const [isChecked, setIsChecked] = useState(false);
   const [taxNo, settaxNo] = useState('')
   const [id_cardNo, setid_cardNo] = useState('')
-  const [isTermsAndConditionPopUp, setIsTermsAndConditionPopUp] = useState(false);  
+  const [isTermsAndConditionPopUp, setIsTermsAndConditionPopUp] = useState(false);
   const [companyLandlineError, setCompanyLandlineError] = useState("");
   const [selectedFile, setSelectedFile] = useState(null);
   const [imageshow, setimageshow] = useState("");
-    const [selectedFilefrontcnic, setSelectedFilefrontcnic] = useState(null);
-    const [imageshowfrontcnic, setimageshowfrontcnic] = useState("");
-        const [selectedFilebackcnic, setSelectedFilebackcnic] = useState(null);
-    const [imageshowbackcnic, setimageshowbackcnic] = useState("");
+  const [selectedFilefrontcnic, setSelectedFilefrontcnic] = useState(null);
+  const [imageshowfrontcnic, setimageshowfrontcnic] = useState(forntpage || "");
+  const [selectedFilebackcnic, setSelectedFilebackcnic] = useState(null);
+  const [imageshowbackcnic, setimageshowbackcnic] = useState(backpage || "");
 
   const handleChangeStatus = (e) => {
     setStatus(e.target.value);
@@ -48,10 +49,10 @@ const SinUpForm = () => {
     setSelectedFilefrontcnic(e.target.files[0]);
     setimageshowfrontcnic(e.target.files[0]);
   }
-   function handleChangebackbackcnic(e) {
-     setSelectedFilebackcnic(e.target.files[0]);
-     setimageshowbackcnic(e.target.files[0]);
-   }
+  function handleChangebackbackcnic(e) {
+    setSelectedFilebackcnic(e.target.files[0]);
+    setimageshowbackcnic(e.target.files[0]);
+  }
 
   const handlecompanyLandLine = (value) => {
     // Reset error message
@@ -63,7 +64,7 @@ const SinUpForm = () => {
     }
     setCompanyLandLine(value);
   };
-  
+
   const handleChange = (e) => {
     const value = e.target.value;
     // Remove non-numeric characters to enforce the format
@@ -87,19 +88,19 @@ const SinUpForm = () => {
     }
   };
 
-    const handleTermsAndCondition = () => {
-      setIsTermsAndConditionPopUp(true);
-    };
+  const handleTermsAndCondition = () => {
+    setIsTermsAndConditionPopUp(true);
+  };
 
-    const handleAccept = () => {
-      setIsChecked(true);
-      setIsTermsAndConditionPopUp(false);
-    };
+  const handleAccept = () => {
+    setIsChecked(true);
+    setIsTermsAndConditionPopUp(false);
+  };
 
-    const handleClose = () => {
-      setIsChecked(false);
-      setIsTermsAndConditionPopUp(false);
-    };
+  const handleClose = () => {
+    setIsChecked(false);
+    setIsTermsAndConditionPopUp(false);
+  };
 
 
   const handleAddCompany = async () => {
@@ -112,13 +113,13 @@ const SinUpForm = () => {
     formData.append("aboutMe", aboutMe);
     formData.append("phone", companyLandLine);
     formData.append("address", address);
-    formData.append("image", imageshow);
+    formData.append("image", null);
 
     if (isGemstone) {
       formData.append("isGemstone", true);
       formData.append("pictureBusinessCertificate", imageshow);
       formData.append("frontImage", imageshowfrontcnic);
-      formData.append("backImage", imageshowbackcnic);
+      formData.append("backImage", imageshowbackcnic );
       formData.append("taxNo", taxNo);
       formData.append("id_cardNo", id_cardNo);
     }
@@ -387,8 +388,8 @@ const SinUpForm = () => {
                               selectedFile
                                 ? URL.createObjectURL(selectedFile)
                                 : imageshow != null
-                                ? imageshow
-                                : ""
+                                  ? imageshow
+                                  : ""
                             }
                             className="printerpic text-black"
                             alt="Uploaded Business Certificate"
@@ -429,8 +430,8 @@ const SinUpForm = () => {
                               selectedFilefrontcnic
                                 ? URL.createObjectURL(selectedFilefrontcnic)
                                 : imageshowfrontcnic != null
-                                ? imageshowfrontcnic
-                                : ""
+                                  ? imageshowfrontcnic
+                                  : ""
                             }
                             className="printerpic text-black"
                             alt="Front CNIC"
@@ -475,8 +476,8 @@ const SinUpForm = () => {
                               selectedFilebackcnic
                                 ? URL.createObjectURL(selectedFilebackcnic)
                                 : imageshowbackcnic != null
-                                ? imageshowbackcnic
-                                : ""
+                                  ? imageshowbackcnic
+                                  : ""
                             }
                             className="printerpic text-black"
                             alt="Back CNIC"
