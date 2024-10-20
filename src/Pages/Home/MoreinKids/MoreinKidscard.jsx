@@ -81,7 +81,7 @@ const Hadersilder = () => {
   if (isLoading) return <p>Loading...</p>;
   if (error) return <p>Error loading products</p>;
 
-  const storedUserResponseString = sessionStorage.getItem("userResponse");
+  const storedUserResponseString = localStorage.getItem("userResponse");
   const storedUserResponse = JSON.parse(storedUserResponseString);
   const loginuserid = storedUserResponse?.data?.user?._id || "";
 

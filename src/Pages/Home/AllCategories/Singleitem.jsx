@@ -124,7 +124,7 @@ const Singleitem = () => {
   useEffect(() => {
     fetchData();
   }, []);
-  const storedUserResponseString = sessionStorage.getItem("userResponse");
+  const storedUserResponseString = localStorage.getItem("userResponse");
   const storedUserResponse = JSON.parse(storedUserResponseString);
   const loginuserid = storedUserResponse?.data?.user?._id || "";
   const postcard = (Product) => {
@@ -367,9 +367,7 @@ const Singleitem = () => {
                           src={imageLiveUrl(image)}
                           className="w-full h-full object-contain"
                           alt={`Slide ${index}`}
-                          onClick={() =>
-                            openImagePreview(imageLiveUrl(image))
-                          }
+                          onClick={() => openImagePreview(imageLiveUrl(image))}
                         />
                       </div>
                     </SwiperSlide>
@@ -536,7 +534,7 @@ const Singleitem = () => {
             <img
               src={selectedImage}
               alt="Preview"
-              className="w-full h-80 object-cover"
+              className="w-full lg:h-[500px] sm:h-80 h-80 object-cover"
             />
           </div>
         </DialogContent>

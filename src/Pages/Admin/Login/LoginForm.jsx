@@ -28,13 +28,13 @@ const LoginForm = () => {
           if (userstatus === 1) {
             navigator("/");
 
-            sessionStorage.setItem("authToken", response.data.token);
+            localStorage.setItem("authToken", response.data.token);
             // Correct way to store an object in sessionStorage
             localStorage.setItem("userdata", response.data);
             // Convert the object to a JSON string
             const userResponseString = JSON.stringify(response);
             // Store the JSON string in sessionStorage
-            sessionStorage.setItem("userResponse", userResponseString);
+            localStorage.setItem("userResponse", userResponseString);
 
             toast.success(`Login has been successful.`, {
               position: "top-right",

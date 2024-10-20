@@ -46,11 +46,11 @@ function Header() {
   }, []);
 
   useEffect(() => {
-    const authToken = sessionStorage.getItem("authToken");
+    const authToken = localStorage.getItem("authToken");
     setIsUserLoggedIn(!!authToken);
   }, [isCreatePopupVisible]);
 
-  const storedUserResponseString = sessionStorage.getItem("userResponse");
+  const storedUserResponseString = localStorage.getItem("userResponse");
   const storedUserResponse = JSON.parse(storedUserResponseString);
   let loginuserdata = storedUserResponse?.data.user._id || "";
 

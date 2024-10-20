@@ -20,7 +20,7 @@ const ProfilePage = () => {
     const [selectedFile, setSelectedFile] = useState(null);
     const [imageshow, setimageshow] = useState("");
 
-    const storedUserResponseString = sessionStorage.getItem("userResponse");
+    const storedUserResponseString = localStorage.getItem("userResponse");
     const storedUserResponse = JSON.parse(storedUserResponseString);
     let loginuserdata = storedUserResponse?.data?.user?._id || "";
     if (!loginuserdata) {

@@ -15,7 +15,7 @@ const Commentproduct = (productdata) => {
     const [userDetails, setUserDetails] = useState({});
     const [replyText, setReplyText] = useState("");
     const [rating, setRating] = useState(2.5);
-    const storedUserResponseString = sessionStorage.getItem("userResponse");
+    const storedUserResponseString = localStorage.getItem("userResponse");
     const storedUserResponse = JSON.parse(storedUserResponseString);
     const loginuserdata = storedUserResponse?.data?.user || "";
     let senderId = loginuserdata?._id || "";

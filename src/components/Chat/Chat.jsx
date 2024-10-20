@@ -14,7 +14,7 @@ const Chat = () => {
   const [chatHistory, setChatHistory] = useState([]);
   const [chatlist, setchatlist] = useState([]);
   const [activeChatId, setActiveChatId] = useState(null);
-  const storedUserResponseString = sessionStorage.getItem("userResponse");
+  const storedUserResponseString = localStorage.getItem("userResponse");
   const storedUserResponse = JSON.parse(storedUserResponseString);
   const loginuserdata = storedUserResponse?.data?.user || "";
   const chatproduct = sessionStorage.getItem("chardata");

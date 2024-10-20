@@ -38,7 +38,7 @@ const UpdateMyProduct = () => {
     return response?.data.filter((item) => item.status === 1) || [];
   }
 
-  const storedUserResponseString = sessionStorage.getItem("userResponse");
+  const storedUserResponseString = localStorage.getItem("userResponse");
   const storedUserResponse = JSON.parse(storedUserResponseString);
   let loginuserid = storedUserResponse?.data?.user?._id || "";
 

@@ -31,7 +31,7 @@ function Sellpage() {
   const [selectedCategory, setSelectedCategory] = useState(null);
   const [selectedfooter, setselectedfooter] = useState(null);
 
-   const storedUserResponseString = sessionStorage.getItem("userResponse");
+   const storedUserResponseString = localStorage.getItem("userResponse");
    const storedUserResponse = JSON.parse(storedUserResponseString);
    let loginuserdata = storedUserResponse?.data.user || "";
 

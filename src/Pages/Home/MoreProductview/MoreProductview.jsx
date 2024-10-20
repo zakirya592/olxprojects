@@ -16,7 +16,7 @@ const MoreProductview = () => {
 
   const moreproduct = sessionStorage.getItem("productmore");
   const subCategoriesResponse = JSON.parse(moreproduct);
-  const storedUserResponseString = sessionStorage.getItem("userResponse");
+  const storedUserResponseString = localStorage.getItem("userResponse");
   const storedUserResponse = JSON.parse(storedUserResponseString);
   const loginuserid = storedUserResponse?.data?.user?._id || "";
 

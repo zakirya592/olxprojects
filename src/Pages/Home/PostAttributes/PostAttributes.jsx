@@ -27,7 +27,7 @@ const PostAttributes = () => {
   const [userdataget, setuserdataget] = useState("");
 
   const navigate = useNavigate();
-  const storedUserResponseString = sessionStorage.getItem("userResponse");
+  const storedUserResponseString = localStorage.getItem("userResponse");
   const [selectedCurrency, setSelectedCurrency] = useState("₨"); // Default currency
 
   const storedUserResponse = JSON.parse(storedUserResponseString);
