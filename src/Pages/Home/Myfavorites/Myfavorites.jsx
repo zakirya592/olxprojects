@@ -26,12 +26,12 @@ const Myfavorites = () => {
     return response?.data?.products || [];
   }
 
-  const postcard = (Product) => {
+  const postcard = async (Product) => {
     try {
-      const response = NewRequest.post(`/wishlist/${loginuserid}`, {
+      const response = await NewRequest.post(`/wishlist/${loginuserid}`, {
         productId: Product,
       });
-      toast.success(`Product has been Remove from wishlist successfully".`, {
+      toast.success(response?.data?.message || `Product has been Remove from wishlist successfully".`, {
         position: "top-right",
         autoClose: 2000,
         hideProgressBar: false,
@@ -41,7 +41,7 @@ const Myfavorites = () => {
         progress: undefined,
         theme: "light",
       });
-        refetch();
+      await refetch();
     } catch (error) {
       toast.error(error?.response?.data?.error || "Error", {
         position: "top-right",
@@ -67,17 +67,17 @@ const Myfavorites = () => {
       {/* <Header /> */}
       <div className=" lg:px-10 mt-5 lg:mt-40 sm:mt-2">
         <div className="mb-5">
-            <div className="bg-maincolor text-white rounded-full py-2 shadow-md px-3">
-          <span
-            className="cursor-pointer"
-            onClick={() => {
-              navigate("/");
-            }}
-          >
-            Home
-          </span>
+          <div className="bg-maincolor text-white rounded-full py-2 shadow-md px-3">
+            <span
+              className="cursor-pointer"
+              onClick={() => {
+                navigate("/");
+              }}
+            >
+              Home
+            </span>
 
-            </div>
+          </div>
           <h6 className="text-maincolor text-3xl font-bold overflow-hidden my-5">
             Favourites & Saved searches
           </h6>
