@@ -1,12 +1,9 @@
-// static Data Slider
 import React, { useEffect, useState } from "react";
 import { Swiper, SwiperSlide } from "swiper/react";
 import "swiper/css";
 import "swiper/css/pagination";
 import "swiper/css/navigation";
 import { Autoplay, Pagination, Navigation, Scrollbar, Keyboard } from "swiper/modules";
-import { IoIosArrowDroprightCircle } from "react-icons/io";
-import { IoIosArrowDropleftCircle } from "react-icons/io";
 import Avatar from "@mui/material/Avatar";
 import NewRequest from "../../../../utils/NewRequest";
 import { useLocation, useNavigate } from "react-router-dom";
@@ -16,9 +13,6 @@ import Skeleton from "@mui/material/Skeleton";
 import DescriptionWithToggle from "../MoreinKids/DescriptionWithToggle";
 import { useQuery } from "react-query";
 import imageLiveUrl from "../../../../utils/urlConverter/imageLiveUrl";
-import phoneicon from "../../../assets/Images/phoneicon.png"
-import emailicon from "../../../assets/Images/emailicon.jpg";
-import likeicon from "../../../assets/Images/like.jpg";
 import Commentproduct from "../../Commentproduct/Commentproduct";
 import { MdEmail } from "react-icons/md";
 import { FaPhoneAlt } from "react-icons/fa";
@@ -128,7 +122,6 @@ const Singleitem = () => {
   const storedUserResponse = JSON.parse(storedUserResponseString);
   const loginuserid = storedUserResponse?.data?.user?._id || "";
   const postcard = (Product) => {
-
     try {
       const response = NewRequest.post(`/wishlist/${loginuserid}`, {
         productId: Product._id,
@@ -231,9 +224,9 @@ const Singleitem = () => {
           {cardData?.cardData?.name || ""}
         </span>
       </div>
-      <div className="flex flex-col-reverse sm:flex-col-reverse md:flex-col lg:flex-row gap-6">
-        <div className="w-full lg:w-[35%] sm:w-full ">
-          <div className="border rounded shadow py-6 px-4 bg-maincolor">
+      <div className="flex flex-col-reverse sm:flex-col-reverse md:flex-col lg:flex-row gap-1 sm:gap-1 lg:gap-6 md:gap-6 ">
+        <div className="w-full lg:w-[35%] sm:w-full flex md:flex-col lg:flex-col flex-col-reverse sm:flex-col-reverse">
+          <div className="border rounded shadow py-6 px-4 bg-maincolor mt-2 md:mt-0 sm:mt-2">
             <p className="text-white font-sans text-center text-lg">
               Listed by private user
             </p>
@@ -292,7 +285,10 @@ const Singleitem = () => {
               </div>
             )}
           </div>
-          <div className="border rounded shadow py-6 px-4 mt-5 bg-cardbg">
+          <div className="sm:block lg:hidden">
+            <Commentproduct productdata={cardData} />
+          </div>
+          <div className="border rounded shadow py-6 px-4 mt-0 md:mt-5 lg:mt-5 sm:mt-0 bg-cardbg">
             <p className="text-maincolor text-lg font-sans font-semibold">
               Location
             </p>
@@ -314,7 +310,7 @@ const Singleitem = () => {
             </div>
           </div>
 
-          <div className="border rounded shadow py-6 px-4 mt-5 bg-cardbg">
+          <div className="border rounded shadow py-6 px-4 mt-5  hidden lg:block bg-cardbg">
             <div className="mb-4">
               <h2 className=" text-maincolor font-sans font-bold text-lg mb-2">
                 Product Categories
@@ -337,7 +333,7 @@ const Singleitem = () => {
           </div>
         </div>
         <div className="relative h-auto w-full lg:w-[65%] sm:w-full bg-white border-b lg:mb-20 sm:mb-5 mb-5 ">
-          <div className="relative h-[150px] lg:h-[250px] sm:h-[150px] w-full">
+          <div className="relative h-[250px] w-full">
             {isLoading ? (
               <Skeleton height={200} />
             ) : (
@@ -362,7 +358,7 @@ const Singleitem = () => {
                 <div className="relative w-full">
                   {data?.images?.map((image, index) => (
                     <SwiperSlide key={index}>
-                      <div className="relative w-full h-[150px] lg:h-[250px] sm:h-[150px]">
+                      <div className="relative w-full h-[250px]">
                         <img
                           src={imageLiveUrl(image)}
                           className="w-full h-full object-contain"
@@ -512,7 +508,9 @@ const Singleitem = () => {
           </Swiper>
         </div>
       </div>
-      <Commentproduct productdata={cardData} />
+      <div className="hidden lg:block">
+        <Commentproduct productdata={cardData} />
+      </div>
       <Dialog open={isDialogOpen} onClose={closeDialog} maxWidth="md">
         <DialogContent>
           <div className="relative">
@@ -534,7 +532,7 @@ const Singleitem = () => {
             <img
               src={selectedImage}
               alt="Preview"
-              className="w-full lg:h-[500px] sm:h-80 h-80 object-cover"
+              className="w-full lg:h-[500px] sm:h-80 h-80 object-contain"
             />
           </div>
         </DialogContent>

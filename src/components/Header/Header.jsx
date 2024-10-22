@@ -393,9 +393,9 @@ function Header() {
                   </button>
 
                   {/* Cart Icon */}
-                  {/* <button className="text-white">
+                  <button className="text-white">
                     <FaCartPlus size={24} />
-                  </button> */}
+                  </button>
 
                   {isUserLoggedIn && (
                     <>

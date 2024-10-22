@@ -186,10 +186,10 @@ const Hadersilder = () => {
                           src={imageLiveUrl(card.images[0])}
                           alt=""
                           className="w-full h-44 object-cover px-3 cursor-pointer"
-                          // onClick={() => singproductitem(card)}
-                          onClick={() =>
-                            openImagePreview(imageLiveUrl(card.images[0]))
-                          }
+                          onClick={() => singproductitem(card)}
+                          // onClick={() =>
+                          //   openImagePreview(imageLiveUrl(card.images[0]))
+                          // }
                         />
                         <div className="w-full">
                           <div
