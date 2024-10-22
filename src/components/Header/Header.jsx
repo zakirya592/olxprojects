@@ -309,7 +309,7 @@ function Header() {
                       size={25}
                       onClick={handlenotificationButtonClick}
                     />
-                 
+
                     {isUserLoggedIn && (
                       <>
                         <Dropdown>
@@ -394,7 +394,10 @@ function Header() {
 
                   {/* Cart Icon */}
                   <button className="text-white">
-                    <FaCartPlus size={24} />
+                    <FaCartPlus
+                      size={24}
+                      onClick={() => navigate("/Myfavorites")}
+                    />
                   </button>
 
                   {isUserLoggedIn && (
