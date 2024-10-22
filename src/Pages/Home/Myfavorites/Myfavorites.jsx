@@ -76,7 +76,6 @@ const Myfavorites = () => {
             >
               Home
             </span>
-
           </div>
           <h6 className="text-maincolor text-3xl font-bold overflow-hidden my-5">
             Favourites & Saved searches
@@ -120,7 +119,7 @@ const Myfavorites = () => {
                             className="bg-black text-yellow-50 px-5 py-2 rounded-full"
                             onClick={() => postcard(item._id)}
                           >
-                            Remove From Cart
+                            Remove From Card
                           </button>
                         </div>
                         <DescriptionWithToggle description={item.name} />
