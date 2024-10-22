@@ -207,6 +207,18 @@ const Singleitem = () => {
    };
 
 
+    const [isOpen, setIsOpen] = useState(false);
+
+    const openModal = (image) => {
+      setIsOpen(true);
+      setSelectedImage(image);
+    };
+
+    const closeModal = () => {
+      setIsOpen(false);
+    };
+
+
   return (
     <div className="lg:px-10 mt-3 lg:mt-28 sm:mt-2  mx-auto w-full lg:w-[90%] sm:w-full">
       <div className="my-5 bg-maincolor text-white rounded-full py-2 shadow-md px-3">
@@ -363,7 +375,8 @@ const Singleitem = () => {
                           src={imageLiveUrl(image)}
                           className="w-full h-full object-contain"
                           alt={`Slide ${index}`}
-                          onClick={() => openImagePreview(imageLiveUrl(image))}
+                          // onClick={() => imageLiveUrl(image)}
+                          onClick={() => openModal(imageLiveUrl(image))} // Pass the image URL when clicked
                         />
                       </div>
                     </SwiperSlide>
@@ -537,6 +550,26 @@ const Singleitem = () => {
           </div>
         </DialogContent>
       </Dialog>
+
+        {/* The Modal */}
+        {isOpen && (
+          <div
+            id="myModal"
+            className="fixed z-50 left-0 top-0 w-full h-full overflow-auto bg-black bg-opacity-90 flex items-center justify-center"
+          >
+            <span
+              className="absolute top-4 right-8 text-white text-4xl font-bold cursor-pointer transition duration-300 hover:text-gray-400"
+              onClick={closeModal}
+            >
+              &times;
+            </span>
+            <img
+              className="modal-content w-4/5 max-w-3xl mx-auto object-contain transition-transform duration-500 transform scale-100"
+              src={selectedImage}
+              alt={selectedImage}
+            />
+          </div>
+        )}
     </div>
   );
 };
