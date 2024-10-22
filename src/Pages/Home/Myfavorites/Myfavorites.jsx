@@ -120,7 +120,7 @@ const Myfavorites = () => {
                             className="bg-black text-yellow-50 px-5 py-2 rounded-full"
                             onClick={() => postcard(item._id)}
                           >
-                            Remove To Cart
+                            Remove From Cart
                           </button>
                         </div>
                         <DescriptionWithToggle description={item.name} />
