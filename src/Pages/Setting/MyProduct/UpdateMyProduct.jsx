@@ -238,7 +238,7 @@ const UpdateMyProduct = () => {
     };
 
     SubCategorydata();
-    // footerCategorydata();
+    footerCategorydata();
   }, []);
 
   const handleCategoryChange = (e, newValue) => {
