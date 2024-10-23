@@ -238,7 +238,7 @@ const UpdateMyProduct = () => {
     };
 
     SubCategorydata();
-    footerCategorydata();
+    // footerCategorydata();
   }, []);
 
   const handleCategoryChange = (e, newValue) => {
@@ -512,30 +512,31 @@ const UpdateMyProduct = () => {
                 />
               </div>
             </div>
-
-            <div className="mb-4 flex items-center">
-              <label className="w-1/4 mb-1 font-semibold">
-                Sub Category <span className="text-red-600"> *</span>
-              </label>
-              <div className="w-full">
-                <select
-                  id="SubCategory"
-                  value={SubCategory._id}
-                  onChange={handleSubCategoryChange}
-                  className={`border w-full rounded-lg border-[#8E9CAB] p-2 `}
-                >
-                  <option value="0"> Select </option>
-                  {SubCategorydropdown &&
-                    SubCategorydropdown.map((itme, index) => {
-                      return (
-                        <option key={index} value={itme._id}>
-                          {itme.name}
-                        </option>
-                      );
-                    })}
-                </select>
+            {SubCategorydropdown.length > 0 && (
+              <div className="mb-4 flex items-center">
+                <label className="w-1/4 mb-1 font-semibold">
+                  Sub Category <span className="text-red-600"> *</span>
+                </label>
+                <div className="w-full">
+                  <select
+                    id="SubCategory"
+                    value={SubCategory._id}
+                    onChange={handleSubCategoryChange}
+                    className={`border w-full rounded-lg border-[#8E9CAB] p-2 `}
+                  >
+                    <option value="0"> Select </option>
+                    {SubCategorydropdown &&
+                      SubCategorydropdown.map((itme, index) => {
+                        return (
+                          <option key={index} value={itme._id}>
+                            {itme.name}
+                          </option>
+                        );
+                      })}
+                  </select>
+                </div>
               </div>
-            </div>
+            )}
             {footerCategorydropdown.length > 0 && (
               <div className="mb-4 flex items-center">
                 <label className="w-1/4 mb-1 font-semibold">
