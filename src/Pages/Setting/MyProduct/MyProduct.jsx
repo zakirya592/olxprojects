@@ -27,11 +27,18 @@ const MyProduct = () => {
   } = useQuery("wishlist", fetchwishlistData);
 
   async function fetchwishlistData() {
+    // const response = await NewRequest.get(
+    //   `/product/getProductsByUserId/${loginuserid || ""}`
+    // );
+    // return response?.data || [];
+     try {
     const response = await NewRequest.get(
       `/product/getProductsByUserId/${loginuserid || ""}`
     );
-    console.log(response?.data, "my product");
     return response?.data || [];
+  } catch (err) {
+    throw new Error(err?.response?.data?.message || "Failed to fetch wishlist");
+  }
   }
 
   const postcard = async (Product) => {
@@ -172,7 +179,7 @@ const MyProduct = () => {
               {isLoading ? (
                 <div>Loading...</div>
               ) : error ? (
-                <div>Error loading data</div>
+                <div> {error?.message || "Error loading data"} </div>
               ) : wishlistData.length === 0 ? (
                 <div className="flex items-center justify-center w-full">
                   <p className="text-gray-500 text-xl">No Product yet.</p>
