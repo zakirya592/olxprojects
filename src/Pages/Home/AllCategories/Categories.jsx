@@ -55,7 +55,7 @@ function Categories() {
     children: PropTypes.node,
   };
   return (
-    <div className="w-full">
+    <div className="w-full ">
       <Dropdown>
         <MenuButton>
           <Stack
@@ -78,10 +78,10 @@ function Categories() {
         <Menu
           slots={{ listbox: Listbox }}
           style={{ zIndex: "200" }}
-          className="w-full ms-auto rounded-sm"
+          className="w-full ms-auto rounded-sm fixed"
         >
           <MenuSection>
-            <MenuItem className="bg-[#F5F5F5]">
+            <MenuItem className="bg-[#F5F5F5] fixed mt-0 w-full z-50">
               <h2 className="text-maincolor text-lg font-sans font-bold px-2 my-5">
                 All categories
               </h2>

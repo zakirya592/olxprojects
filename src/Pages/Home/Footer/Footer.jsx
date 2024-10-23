@@ -92,7 +92,7 @@ const viewmorefooter = (product) => {
               POPULAR CATEGORIES
             </h2>
             <div className={`text-white flex flex-col gap-1 `}>
-              {data?.map((section, index) => (
+              {data?.slice(0, 5)?.map((section, index) => (
                 <p
                   key={index}
                   onClick={() => viewmore(section)}
@@ -111,7 +111,7 @@ const viewmorefooter = (product) => {
             </h2>
             <div className={`text-white flex flex-col gap-1`}>
               {getTrendingProducts &&
-                getTrendingProducts.map((item) => (
+                getTrendingProducts?.slice(0, 5)?.map((item) => (
                   <p
                     key={item._id}
                     className="text-white duration-300 hover:text-white cursor-pointer"
