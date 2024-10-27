@@ -22,6 +22,8 @@ import SinUpForm from "./Pages/Admin/Login/SinUpForm";
 import ContactUs from "./Pages/Home/ContactUs/ContactUs";
 import Aboutus from "./Pages/Home/Aboutus/Aboutus";
 import UserProductlist from "./Pages/Home/UserProductlist/UserProductlist";
+import ForgotPassword from "./Pages/Admin/Login/ForgotPassword/ForgotPassword";
+import ResetPassword from "./Pages/Admin/Login/ResetPassword/ResetPassword";
 
 const queryClient = new QueryClient();
 
@@ -47,9 +49,10 @@ function App() {
           <Routes>
             <Route path="/Post" element={<Sellpage />} />
             <Route path="/Post/Attributes" element={<PostAttributes />} />
-
             <Route path="/LoginForm" element={<LoginForm />} />
-            <Route path="/SinUpForm" element={<SinUpForm />} />
+            <Route path="/SinUpForm" element={<SinUpForm />} />{" "}
+            <Route path="/forgot-password" element={<ForgotPassword />} />{" "}
+            <Route path="/reset-password" element={<ResetPassword />} />
             <Route element={<UserLayout />}>
               <Route path="/" element={<Home />} />
               <Route path="/moreproduct/:name" element={<MoreProductview />} />

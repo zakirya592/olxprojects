@@ -168,7 +168,10 @@ const LoginForm = () => {
               </div>
 
               <div className="text-end">
-                <p className="font-medium hover:underline dark:text-primary-500 text-viewmorebutton cursor-pointer">
+                <p
+                  className="font-medium hover:underline dark:text-primary-500 text-viewmorebutton cursor-pointer"
+                  onClick={() => navigator("/forgot-password")}
+                >
                   Forgot Password
                 </p>
               </div>
@@ -209,13 +212,7 @@ const LoginForm = () => {
             </p>
           </div>
         </div>
-        {/* <div className="w-full lg:w-1/2 h-screen smm:hidden lg:flex hidden">
-          <img
-            src={logimage}
-            alt="Login Illustration"
-            className="object-contain w-full h-full"
-          />
-        </div> */}
+     
       </div>
     </section>
   );
