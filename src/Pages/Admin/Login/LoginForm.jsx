@@ -93,7 +93,6 @@ const LoginForm = () => {
             if (token && userId) {
               sessionStorage.setItem("authToken", token);
               localStorage.setItem("userdata", userId);
-              // sessionStorage.setItem("userResponse", userId);
               navigator("/"); // Redirect to dashboard
             }
           };
@@ -107,8 +106,8 @@ const LoginForm = () => {
 
     const handleKeyDown = (event) => {
       if (event.key === "Enter") {
-        event.preventDefault(); // Prevent the default form submission
-        handleAddCompany(); // Trigger the API call
+        event.preventDefault();
+        handleAddCompany(); 
       }
     };
 
@@ -166,6 +165,12 @@ const LoginForm = () => {
                 >
                   {showPassword ? <AiOutlineEye /> : <AiOutlineEyeInvisible />}
                 </div>
+              </div>
+
+              <div className="text-end">
+                <p className="font-medium hover:underline dark:text-primary-500 text-viewmorebutton cursor-pointer">
+                  Forgot Password
+                </p>
               </div>
 
               <button
