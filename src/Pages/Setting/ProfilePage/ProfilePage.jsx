@@ -33,7 +33,7 @@ const ProfilePage = () => {
                 const userdata = response.data;
                 setname(userdata?.username || "");
                 setemail(userdata?.email || "");
-                setpassword(userdata?.password || "");
+                // setpassword(userdata?.password || "");
                 setCompanyLandLine(userdata?.phone || "");
                 setaddress(userdata?.address || "");
                 setaboutMe(userdata?.aboutMe || "");
