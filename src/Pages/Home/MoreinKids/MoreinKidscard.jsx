@@ -118,7 +118,8 @@ const Hadersilder = () => {
   };
 
   const singproductitem = (card) => {
-    navigate(`/Singleitem/${card._id}`, { state: { cardData: card } });
+    navigate(`/Singleitem/${card._id}`);
+    localStorage.setItem("singleproduct", JSON.stringify(card));
   };
 
   // Extract categories from productsdata

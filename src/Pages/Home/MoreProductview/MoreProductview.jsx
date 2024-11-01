@@ -120,7 +120,8 @@ const MoreProductview = () => {
   };
 
   const singproductitem = (card) => {
-    navigate(`/Singleitem/${card._id}`, { state: { cardData: card } });
+     localStorage.setItem("singleproduct", JSON.stringify(card));
+    navigate(`/Singleitem/${card._id}`);
   };
 
   const viewmore = async (category) => {

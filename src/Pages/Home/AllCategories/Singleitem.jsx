@@ -11,7 +11,7 @@ import PinDropIcon from "@mui/icons-material/PinDrop";
 import { toast } from "react-toastify";
 import Skeleton from "@mui/material/Skeleton";
 import DescriptionWithToggle from "../MoreinKids/DescriptionWithToggle";
-import { useQuery } from "react-query";
+import { useQuery, useQueryClient } from "react-query";
 import imageLiveUrl from "../../../../utils/urlConverter/imageLiveUrl";
 import Commentproduct from "../../Commentproduct/Commentproduct";
 import { MdEmail } from "react-icons/md";
@@ -21,10 +21,12 @@ import { Dialog, DialogContent, IconButton, Rating } from "@mui/material";
 import { GridCloseIcon } from "@mui/x-data-grid";
 
 const Singleitem = () => {
-
   const location = useLocation();
   const navigate = useNavigate()
-  const cardData = location.state;
+  // const cardData = location.state;
+  const cardDataitem = localStorage.getItem("singleproduct");
+  const cardData = JSON.parse(cardDataitem);
+  const queryClient = useQueryClient();
   const [Userdataget, setUserdataget] = useState('')
   const [moreproductData, setmoreproductData] = useState([])
   const [isLoading, setIsLoading] = useState(false);
@@ -35,7 +37,7 @@ const Singleitem = () => {
   const fetchData = async () => {
     setIsLoading(true);
     try {
-      const response = await NewRequest.get(`/product/${cardData.cardData._id}`);
+      const response = await NewRequest.get(`/product/${cardData._id}`);
       const datas = response.data;
       try {
         const responsesingle = await NewRequest.get(
@@ -180,7 +182,6 @@ const Singleitem = () => {
   }
 
   const charfunction = (Product) => {
-
      if (!senderId) {
        navigate("/LoginForm");
      }
@@ -217,6 +218,13 @@ const Singleitem = () => {
     const closeModal = () => {
       setIsOpen(false);
     };
+    
+  const singleproduct = (card) => {
+    localStorage.setItem("singleproduct", JSON.stringify(card));
+    queryClient.invalidateQueries(["card", card]);
+    navigate(`/Singleitem/${card._id}`);
+    fetchData();
+  };
 
 
   return (
@@ -233,7 +241,7 @@ const Singleitem = () => {
         |{" "}
         <span className="cursor-pointer">
           {" "}
-          {cardData?.cardData?.name || ""}
+          {cardData?.name || ""}
         </span>
       </div>
       <div className="flex flex-col-reverse sm:flex-col-reverse md:flex-col lg:flex-row gap-1 sm:gap-1 lg:gap-6 md:gap-6 ">
@@ -376,7 +384,7 @@ const Singleitem = () => {
                           className="w-full h-full object-contain"
                           alt={`Slide ${index}`}
                           // onClick={() => imageLiveUrl(image)}
-                          onClick={() => openModal(imageLiveUrl(image))} // Pass the image URL when clicked
+                          onClick={() => openModal(imageLiveUrl(image))}
                         />
                       </div>
                     </SwiperSlide>
@@ -484,7 +492,10 @@ const Singleitem = () => {
                 moreproductData.map((card, index) => (
                   <SwiperSlide key={index}>
                     <div className="h-[300px] lg:h-[340px] sm:h-[300px]  relative w-full py-1  border my-3 border-gray-300 bg-white rounded-md shadow-lg">
-                      <div className="font-semibold text-secondary sm:text-lg text-base hover:text-maincolor mt-3">
+                      <div
+                        className="font-semibold text-secondary sm:text-lg text-base hover:text-maincolor mt-3"
+                        onClick={() => singleproduct(card)}
+                      >
                         <center>
                           <img
                             src={imageLiveUrl(card.images[0])}
@@ -551,25 +562,55 @@ const Singleitem = () => {
         </DialogContent>
       </Dialog>
 
-        {/* The Modal */}
-        {isOpen && (
-          <div
-            id="myModal"
-            className="fixed z-50 left-0 top-0 w-full h-full overflow-auto bg-black bg-opacity-90 flex items-center justify-center"
+      {/* The Modal */}
+      {isOpen && (
+        <div
+          id="myModal"
+          className="fixed z-50 left-0 top-0 w-full h-full overflow-auto bg-black bg-opacity-90 flex items-center justify-center"
+        >
+          <span
+            className="absolute top-4 right-8 text-white text-4xl font-bold cursor-pointer transition duration-300 hover:text-gray-400"
+            onClick={closeModal}
           >
-            <span
-              className="absolute top-4 right-8 text-white text-4xl font-bold cursor-pointer transition duration-300 hover:text-gray-400"
-              onClick={closeModal}
-            >
-              &times;
-            </span>
+            &times;
+          </span>
+          <div className="relative w-4/5 max-w-3xl h-80 lg:h-[500px] mx-auto overflow-hidden">
             <img
-              className="modal-content w-4/5 max-w-3xl mx-auto object-contain transition-transform duration-500 transform scale-100"
+              className="modal-content object-contain w-full h-full"
               src={selectedImage}
-              alt={selectedImage}
+              alt="Selected"
+              onMouseMove={(e) => {
+                const zoomLens = document.getElementById("zoomLens");
+                const img = e.target;
+                const rect = img.getBoundingClientRect();
+
+                // Calculate the lens position
+                const x = e.clientX - rect.left - zoomLens.offsetWidth / 2;
+                const y = e.clientY - rect.top - zoomLens.offsetHeight / 2;
+
+                // Set background position to simulate zoom effect
+                const backgroundX =
+                  ((e.clientX - rect.left) / rect.width) * 100;
+                const backgroundY =
+                  ((e.clientY - rect.top) / rect.height) * 100;
+
+                zoomLens.style.left = `${x}px`;
+                zoomLens.style.top = `${y}px`;
+                zoomLens.style.backgroundPosition = `${backgroundX}% ${backgroundY}%`;
+              }}
             />
+            <div
+              id="zoomLens"
+              className="absolute w-32 h-32 rounded-full border-2 border-white pointer-events-none"
+              style={{
+                backgroundImage: `url(${selectedImage})`,
+                backgroundRepeat: "no-repeat",
+                backgroundSize: "200%", // Adjust zoom level
+              }}
+            ></div>
           </div>
-        )}
+        </div>
+      )}
     </div>
   );
 };
