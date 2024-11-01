@@ -182,9 +182,9 @@ const Singleitem = () => {
   }
 
   const charfunction = (Product) => {
-     if (!senderId) {
-       navigate("/LoginForm");
-     }
+    if (!senderId) {
+      navigate("/LoginForm");
+    }
     const subResponsechat = JSON.stringify(Product.User);
     sessionStorage.setItem("chardata", subResponsechat);
     navigate("/Chat");
@@ -196,29 +196,29 @@ const Singleitem = () => {
     navigate(`/Productlist/${product._id}`);
   };
 
-   const [isDialogOpen, setIsDialogOpen] = useState(false);
-   const [selectedImage, setSelectedImage] = useState(null);
-   const openImagePreview = (image) => {
-     setSelectedImage(image);
-     setIsDialogOpen(true);
-   };
+  const [isDialogOpen, setIsDialogOpen] = useState(false);
+  const [selectedImage, setSelectedImage] = useState(null);
+  const openImagePreview = (image) => {
+    setSelectedImage(image);
+    setIsDialogOpen(true);
+  };
 
-   const closeDialog = () => {
-     setIsDialogOpen(false);
-   };
+  const closeDialog = () => {
+    setIsDialogOpen(false);
+  };
 
 
-    const [isOpen, setIsOpen] = useState(false);
+  const [isOpen, setIsOpen] = useState(false);
 
-    const openModal = (image) => {
-      setIsOpen(true);
-      setSelectedImage(image);
-    };
+  const openModal = (image) => {
+    setIsOpen(true);
+    setSelectedImage(image);
+  };
 
-    const closeModal = () => {
-      setIsOpen(false);
-    };
-    
+  const closeModal = () => {
+    setIsOpen(false);
+  };
+
   const singleproduct = (card) => {
     localStorage.setItem("singleproduct", JSON.stringify(card));
     queryClient.invalidateQueries(["card", card]);

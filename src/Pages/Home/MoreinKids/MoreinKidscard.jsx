@@ -22,19 +22,19 @@ import { GridCloseIcon } from "@mui/x-data-grid";
 
 const Hadersilder = () => {
   const navigate = useNavigate();
- const [isDialogOpen, setIsDialogOpen] = useState(false); 
- const [selectedImage, setSelectedImage] = useState(null); 
- const openImagePreview = (image) => {
-   setSelectedImage(image); 
-   setIsDialogOpen(true); 
- };
+  const [isDialogOpen, setIsDialogOpen] = useState(false);
+  const [selectedImage, setSelectedImage] = useState(null);
+  const openImagePreview = (image) => {
+    setSelectedImage(image);
+    setIsDialogOpen(true);
+  };
 
- const closeDialog = () => {
-   setIsDialogOpen(false); 
- };
+  const closeDialog = () => {
+    setIsDialogOpen(false);
+  };
 
-    const [productRatings, setProductRatings] = useState({});
-    async function fetchProductRatings(products) {
+  const [productRatings, setProductRatings] = useState({});
+  async function fetchProductRatings(products) {
     const ratings = {};
 
     // Loop through products and fetch ratings for each product
@@ -46,11 +46,11 @@ const Hadersilder = () => {
 
         const productRatings = ratingResponse?.data?.comments;
         const totalRatings = productRatings.reduce((acc, comment) => acc + (comment.rating || 0), 0);
-         const averageRating = productRatings ? totalRatings / productRatings.length : 0;
+        const averageRating = productRatings ? totalRatings / productRatings.length : 0;
 
         ratings[product._id] = averageRating || 0;
       } catch (error) {
-        ratings[product._id] = 0; 
+        ratings[product._id] = 0;
       }
     }
 
@@ -73,7 +73,7 @@ const Hadersilder = () => {
         (product) => product.status.toLowerCase() === "active"
       )
     );
-     fetchProductRatings(activeProducts);
+    fetchProductRatings(activeProducts);
 
     return { categories: response.data, products: activeProducts };
   }
@@ -127,7 +127,7 @@ const Hadersilder = () => {
 
   return (
     <div className="relative h-auto w-full bg-white border-b mt-10 mb-20">
-     
+
       {categories.map((category, index) => {
         const activeProducts = category.products.filter(
           (product) => product.status.toLowerCase() === "active"
@@ -188,9 +188,9 @@ const Hadersilder = () => {
                           alt=""
                           className="w-full h-44 object-cover px-3 cursor-pointer"
                           onClick={() => singproductitem(card)}
-                          // onClick={() =>
-                          //   openImagePreview(imageLiveUrl(card.images[0]))
-                          // }
+                        // onClick={() =>
+                        //   openImagePreview(imageLiveUrl(card.images[0]))
+                        // }
                         />
                         <div className="w-full">
                           <div

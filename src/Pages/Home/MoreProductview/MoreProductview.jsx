@@ -39,7 +39,7 @@ const MoreProductview = () => {
 
         ratings[product._id] = averageRating || 0;
       } catch (error) {
-        ratings[product._id] = 0; 
+        ratings[product._id] = 0;
       }
     }
 
@@ -54,7 +54,7 @@ const MoreProductview = () => {
     ["category", subCategoriesResponse?.category?._id],
     fetchmoreproductData,
     {
-      enabled: !!subCategoriesResponse?.category?._id, 
+      enabled: !!subCategoriesResponse?.category?._id,
     }
   );
 
@@ -71,7 +71,7 @@ const MoreProductview = () => {
     const activeProducts = response?.data.filter(
       (product) => product.status.toLowerCase() === "active"
     );
-     fetchProductRatings(activeProducts);
+    fetchProductRatings(activeProducts);
     return activeProducts || [];
   }
 
@@ -120,7 +120,7 @@ const MoreProductview = () => {
   };
 
   const singproductitem = (card) => {
-     localStorage.setItem("singleproduct", JSON.stringify(card));
+    localStorage.setItem("singleproduct", JSON.stringify(card));
     navigate(`/Singleitem/${card._id}`);
   };
 
@@ -219,7 +219,7 @@ const MoreProductview = () => {
                           <Rating
                             name="half-rating"
                             precision={0.5}
-                             value={productRatings[item._id] ? Number(productRatings[item._id]) : 0}
+                            value={productRatings[item._id] ? Number(productRatings[item._id]) : 0}
                             sx={{
                               color: "#4C005A",
                               fontSize: {

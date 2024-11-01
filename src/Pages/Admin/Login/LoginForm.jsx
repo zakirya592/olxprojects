@@ -8,108 +8,108 @@ import { AiOutlineEye, AiOutlineEyeInvisible } from "react-icons/ai";
 import { baseUrl } from "../../../../utils/config";
 
 const LoginForm = () => {
-      const navigator = useNavigate();
-      const [email, setemail] = useState("");
-      const [password, setpassword] = useState("");
-      const [showPassword, setShowPassword] = useState(false);
-      const [loading, setloading] = useState(false);
-      
-
-      const handleAddCompany = async (e) => {
-        setloading(true)
-        try {
-          const response = await NewRequest.post("/users/login", {
-            email: email,
-            password: password,
-          });
-
-          const userstatus = response.data.user.status;
-          setloading(false);
-          if (userstatus === 1) {
-            navigator("/");
-
-            localStorage.setItem("authToken", response.data.token);
-            // Correct way to store an object in sessionStorage
-            localStorage.setItem("userdata", response.data);
-            // Convert the object to a JSON string
-            const userResponseString = JSON.stringify(response);
-            // Store the JSON string in sessionStorage
-            localStorage.setItem("userResponse", userResponseString);
-
-            toast.success(`Login has been successful.`, {
-              position: "top-right",
-              autoClose: 2000,
-              hideProgressBar: false,
-              closeOnClick: true,
-              pauseOnHover: true,
-              draggable: true,
-              progress: undefined,
-              theme: "light",
-            });
-            // handleCloseCreatePopup();
-            // setParentVisibility(false);
-          } else {
-            toast.error("Your account is not Active.", {
-              position: "top-right",
-              autoClose: 2000,
-              hideProgressBar: false,
-              closeOnClick: true,
-              pauseOnHover: true,
-              draggable: true,
-              progress: undefined,
-              theme: "light",
-            });
-          }
-          localStorage.setItem("authToken", response.data.token);
-        } catch (error) {
-          setloading(false);
-          console.log(error,'errorr');
-          
-          toast.error(error?.response?.data?.error || "Error show", {
-            position: "top-right",
-            autoClose: 2000,
-            hideProgressBar: false,
-            closeOnClick: true,
-            pauseOnHover: true,
-            draggable: true,
-            progress: undefined,
-            theme: "light",
-          });
-        }
-      };
+  const navigator = useNavigate();
+  const [email, setemail] = useState("");
+  const [password, setpassword] = useState("");
+  const [showPassword, setShowPassword] = useState(false);
+  const [loading, setloading] = useState(false);
 
 
-      const toggleShowPassword = () => {
-        setShowPassword(!showPassword);
-      };
+  const handleAddCompany = async (e) => {
+    setloading(true)
+    try {
+      const response = await NewRequest.post("/users/login", {
+        email: email,
+        password: password,
+      });
+
+      const userstatus = response.data.user.status;
+      setloading(false);
+      if (userstatus === 1) {
+        navigator("/");
+
+        localStorage.setItem("authToken", response.data.token);
+        // Correct way to store an object in sessionStorage
+        localStorage.setItem("userdata", response.data);
+        // Convert the object to a JSON string
+        const userResponseString = JSON.stringify(response);
+        // Store the JSON string in sessionStorage
+        localStorage.setItem("userResponse", userResponseString);
+
+        toast.success(`Login has been successful.`, {
+          position: "top-right",
+          autoClose: 2000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "light",
+        });
+        // handleCloseCreatePopup();
+        // setParentVisibility(false);
+      } else {
+        toast.error("Your account is not Active.", {
+          position: "top-right",
+          autoClose: 2000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "light",
+        });
+      }
+      localStorage.setItem("authToken", response.data.token);
+    } catch (error) {
+      setloading(false);
+      console.log(error, 'errorr');
+
+      toast.error(error?.response?.data?.error || "Error show", {
+        position: "top-right",
+        autoClose: 2000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "light",
+      });
+    }
+  };
 
 
-        useEffect(() => {
-          const handleGoogleRedirect = () => {
-            const urlParams = new URLSearchParams(window.location.search);
-            const token = urlParams.get("token");
-            const userId = urlParams.get("userId");
+  const toggleShowPassword = () => {
+    setShowPassword(!showPassword);
+  };
 
-            if (token && userId) {
-              sessionStorage.setItem("authToken", token);
-              localStorage.setItem("userdata", userId);
-              navigator("/"); // Redirect to dashboard
-            }
-          };
 
-          handleGoogleRedirect();
-        }, [navigator]);
+  useEffect(() => {
+    const handleGoogleRedirect = () => {
+      const urlParams = new URLSearchParams(window.location.search);
+      const token = urlParams.get("token");
+      const userId = urlParams.get("userId");
 
-        const handleGoogleLogin = () => {
-          window.location.href = `${baseUrl}/users/login_with_google`;
-        };
-
-    const handleKeyDown = (event) => {
-      if (event.key === "Enter") {
-        event.preventDefault();
-        handleAddCompany(); 
+      if (token && userId) {
+        sessionStorage.setItem("authToken", token);
+        localStorage.setItem("userdata", userId);
+        navigator("/"); // Redirect to dashboard
       }
     };
+
+    handleGoogleRedirect();
+  }, [navigator]);
+
+  const handleGoogleLogin = () => {
+    window.location.href = `${baseUrl}/users/login_with_google`;
+  };
+
+  const handleKeyDown = (event) => {
+    if (event.key === "Enter") {
+      event.preventDefault();
+      handleAddCompany();
+    }
+  };
 
 
   return (
@@ -212,7 +212,7 @@ const LoginForm = () => {
             </p>
           </div>
         </div>
-     
+
       </div>
     </section>
   );
