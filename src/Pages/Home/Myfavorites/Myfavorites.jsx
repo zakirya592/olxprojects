@@ -106,15 +106,13 @@ const Myfavorites = () => {
               ) : (
                 wishlistData.map((item, index) => (
                   <div className="border rounded shadow " key={index}>
-                    <div
-                      className="flex gap-3 flex-col"
-                      onClick={() => singproductitem(item)}
-                    >
+                    <div className="flex gap-3 flex-col">
                       <div className="w-full ">
                         <img
                           src={imageLiveUrl(item?.images?.[0]) || ""}
                           alt="Product"
                           className="w-full h-52 object-contain"
+                          onClick={() => singproductitem(item)}
                         />
                       </div>
 
