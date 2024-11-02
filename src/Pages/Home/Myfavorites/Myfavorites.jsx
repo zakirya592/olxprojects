@@ -62,6 +62,11 @@ const Myfavorites = () => {
     navigate("/Chat");
   };
 
+    const singproductitem = (card) => {
+      localStorage.setItem("singleproduct", JSON.stringify(card));
+      navigate(`/Singleitem/${card._id}`);
+    };
+
   return (
     <>
       {/* <Header /> */}
@@ -101,7 +106,10 @@ const Myfavorites = () => {
               ) : (
                 wishlistData.map((item, index) => (
                   <div className="border rounded shadow " key={index}>
-                    <div className="flex gap-3 flex-col">
+                    <div
+                      className="flex gap-3 flex-col"
+                      onClick={() => singproductitem(item)}
+                    >
                       <div className="w-full ">
                         <img
                           src={imageLiveUrl(item?.images?.[0]) || ""}
