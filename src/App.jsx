@@ -24,6 +24,7 @@ import Aboutus from "./Pages/Home/Aboutus/Aboutus";
 import UserProductlist from "./Pages/Home/UserProductlist/UserProductlist";
 import ForgotPassword from "./Pages/Admin/Login/ForgotPassword/ForgotPassword";
 import ResetPassword from "./Pages/Admin/Login/ResetPassword/ResetPassword";
+import Otp from "./Pages/Admin/Login/OTP/Otp";
 
 const queryClient = new QueryClient();
 
@@ -52,6 +53,7 @@ function App() {
             <Route path="/LoginForm" element={<LoginForm />} />
             <Route path="/SinUpForm" element={<SinUpForm />} />{" "}
             <Route path="/forgot-password" element={<ForgotPassword />} />{" "}
+            <Route path="/Otp" element={<Otp />} />
             <Route path="/reset-password" element={<ResetPassword />} />
             <Route element={<UserLayout />}>
               <Route path="/" element={<Home />} />

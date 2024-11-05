@@ -152,7 +152,7 @@ const LoginForm = () => {
                   type={showPassword ? "text" : "password"}
                   name="password"
                   id="password"
-                  placeholder="••••••••"
+                  placeholder="*********"
                   onKeyDown={handleKeyDown}
                   value={password}
                   onChange={(e) => setpassword(e.target.value)}
