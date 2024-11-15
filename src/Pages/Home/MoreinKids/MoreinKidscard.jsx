@@ -129,9 +129,8 @@ const Hadersilder = () => {
     <div className="relative h-auto w-full bg-white border-b mt-10 mb-20">
 
       {categories.map((category, index) => {
-        const activeProducts = category.products.filter(
-          (product) => product.status.toLowerCase() === "active"
-        );
+        const activeProducts = category.products
+          .filter((product) => product.status.toLowerCase() === "active");
 
         if (activeProducts.length === 0) {
           return null;
