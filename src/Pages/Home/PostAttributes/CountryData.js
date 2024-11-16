@@ -6,7 +6,7 @@ export const currencies = [
   { country: "Algeria", code: "DZD", name: "Algerian Dinar", symbol: "د.ج" },
   { country: "Andorra", code: "EUR", name: "Euro", symbol: "€" },
   { country: "Angola", code: "AOA", name: "Angolan Kwanza", symbol: "Kz" },
-  { country: "Argentina", code: "ARS", name: "Argentine Peso", symbol: "$" },
+  // { country: "Argentina", code: "ARS", name: "Argentine Peso", symbol: "$" },
   { country: "Armenia", code: "AMD", name: "Armenian Dram", symbol: "֏" },
   { country: "Australia", code: "AUD", name: "Australian Dollar", symbol: "$" },
   { country: "Austria", code: "EUR", name: "Euro", symbol: "€" },

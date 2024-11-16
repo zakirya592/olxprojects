@@ -68,9 +68,9 @@ const MoreProductview = () => {
       `/product/getProductsByCategory/${subCategoriesResponse?.category?._id || ""
       }`
     );
-    const activeProducts = response?.data.filter(
-      (product) => product.status.toLowerCase() === "active"
-    );
+    const activeProducts = response?.data
+      .filter((product) => product.status.toLowerCase() === "active")
+      .reverse();
     fetchProductRatings(activeProducts);
     return activeProducts || [];
   }
