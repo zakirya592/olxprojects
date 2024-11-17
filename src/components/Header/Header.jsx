@@ -21,6 +21,7 @@ import imageLiveUrl from "../../../utils/urlConverter/imageLiveUrl";
 import "./Header.css"
 import DropDownSelection from "../DropDownSelection/DropDownSelection";
 import Categories from "../../Pages/Home/AllCategories/Categories";
+import NotificationComponent from "../../Pages/Notification/NotificationComponent";
 
 function Header() {
   const navigate = useNavigate();
@@ -141,7 +142,7 @@ function Header() {
 
   const handlenotificationButtonClick = () => {
     if (isUserLoggedIn) {
-      // navigate("/Chat");
+      navigate("/Notification");
       console.log("Notifiaction section");
     } else {
       navigate("/LoginForm");
@@ -304,11 +305,12 @@ function Header() {
                       size={25}
                       onClick={handlemessageButtonClick}
                     />
-                    <FaBell
+                    {/* <FaBell
                       className="text-white cursor-pointer  lg:block"
                       size={25}
                       onClick={handlenotificationButtonClick}
-                    />
+                    /> */}
+                    <NotificationComponent />
 
                     {isUserLoggedIn && (
                       <>
@@ -381,7 +383,8 @@ function Header() {
 
                   {/* Notification Icon */}
                   <button className="text-white">
-                    <FaBell size={24} onClick={handlenotificationButtonClick} />
+                    {/* <FaBell size={24} onClick={handlenotificationButtonClick} /> */}
+                    <NotificationComponent />
                   </button>
 
                   {/* Sell Button */}
