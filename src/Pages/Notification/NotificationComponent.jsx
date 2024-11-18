@@ -81,7 +81,7 @@ function NotificationComponent() {
       <div className="relative">
         <FaBell size={24} className="cursor-pointer" onClick={toggleDropdown} />
         <div className="absolute -top-2 -right-2 bg-red-600 text-white rounded-full text-xs w-5 h-5 flex items-center justify-center">
-          {NotificationData?.result?.matchedCount || "0"}
+          {NotificationData?.result?.matchedCount || ""}
         </div>
       </div>
 
