@@ -140,14 +140,7 @@ function Header() {
     }
   };
 
-  const handlenotificationButtonClick = () => {
-    if (isUserLoggedIn) {
-      navigate("/Notification");
-      console.log("Notifiaction section");
-    } else {
-      navigate("/LoginForm");
-    }
-  };
+
 
   function MenuSection({ children, label }) {
     return (

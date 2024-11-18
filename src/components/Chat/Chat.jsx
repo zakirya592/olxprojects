@@ -7,7 +7,8 @@ import { FaSearch } from "react-icons/fa";
 import { useNavigate } from "react-router-dom";
 import { IoReorderThree } from "react-icons/io5";
 import { RxCross2 } from "react-icons/rx";
-
+import DoneAllIcon from "@mui/icons-material/DoneAll";
+import CheckIcon from "@mui/icons-material/Check";
 const Chat = () => {
   const navigate = useNavigate();
   const [message, setMessage] = useState("");
@@ -113,11 +114,10 @@ const Chat = () => {
   }, [senderId]);
 
   useEffect(() => {
-    // Scroll to the bottom of the chat container whenever chatHistorydata changes
     if (chatContainerRef.current) {
       chatContainerRef.current.scrollTop =
         chatContainerRef.current.scrollHeight;
-    }
+    } 
   }, [chatHistorydata]);
 
   // User profile data
@@ -368,23 +368,35 @@ const Chat = () => {
                             <div className="flex">
                               <p className=""> {chat?.content || ""}</p>
                             </div>
-                            <p className="text-xs text-gray-400">
-                              {new Date(chat.timestamp).toLocaleString(
-                                "en-US",
-                                {
-                                  hour: "2-digit",
-                                  minute: "2-digit",
-                                  second: "2-digit",
-                                  hour12: true,
-                                }
-                              )}
-                            </p>
+                            <div className="flex w-full justify-between my-auto">
+                              <p className="text-xs text-gray-400 ">
+                                {new Date(chat.timestamp).toLocaleString(
+                                  "en-US",
+                                  {
+                                    hour: "2-digit",
+                                    minute: "2-digit",
+                                    second: "2-digit",
+                                    hour12: true,
+                                  }
+                                )}
+                              </p>
+                              <div className="ms-10">
+                                <p className="h-2">
+                                  {chat.status === "read" ? (
+                                    <DoneAllIcon className="text-[#4C005A]" />
+                                  ) : chat.status === "sent" ? (
+                                    <DoneAllIcon className="text-black" />
+                                  ) : (
+                                    <CheckIcon />
+                                  )}
+                                </p>
+                              </div>
+                            </div>
                           </div>
 
                           {/* Show the current user's image if they are the sender */}
                           {chat.sender._id === senderId && (
                             <img
-                              // src={chat.sender.image} // URL for the current user's image
                               src={
                                 chat.sender.image
                                   ? chat.sender.image.startsWith("https")
