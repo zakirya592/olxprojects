@@ -380,17 +380,20 @@ const Chat = () => {
                                   }
                                 )}
                               </p>
-                              <div className="ms-10">
-                                <p className="h-2">
-                                  {chat.status === "read" ? (
-                                    <DoneAllIcon className="text-[#4C005A]" />
-                                  ) : chat.status === "sent" ? (
-                                    <DoneAllIcon className="text-black" />
-                                  ) : (
-                                    <CheckIcon />
-                                  )}
-                                </p>
-                              </div>
+                              
+                              {chat.sender._id === senderId && (
+                                <div className="ms-10">
+                                  <p className="h-2">
+                                    {chat.status === "read" ? (
+                                      <DoneAllIcon className="text-[#4C005A]" />
+                                    ) : chat.status === "sent" ? (
+                                      <DoneAllIcon className="text-black" />
+                                    ) : (
+                                      <CheckIcon />
+                                    )}
+                                  </p>
+                                </div>
+                              )}
                             </div>
                           </div>
 

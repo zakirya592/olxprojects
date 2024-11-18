@@ -65,14 +65,12 @@ function NotificationComponent() {
       }
     }, [senderId, navigate]);
 
-   const { isLoading, error, data: NotificationData} = useQuery("Notification", AllNotification);
+   const {  data: NotificationData} = useQuery("Notification", AllNotification);
   async function AllNotification() {
     const response = await NewRequest.post(`/chat/deliver`, {
       receiverId: senderId,
     });
-    // return response?.data;
-    // console.log(response?.data, "response?.data");
-    
+    return response?.data;
   }
 
 
