@@ -59,11 +59,11 @@ function NotificationComponent() {
       senderId = localStorage.getItem("userdata") || "";
     }
 
-    useEffect(() => {
-      if (!senderId) {
-        navigate("/LoginForm");
-      }
-    }, [senderId, navigate]);
+    // useEffect(() => {
+    //   if (!senderId) {
+    //     navigate("/LoginForm");
+    //   }
+    // }, [senderId, navigate]);
 
    const {  data: NotificationData} = useQuery("Notification", AllNotification);
   async function AllNotification() {
