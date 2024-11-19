@@ -380,13 +380,13 @@ const Chat = () => {
                                   }
                                 )}
                               </p>
-                              
+
                               {chat.sender._id === senderId && (
                                 <div className="ms-10">
                                   <p className="h-2">
                                     {chat.status === "read" ? (
                                       <DoneAllIcon className="text-[#4C005A]" />
-                                    ) : chat.status === "sent" ? (
+                                    ) : chat.status === "delivered" ? (
                                       <DoneAllIcon className="text-black" />
                                     ) : (
                                       <CheckIcon />
