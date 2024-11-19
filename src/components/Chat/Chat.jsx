@@ -385,7 +385,7 @@ const Chat = () => {
                                 <div className="ms-10">
                                   <p className="h-2">
                                     {chat.status === "read" ? (
-                                      <DoneAllIcon className="text-[#4C005A]" />
+                                      <DoneAllIcon className="text-blue-600" />
                                     ) : chat.status === "delivered" ? (
                                       <DoneAllIcon className="text-black" />
                                     ) : (

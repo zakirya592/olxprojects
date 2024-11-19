@@ -49,31 +49,38 @@ function NotificationComponent() {
     };
   }, []);
 
-  
   const storedUserResponseString = localStorage.getItem("userResponse");
   const storedUserResponse = JSON.parse(storedUserResponseString);
   const loginuserdata = storedUserResponse?.data?.user || "";
 
-    let senderId = loginuserdata?._id || "";
-    if (!senderId) {
-      senderId = localStorage.getItem("userdata") || "";
+  let senderId = loginuserdata?._id || "";
+  if (!senderId) {
+    senderId = localStorage.getItem("userdata") || "";
+  }
+  const fetchchatlist = async () => {
+    try {
+      const response = await NewRequest.get(
+        `/chat/getmychat?userId=${senderId || ""}`
+      );
+      // setchatlist(response.data);
+      console.log(response.data, "response.data");
+    } catch (error) {
+      console.error("Error fetching chat history:", error);
     }
+  };
 
-    // useEffect(() => {
-    //   if (!senderId) {
-    //     navigate("/LoginForm");
-    //   }
-    // }, [senderId, navigate]);
+  // Close dropdown when clicking outside
+  useEffect(() => {
+   fetchchatlist()
+  }, []);
 
-   const {  data: NotificationData} = useQuery("Notification", AllNotification);
+  const { data: NotificationData } = useQuery("Notification", AllNotification);
   async function AllNotification() {
     const response = await NewRequest.post(`/chat/deliver`, {
       receiverId: senderId,
     });
     return response?.data;
   }
-
-
 
   return (
     <div className="notification-dropdown" style={{ position: "relative" }}>
