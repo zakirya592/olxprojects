@@ -4,6 +4,8 @@ import { FaBell } from "react-icons/fa";
 import { useQuery } from "react-query";
 import NewRequest from "../../../utils/NewRequest";
 import { useNavigate } from "react-router-dom";
+import { Avatar } from "@mui/material";
+import imageLiveUrl from "../../../utils/urlConverter/imageLiveUrl";
 
 const socket = io("http://localhost:5000"); // Backend URL
 
@@ -57,22 +59,6 @@ function NotificationComponent() {
   if (!senderId) {
     senderId = localStorage.getItem("userdata") || "";
   }
-  const fetchchatlist = async () => {
-    try {
-      const response = await NewRequest.get(
-        `/chat/getmychat?userId=${senderId || ""}`
-      );
-      // setchatlist(response.data);
-      console.log(response.data, "response.data");
-    } catch (error) {
-      console.error("Error fetching chat history:", error);
-    }
-  };
-
-  // Close dropdown when clicking outside
-  useEffect(() => {
-   fetchchatlist()
-  }, []);
 
   const { data: NotificationData } = useQuery("Notification", AllNotification);
   async function AllNotification() {
@@ -82,13 +68,21 @@ function NotificationComponent() {
     return response?.data;
   }
 
+  const { data: getNotificationData } = useQuery("GetNotification", AllGetNotification);
+  async function AllGetNotification() {
+    const response = await NewRequest.post(`/chat/notification?userId=${senderId}`);
+    console.log(response, "response");
+
+    return response?.data;
+  }
+
   return (
     <div className="notification-dropdown" style={{ position: "relative" }}>
       {/* Notification Bell Icon */}
       <div className="relative">
         <FaBell size={24} className="cursor-pointer" onClick={toggleDropdown} />
         <div className="absolute -top-2 -right-2 bg-red-600 text-white rounded-full text-xs w-5 h-5 flex items-center justify-center">
-          {NotificationData?.result?.matchedCount || ""}
+          {getNotificationData?.length || ""}
         </div>
       </div>
 
@@ -126,17 +120,40 @@ function NotificationComponent() {
           }}
         >
           <div className="p-4 font-bold">Notifications</div>
-          {notifications.length > 0 ? (
-            notifications.map((notif, index) => (
+          {getNotificationData.length > 0 ? (
+            getNotificationData.map((notif, index) => (
               <div
                 key={index}
                 style={{
                   padding: "10px",
                   borderBottom: "1px solid #f0f0f0",
-                  cursor: "pointer",
                 }}
+                className="flex justify-between cursor-pointer"
               >
-                {notif.message || "New Notification"}
+                <div className="flex">
+                  <Avatar
+                    className="my-auto cursor-pointer"
+                    src={
+                      notif.sender.image
+                        ? notif.sender.image.startsWith("https")
+                          ? notif.sender.image
+                          : imageLiveUrl(notif.sender.image)
+                        : ""
+                    }
+                    // onClick={() => productlist(Userdataget)}
+                  />
+                  <p className="my-auto ms-4">
+                    {notif?.sender?.username || "New Notification"}
+                  </p>
+                </div>
+                <p className="text-xs text-gray-400 my-auto">
+                  {new Date(notif.timestamp).toLocaleString("en-US", {
+                    hour: "2-digit",
+                    minute: "2-digit",
+                    second: "2-digit",
+                    hour12: true,
+                  })}
+                </p>
               </div>
             ))
           ) : (

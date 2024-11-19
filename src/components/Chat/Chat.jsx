@@ -26,7 +26,7 @@ const Chat = () => {
   const [aboutMe, setaboutMe] = useState("");
   const [searchQuery, setSearchQuery] = useState("");
   const [selectedUser, setSelectedUser] = useState(chatResponse);
-  const [isChatListVisible, setIsChatListVisible] = useState(false); 
+  const [isChatListVisible, setIsChatListVisible] = useState(false);
 
   try {
     chatResponse = chatproduct ? JSON.parse(chatproduct) : null;
@@ -94,6 +94,12 @@ const Chat = () => {
   const handleChatSelection = (chat) => {
     setSelectedUser(chat?.user);
     setActiveChatId(chat?.user._id);
+
+ NewRequest.post(
+      `/chat/read?senderId=${senderId}&receiverId=${chat?.user?._id || ""}`
+    );
+
+
   };
 
   useEffect(() => {
@@ -117,7 +123,7 @@ const Chat = () => {
     if (chatContainerRef.current) {
       chatContainerRef.current.scrollTop =
         chatContainerRef.current.scrollHeight;
-    } 
+    }
   }, [chatHistorydata]);
 
   // User profile data
@@ -141,22 +147,22 @@ const Chat = () => {
   const [Responseimageshow, setResponseimageshow] = useState("");
   const [Responsename, setResponsename] = useState('')
 
-    useEffect(() => {
-      NewRequest.get(`/users/${chatResponse?._id || ""}`)
-        .then((response) => {
-          const userdata = response.data;
-          const imageUrl = userdata?.image || "";
-          const finalUrl =
-            imageUrl && imageUrl.startsWith("https")
-              ? imageUrl
-              : imageLiveUrl(imageUrl);
-          setResponseimageshow(finalUrl || "");
-          setResponsename(userdata?.username || "");
-        })
-        .catch((err) => {
-          console.log(err);
-        });
-    }, []);
+  useEffect(() => {
+    NewRequest.get(`/users/${chatResponse?._id || ""}`)
+      .then((response) => {
+        const userdata = response.data;
+        const imageUrl = userdata?.image || "";
+        const finalUrl =
+          imageUrl && imageUrl.startsWith("https")
+            ? imageUrl
+            : imageLiveUrl(imageUrl);
+        setResponseimageshow(finalUrl || "");
+        setResponsename(userdata?.username || "");
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  }, []);
 
   // Filtered chatlist based on the search query
   const filteredChatList = chatlist.filter(
@@ -187,9 +193,8 @@ const Chat = () => {
         </div>
 
         <div
-          className={`w-full lg:w-1/4 sm:w-full h-auto border-gray-300 rounded-md shadow-lg transition-all ${
-            isChatListVisible ? "block" : "hidden sm:block"
-          }`}
+          className={`w-full lg:w-1/4 sm:w-full h-auto border-gray-300 rounded-md shadow-lg transition-all ${isChatListVisible ? "block" : "hidden sm:block"
+            }`}
         >
           <div className="flex items-center bg-gray-300 p-4 rounded-sm">
             <img
@@ -224,16 +229,14 @@ const Chat = () => {
             {filteredChatList.length > 0 ? (
               filteredChatList.map((chatlist, index) => (
                 <div
-                  className={`flex items-center p-2 rounded cursor-pointer shadow ${
-                    activeChatId === chatlist?.user._id
-                      ? "bg-gray-300"
-                      : "bg-gray-100"
-                  }`}
+                  className={`flex items-center p-2 rounded cursor-pointer shadow ${activeChatId === chatlist?.user._id
+                    ? "bg-gray-300"
+                    : "bg-gray-100"
+                    }`}
                   key={index}
                   onClick={() => handleChatSelection(chatlist)}
                 >
                   <img
-                    // src={chatlist?.user?.image || ""}
                     src={
                       chatlist?.user?.image
                         ? chatlist?.user?.image.startsWith("https")
@@ -280,27 +283,14 @@ const Chat = () => {
           <div className="flex items-center bg-gray-300 p-4 rounded-sm ms-1">
             {selectedUser ? (
               <>
-                <img
-                  src={
-                    selectedUser.image
-                      ? selectedUser.image.startsWith("https")
-                        ? selectedUser.image
-                        : imageLiveUrl(selectedUser.image)
-                      : ""
-                  }
+                <img src={selectedUser.image ? selectedUser.image.startsWith("https") ? selectedUser.image : imageLiveUrl(selectedUser.image) : ""}
                   alt="Avatar"
                   className="w-10 h-10 rounded-full"
                 />
               </>
             ) : (
               <img
-                src={
-                  Responseimageshow
-                    ? Responseimageshow.startsWith("https")
-                      ? Responseimageshow
-                      : imageLiveUrl(Responseimageshow)
-                    : ""
-                }
+                src={Responseimageshow ? Responseimageshow.startsWith("https") ? Responseimageshow : imageLiveUrl(Responseimageshow) : ""}
                 alt="Avatar"
                 className="w-10 h-10 rounded-full"
               />
@@ -329,19 +319,17 @@ const Chat = () => {
                   chatHistorydata.map((chat, index) => (
                     <div
                       key={index}
-                      className={`mb-3 ${
-                        chat.sender._id === senderId
-                          ? "text-right mx-4"
-                          : "text-left mx-4"
-                      }`}
+                      className={`mb-3 ${chat.sender._id === senderId
+                        ? "text-right mx-4"
+                        : "text-left mx-4"
+                        }`}
                     >
                       <div>
                         <div
-                          className={`flex ${
-                            chat.sender._id === senderId
-                              ? "justify-end"
-                              : "justify-start"
-                          }`}
+                          className={`flex ${chat.sender._id === senderId
+                            ? "justify-end"
+                            : "justify-start"
+                            }`}
                         >
                           {/* Avatar for the sender */}
                           {chat.sender._id !== senderId && (
@@ -359,11 +347,10 @@ const Chat = () => {
                           )}
 
                           <div
-                            className={`${
-                              chat.sender._id === senderId
-                                ? "bg-[#F5F7FB] text-black"
-                                : " bg-indigo-600 text-white py-2 px-4 rounded-lg max-w-xs shadow-lg"
-                            } py-2 px-4 rounded-lg max-w-xs shadow-lg`}
+                            className={`${chat.sender._id === senderId
+                              ? "bg-[#F5F7FB] text-black"
+                              : " bg-indigo-600 text-white py-2 px-4 rounded-lg max-w-xs shadow-lg"
+                              } py-2 px-4 rounded-lg max-w-xs shadow-lg`}
                           >
                             <div className="flex">
                               <p className=""> {chat?.content || ""}</p>
