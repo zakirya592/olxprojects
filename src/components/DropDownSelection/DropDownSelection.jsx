@@ -97,11 +97,11 @@ const DropDownSelection = () => {
                 </li>
                 <li className="menu-item-has-children">
                   <div
-                    onClick={() => handleGemstoneClick("Handmade")}
+                    onClick={() => handleGemstoneClick("wholesale B2B")}
                     style={{ textDecoration: "none" }}
                     className="text-lg font-bold cursor-pointer"
                   >
-                    <p>Handmade</p>
+                    <p>wholesale B2B</p>
                   </div>
                 </li>
                 {/* <li className="menu-item-has-children">
