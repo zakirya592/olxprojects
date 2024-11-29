@@ -6,7 +6,7 @@ import "swiper/css/navigation";
 import { Autoplay, Pagination, Navigation, Scrollbar, Keyboard } from "swiper/modules";
 import Avatar from "@mui/material/Avatar";
 import NewRequest from "../../../../utils/NewRequest";
-import { useLocation, useNavigate } from "react-router-dom";
+import {  useNavigate } from "react-router-dom";
 import PinDropIcon from "@mui/icons-material/PinDrop";
 import { toast } from "react-toastify";
 import Skeleton from "@mui/material/Skeleton";
@@ -21,7 +21,6 @@ import { Dialog, DialogContent, IconButton, Rating } from "@mui/material";
 import { GridCloseIcon } from "@mui/x-data-grid";
 
 const Singleitem = () => {
-  const location = useLocation();
   const navigate = useNavigate()
   // const cardData = location.state;
   const cardDataitem = localStorage.getItem("singleproduct");
@@ -32,7 +31,11 @@ const Singleitem = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [data, setdata] = useState('')
   const [ratings, setratings] = useState(0)
-  const [imageuser, setimageuser] = useState('')
+  const [imageuser, setimageuser] = useState('')  
+  const [isDialogOpen, setIsDialogOpen] = useState(false);
+  const [selectedImage, setSelectedImage] = useState(null);
+  const [isOpen, setIsOpen] = useState(false);
+  
 
   const fetchData = async () => {
     setIsLoading(true);
@@ -196,19 +199,9 @@ const Singleitem = () => {
     navigate(`/Productlist/${product._id}`);
   };
 
-  const [isDialogOpen, setIsDialogOpen] = useState(false);
-  const [selectedImage, setSelectedImage] = useState(null);
-  const openImagePreview = (image) => {
-    setSelectedImage(image);
-    setIsDialogOpen(true);
-  };
-
   const closeDialog = () => {
     setIsDialogOpen(false);
   };
-
-
-  const [isOpen, setIsOpen] = useState(false);
 
   const openModal = (image) => {
     setIsOpen(true);
@@ -238,11 +231,7 @@ const Singleitem = () => {
         >
           Home
         </span>{" "}
-        |{" "}
-        <span className="cursor-pointer">
-          {" "}
-          {cardData?.name || ""}
-        </span>
+        | <span className="cursor-pointer"> {cardData?.name || ""}</span>
       </div>
       <div className="flex flex-col-reverse sm:flex-col-reverse md:flex-col lg:flex-row gap-1 sm:gap-1 lg:gap-6 md:gap-6 ">
         <div className="w-full lg:w-[35%] sm:w-full flex md:flex-col lg:flex-col flex-col-reverse sm:flex-col-reverse">
@@ -384,7 +373,8 @@ const Singleitem = () => {
                           className="w-full h-full object-contain"
                           alt={`Slide ${index}`}
                           // onClick={() => imageLiveUrl(image)}
-                          onClick={() => openModal(imageLiveUrl(image))}
+                          // onClick={() => openModal(imageLiveUrl(image))}
+                          onClick={() => openModal(index)}
                         />
                       </div>
                     </SwiperSlide>
@@ -553,17 +543,29 @@ const Singleitem = () => {
             </IconButton>
 
             {/* Image */}
-            <img
+            {/* <img
               src={selectedImage}
               alt="Preview"
               className="w-full lg:h-[500px] sm:h-80 h-80 object-contain"
-            />
+            /> */}
+            {data?.images?.map((image, index) => (
+              <SwiperSlide key={index}>
+                <div className="relative w-full h-[250px]">
+                  <img
+                    src={imageLiveUrl(image)}
+                    className="w-full h-full object-contain cursor-pointer"
+                    alt={`Slide ${index}`}
+                    onClick={() => openModal(index)} // Pass the image index
+                  />
+                </div>
+              </SwiperSlide>
+            ))}
           </div>
         </DialogContent>
       </Dialog>
 
       {/* The Modal */}
-      {isOpen && (
+      {/* {isOpen && (
         <div
           id="myModal"
           className="fixed z-50 left-0 top-0 w-full h-full overflow-auto bg-black bg-opacity-90 flex items-center justify-center"
@@ -579,35 +581,45 @@ const Singleitem = () => {
               className="modal-content object-contain w-full h-full"
               src={selectedImage}
               alt="Selected"
-              onMouseMove={(e) => {
-                const zoomLens = document.getElementById("zoomLens");
-                const img = e.target;
-                const rect = img.getBoundingClientRect();
-
-                // Calculate the lens position
-                const x = e.clientX - rect.left - zoomLens.offsetWidth / 2;
-                const y = e.clientY - rect.top - zoomLens.offsetHeight / 2;
-
-                // Set background position to simulate zoom effect
-                const backgroundX =
-                  ((e.clientX - rect.left) / rect.width) * 100;
-                const backgroundY =
-                  ((e.clientY - rect.top) / rect.height) * 100;
-
-                zoomLens.style.left = `${x}px`;
-                zoomLens.style.top = `${y}px`;
-                zoomLens.style.backgroundPosition = `${backgroundX}% ${backgroundY}%`;
-              }}
             />
-            <div
-              id="zoomLens"
-              className="absolute w-32 h-32 rounded-full border-2 border-white pointer-events-none"
-              style={{
-                backgroundImage: `url(${selectedImage})`,
-                backgroundRepeat: "no-repeat",
-                backgroundSize: "200%", // Adjust zoom level
+          
+          </div>
+        </div>
+      )} */}
+      {isOpen && (
+        <div
+          id="imageModal"
+          className="fixed z-50 left-0 top-0 w-full h-full overflow-auto bg-black bg-opacity-90 flex items-center justify-center"
+        >
+          <span
+            className="absolute top-4 right-8 text-white text-4xl font-bold cursor-pointer transition duration-300 hover:text-gray-400"
+            onClick={closeModal}
+          >
+            &times;
+          </span>
+          <div className="relative w-4/5 max-w-3xl mx-auto">
+            <Swiper
+              initialSlide={selectedImage} // Start from the clicked image index
+              spaceBetween={30}
+              navigation={true}
+              pagination={{
+                clickable: true,
               }}
-            ></div>
+              modules={[Navigation, Pagination]}
+              className="swiper-container"
+            >
+              {data?.images?.map((image, index) => (
+                <SwiperSlide key={index}>
+                  <div className="w-full h-80 lg:h-[500px] flex justify-center items-center">
+                    <img
+                      src={imageLiveUrl(image)}
+                      className="object-contain w-full h-full"
+                      alt={`Image ${index}`}
+                    />
+                  </div>
+                </SwiperSlide>
+              ))}
+            </Swiper>
           </div>
         </div>
       )}
