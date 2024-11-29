@@ -563,29 +563,6 @@ const Singleitem = () => {
           </div>
         </DialogContent>
       </Dialog>
-
-      {/* The Modal */}
-      {/* {isOpen && (
-        <div
-          id="myModal"
-          className="fixed z-50 left-0 top-0 w-full h-full overflow-auto bg-black bg-opacity-90 flex items-center justify-center"
-        >
-          <span
-            className="absolute top-4 right-8 text-white text-4xl font-bold cursor-pointer transition duration-300 hover:text-gray-400"
-            onClick={closeModal}
-          >
-            &times;
-          </span>
-          <div className="relative w-4/5 max-w-3xl h-80 lg:h-[500px] mx-auto overflow-hidden">
-            <img
-              className="modal-content object-contain w-full h-full"
-              src={selectedImage}
-              alt="Selected"
-            />
-          
-          </div>
-        </div>
-      )} */}
       {isOpen && (
         <div
           id="imageModal"
