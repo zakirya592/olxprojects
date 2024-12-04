@@ -9,17 +9,7 @@ import { toast } from "react-toastify";
 import { DotLoader } from "react-spinners";
 import { useNavigate } from "react-router-dom";
 import { FaSearch } from "react-icons/fa";
-import { currencies } from "./CountryData.js"; 
-
-// const currencies = [
-//   { code: "PKR", name: "Pakistan Rupee", symbol: "₨" }, // Default Pakistan Rupee
-//   { code: "USD", name: "United States Dollar", symbol: "$" },
-//   { code: "EUR", name: "Euro", symbol: "€" },
-//   { code: "JPY", name: "Japanese Yen", symbol: "¥" },
-//   { code: "GBP", name: "British Pound Sterling", symbol: "£" },
-//   { code: "AUD", name: "Australian Dollar", symbol: "A$" },
-//   // Add more currencies as needed
-// ];
+import { currencies } from "./CountryData.js";
 
 
 const PostAttributes = () => {
@@ -28,7 +18,7 @@ const PostAttributes = () => {
 
   const navigate = useNavigate();
   const storedUserResponseString = localStorage.getItem("userResponse");
-  const [selectedCurrency, setSelectedCurrency] = useState("₨"); // Default currency
+  const [selectedCurrency, setSelectedCurrency] = useState("₨"); 
 
   const storedUserResponse = JSON.parse(storedUserResponseString);
   let loginuserdata = storedUserResponse?.data?.user?._id || "";
