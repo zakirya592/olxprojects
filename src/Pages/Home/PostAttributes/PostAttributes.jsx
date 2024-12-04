@@ -14,7 +14,6 @@ import { currencies } from "./CountryData.js";
 
 const PostAttributes = () => {
   const { DataSelectionModel } = useContext(Selectioncardcontext);
-  const [userdataget, setuserdataget] = useState("");
 
   const navigate = useNavigate();
   const storedUserResponseString = localStorage.getItem("userResponse");
@@ -38,7 +37,6 @@ const PostAttributes = () => {
 
   const [phoneNumber, setphoneNumber] = useState("");
   const updateBrandData = JSON.parse(sessionStorage.getItem("footer"));
-
   const [images, setImages] = useState(Array(6).fill(null));
   const [isLoading, setIsLoading] = useState(false);
   const [fields, setFields] = useState([]);
@@ -48,7 +46,6 @@ const PostAttributes = () => {
   const [conditions, setConditions] = useState([]);
   const [filterdata, setfilterdata] = useState([]);
   const [selecteddropdowndata, setselecteddropdowndata] = useState(null);
-
   const subCategoriesdataget = sessionStorage.getItem("subCategories");
   const subCategoriesResponse = JSON.parse(subCategoriesdataget);
  const handleCurrencyChange = (e) => {
@@ -69,14 +66,18 @@ const PostAttributes = () => {
       });
   }, []);
 
-  const handleImageChange = (e, index) => {
-    const file = e.target.files[0];
-    if (file) {
-      const newImages = [...images];
-      newImages[index] = file; // Store File object
-      setImages(newImages);
+const handleImageChange = (e, index) => {
+  const files = e.target.files;
+  if (files && files.length > 0) {
+    const newImages = [...images];
+    for (let i = 0; i < files.length; i++) {
+      if (newImages[index + i] !== undefined) {
+        newImages[index + i] = files[i]; // Store the File object
+      }
     }
-  };
+    setImages(newImages);
+  }
+};
 
    const formatPrice = (value) => {
      // Remove any non-digit characters before formatting
@@ -362,6 +363,7 @@ const PostAttributes = () => {
                         className="hidden"
                         id={`image-upload-${index}`}
                         onChange={(e) => handleImageChange(e, index)}
+                        multiple // Allow multiple file selection
                       />
                       <label htmlFor={`image-upload-${index}`}>
                         <div className="w-16 h-16 bg-gray-200 border border-dashed border-gray-400 flex items-center justify-center cursor-pointer">
