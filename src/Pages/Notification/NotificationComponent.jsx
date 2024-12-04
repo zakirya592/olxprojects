@@ -10,7 +10,6 @@ import imageLiveUrl from "../../../utils/urlConverter/imageLiveUrl";
 const socket = io("http://localhost:5000"); // Backend URL
 
 function NotificationComponent() {
-  const navigate = useNavigate();
   const [notifications, setNotifications] = useState([]);
   const [isOpen, setIsOpen] = useState(false);
 
@@ -68,9 +67,14 @@ function NotificationComponent() {
     return response?.data;
   }
 
-  const { data: getNotificationData } = useQuery("GetNotification", AllGetNotification);
+  const { data: getNotificationData } = useQuery(
+    "GetNotification",
+    AllGetNotification
+  );
   async function AllGetNotification() {
-    const response = await NewRequest.post(`/chat/notification?userId=${senderId}`);
+    const response = await NewRequest.post(
+      `/chat/notification?userId=${senderId}`
+    );
     console.log(response, "response");
 
     return response?.data;
@@ -107,7 +111,7 @@ function NotificationComponent() {
         </span>
       )}
 
-      {/* Dropdown Menu */}
+      {/* Dropdown Menu / Modal */}
       {isOpen && (
         <div
           className="bg-white text-black right-0 absolute overflow-hidden"
@@ -140,7 +144,6 @@ function NotificationComponent() {
                           : imageLiveUrl(notif.sender.image)
                         : ""
                     }
-                    // onClick={() => productlist(Userdataget)}
                   />
                   <p className="my-auto ms-4">
                     {notif?.sender?.username || "New Notification"}
@@ -161,6 +164,61 @@ function NotificationComponent() {
               No new notifications
             </div>
           )}
+        </div>
+      )}
+
+      {/* Modal for small screens */}
+      {isOpen && (
+        <div
+          className="fixed inset-0 bg-black bg-opacity-50 z-50 flex items-center justify-center md:hidden"
+          onClick={() => setIsOpen(false)} // Close modal when clicking outside
+        >
+          <div
+            className="bg-white text-black w-3/4 h-3/4 overflow-auto rounded-md p-4"
+            onClick={(e) => e.stopPropagation()} // Prevent closing modal on internal click
+          >
+            <div className="font-bold">Notifications</div>
+            {getNotificationData.length > 0 ? (
+              getNotificationData.map((notif, index) => (
+                <div
+                  key={index}
+                  style={{
+                    padding: "10px",
+                    borderBottom: "1px solid #f0f0f0",
+                  }}
+                  className="flex justify-between cursor-pointer"
+                >
+                  <div className="flex">
+                    <Avatar
+                      className="my-auto cursor-pointer"
+                      src={
+                        notif.sender.image
+                          ? notif.sender.image.startsWith("https")
+                            ? notif.sender.image
+                            : imageLiveUrl(notif.sender.image)
+                          : ""
+                      }
+                    />
+                    <p className="my-auto ms-4">
+                      {notif?.sender?.username || "New Notification"}
+                    </p>
+                  </div>
+                  <p className="text-xs text-gray-400 my-auto">
+                    {new Date(notif.timestamp).toLocaleString("en-US", {
+                      hour: "2-digit",
+                      minute: "2-digit",
+                      second: "2-digit",
+                      hour12: true,
+                    })}
+                  </p>
+                </div>
+              ))
+            ) : (
+              <div style={{ padding: "10px", textAlign: "center" }}>
+                No new notifications
+              </div>
+            )}
+          </div>
         </div>
       )}
     </div>
