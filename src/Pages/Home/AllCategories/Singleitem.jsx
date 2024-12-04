@@ -599,11 +599,11 @@ const Singleitem = () => {
                       maxZoom={3}
                       enablePan={true}
                       enableZoom={true}
-                      className="w-full h-full"
+                      className=" h-full"
                     >
                       <img
                         src={imageLiveUrl(image)}
-                        className="object-contain w-full h-full"
+                        className="object-center w-full h-80 lg:h-[500px]"
                         alt={`Image ${index}`}
                       />
                     </PanZoom>
