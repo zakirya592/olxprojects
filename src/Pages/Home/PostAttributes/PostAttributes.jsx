@@ -232,7 +232,6 @@ const PostAttributes = () => {
         inputRef.current,
         {
           types: ["geocode"],
-          componentRestrictions: { country: "pk" },
         }
       );
 
