@@ -19,6 +19,7 @@ import { FaPhoneAlt } from "react-icons/fa";
 import { GrLike } from "react-icons/gr";
 import { Dialog, DialogContent, IconButton, Rating } from "@mui/material";
 import { GridCloseIcon } from "@mui/x-data-grid";
+import PanZoom from "react-easy-panzoom";
 
 const Singleitem = () => {
   const navigate = useNavigate()
@@ -543,26 +544,30 @@ const Singleitem = () => {
             </IconButton>
 
             {/* Image */}
-            {/* <img
-              src={selectedImage}
-              alt="Preview"
-              className="w-full lg:h-[500px] sm:h-80 h-80 object-contain"
-            /> */}
             {data?.images?.map((image, index) => (
               <SwiperSlide key={index}>
                 <div className="relative w-full h-[250px]">
-                  <img
-                    src={imageLiveUrl(image)}
-                    className="w-full h-full object-contain cursor-pointer"
-                    alt={`Slide ${index}`}
-                    onClick={() => openModal(index)} // Pass the image index
-                  />
+                  <PanZoom
+                    minZoom={1}
+                    maxZoom={3}
+                    enablePan={true}
+                    enableZoom={true}
+                    className="w-full h-full"
+                  >
+                    <img
+                      src={imageLiveUrl(image)}
+                      className="w-full h-full object-contain cursor-pointer"
+                      alt={`Slide ${index}`}
+                      onClick={() => openModal(index)} // Pass the image index
+                    />
+                  </PanZoom>
                 </div>
               </SwiperSlide>
             ))}
           </div>
         </DialogContent>
       </Dialog>
+
       {isOpen && (
         <div
           id="imageModal"
@@ -588,11 +593,20 @@ const Singleitem = () => {
               {data?.images?.map((image, index) => (
                 <SwiperSlide key={index}>
                   <div className="w-full h-80 lg:h-[500px] flex justify-center items-center">
-                    <img
-                      src={imageLiveUrl(image)}
-                      className="object-contain w-full h-full"
-                      alt={`Image ${index}`}
-                    />
+                    {/* Apply PanZoom directly on the image */}
+                    <PanZoom
+                      minZoom={1}
+                      maxZoom={3}
+                      enablePan={true}
+                      enableZoom={true}
+                      className="w-full h-full"
+                    >
+                      <img
+                        src={imageLiveUrl(image)}
+                        className="object-contain w-full h-full"
+                        alt={`Image ${index}`}
+                      />
+                    </PanZoom>
                   </div>
                 </SwiperSlide>
               ))}
