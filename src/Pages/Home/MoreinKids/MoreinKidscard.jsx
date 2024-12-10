@@ -131,7 +131,7 @@ const Hadersilder = () => {
       {categories.map((category, index) => {
         const activeProducts = category.products
           .filter((product) => product.status.toLowerCase() === "active")
-          .reverse();
+          
 
         if (activeProducts.length === 0) {
           return null;
