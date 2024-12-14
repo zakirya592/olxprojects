@@ -6,7 +6,7 @@ import "swiper/css/navigation";
 import { Autoplay, Pagination, Navigation, Scrollbar, Keyboard } from "swiper/modules";
 import Avatar from "@mui/material/Avatar";
 import NewRequest from "../../../../utils/NewRequest";
-import {  useNavigate } from "react-router-dom";
+import {  useNavigate, useParams } from "react-router-dom";
 import PinDropIcon from "@mui/icons-material/PinDrop";
 import { toast } from "react-toastify";
 import Skeleton from "@mui/material/Skeleton";
@@ -23,9 +23,9 @@ import PanZoom from "react-easy-panzoom";
 
 const Singleitem = () => {
   const navigate = useNavigate()
-  // const cardData = location.state;
+  const paramData = useParams();
   const cardDataitem = localStorage.getItem("singleproduct");
-  const cardData = JSON.parse(cardDataitem);
+  const cardData = useParams();
   const queryClient = useQueryClient();
   const [Userdataget, setUserdataget] = useState('')
   const [moreproductData, setmoreproductData] = useState([])
@@ -242,7 +242,7 @@ const Singleitem = () => {
         >
           Home
         </span>{" "}
-        | <span className="cursor-pointer"> {cardData?.name || ""}</span>
+        {/* | <span className="cursor-pointer"> {cardData?.name || ""}</span> */}
       </div>
       <div className="flex flex-col-reverse sm:flex-col-reverse md:flex-col lg:flex-row gap-1 sm:gap-1 lg:gap-6 md:gap-6 ">
         <div className="w-full lg:w-[35%] sm:w-full flex md:flex-col lg:flex-col flex-col-reverse sm:flex-col-reverse">
@@ -383,8 +383,6 @@ const Singleitem = () => {
                           src={imageLiveUrl(image)}
                           className="w-full h-full object-contain"
                           alt={`Slide ${index}`}
-                          // onClick={() => imageLiveUrl(image)}
-                          // onClick={() => openModal(imageLiveUrl(image))}
                           onClick={() => openModal(index)}
                         />
                       </div>
