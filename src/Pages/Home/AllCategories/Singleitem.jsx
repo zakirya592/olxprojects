@@ -40,184 +40,194 @@ const Singleitem = () => {
 
   const fetchData = async () => {
     setIsLoading(true);
+  
     try {
+      // Fetch main product data
       const response = await NewRequest.get(`/product/${cardData._id}`);
-      const datas = response.data;
-      try {
-        const responsesingle = await NewRequest.get(
-          `/product/getProductsByCategory/${datas.Category._id}`
-        );
-        const activeProducts = responsesingle?.data.filter(
-          (product) => product.status.toLowerCase() === "active"
-        );
-        // setmoreproductData(activeProducts || []);
-
-        if (activeProducts && activeProducts.length > 0) {
-          const productsWithComments = await Promise.all(
-            activeProducts.map(async (product) => {
-
-              try {
-                // Fetch comments for each product
-                const response = await NewRequest.get(
-                  `/comment/replay/${product._id}`
-                );
-                const comments = response?.data?.comments || [];
-                let averageRating = 0;
-
-                if (Array.isArray(comments)) {
-                  const totalRatings = comments.reduce((acc, comment) => acc + (comment.rating || 0), 0);
-                  averageRating = comments ? totalRatings / comments.length : 0;
-                }
-                return {
-                  ...product,
-                  comments,
-                  averageRating,
-                };
-              } catch (err) {
-                return { ...product, comments: [], averageRating: 0 };
-              }
-            })
-          );
-          setmoreproductData(productsWithComments || []);
-        } else {
-          setmoreproductData([]);
-        }
-      } catch (err) {
-        console.log(err);
-      }
-      setUserdataget(datas);
-      setdata(datas);
-
-      NewRequest.get(`/comment/replay/${datas._id}`).then((response) => {
-        const comments = response?.data?.comments || [];
-        if (Array.isArray(comments)) {
-          const totalRatings = comments.reduce(
-            (acc, comment) => acc + (comment.rating || 0),
-            0
-          );
-          const averageRating = comments.length
-            ? totalRatings / comments.length
-            : 0;
-          setratings(averageRating);
-        } else {
-          console.error(comments);
-        }
-      }).catch((err) => {
-        console.log(err);
-      });
-
-      try {
-        const responsdata = await NewRequest.get(`/users/${datas.User._id}`);
-        const imageUrl = responsdata.data?.image || "";
-        const finalUrl = imageUrl && imageUrl.startsWith("https") ? imageUrl : imageLiveUrl(imageUrl);
-        setimageuser(finalUrl || "");
-      } catch (err) {
-        console.log(err);
-      }
-      setIsLoading(false);
-    } catch (err) {
-      console.log(err);
+      const productData = response.data;
+  
+      // Fetch related products by category
+      const relatedProducts = await fetchProductsByCategory(productData.Category._id);
+  
+      // Calculate ratings and fetch additional details
+      const enrichedProducts = await enrichProductsWithComments(relatedProducts);
+  
+      // Update state with fetched data
+      setUserdataget(productData);
+      setdata(productData);
+      setmoreproductData(enrichedProducts);
+  
+      // Fetch ratings for the current product
+      const averageRating = await fetchProductRating(productData._id);
+      setratings(averageRating);
+  
+      // Fetch user image for the product owner
+      const userImage = await fetchUserImage(productData.User._id);
+      setimageuser(userImage);
+    } catch (error) {
+      console.error("Error fetching product data:", error);
+    } finally {
       setIsLoading(false);
     }
   };
+  
+  // Helper function to fetch products by category
+  const fetchProductsByCategory = async (categoryId) => {
+    try {
+      const response = await NewRequest.get(`/product/getProductsByCategory/${categoryId}`);
+      return response?.data.filter((product) => product.status.toLowerCase() === "active");
+    } catch (error) {
+      console.error("Error fetching products by category:", error);
+      return [];
+    }
+  };
+  
+  // Helper function to enrich products with comments and ratings
+  const enrichProductsWithComments = async (products) => {
+    return Promise.all(
+      products.map(async (product) => {
+        try {
+          const response = await NewRequest.get(`/comment/replay/${product._id}`);
+          const comments = response?.data?.comments || [];
+          const totalRatings = comments.reduce((acc, comment) => acc + (comment.rating || 0), 0);
+          const averageRating = comments.length ? totalRatings / comments.length : 0;
+  
+          return { ...product, comments, averageRating };
+        } catch (error) {
+          console.error(`Error fetching comments for product ${product._id}:`, error);
+          return { ...product, comments: [], averageRating: 0 };
+        }
+      })
+    );
+  };
+  
+  // Helper function to fetch product ratings
+  const fetchProductRating = async (productId) => {
+    try {
+      const response = await NewRequest.get(`/comment/replay/${productId}`);
+      const comments = response?.data?.comments || [];
+      const totalRatings = comments.reduce((acc, comment) => acc + (comment.rating || 0), 0);
+      return comments.length ? totalRatings / comments.length : 0;
+    } catch (error) {
+      console.error(`Error fetching ratings for product ${productId}:`, error);
+      return 0;
+    }
+  };
+  
+  // Helper function to fetch user image
+  const fetchUserImage = async (userId) => {
+    try {
+      const response = await NewRequest.get(`/users/${userId}`);
+      const imageUrl = response.data?.image || "";
+      return imageUrl.startsWith("https") ? imageUrl : imageLiveUrl(imageUrl);
+    } catch (error) {
+      console.error(`Error fetching user image for user ${userId}:`, error);
+      return "";
+    }
+  };
+  
 
   useEffect(() => {
     fetchData();
   }, []);
-  const storedUserResponseString = localStorage.getItem("userResponse");
-  const storedUserResponse = JSON.parse(storedUserResponseString);
-  const loginuserid = storedUserResponse?.data?.user?._id || "";
-  const postcard = (Product) => {
-    try {
-      const response = NewRequest.post(`/wishlist/${loginuserid}`, {
-        productId: Product._id,
-      });
-      toast.success(`Product has been added successfully".`, {
+  const getStoredUserData = () => {
+    const storedUserResponseString = localStorage.getItem("userResponse");
+    const storedUserResponse = JSON.parse(storedUserResponseString);
+    return storedUserResponse?.data?.user || {};
+  };
+  
+  const loginuserdata = getStoredUserData();
+  const loginuserid = loginuserdata?._id || localStorage.getItem("userdata") || "";
+  
+  // Function: Add product to wishlist
+  const postcard = async (Product) => {
+    if (!loginuserid) {
+      toast.error("You must be logged in to add to wishlist.", {
         position: "top-right",
         autoClose: 2000,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-        progress: undefined,
+        theme: "light",
+      });
+      return;
+    }
+  
+    try {
+      await NewRequest.post(`/wishlist/${loginuserid}`, {
+        productId: Product._id,
+      });
+      toast.success("Product has been added successfully!", {
+        position: "top-right",
+        autoClose: 2000,
         theme: "light",
       });
     } catch (error) {
-      toast.error(error?.response?.data?.error || "Error", {
+      toast.error(error?.response?.data?.error || "Failed to add product to wishlist.", {
         position: "top-right",
         autoClose: 2000,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-        progress: undefined,
         theme: "light",
       });
     }
   };
-
-  async function fetchproductData() {
-    const response = await NewRequest.get("/product/getcategoryproduct");
-    const categoriesWithCounts = response?.data.map((item) => ({
-      name: item.category.name,
-      count: item.products.length,
-      id: item,
-    }));
-
-    return categoriesWithCounts;
-  }
-
-  // Use the data in your component
-  const { data: productsdata } = useQuery(
-    "getcategoryproductget",
-    fetchproductData
-  );
-
+  
+  // Function: Fetch product categories with counts
+  const fetchproductData = async () => {
+    try {
+      const response = await NewRequest.get("/product/getcategoryproduct");
+      return response?.data.map((item) => ({
+        name: item.category.name,
+        count: item.products.length,
+        id: item,
+      }));
+    } catch (error) {
+      console.error("Error fetching product categories:", error);
+      return [];
+    }
+  };
+  
+  // React Query: Cache product category data
+  const { data: productsdata } = useQuery("getcategoryproductget", fetchproductData);
+  
+  // Function: View more products by category
   const viewmore = (product) => {
     const subResponseString = JSON.stringify(product.id);
     sessionStorage.setItem("productmore", subResponseString);
     navigate(`/moreproduct/${product.name}`);
   };
-
-  const loginuserdata = storedUserResponse?.data?.user || "";
-  let senderId = loginuserdata?._id || "";
-  if (!senderId) {
-    senderId = localStorage.getItem("userdata") || "";
-  }
-
+  
+  // Function: Open chat for product owner
   const charfunction = (Product) => {
-    if (!senderId) {
+    if (!loginuserid) {
       navigate("/LoginForm");
+      return;
     }
+  
     const subResponsechat = JSON.stringify(Product.User);
     sessionStorage.setItem("chardata", subResponsechat);
     navigate("/Chat");
   };
-
+  
+  // Function: Navigate to product list
   const productlist = (product) => {
     const subResponseString = JSON.stringify(product);
     sessionStorage.setItem("productlist", subResponseString);
     navigate(`/Productlist/${product._id}`);
   };
-
-  const closeDialog = () => {
-    setIsDialogOpen(false);
-  };
-
+  
+  // Modal functions
+  const closeDialog = () => setIsDialogOpen(false);
+  
   const openModal = (image) => {
     setIsOpen(true);
     setSelectedImage(image);
   };
-
-  const closeModal = () => {
-    setIsOpen(false);
-  };
-
+  
+  const closeModal = () => setIsOpen(false);
+  
+  // Function: Navigate to single product details
   const singleproduct = (card) => {
     localStorage.setItem("singleproduct", JSON.stringify(card));
     queryClient.invalidateQueries(["card", card]);
     navigate(`/Singleitem/${card._id}`);
-    fetchData();
+    fetchData(); // Ensure data is fetched
   };
 
 

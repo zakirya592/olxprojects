@@ -4,33 +4,39 @@ import "swiper/css";
 import "swiper/css/pagination";
 import "swiper/css/navigation";
 import { Autoplay, Pagination, Navigation } from "swiper/modules";
-import { IoIosArrowDroprightCircle } from "react-icons/io";
-import { IoIosArrowDropleftCircle } from "react-icons/io";
+import { IoIosArrowDroprightCircle, IoIosArrowDropleftCircle } from "react-icons/io";
 import { useQuery } from "react-query";
 import { CircularProgress } from "@mui/material";
 import NewRequest from "../../../../utils/NewRequest";
 import imageLiveUrl from "../../../../utils/urlConverter/imageLiveUrl";
 
 const Hadersilder = () => {
-  const {
-    isLoading,
-    error,
-    data: slidersData,
-  } = useQuery("fetchAllSliders", fetchFeaturesData);
+  // Query with caching enabled
+  const { isLoading, error, data: slidersData } = useQuery(
+    "fetchAllSliders", // Query key
+    fetchFeaturesData, // Fetch function
+    {
+      staleTime: 5 * 60 * 1000, // Data remains fresh for 5 minutes
+      cacheTime: 10 * 60 * 1000, // Data is cached for 10 minutes before garbage collection
+    }
+  );
 
+  // Fetch data function
   async function fetchFeaturesData() {
     const response = await NewRequest.get("/slider");
     return response?.data.filter((item) => item.status === 1) || [];
-    
   }
- const nextpage = (url) => {
-   if (url) {
-     window.open(url, "_blank");
-   }
- };
+
+  // Handle navigation to the next page
+  const nextpage = (url) => {
+    if (url) {
+      window.open(url, "_blank");
+    }
+  };
+
   return (
     <div className="relative h-auto w-full bg-white border-b mb-10">
-      <div className="relative  h-[150px] lg:h-[250px] sm:h-[150px]  w-full ">
+      <div className="relative h-[150px] lg:h-[250px] sm:h-[150px] w-full">
         <Swiper
           spaceBetween={30}
           centeredSlides={true}
@@ -49,19 +55,21 @@ const Hadersilder = () => {
           className="mySwiper"
         >
           {isLoading ? (
-            <div className="flex justify-center items-center  h-[150px] lg:h-[250px] sm:h-[150px] ">
+            <div className="flex justify-center items-center h-[150px] lg:h-[250px] sm:h-[150px]">
               <CircularProgress />
             </div>
           ) : error ? (
-            " "
+            <div className="flex justify-center items-center h-[150px] lg:h-[250px] sm:h-[150px]">
+              <p className="text-red-500">Error loading sliders</p>
+            </div>
           ) : (
             slidersData.map((item, index) => (
               <SwiperSlide key={index}>
-                <div className="relative w-full  h-[150px] lg:h-[250px] sm:h-[150px] rounded">
+                <div className="relative w-full h-[150px] lg:h-[250px] sm:h-[150px] rounded">
                   <img
                     src={imageLiveUrl(item?.image)}
                     className="w-full h-full object-cover cursor-pointer"
-                    alt="Small Screen Slide"
+                    alt="Slide"
                     onClick={() => nextpage(item?.url)}
                   />
                 </div>
