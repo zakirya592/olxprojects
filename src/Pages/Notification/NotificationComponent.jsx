@@ -85,11 +85,16 @@ function NotificationComponent() {
       {/* Notification Bell Icon */}
       <div className="relative">
         <FaBell size={24} className="cursor-pointer" onClick={toggleDropdown} />
-        <div className="absolute -top-2 -right-2 bg-red-600 text-white rounded-full text-xs w-5 h-5 flex items-center justify-center">
+        <div
+          className={`absolute -top-2 -right-2 ${
+            getNotificationData?.length > 0 ? "bg-red-600" : ""
+          } text-white rounded-full text-xs w-5 h-5 flex items-center justify-center`}
+        >
           {getNotificationData?.length || ""}
         </div>
       </div>
 
+      {/* Display notifications count */}
       {notifications.length > 0 && (
         <span
           style={{
@@ -124,7 +129,7 @@ function NotificationComponent() {
           }}
         >
           <div className="p-4 font-bold">Notifications</div>
-          {getNotificationData.length > 0 ? (
+          {getNotificationData?.length > 0 ? (
             getNotificationData.map((notif, index) => (
               <div
                 key={index}
@@ -178,7 +183,7 @@ function NotificationComponent() {
             onClick={(e) => e.stopPropagation()} // Prevent closing modal on internal click
           >
             <div className="font-bold">Notifications</div>
-            {getNotificationData.length > 0 ? (
+            {getNotificationData?.length > 0 ? (
               getNotificationData.map((notif, index) => (
                 <div
                   key={index}
