@@ -42,7 +42,7 @@ function Sellpage() {
   const handleCategoryClick = (category) => {
 
      if ( (category.name === "Gemstone" && !loginuserdata.isGemstone) ||
-       (category.name === "Handmade" && !loginuserdata.isGemstone) ||
+       (category.name === "wholesale B2B" && !loginuserdata.isGemstone) ||
        (category.name === "Carpets Rawala" && !loginuserdata.isGemstone)) {
        toast.error(`You are not a ${category.name} user!`, {
          position: "top-right",

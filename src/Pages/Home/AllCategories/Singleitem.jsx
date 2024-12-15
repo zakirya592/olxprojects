@@ -6,7 +6,7 @@ import "swiper/css/navigation";
 import { Autoplay, Pagination, Navigation, Scrollbar, Keyboard } from "swiper/modules";
 import Avatar from "@mui/material/Avatar";
 import NewRequest from "../../../../utils/NewRequest";
-import {  useNavigate, useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import PinDropIcon from "@mui/icons-material/PinDrop";
 import { toast } from "react-toastify";
 import Skeleton from "@mui/material/Skeleton";
@@ -32,35 +32,43 @@ const Singleitem = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [data, setdata] = useState('')
   const [ratings, setratings] = useState(0)
-  const [imageuser, setimageuser] = useState('')  
+  const [imageuser, setimageuser] = useState('')
   const [isDialogOpen, setIsDialogOpen] = useState(false);
   const [selectedImage, setSelectedImage] = useState(null);
   const [isOpen, setIsOpen] = useState(false);
-  
-
+  useEffect(() => {
+    if (isOpen) {
+      document.body.style.overflow = "hidden";
+    } else {
+      document.body.style.overflow = "auto";
+    }
+    return () => {
+      document.body.style.overflow = "auto";
+    };
+  }, [isOpen]);
   const fetchData = async () => {
     setIsLoading(true);
-  
+
     try {
       // Fetch main product data
       const response = await NewRequest.get(`/product/${cardData._id}`);
       const productData = response.data;
-  
+
       // Fetch related products by category
       const relatedProducts = await fetchProductsByCategory(productData.Category._id);
-  
+
       // Calculate ratings and fetch additional details
       const enrichedProducts = await enrichProductsWithComments(relatedProducts);
-  
+
       // Update state with fetched data
       setUserdataget(productData);
       setdata(productData);
       setmoreproductData(enrichedProducts);
-  
+
       // Fetch ratings for the current product
       const averageRating = await fetchProductRating(productData._id);
       setratings(averageRating);
-  
+
       // Fetch user image for the product owner
       const userImage = await fetchUserImage(productData.User._id);
       setimageuser(userImage);
@@ -70,7 +78,7 @@ const Singleitem = () => {
       setIsLoading(false);
     }
   };
-  
+
   // Helper function to fetch products by category
   const fetchProductsByCategory = async (categoryId) => {
     try {
@@ -81,7 +89,7 @@ const Singleitem = () => {
       return [];
     }
   };
-  
+
   // Helper function to enrich products with comments and ratings
   const enrichProductsWithComments = async (products) => {
     return Promise.all(
@@ -91,7 +99,7 @@ const Singleitem = () => {
           const comments = response?.data?.comments || [];
           const totalRatings = comments.reduce((acc, comment) => acc + (comment.rating || 0), 0);
           const averageRating = comments.length ? totalRatings / comments.length : 0;
-  
+
           return { ...product, comments, averageRating };
         } catch (error) {
           console.error(`Error fetching comments for product ${product._id}:`, error);
@@ -100,7 +108,7 @@ const Singleitem = () => {
       })
     );
   };
-  
+
   // Helper function to fetch product ratings
   const fetchProductRating = async (productId) => {
     try {
@@ -113,7 +121,7 @@ const Singleitem = () => {
       return 0;
     }
   };
-  
+
   // Helper function to fetch user image
   const fetchUserImage = async (userId) => {
     try {
@@ -125,7 +133,7 @@ const Singleitem = () => {
       return "";
     }
   };
-  
+
 
   useEffect(() => {
     fetchData();
@@ -135,10 +143,10 @@ const Singleitem = () => {
     const storedUserResponse = JSON.parse(storedUserResponseString);
     return storedUserResponse?.data?.user || {};
   };
-  
+
   const loginuserdata = getStoredUserData();
   const loginuserid = loginuserdata?._id || localStorage.getItem("userdata") || "";
-  
+
   // Function: Add product to wishlist
   const postcard = async (Product) => {
     if (!loginuserid) {
@@ -149,7 +157,7 @@ const Singleitem = () => {
       });
       return;
     }
-  
+
     try {
       await NewRequest.post(`/wishlist/${loginuserid}`, {
         productId: Product._id,
@@ -167,7 +175,7 @@ const Singleitem = () => {
       });
     }
   };
-  
+
   // Function: Fetch product categories with counts
   const fetchproductData = async () => {
     try {
@@ -182,46 +190,46 @@ const Singleitem = () => {
       return [];
     }
   };
-  
+
   // React Query: Cache product category data
   const { data: productsdata } = useQuery("getcategoryproductget", fetchproductData);
-  
+
   // Function: View more products by category
   const viewmore = (product) => {
     const subResponseString = JSON.stringify(product.id);
     sessionStorage.setItem("productmore", subResponseString);
     navigate(`/moreproduct/${product.name}`);
   };
-  
+
   // Function: Open chat for product owner
   const charfunction = (Product) => {
     if (!loginuserid) {
       navigate("/LoginForm");
       return;
     }
-  
+
     const subResponsechat = JSON.stringify(Product.User);
     sessionStorage.setItem("chardata", subResponsechat);
     navigate("/Chat");
   };
-  
+
   // Function: Navigate to product list
   const productlist = (product) => {
     const subResponseString = JSON.stringify(product);
     sessionStorage.setItem("productlist", subResponseString);
     navigate(`/Productlist/${product._id}`);
   };
-  
+
   // Modal functions
   const closeDialog = () => setIsDialogOpen(false);
-  
+
   const openModal = (image) => {
     setIsOpen(true);
     setSelectedImage(image);
   };
-  
+
   const closeModal = () => setIsOpen(false);
-  
+
   // Function: Navigate to single product details
   const singleproduct = (card) => {
     localStorage.setItem("singleproduct", JSON.stringify(card));
@@ -534,6 +542,7 @@ const Singleitem = () => {
       <div className="hidden lg:block">
         <Commentproduct productdata={cardData} />
       </div>
+
       <Dialog open={isDialogOpen} onClose={closeDialog} maxWidth="md">
         <DialogContent>
           <div className="relative">
