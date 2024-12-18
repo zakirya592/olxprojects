@@ -658,7 +658,7 @@ const Singleitem = () => {
             </span>
           </div>
 
-          <div className="relative w-4/5 max-w-3xl mx-auto">
+          <div className="relative w-4/5 max-w-5xl mx-auto">
             <Swiper
               initialSlide={selectedImage} // Start from the clicked image index
               spaceBetween={30}
@@ -671,7 +671,7 @@ const Singleitem = () => {
             >
               {data?.images?.map((image, index) => (
                 <SwiperSlide key={index}>
-                  <div className="w-full h-80 lg:h-[500px] flex justify-center items-center">
+                  <div className="w-full h-80 lg:h-[600px] flex justify-center items-center">
                     {/* Apply PanZoom directly on the image */}
                     <PanZoom
                       minZoom={1}
@@ -682,7 +682,7 @@ const Singleitem = () => {
                     >
                       <img
                         src={imageLiveUrl(image)}
-                        className="object-center w-full h-80 lg:h-[500px]"
+                        className="object-center w-full h-80 lg:h-[600px]"
                         alt={`Image ${index}`}
                       />
                     </PanZoom>
