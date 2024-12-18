@@ -20,19 +20,22 @@ import { GrLike } from "react-icons/gr";
 import { Dialog, DialogContent, IconButton, Rating } from "@mui/material";
 import { GridCloseIcon } from "@mui/x-data-grid";
 import PanZoom from "react-easy-panzoom";
+import FullscreenIcon from "@mui/icons-material/Fullscreen";
+import ZoomInIcon from "@mui/icons-material/ZoomIn";
+import ZoomOutIcon from "@mui/icons-material/ZoomOut";
 
 const Singleitem = () => {
-  const navigate = useNavigate()
+  const navigate = useNavigate();
   const paramData = useParams();
   const cardDataitem = localStorage.getItem("singleproduct");
   const cardData = useParams();
   const queryClient = useQueryClient();
-  const [Userdataget, setUserdataget] = useState('')
-  const [moreproductData, setmoreproductData] = useState([])
+  const [Userdataget, setUserdataget] = useState("");
+  const [moreproductData, setmoreproductData] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
-  const [data, setdata] = useState('')
-  const [ratings, setratings] = useState(0)
-  const [imageuser, setimageuser] = useState('')
+  const [data, setdata] = useState("");
+  const [ratings, setratings] = useState(0);
+  const [imageuser, setimageuser] = useState("");
   const [isDialogOpen, setIsDialogOpen] = useState(false);
   const [selectedImage, setSelectedImage] = useState(null);
   const [isOpen, setIsOpen] = useState(false);
@@ -55,10 +58,14 @@ const Singleitem = () => {
       const productData = response.data;
 
       // Fetch related products by category
-      const relatedProducts = await fetchProductsByCategory(productData.Category._id);
+      const relatedProducts = await fetchProductsByCategory(
+        productData.Category._id
+      );
 
       // Calculate ratings and fetch additional details
-      const enrichedProducts = await enrichProductsWithComments(relatedProducts);
+      const enrichedProducts = await enrichProductsWithComments(
+        relatedProducts
+      );
 
       // Update state with fetched data
       setUserdataget(productData);
@@ -82,8 +89,12 @@ const Singleitem = () => {
   // Helper function to fetch products by category
   const fetchProductsByCategory = async (categoryId) => {
     try {
-      const response = await NewRequest.get(`/product/getProductsByCategory/${categoryId}`);
-      return response?.data.filter((product) => product.status.toLowerCase() === "active");
+      const response = await NewRequest.get(
+        `/product/getProductsByCategory/${categoryId}`
+      );
+      return response?.data.filter(
+        (product) => product.status.toLowerCase() === "active"
+      );
     } catch (error) {
       console.error("Error fetching products by category:", error);
       return [];
@@ -95,14 +106,24 @@ const Singleitem = () => {
     return Promise.all(
       products.map(async (product) => {
         try {
-          const response = await NewRequest.get(`/comment/replay/${product._id}`);
+          const response = await NewRequest.get(
+            `/comment/replay/${product._id}`
+          );
           const comments = response?.data?.comments || [];
-          const totalRatings = comments.reduce((acc, comment) => acc + (comment.rating || 0), 0);
-          const averageRating = comments.length ? totalRatings / comments.length : 0;
+          const totalRatings = comments.reduce(
+            (acc, comment) => acc + (comment.rating || 0),
+            0
+          );
+          const averageRating = comments.length
+            ? totalRatings / comments.length
+            : 0;
 
           return { ...product, comments, averageRating };
         } catch (error) {
-          console.error(`Error fetching comments for product ${product._id}:`, error);
+          console.error(
+            `Error fetching comments for product ${product._id}:`,
+            error
+          );
           return { ...product, comments: [], averageRating: 0 };
         }
       })
@@ -114,7 +135,10 @@ const Singleitem = () => {
     try {
       const response = await NewRequest.get(`/comment/replay/${productId}`);
       const comments = response?.data?.comments || [];
-      const totalRatings = comments.reduce((acc, comment) => acc + (comment.rating || 0), 0);
+      const totalRatings = comments.reduce(
+        (acc, comment) => acc + (comment.rating || 0),
+        0
+      );
       return comments.length ? totalRatings / comments.length : 0;
     } catch (error) {
       console.error(`Error fetching ratings for product ${productId}:`, error);
@@ -134,7 +158,6 @@ const Singleitem = () => {
     }
   };
 
-
   useEffect(() => {
     fetchData();
   }, []);
@@ -145,7 +168,8 @@ const Singleitem = () => {
   };
 
   const loginuserdata = getStoredUserData();
-  const loginuserid = loginuserdata?._id || localStorage.getItem("userdata") || "";
+  const loginuserid =
+    loginuserdata?._id || localStorage.getItem("userdata") || "";
 
   // Function: Add product to wishlist
   const postcard = async (Product) => {
@@ -168,11 +192,14 @@ const Singleitem = () => {
         theme: "light",
       });
     } catch (error) {
-      toast.error(error?.response?.data?.error || "Failed to add product to wishlist.", {
-        position: "top-right",
-        autoClose: 2000,
-        theme: "light",
-      });
+      toast.error(
+        error?.response?.data?.error || "Failed to add product to wishlist.",
+        {
+          position: "top-right",
+          autoClose: 2000,
+          theme: "light",
+        }
+      );
     }
   };
 
@@ -192,7 +219,10 @@ const Singleitem = () => {
   };
 
   // React Query: Cache product category data
-  const { data: productsdata } = useQuery("getcategoryproductget", fetchproductData);
+  const { data: productsdata } = useQuery(
+    "getcategoryproductget",
+    fetchproductData
+  );
 
   // Function: View more products by category
   const viewmore = (product) => {
@@ -238,6 +268,25 @@ const Singleitem = () => {
     fetchData(); // Ensure data is fetched
   };
 
+  const [zoomLevel, setZoomLevel] = useState(1); // Zoom state
+    const toggleFullScreen = () => {
+      const modalElement = document.getElementById("imageModal");
+      if (!document.fullscreenElement) {
+        modalElement.requestFullscreen().catch((err) => {
+          console.log("Error attempting to enable fullscreen mode:", err);
+        });
+      } else {
+        document.exitFullscreen();
+      }
+    };
+
+    const zoomIn = () => {
+      if (zoomLevel < 3) setZoomLevel(zoomLevel + 0.5); // Max zoom of 3
+    };
+
+    const zoomOut = () => {
+      if (zoomLevel > 1) setZoomLevel(zoomLevel - 0.5); // Min zoom of 1
+    };
 
   return (
     <div className="lg:px-10 mt-3 lg:mt-28 sm:mt-2  mx-auto w-full lg:w-[90%] sm:w-full">
@@ -590,12 +639,20 @@ const Singleitem = () => {
           id="imageModal"
           className="fixed z-50 left-0 top-0 w-full h-full overflow-auto bg-black bg-opacity-90 flex items-center justify-center"
         >
-          <span
-            className="absolute top-4 right-8 text-white text-4xl font-bold cursor-pointer transition duration-300 hover:text-gray-400"
-            onClick={closeModal}
-          >
-            &times;
-          </span>
+          <div className="absolute top-4 right-8 text-white text-4xl font-bold">
+            <FullscreenIcon
+              fontSize="large"
+              className="me-10 my-auto cursor-pointer transition duration-300 hover:text-gray-400"
+              onClick={toggleFullScreen} // Trigger fullscreen toggle
+            />
+            <span
+              onClick={closeModal}
+              className="my-auto cursor-pointer transition duration-300 hover:text-gray-400"
+            >
+              &times;
+            </span>
+          </div>
+         
           <div className="relative w-4/5 max-w-3xl mx-auto">
             <Swiper
               initialSlide={selectedImage} // Start from the clicked image index
