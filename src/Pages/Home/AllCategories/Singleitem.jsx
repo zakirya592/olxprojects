@@ -660,14 +660,24 @@ const Singleitem = () => {
 
           <div className="relative w-4/5 max-w-5xl mx-auto">
             <Swiper
-              initialSlide={selectedImage} // Start from the clicked image index
+              initialSlide={selectedImage}
+              modules={[Navigation, Pagination]}
+              // className="swiper-container"
               spaceBetween={30}
-              navigation={true}
+              centeredSlides={true}
+              autoplay={{
+                delay: 4500,
+                disableOnInteraction: false,
+              }}
+              navigation={{
+                nextEl: "#swiper-button-next",
+                prevEl: "#swiper-button-prev",
+              }}
               pagination={{
                 clickable: true,
               }}
-              modules={[Navigation, Pagination]}
-              className="swiper-container"
+              // modules={[Autoplay, Pagination, Navigation]}
+              className="mySwiper "
             >
               {data?.images?.map((image, index) => (
                 <SwiperSlide key={index}>
