@@ -37,7 +37,7 @@ function Header() {
       const userId = urlParams.get("userId");
 
       if (token && userId) {
-        sessionStorage.setItem("authToken", token);
+        localStorage.setItem("authToken", token);
         localStorage.setItem("userdata", userId);
         // navigator("/"); // Uncomment to navigate to the dashboard
       }

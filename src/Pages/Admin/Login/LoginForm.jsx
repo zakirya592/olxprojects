@@ -91,7 +91,7 @@ const LoginForm = () => {
       const userId = urlParams.get("userId");
 
       if (token && userId) {
-        sessionStorage.setItem("authToken", token);
+        localStorage.setItem("authToken", token);
         localStorage.setItem("userdata", userId);
         navigator("/"); // Redirect to dashboard
       }
