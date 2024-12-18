@@ -10,7 +10,8 @@ import { DotLoader } from "react-spinners";
 import { useNavigate } from "react-router-dom";
 import { FaSearch } from "react-icons/fa";
 import { currencies } from "./CountryData.js";
-
+import ReactQuill from "react-quill";
+import "react-quill/dist/quill.snow.css";
 
 const PostAttributes = () => {
   const { DataSelectionModel } = useContext(Selectioncardcontext);
@@ -313,6 +314,44 @@ const handleImageChange = (e, index) => {
       (currency) => currency.symbol === selectedCurrency
     )?.symbol;
 
+      const modules = {
+        toolbar: [
+          [{ header: "1" }, { header: "2" }, { font: [] }],
+          [{ size: [] }],
+          ["bold", "italic", "underline", "strike", "blockquote"],
+          [
+            { list: "ordered" },
+            { list: "bullet" },
+            { indent: "-1" },
+            { indent: "+1" },
+          ],
+          ["link", "image", "video"],
+          ["clean"],
+          [{ color: [] }],
+          [{ background: [] }],
+          [{ font: [] }],
+        ],
+        clipboard: {
+          matchVisual: false,
+        },
+      };
+
+      const formats = [
+        "header",
+        "font",
+        "size",
+        "bold",
+        "italic",
+        "underline",
+        "strike",
+        "blockquote",
+        "list",
+        "bullet",
+        "indent",
+        "link",
+        "color",
+        "background",
+      ];
 
 
   return (
@@ -491,7 +530,7 @@ const handleImageChange = (e, index) => {
                 Description <span className="text-red-600"> *</span>
               </label>
               <div className="w-full">
-                <textarea
+                {/* <textarea
                   value={form.description}
                   onChange={(e) => {
                     setForm({
@@ -502,6 +541,20 @@ const handleImageChange = (e, index) => {
                   className="w-full p-2 border border-gray-300 rounded"
                   placeholder="Describe the item you're selling"
                   rows={4}
+                /> */}
+                <ReactQuill
+                  theme="snow"
+                  modules={modules}
+                  formats={formats}
+                  className="w-full rounded"
+                  placeholder="Describe the item you're selling"
+                  // onChange={(value) => setname_en(value)}
+                  onChange={(value) => {
+                    setForm({
+                      ...form,
+                      description: value,
+                    });
+                  }}
                 />
               </div>
             </div>

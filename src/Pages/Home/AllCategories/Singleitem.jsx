@@ -493,7 +493,12 @@ const Singleitem = () => {
                 <Skeleton count={3} />
               ) : (
                 <p className="text-productdesc mb-5 w-full">
-                  {data?.description || ""}
+                  {/* {data?.description || ""} */}
+                  <span
+                    dangerouslySetInnerHTML={{
+                      __html: data?.description || "",
+                    }}
+                  />
                 </p>
               )}
             </div>
@@ -652,7 +657,7 @@ const Singleitem = () => {
               &times;
             </span>
           </div>
-         
+
           <div className="relative w-4/5 max-w-3xl mx-auto">
             <Swiper
               initialSlide={selectedImage} // Start from the clicked image index

@@ -9,17 +9,9 @@ import { DotLoader } from "react-spinners";
 import { useLocation, useNavigate } from "react-router-dom";
 import { useQuery } from "react-query";
 import imageLiveUrl from "../../../../utils/urlConverter/imageLiveUrl";
-
-import { currencies } from "../../Home/PostAttributes/CountryData"; 
-
-// const currencies = [
-//   { code: "PKR", name: "Pakistan Rupee", symbol: "₨" },
-//   { code: "USD", name: "United States Dollar", symbol: "$" },
-//   { code: "EUR", name: "Euro", symbol: "€" },
-//   { code: "JPY", name: "Japanese Yen", symbol: "¥" },
-//   { code: "GBP", name: "British Pound Sterling", symbol: "£" },
-//   { code: "AUD", name: "Australian Dollar", symbol: "A$" },
-// ];
+import { currencies } from "../../Home/PostAttributes/CountryData";
+import ReactQuill from "react-quill";
+import "react-quill/dist/quill.snow.css";
 
 const UpdateMyProduct = () => {
   const { DataSelectionModel } = useContext(Selectioncardcontext);
@@ -45,10 +37,10 @@ const UpdateMyProduct = () => {
   if (!loginuserid) {
     loginuserid = localStorage.getItem("userdata") || "";
   }
-  
+
   const [selectedCurrency, setSelectedCurrency] = useState(cardData?.ProductData?.currency || "₨");
   console.log(cardData?.ProductData?.currency, "cardData?.currency");
-  
+
   const [form, setForm] = useState({
     brand: "",
     condition: "",
@@ -70,8 +62,8 @@ const UpdateMyProduct = () => {
 
   const [selectedCondition, setSelectedCondition] = useState(
     cardData?.ProductData?.Condition?.name ||
-      cardData?.ProductData?.conditions?.name ||
-      null
+    cardData?.ProductData?.conditions?.name ||
+    null
   );
 
   const [selectedDeviceType, setSelectedDeviceType] = useState(
@@ -138,11 +130,10 @@ const UpdateMyProduct = () => {
         {options.map((option) => (
           <div
             key={option._id}
-            className={`cursor-pointer border rounded px-4 py-2 ${
-              selectedOption === option.name
+            className={`cursor-pointer border rounded px-4 py-2 ${selectedOption === option.name
                 ? "bg-teal-100 border-teal-500"
                 : "border-gray-500"
-            }`}
+              }`}
             onClick={() => onChange(option.name)}
           >
             {option.name}
@@ -254,9 +245,9 @@ const UpdateMyProduct = () => {
     const value = e.target.value;
     setfooterCategory({ _id: value });
   };
-   const handleCurrencyChange = (e) => {
-     setSelectedCurrency(e.target.value);
-   };
+  const handleCurrencyChange = (e) => {
+    setSelectedCurrency(e.target.value);
+  };
 
   // Handle sub-category change
   const handleSubCategoryChange = (e) => {
@@ -335,6 +326,45 @@ const UpdateMyProduct = () => {
     fetchData();
   }, [DataSelectionModel, SubCategory?._id, footerCategory?._id]);
 
+   const modules = {
+     toolbar: [
+       [{ header: "1" }, { header: "2" }, { font: [] }],
+       [{ size: [] }],
+       ["bold", "italic", "underline", "strike", "blockquote"],
+       [
+         { list: "ordered" },
+         { list: "bullet" },
+         { indent: "-1" },
+         { indent: "+1" },
+       ],
+       ["link", "image", "video"],
+       ["clean"],
+       [{ color: [] }],
+       [{ background: [] }],
+       [{ font: [] }],
+     ],
+     clipboard: {
+       matchVisual: false,
+     },
+   };
+
+   const formats = [
+     "header",
+     "font",
+     "size",
+     "bold",
+     "italic",
+     "underline",
+     "strike",
+     "blockquote",
+     "list",
+     "bullet",
+     "indent",
+     "link",
+     "color",
+     "background",
+   ];
+
   const handleAddCompany = async (e) => {
     setIsLoading(true);
     const formData = new FormData();
@@ -344,7 +374,7 @@ const UpdateMyProduct = () => {
     formData.append("location", form.Location);
     formData.append("User", loginuserid || "");
     formData.append("Category", Category?._id);
-    formData.append("SubCategory", SubCategory?._id || ""); 
+    formData.append("SubCategory", SubCategory?._id || "");
     formData.append("currency", selectedCurrency);
     if (footerCategory?._id) {
       formData.append("FooterCategory", footerCategory._id);
@@ -395,12 +425,12 @@ const UpdateMyProduct = () => {
     }
   };
 
-     const selectedCurrencySymbol = currencies.find(
-       (currency) => currency.symbol === selectedCurrency
-     )?.symbol;
+  const selectedCurrencySymbol = currencies.find(
+    (currency) => currency.symbol === selectedCurrency
+  )?.symbol;
 
-     console.log(selectedCurrency, "selectedCurrency");
-     
+  console.log(selectedCurrency, "selectedCurrency");
+
 
   return (
     <>
@@ -668,7 +698,7 @@ const UpdateMyProduct = () => {
                 Description <span className="text-red-600"> *</span>
               </label>
               <div className="w-full">
-                <textarea
+                {/* <textarea
                   type="text"
                   value={form.description}
                   onChange={(e) => {
@@ -679,6 +709,21 @@ const UpdateMyProduct = () => {
                   }}
                   className="w-full p-2 border border-gray-300 rounded"
                   placeholder="Describe the item you're selling"
+                /> */}
+                <ReactQuill
+                  theme="snow"
+                  modules={modules}
+                  formats={formats}
+                  value={form.description}
+                  className="w-full rounded"
+                  placeholder="Describe the item you're selling"
+                  // onChange={(value) => setname_en(value)}
+                  onChange={(value) => {
+                    setForm({
+                      ...form,
+                      description: value,
+                    });
+                  }}
                 />
               </div>
             </div>
