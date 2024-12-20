@@ -23,7 +23,7 @@ import PanZoom from "react-easy-panzoom";
 import FullscreenIcon from "@mui/icons-material/Fullscreen";
 import ZoomInIcon from "@mui/icons-material/ZoomIn";
 import ZoomOutIcon from "@mui/icons-material/ZoomOut";
-
+import WhatsAppIcon from "@mui/icons-material/WhatsApp";
 const Singleitem = () => {
   const navigate = useNavigate();
   const paramData = useParams();
@@ -289,7 +289,7 @@ const Singleitem = () => {
     };
 
   return (
-    <div className="lg:px-10 mt-3 lg:mt-28 sm:mt-2  mx-auto w-full lg:w-[90%] sm:w-full">
+    <div className="lg:px-8 mt-3 lg:mt-28 sm:mt-2 mx-auto w-full lg:w-[90%] sm:w-full">
       <div className="my-5 bg-maincolor text-white rounded-full py-2 shadow-md px-3">
         <span
           className="cursor-pointer ms-4"
@@ -329,7 +329,7 @@ const Singleitem = () => {
                           {Userdataget?.User?.username || ""}
                         </p>
                       </div>
-                      <div className="my-auto">
+                      <div className="my-auto flex flex-col">
                         <button
                           className="text-maincolor border bg-white rounded-full text-lg font-sans font-bold px-4 "
                           onClick={() => charfunction(Userdataget)}
@@ -348,14 +348,29 @@ const Singleitem = () => {
                         {Userdataget?.User?.email || ""}
                       </a>
                     </div>
-                    <div className="flex mt-3 lg:flex-row sm:flex-col flex-col justify-center items-center sm:justify-center lg:justify-start">
-                      <FaPhoneAlt className="text-white w-6 h-6" />
-                      <a
-                        href={`tel:${Userdataget?.User?.phone || ""}`}
-                        className="text-white font-sans  hover:underline lg:ms-5 sm:ms-1 mt-3 sm:mt-3 lg:mt-0 ms-1  my-auto"
-                      >
-                        {Userdataget?.User?.phone || ""}
-                      </a>
+                    <div className="flex justify-between w-100">
+                      <div className="flex mt-3 lg:flex-row sm:flex-col flex-col justify-center items-center sm:justify-center lg:justify-start">
+                        <FaPhoneAlt className="text-white w-6 h-6" />
+                        <a
+                          href={`tel:${Userdataget?.User?.phone || ""}`}
+                          className="text-white font-sans  hover:underline lg:ms-5 sm:ms-1 mt-3 sm:mt-3 lg:mt-0 ms-1 my-auto"
+                        >
+                          {Userdataget?.User?.phone || ""}
+                        </a>{" "}
+                      </div>
+                      <div className="flex justify-between items-end cursor-pointer">
+                        <a
+                          href={`https://wa.me/${
+                            Userdataget?.User?.phone || ""
+                          }`}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                        >
+                          <WhatsAppIcon
+                            sx={{ color: "#25D366", fontSize: 35 }}
+                          />
+                        </a>
+                      </div>
                     </div>
                   </div>
                 </div>
