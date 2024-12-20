@@ -21,8 +21,6 @@ import { Dialog, DialogContent, IconButton, Rating } from "@mui/material";
 import { GridCloseIcon } from "@mui/x-data-grid";
 import PanZoom from "react-easy-panzoom";
 import FullscreenIcon from "@mui/icons-material/Fullscreen";
-import ZoomInIcon from "@mui/icons-material/ZoomIn";
-import ZoomOutIcon from "@mui/icons-material/ZoomOut";
 import WhatsAppIcon from "@mui/icons-material/WhatsApp";import { Tooltip } from "@mui/material";
 
 const Singleitem = () => {
@@ -279,14 +277,6 @@ const Singleitem = () => {
       } else {
         document.exitFullscreen();
       }
-    };
-
-    const zoomIn = () => {
-      if (zoomLevel < 3) setZoomLevel(zoomLevel + 0.5); // Max zoom of 3
-    };
-
-    const zoomOut = () => {
-      if (zoomLevel > 1) setZoomLevel(zoomLevel - 0.5); // Min zoom of 1
     };
 
   return (
