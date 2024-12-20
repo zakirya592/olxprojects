@@ -25,7 +25,6 @@ import WhatsAppIcon from "@mui/icons-material/WhatsApp";import { Tooltip } from 
 
 const Singleitem = () => {
   const navigate = useNavigate();
-  const paramData = useParams();
   const cardDataitem = localStorage.getItem("singleproduct");
   const cardData = useParams();
   const queryClient = useQueryClient();
@@ -159,7 +158,7 @@ const Singleitem = () => {
 
   useEffect(() => {
     fetchData();
-  }, []);
+  }, [cardData]);
   const getStoredUserData = () => {
     const storedUserResponseString = localStorage.getItem("userResponse");
     const storedUserResponse = JSON.parse(storedUserResponseString);
