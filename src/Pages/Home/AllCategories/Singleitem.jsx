@@ -23,7 +23,8 @@ import PanZoom from "react-easy-panzoom";
 import FullscreenIcon from "@mui/icons-material/Fullscreen";
 import ZoomInIcon from "@mui/icons-material/ZoomIn";
 import ZoomOutIcon from "@mui/icons-material/ZoomOut";
-import WhatsAppIcon from "@mui/icons-material/WhatsApp";
+import WhatsAppIcon from "@mui/icons-material/WhatsApp";import { Tooltip } from "@mui/material";
+
 const Singleitem = () => {
   const navigate = useNavigate();
   const paramData = useParams();
@@ -359,17 +360,19 @@ const Singleitem = () => {
                         </a>{" "}
                       </div>
                       <div className="flex justify-between items-end cursor-pointer">
-                        <a
-                          href={`https://wa.me/${
-                            Userdataget?.User?.phone || ""
-                          }`}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                        >
-                          <WhatsAppIcon
-                            sx={{ color: "#25D366", fontSize: 35 }}
-                          />
-                        </a>
+                        <Tooltip title="Chat on WhatsApp" arrow>
+                          <a
+                            href={`https://wa.me/${
+                              Userdataget?.User?.phone || ""
+                            }`}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                          >
+                            <WhatsAppIcon
+                              sx={{ color: "#25D366", fontSize: 35 }}
+                            />
+                          </a>
+                        </Tooltip>
                       </div>
                     </div>
                   </div>
