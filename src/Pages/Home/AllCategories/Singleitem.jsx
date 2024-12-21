@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import { Swiper, SwiperSlide } from "swiper/react";
 import "swiper/css";
 import "swiper/css/pagination";
@@ -277,6 +277,20 @@ const Singleitem = () => {
         document.exitFullscreen();
       }
     };
+
+     const panZoomRef = useRef(null);
+
+     const handleDoubleClick = () => {
+       if (panZoomRef.current) {
+         // Check current zoom level and toggle zoom
+         const currentZoom = panZoomRef.current.getTransform().scale;
+         if (currentZoom === 1) {
+           panZoomRef.current.zoomIn(1.5); // Zoom in to 1.5x
+         } else {
+           panZoomRef.current.reset(); // Reset to default zoom
+         }
+       }
+     };
 
   return (
     <div className="lg:px-8 mt-3 lg:mt-28 sm:mt-2 mx-auto w-full lg:w-[90%] sm:w-full">
@@ -631,6 +645,7 @@ const Singleitem = () => {
                     enablePan={true}
                     enableZoom={true}
                     className="w-full h-full"
+                    onDoubleClick={handleDoubleClick} // Attach double-click handler
                   >
                     <img
                       src={imageLiveUrl(image)}
@@ -695,6 +710,7 @@ const Singleitem = () => {
                       maxZoom={3}
                       enablePan={true}
                       enableZoom={true}
+                      onDoubleClick={handleDoubleClick} // Attach double-click handler
                       className=" h-full"
                     >
                       <img
