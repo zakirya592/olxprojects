@@ -292,6 +292,22 @@ const Singleitem = () => {
        }
      };
 
+         const [isMobile, setIsMobile] = useState(false);
+     
+         // Check screen size
+         useEffect(() => {
+           const handleResize = () => {
+             setIsMobile(window.innerWidth < 425); // Mobile screen if width is less than 768px
+           };
+     
+           handleResize(); // Check on initial render
+           window.addEventListener("resize", handleResize);
+     
+           return () => {
+             window.removeEventListener("resize", handleResize);
+           };
+         }, []);
+
   return (
     <div className="lg:px-8 mt-3 lg:mt-28 sm:mt-2 mx-auto w-full lg:w-[90%] sm:w-full ">
       <div className="my-5 bg-maincolor text-white rounded-full py-2 shadow-md px-3">
@@ -563,6 +579,7 @@ const Singleitem = () => {
             // pagination={{
             //   clickable: true,
             // }}
+            pagination={isMobile ? false : { clickable: true }}
             modules={[Keyboard, Scrollbar, Navigation, Pagination]}
             className="mySwiper py-6"
           >

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { toast } from "react-toastify";
 import "swiper/css";
@@ -109,6 +109,22 @@ const Hadersilder = () => {
     navigate(`/Singleitem/${product._id}`);
   };
 
+    const [isMobile, setIsMobile] = useState(false);
+
+    // Check screen size
+    useEffect(() => {
+      const handleResize = () => {
+        setIsMobile(window.innerWidth < 425); // Mobile screen if width is less than 768px
+      };
+
+      handleResize(); // Check on initial render
+      window.addEventListener("resize", handleResize);
+
+      return () => {
+        window.removeEventListener("resize", handleResize);
+      };
+    }, []);
+
   if (isLoading) return <p>Loading products...</p>;
   if (error) return <p>Failed to load products. Please try again later.</p>;
 
@@ -152,6 +168,7 @@ const Hadersilder = () => {
                 scrollbar={{ draggable: true }}
                 navigation
                 // pagination={{ clickable: true }}
+                pagination={isMobile ? false : { clickable: true }}
                 modules={[Pagination, Navigation, Keyboard, Scrollbar]}
                 className="mySwiper py-6"
               >
