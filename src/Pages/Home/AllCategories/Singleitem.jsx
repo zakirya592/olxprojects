@@ -293,7 +293,7 @@ const Singleitem = () => {
      };
 
   return (
-    <div className="lg:px-8 mt-3 lg:mt-28 sm:mt-2 mx-auto w-full lg:w-[90%] sm:w-full">
+    <div className="lg:px-8 mt-3 lg:mt-28 sm:mt-2 mx-auto w-full lg:w-[90%] sm:w-full ">
       <div className="my-5 bg-maincolor text-white rounded-full py-2 shadow-md px-3">
         <span
           className="cursor-pointer ms-4"
@@ -560,9 +560,9 @@ const Singleitem = () => {
             }}
             scrollbar={{ draggable: true }}
             navigation={true}
-            pagination={{
-              clickable: true,
-            }}
+            // pagination={{
+            //   clickable: true,
+            // }}
             modules={[Keyboard, Scrollbar, Navigation, Pagination]}
             className="mySwiper py-6"
           >

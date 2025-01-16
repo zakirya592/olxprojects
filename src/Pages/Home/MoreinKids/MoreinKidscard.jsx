@@ -112,6 +112,9 @@ const Hadersilder = () => {
   if (isLoading) return <p>Loading products...</p>;
   if (error) return <p>Failed to load products. Please try again later.</p>;
 
+
+
+  
   return (
     <div className="relative h-auto w-full bg-white border-b mt-10 mb-20">
       {productsData.categories.map((category, index) => {
@@ -148,7 +151,7 @@ const Hadersilder = () => {
                 }}
                 scrollbar={{ draggable: true }}
                 navigation
-                pagination={{ clickable: true }}
+                // pagination={{ clickable: true }}
                 modules={[Pagination, Navigation, Keyboard, Scrollbar]}
                 className="mySwiper py-6"
               >
