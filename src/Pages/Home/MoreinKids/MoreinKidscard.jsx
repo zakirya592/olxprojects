@@ -15,61 +15,66 @@ import NewRequest from "../../../../utils/NewRequest";
 import DescriptionWithToggle from "./DescriptionWithToggle";
 import imageLiveUrl from "../../../../utils/urlConverter/imageLiveUrl";
 
+// Function to fetch products
+async function fetchProductData() {
+  const response = await NewRequest.get("/product/getcategoryproduct");
+  const categories = response.data || [];
+  const activeProducts = categories.flatMap((category) =>
+    category.products.filter(
+      (product) => product.status.toLowerCase() === "active"
+    )
+  );
+  return { categories, products: activeProducts };
+}
+
+// Function to fetch ratings
+async function fetchProductRatings(products) {
+  const ratings = {};
+  try {
+    const ratingPromises = products.map(async (product) => {
+      const { data } = await NewRequest.get(`/comment/replay/${product._id}`);
+      const productRatings = data?.comments || [];
+      const totalRatings = productRatings.reduce(
+        (acc, comment) => acc + (comment.rating || 0),
+        0
+      );
+      ratings[product._id] = totalRatings / productRatings.length || 0;
+    });
+
+    await Promise.all(ratingPromises); // Fetch all ratings in parallel
+    return ratings;
+  } catch (error) {
+    console.error("Error fetching product ratings:", error);
+    return {};
+  }
+}
+
 const Hadersilder = () => {
   const navigate = useNavigate();
   const [isDialogOpen, setIsDialogOpen] = useState(false);
   const [selectedImage, setSelectedImage] = useState(null);
   const [productRatings, setProductRatings] = useState({});
 
-  // Fetch product data with caching
   const {
     isLoading,
     error,
     data: productsData,
   } = useQuery("productgetcategoryproduct", fetchProductData, {
-    staleTime: 5 * 60 * 1000, // Data remains fresh for 5 minutes
-    cacheTime: 10 * 60 * 1000, // Data stays in cache for 10 minutes
+    staleTime: 30000, // Cache for 30 seconds, adjust as needed
+    refetchOnWindowFocus: true, // Refetch when window is focused
   });
 
-  // Fetch product data and ratings
-  async function fetchProductData() {
-    const response = await NewRequest.get("/product/getcategoryproduct");
-    const categories = response.data || [];
-
-    // Filter active products
-    const activeProducts = categories.flatMap((category) =>
-      category.products.filter(
-        (product) => product.status.toLowerCase() === "active"
-      )
-    );
-
-    // Fetch ratings for all active products
-    await fetchProductRatings(activeProducts);
-
-    return { categories, products: activeProducts };
-  }
-
-  async function fetchProductRatings(products) {
-    const ratings = {};
-    try {
-      const ratingPromises = products.map(async (product) => {
-        const { data } = await NewRequest.get(`/comment/replay/${product._id}`);
-        const productRatings = data?.comments || [];
-        const totalRatings = productRatings.reduce(
-          (acc, comment) => acc + (comment.rating || 0),
-          0
-        );
-        ratings[product._id] = totalRatings / productRatings.length || 0;
-      });
-
-      await Promise.all(ratingPromises); // Fetch all ratings in parallel
-      setProductRatings(ratings);
-    } catch (error) {
-      console.error("Error fetching product ratings:", error);
+  // Refetch ratings when products data is available
+  React.useEffect(() => {
+    if (productsData) {
+      const fetchRatings = async () => {
+        const ratings = await fetchProductRatings(productsData.products);
+        setProductRatings(ratings);
+      };
+      fetchRatings();
     }
-  }
+  }, [productsData]);
 
-  // Dialog handlers
   const openImagePreview = (image) => {
     setSelectedImage(image);
     setIsDialogOpen(true);
@@ -79,14 +84,12 @@ const Hadersilder = () => {
     setIsDialogOpen(false);
   };
 
-  // Wishlist handler
   const addToWishlist = (product) => {
     try {
       const userResponse = JSON.parse(localStorage.getItem("userResponse"));
       const userId = userResponse?.data?.user?._id || "";
-
       NewRequest.post(`/wishlist/${userId}`, { productId: product._id });
-      toast.success(`Product added to wishlist successfully!`, {
+      toast.success("Product added to wishlist successfully!", {
         position: "top-right",
         autoClose: 2000,
       });
@@ -98,7 +101,6 @@ const Hadersilder = () => {
     }
   };
 
-  // Navigation handlers
   const viewMore = (category) => {
     sessionStorage.setItem("productmore", JSON.stringify(category));
     navigate(`/moreproduct/${category.category.name}`);
