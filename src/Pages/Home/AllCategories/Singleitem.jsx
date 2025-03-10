@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import { Swiper, SwiperSlide } from "swiper/react";
 import "swiper/css";
 import "swiper/css/pagination";
@@ -21,12 +21,10 @@ import { Dialog, DialogContent, IconButton, Rating } from "@mui/material";
 import { GridCloseIcon } from "@mui/x-data-grid";
 import PanZoom from "react-easy-panzoom";
 import FullscreenIcon from "@mui/icons-material/Fullscreen";
-import ZoomInIcon from "@mui/icons-material/ZoomIn";
-import ZoomOutIcon from "@mui/icons-material/ZoomOut";
+import WhatsAppIcon from "@mui/icons-material/WhatsApp";import { Tooltip } from "@mui/material";
 
 const Singleitem = () => {
   const navigate = useNavigate();
-  const paramData = useParams();
   const cardDataitem = localStorage.getItem("singleproduct");
   const cardData = useParams();
   const queryClient = useQueryClient();
@@ -160,7 +158,7 @@ const Singleitem = () => {
 
   useEffect(() => {
     fetchData();
-  }, []);
+  }, [cardData]);
   const getStoredUserData = () => {
     const storedUserResponseString = localStorage.getItem("userResponse");
     const storedUserResponse = JSON.parse(storedUserResponseString);
@@ -280,16 +278,38 @@ const Singleitem = () => {
       }
     };
 
-    const zoomIn = () => {
-      if (zoomLevel < 3) setZoomLevel(zoomLevel + 0.5); // Max zoom of 3
-    };
+     const panZoomRef = useRef(null);
 
-    const zoomOut = () => {
-      if (zoomLevel > 1) setZoomLevel(zoomLevel - 0.5); // Min zoom of 1
-    };
+     const handleDoubleClick = () => {
+       if (panZoomRef.current) {
+         // Check current zoom level and toggle zoom
+         const currentZoom = panZoomRef.current.getTransform().scale;
+         if (currentZoom === 1) {
+           panZoomRef.current.zoomIn(1.5); // Zoom in to 1.5x
+         } else {
+           panZoomRef.current.reset(); // Reset to default zoom
+         }
+       }
+     };
+
+         const [isMobile, setIsMobile] = useState(false);
+     
+         // Check screen size
+         useEffect(() => {
+           const handleResize = () => {
+             setIsMobile(window.innerWidth < 425); // Mobile screen if width is less than 768px
+           };
+     
+           handleResize(); // Check on initial render
+           window.addEventListener("resize", handleResize);
+     
+           return () => {
+             window.removeEventListener("resize", handleResize);
+           };
+         }, []);
 
   return (
-    <div className="lg:px-10 mt-3 lg:mt-28 sm:mt-2  mx-auto w-full lg:w-[90%] sm:w-full">
+    <div className="lg:px-8 mt-3 lg:mt-28 sm:mt-2 mx-auto w-full lg:w-[90%] sm:w-full ">
       <div className="my-5 bg-maincolor text-white rounded-full py-2 shadow-md px-3">
         <span
           className="cursor-pointer ms-4"
@@ -329,7 +349,7 @@ const Singleitem = () => {
                           {Userdataget?.User?.username || ""}
                         </p>
                       </div>
-                      <div className="my-auto">
+                      <div className="my-auto flex flex-col">
                         <button
                           className="text-maincolor border bg-white rounded-full text-lg font-sans font-bold px-4 "
                           onClick={() => charfunction(Userdataget)}
@@ -348,14 +368,31 @@ const Singleitem = () => {
                         {Userdataget?.User?.email || ""}
                       </a>
                     </div>
-                    <div className="flex mt-3 lg:flex-row sm:flex-col flex-col justify-center items-center sm:justify-center lg:justify-start">
-                      <FaPhoneAlt className="text-white w-6 h-6" />
-                      <a
-                        href={`tel:${Userdataget?.User?.phone || ""}`}
-                        className="text-white font-sans  hover:underline lg:ms-5 sm:ms-1 mt-3 sm:mt-3 lg:mt-0 ms-1  my-auto"
-                      >
-                        {Userdataget?.User?.phone || ""}
-                      </a>
+                    <div className="flex justify-between w-100">
+                      <div className="flex mt-3 lg:flex-row sm:flex-col flex-col justify-center items-center sm:justify-center lg:justify-start">
+                        <FaPhoneAlt className="text-white w-6 h-6" />
+                        <a
+                          href={`tel:${Userdataget?.User?.phone || ""}`}
+                          className="text-white font-sans  hover:underline lg:ms-5 sm:ms-1 mt-3 sm:mt-3 lg:mt-0 ms-1 my-auto"
+                        >
+                          {Userdataget?.User?.phone || ""}
+                        </a>{" "}
+                      </div>
+                      <div className="flex justify-between items-end cursor-pointer">
+                        <Tooltip title="Chat on WhatsApp" arrow>
+                          <a
+                            href={`https://wa.me/${
+                              Userdataget?.User?.phone || ""
+                            }`}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                          >
+                            <WhatsAppIcon
+                              sx={{ color: "#25D366", fontSize: 35 }}
+                            />
+                          </a>
+                        </Tooltip>
+                      </div>
                     </div>
                   </div>
                 </div>
@@ -539,9 +576,10 @@ const Singleitem = () => {
             }}
             scrollbar={{ draggable: true }}
             navigation={true}
-            pagination={{
-              clickable: true,
-            }}
+            // pagination={{
+            //   clickable: true,
+            // }}
+            pagination={isMobile ? false : { clickable: true }}
             modules={[Keyboard, Scrollbar, Navigation, Pagination]}
             className="mySwiper py-6"
           >
@@ -624,6 +662,7 @@ const Singleitem = () => {
                     enablePan={true}
                     enableZoom={true}
                     className="w-full h-full"
+                    onDoubleClick={handleDoubleClick} // Attach double-click handler
                   >
                     <img
                       src={imageLiveUrl(image)}
@@ -688,6 +727,7 @@ const Singleitem = () => {
                       maxZoom={3}
                       enablePan={true}
                       enableZoom={true}
+                      onDoubleClick={handleDoubleClick} // Attach double-click handler
                       className=" h-full"
                     >
                       <img
