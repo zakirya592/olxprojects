@@ -7,7 +7,7 @@ import "swiper/css/navigation";
 import { Pagination, Navigation, Keyboard, Scrollbar } from "swiper/modules";
 import { useQuery } from "react-query";
 import { useNavigate } from "react-router-dom";
-import { Dialog, DialogContent, IconButton, Rating } from "@mui/material";
+import { Dialog, DialogContent, IconButton, Rating, Button, CircularProgress } from "@mui/material";
 import { MdOutlineNavigateNext } from "react-icons/md";
 import { GrLike } from "react-icons/gr";
 import { GridCloseIcon } from "@mui/x-data-grid";
@@ -15,16 +15,25 @@ import NewRequest from "../../../../utils/NewRequest";
 import DescriptionWithToggle from "./DescriptionWithToggle";
 import imageLiveUrl from "../../../../utils/urlConverter/imageLiveUrl";
 
-// Function to fetch products
-async function fetchProductData() {
-  const response = await NewRequest.get("/product/getcategoryproduct");
-  const categories = response.data || [];
+// Function to fetch products with dynamic limit
+async function fetchProductData(limit = 2) {
+  const response = await NewRequest.get(`/product/homeproduct?page=1&limit=${limit}`);
+  const responseData = response.data;
+  
+  // Extract categories from data array if present, otherwise use responseData as the categories
+  const categories = Array.isArray(responseData.data) ? responseData.data : 
+                    (Array.isArray(responseData) ? responseData : []);
+  
+  // Extract pagination information
+  const pagination = responseData.pagination || null;
+  
   const activeProducts = categories.flatMap((category) =>
     category.products.filter(
       (product) => product.status.toLowerCase() === "active"
     )
   );
-  return { categories, products: activeProducts };
+  
+  return { categories, products: activeProducts, pagination };
 }
 
 // Function to fetch ratings
@@ -54,15 +63,45 @@ const Hadersilder = () => {
   const [isDialogOpen, setIsDialogOpen] = useState(false);
   const [selectedImage, setSelectedImage] = useState(null);
   const [productRatings, setProductRatings] = useState({});
+  const [limit, setLimit] = useState(8);
+  const [isLoadingMore, setIsLoadingMore] = useState(false);
+  const [currentData, setCurrentData] = useState(null);
 
   const {
-    isLoading,
+    isLoading: queryLoading,
     error,
     data: productsData,
-  } = useQuery("productgetcategoryproduct", fetchProductData, {
-    staleTime: 30000, // Cache for 30 seconds, adjust as needed
-    refetchOnWindowFocus: true, // Refetch when window is focused
-  });
+    refetch,
+  } = useQuery(
+    ["productgetcategoryproduct", limit],
+    () => fetchProductData(limit),
+    {
+      staleTime: 30000,
+      refetchOnWindowFocus: false, // Prevent automatic refetch on window focus
+      keepPreviousData: true, // Keep showing previous data while loading new data
+      onSuccess: (data) => {
+        // Update current data when query succeeds
+        setCurrentData(data);
+      },
+    }
+  );
+
+  // Handle "Load More" click
+  const handleLoadMore = async () => {
+    try {
+      setIsLoadingMore(true);
+      const newLimit = limit + 8;
+      setLimit(newLimit);
+      await refetch();
+    } catch (error) {
+      toast.error("Failed to load more products. Please try again.", {
+        position: "top-right",
+        autoClose: 3000,
+      });
+    } finally {
+      setIsLoadingMore(false);
+    }
+  };
 
   // Refetch ratings when products data is available
   React.useEffect(() => {
@@ -127,15 +166,24 @@ const Hadersilder = () => {
       };
     }, []);
 
-  if (isLoading) return <p>Loading products...</p>;
-  if (error) return <p>Failed to load products. Please try again later.</p>;
+  // Use currentData instead of productsData for rendering to prevent flickering
+  const dataToRender = currentData || productsData;
 
-
-
+  if (queryLoading && !dataToRender) return (
+    <div className="flex justify-center items-center min-h-[200px]">
+      <CircularProgress sx={{ color: '#E50010' }} />
+    </div>
+  );
   
+  if (error) return (
+    <div className="text-center text-red-600 py-4">
+      Failed to load products. Please try again later.
+    </div>
+  );
+
   return (
     <div className="relative h-auto w-full bg-white border-b mt-10 mb-20">
-      {productsData.categories.map((category, index) => {
+      {dataToRender?.categories?.map((category, index) => {
         const activeProducts = category.products.filter(
           (product) => product.status.toLowerCase() === "active"
         );
@@ -149,7 +197,7 @@ const Hadersilder = () => {
                 {category?.category?.name}
               </h6>
               <div
-                className="text-viewmorebutton text-xl flex cursor-pointer"
+                className="text-viewmorebutton text-xl flex cursor-pointer items-center"
                 onClick={() => viewMore(category)}
               >
                 <span>View more</span>
@@ -169,7 +217,6 @@ const Hadersilder = () => {
                 }}
                 scrollbar={{ draggable: true }}
                 navigation
-                // pagination={{ clickable: true }}
                 pagination={isMobile ? false : { clickable: true }}
                 modules={[Pagination, Navigation, Keyboard, Scrollbar]}
                 className="mySwiper py-6"
@@ -205,6 +252,59 @@ const Hadersilder = () => {
           </div>
         );
       })}
+
+      {/* Global Load More Button */}
+      {dataToRender?.pagination && (
+        <div className="flex justify-center mt-10 mb-6">
+          <Button 
+          
+            variant="contained"
+            onClick={handleLoadMore}
+            disabled={isLoadingMore || queryLoading}
+            sx={{ 
+              bgcolor: '#4C005A',
+              color: 'white',
+              '&:hover': { 
+                bgcolor: '#C5000E',
+                transform: 'translateY(-2px)',
+                boxShadow: '0 4px 8px rgba(0,0,0,0.2)'
+              },
+              padding: '12px 30px',
+              fontSize: '16px',
+              borderRadius: '25px',
+              textTransform: 'none',
+              transition: 'all 0.3s ease',
+              display: 'flex',
+              gap: '10px',
+              alignItems: 'center',
+              minWidth: '180px',
+              position: 'relative',
+              '&.Mui-disabled': {
+                bgcolor: '#ff999999',
+                color: 'white'
+              }
+            }}
+          >
+            {isLoadingMore ? (
+              <div className="flex items-center justify-center">
+                <CircularProgress 
+                  size={20} 
+                  sx={{ 
+                    color: 'white',
+                    marginRight: '8px'
+                  }} 
+                />
+                <span>Loading...</span>
+              </div>
+            ) : (
+              <div className="flex items-center justify-center w-full ">
+                <span>Load More</span>
+                <MdOutlineNavigateNext size={24} />
+              </div>
+            )}
+          </Button>
+        </div>
+      )}
 
       {/* Dialog for image preview */}
       <Dialog open={isDialogOpen} onClose={closeDialog} maxWidth="md">

@@ -21,6 +21,9 @@ const MoreProductview = () => {
   const loginuserid = storedUserResponse?.data?.user?._id || "";
 
   const [productRatings, setProductRatings] = useState({});
+  const [limit, setLimit] = useState(10);
+  const [hasMore, setHasMore] = useState(true);
+
   async function fetchProductRatings(products) {
     const ratings = {};
 
@@ -51,10 +54,11 @@ const MoreProductview = () => {
     error,
     data: moreproductData,
   } = useQuery(
-    ["category", subCategoriesResponse?.category?._id],
+    ["category", subCategoriesResponse?.category?._id, limit],
     fetchmoreproductData,
     {
       enabled: !!subCategoriesResponse?.category?._id,
+      keepPreviousData: true,
     }
   );
 
@@ -65,12 +69,14 @@ const MoreProductview = () => {
 
   async function fetchmoreproductData() {
     const response = await NewRequest.get(
-      `/product/getProductsByCategory/${subCategoriesResponse?.category?._id || ""
-      }`
+      `/product/getProductsByCategoryId/${subCategoriesResponse?.category?._id || ""}?page=1&limit=${limit}`
     );
-    const activeProducts = response?.data
+    const activeProducts = response?.data?.data
       .filter((product) => product.status.toLowerCase() === "active")
       .reverse();
+    
+    setHasMore(response?.data?.pagination?.hasNextPage || false);
+    
     fetchProductRatings(activeProducts);
     return activeProducts || [];
   }
@@ -129,6 +135,10 @@ const MoreProductview = () => {
     // Refetch only the data related to the new category
     queryClient.invalidateQueries(["category", category.id]);
     navigate(`/moreproduct/${category.name}`);
+  };
+
+  const loadMore = () => {
+    setLimit(prevLimit => prevLimit + 10);
   };
 
   return (
@@ -251,6 +261,17 @@ const MoreProductview = () => {
                 ))
               )}
             </div>
+            
+            {!isLoading && hasMore && (
+              <div className="flex justify-center mt-6">
+                <button
+                  onClick={loadMore}
+                  className="bg-maincolor text-white px-6 py-2 rounded-full hover:bg-white hover:text-maincolor border border-maincolor"
+                >
+                  Load More
+                </button>
+              </div>
+            )}
           </main>
           {/* Sidebar */}
           <aside className="w-full sm:w-full lg:w-1/4 p-4 border my-3 border-gray-300 bg-cardbg rounded shadow">
