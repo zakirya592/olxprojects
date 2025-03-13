@@ -73,7 +73,7 @@ const MoreProductview = () => {
     );
     const activeProducts = response?.data?.data
       .filter((product) => product.status.toLowerCase() === "active")
-      .reverse();
+      
     
     setHasMore(response?.data?.pagination?.hasNextPage || false);
     
