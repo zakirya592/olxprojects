@@ -9,6 +9,7 @@ import Googleplay from "../../../assets/Images/Googleplay.svg";
 import { Link, useNavigate } from "react-router-dom";
 import NewRequest from "../../../../utils/NewRequest";
 import { useQuery } from "react-query";
+import { FaYoutube } from "react-icons/fa";
 
 const Footer = () => {
 
@@ -150,6 +151,14 @@ const viewmorefooter = (product) => {
                     style={{ color: "#F0FFFF", marginLeft: "12px" }}
                   />
                 </Link>
+                <Link
+                  to="https://youtube.com/@pakardi-o8m?si=gi-78VrlpcaDMN0Q"
+                  className="cursor-pointer "
+                  target="_black"
+                >
+                  <FaYoutube size={32} style={{ color: "#F0FFFF", marginLeft: "12px" }} />
+                </Link>
+
               </div>
             </div>
           </div>
