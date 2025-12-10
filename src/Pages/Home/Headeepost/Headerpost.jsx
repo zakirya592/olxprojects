@@ -16,7 +16,7 @@ function Headerpost() {
           {/* <p className="text-lg font-bold text-center ms-3 my-auto">OLX</p> */}
           <div className="logo my-auto">
             {/* <img src={log} alt="Logo" className="h-10 w-auto cursor-pointer" /> */}
-            <p className="my-auto cursor-pointer text-2xl mx-4">Pakardi</p>
+            <p className="my-auto cursor-pointer text-2xl mx-4">pakardai</p>
           </div>
         </div>
       </div>

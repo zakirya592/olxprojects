@@ -27,7 +27,7 @@ function Aboutus() {
             className={`absolute w-full sm:top-1/4 top-2.5 text-white md:px-10 px-3`}
           >
             <h2 className="sm:text-5xl text-3xl font-sans font-semibold mb-4">
-              About Pakardi
+              About pakardai
             </h2>
           </div>
         </div>
