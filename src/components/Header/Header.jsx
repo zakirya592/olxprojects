@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef } from "react";
 import {  FaSearch, FaCommentDots, FaBell, FaCartPlus } from "react-icons/fa";
 import { useNavigate } from "react-router-dom";
-import log from "../../assets/Images/pakardilogo.png";
+import log from "../../assets/Images/logodone.png";
 import Firstloginsinup from "../../Pages/Admin/Login/Firstloginsinup";
 import PropTypes from "prop-types";
 import { Dropdown } from "@mui/base/Dropdown";
