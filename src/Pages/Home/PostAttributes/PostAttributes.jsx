@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef, useContext } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import Headerpost from "../Headeepost/Headerpost";
 import { Selectioncardcontext } from "../../../Contextapi/Selectioncardcontext";
 import NewRequest from "../../../../utils/NewRequest";
@@ -8,7 +8,6 @@ import { Autocomplete, TextField } from "@mui/material";
 import { toast } from "react-toastify";
 import { DotLoader } from "react-spinners";
 import { useNavigate } from "react-router-dom";
-import { FaSearch } from "react-icons/fa";
 import { currencies } from "./CountryData.js";
 import ReactQuill from "react-quill";
 import "react-quill/dist/quill.snow.css";
@@ -207,46 +206,6 @@ const handleImageChange = (e, index) => {
     }));
   };
 
-  const inputRef = useRef(null);
-  const autocompleteRef = useRef(null);
-
-  useEffect(() => {
-    const loadScript = (url, callback) => {
-      let script = document.createElement("script");
-      script.type = "text/javascript";
-      script.src = url;
-      script.onload = callback;
-      document.head.appendChild(script);
-    };
-
-    const handleScriptLoad = () => {
-      autocompleteRef.current = new window.google.maps.places.Autocomplete(
-        inputRef.current,
-        {
-          types: ["geocode"],
-        }
-      );
-
-      autocompleteRef.current.addListener("place_changed", handlePlaceSelect);
-    };
-
-    const handlePlaceSelect = () => {
-      const place = autocompleteRef.current.getPlace();
-      setForm((prevForm) => ({
-        ...prevForm,
-        Location: place.formatted_address || place.name,
-      }));
-    };
-
-    if (!window.google) {
-      loadScript(
-        `https://maps.googleapis.com/maps/api/js?key=YOUR_API_KEY&libraries=places`,
-        handleScriptLoad
-      );
-    } else {
-      handleScriptLoad();
-    }
-  }, []);
 
   // Post api herer
   const Categorydataget = sessionStorage.getItem("category");
@@ -564,17 +523,20 @@ const handleImageChange = (e, index) => {
               <label className="w-full lg:w-1/4 mb-1 font-semibold">
                 Location <span className="text-red-600"> *</span>
               </label>
-              <div className="w-full relative">
+              <div className="w-full">
                 <input
-                  ref={inputRef}
                   id="location"
                   type="text"
+                  value={form.Location}
+                  onChange={(e) => {
+                    setForm({
+                      ...form,
+                      Location: e.target.value,
+                    });
+                  }}
                   className="w-full p-2 border border-gray-300 rounded"
-                  placeholder="Select Location"
+                  placeholder="Enter Location"
                 />
-                <span className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-500">
-                  <FaSearch />
-                </span>
               </div>
             </div>
           </div>
