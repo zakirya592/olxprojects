@@ -683,7 +683,7 @@ const Singleitem = () => {
           id="imageModal"
           className="fixed z-50 left-0 top-0 w-full h-full overflow-auto bg-black bg-opacity-90 flex items-center justify-center"
         >
-          <div className="absolute top-4 right-8 text-white text-4xl font-bold">
+          <div className="absolute top-4 right-8 z-50 flex items-center gap-6 text-white text-4xl font-bold">
             <FullscreenIcon
               fontSize="large"
               className="me-10 my-auto cursor-pointer transition duration-300 hover:text-gray-400"
@@ -697,7 +697,7 @@ const Singleitem = () => {
             </span>
           </div>
 
-          <div className="relative w-4/5 max-w-5xl mx-auto">
+          <div className="relative w-full h-full mx-auto z-0 flex items-center justify-center">
             <Swiper
               initialSlide={selectedImage}
               modules={[Navigation, Pagination]}
@@ -716,11 +716,11 @@ const Singleitem = () => {
                 clickable: true,
               }}
               // modules={[Autoplay, Pagination, Navigation]}
-              className="mySwiper "
+              className="mySwiper w-full h-full"
             >
               {data?.images?.map((image, index) => (
                 <SwiperSlide key={index}>
-                  <div className="w-full h-80 lg:h-[600px] flex justify-center items-center">
+                  <div className="w-full h-full flex justify-center items-center">
                     {/* Apply PanZoom directly on the image */}
                     <PanZoom
                       minZoom={1}
@@ -728,11 +728,11 @@ const Singleitem = () => {
                       enablePan={true}
                       enableZoom={true}
                       onDoubleClick={handleDoubleClick} // Attach double-click handler
-                      className=" h-full"
+                      className="h-full w-full flex items-center justify-center"
                     >
                       <img
                         src={imageLiveUrl(image)}
-                        className="object-center w-full h-80 lg:h-[600px]"
+                        className="object-contain max-w-full max-h-full mx-auto"
                         alt={`Image ${index}`}
                       />
                     </PanZoom>
