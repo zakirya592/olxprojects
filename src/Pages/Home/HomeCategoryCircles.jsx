@@ -73,7 +73,7 @@ function HomeCategoryCircles() {
 
   if (isLoading) {
     return (
-      <section id="shop-by-category" className="shop-cat-section mb-10">
+      <section id="shop-by-category" className="shop-cat-section mb-6">
         <div className="shop-cat-header">
           <div className="h-8 w-52 animate-pulse rounded bg-gray-100" />
           <div className="h-4 w-14 animate-pulse rounded bg-gray-100" />
@@ -95,7 +95,7 @@ function HomeCategoryCircles() {
   if (!displayCategories.length) return null;
 
   return (
-    <section id="shop-by-category" className="shop-cat-section mb-10 scroll-mt-24">
+    <section id="shop-by-category" className="shop-cat-section mb-6 scroll-mt-24">
       <div className="shop-cat-header">
         <h2 className="shop-cat-title">Shop by Category</h2>
         <button
