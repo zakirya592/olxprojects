@@ -8,7 +8,7 @@ function Home() {
   return (
     <div className="relative">
       <RtlToggle />
-      <div className="mx-auto w-full max-w-[1760px] px-2 sm:px-3 lg:px-6">
+      <div className="mx-auto w-full max-w-[1760px] bg-[#fafafa] px-3 pb-8 pt-2 sm:px-4 lg:px-8 lg:pb-12">
         <Hadersilder />
         <HomeCategoryCircles />
         <MoreinKidscard />

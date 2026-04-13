@@ -1,0 +1,129 @@
+/* Motta home-v3 hero */
+.hero-motta-wrap {
+  margin-bottom: 2rem;
+}
+
+@media (min-width: 1024px) {
+  .hero-motta-wrap {
+    margin-bottom: 2.5rem;
+  }
+}
+
+.hero-motta-swiper {
+  --swiper-pagination-bottom: 14px;
+  border-radius: 12px;
+  overflow: hidden;
+}
+
+.hero-motta-swiper .swiper-pagination-bullet {
+  width: 8px;
+  height: 8px;
+  background: #cfd4d8;
+  opacity: 1;
+}
+
+.hero-motta-swiper .swiper-pagination-bullet-active {
+  background: #004747;
+}
+
+.hero-motta-arrow {
+  position: absolute;
+  top: 50%;
+  z-index: 5;
+  display: flex;
+  height: 40px;
+  width: 40px;
+  align-items: center;
+  justify-content: center;
+  border-radius: 8px;
+  border: none;
+  background: rgba(255, 255, 255, 0.95);
+  color: #004747;
+  font-size: 22px;
+  line-height: 1;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+  cursor: pointer;
+  transform: translateY(-50%);
+  transition: background 0.15s ease;
+}
+
+.hero-motta-arrow:hover {
+  background: #fff;
+}
+
+.hero-motta-arrow--prev {
+  left: 12px;
+}
+
+.hero-motta-arrow--next {
+  right: 12px;
+}
+
+.hero-motta-side-card {
+  display: flex;
+  min-height: 0;
+  flex: 1;
+  flex-direction: row;
+  align-items: stretch;
+  overflow: hidden;
+  border-radius: 12px;
+  background: #eef1f3;
+}
+
+.hero-motta-side-card__text {
+  display: flex;
+  min-width: 0;
+  flex: 1;
+  flex-direction: column;
+  justify-content: center;
+  padding: 1rem 0.75rem 1rem 1rem;
+}
+
+@media (min-width: 640px) {
+  .hero-motta-side-card__text {
+    padding: 1.25rem 1rem 1.25rem 1.25rem;
+  }
+}
+
+.hero-motta-side-card__img {
+  position: relative;
+  flex-shrink: 0;
+  width: 38%;
+  max-width: 160px;
+  min-height: 120px;
+  background: #e4e8eb;
+}
+
+@media (min-width: 1024px) {
+  .hero-motta-side-card__img {
+    width: 42%;
+    max-width: 180px;
+    min-height: 140px;
+  }
+}
+
+.hero-motta-side-card__img img {
+  position: absolute;
+  inset: 0;
+  height: 100%;
+  width: 100%;
+  object-fit: cover;
+}
+
+.hero-motta-shop-link {
+  margin-top: 0.5rem;
+  align-self: flex-start;
+  border: none;
+  background: none;
+  padding: 0;
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: #111827;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  cursor: pointer;
+}
+
+.hero-motta-shop-link:hover {
+  color: #004747;
+}
