@@ -1,181 +1,257 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
+import { Link } from "react-router-dom";
 import { TiSocialTwitterCircular } from "react-icons/ti";
 import { CiFacebook } from "react-icons/ci";
-import { FaRegCirclePlay } from "react-icons/fa6";
 import { FiInstagram } from "react-icons/fi";
-import Appgallery from "../../../assets/Images/Appgallery.svg"
-import appstore from "../../../assets/Images/appstore.svg"
-import Googleplay from "../../../assets/Images/Googleplay.svg";
-import { Link, useNavigate } from "react-router-dom";
-import NewRequest from "../../../../utils/NewRequest";
-import { useQuery } from "react-query";
 import { FaYoutube } from "react-icons/fa";
+import { FaWhatsapp } from "react-icons/fa";
+import PhoneOutlinedIcon from "@mui/icons-material/PhoneOutlined";
+import EmailOutlinedIcon from "@mui/icons-material/EmailOutlined";
+import KeyboardArrowUpIcon from "@mui/icons-material/KeyboardArrowUp";
+import { toast } from "react-toastify";
+import "./Footer.css";
+
+function MottaLogoFooter() {
+  return (
+    <div className="flex items-center gap-2">
+      <span className="motta-footer__logo-text">Motta</span>
+      <span className="motta-footer__logo-grid" aria-hidden>
+        <span style={{ background: "#2563eb", borderRadius: 2 }} />
+        <span style={{ background: "#f97316", borderRadius: 2 }} />
+        <span style={{ background: "#ef4444", borderRadius: 2 }} />
+        <span style={{ background: "#38bdf8", borderRadius: 2 }} />
+      </span>
+    </div>
+  );
+}
 
 const Footer = () => {
+  const [email, setEmail] = useState("");
 
-
-  const navigate = useNavigate();
-  const [isMobileMenuOpen, setMobileMenuOpen] = useState(false);
-  // const { t, i18n } = useTranslation();
-  const toggleMobileMenu = () => {
-    setMobileMenuOpen(!isMobileMenuOpen);
-  };
-
-  const { isLoading, data, error } = useQuery(
-    "fetchAllMegaMenusfooter",
-    async () => {
-      try {
-        const response = await NewRequest.get("/category");
-        return response?.data || [];
-      } catch (error) {
-        console.log(error);
-        throw error;
-      }
+  const handleSubscribe = (e) => {
+    e.preventDefault();
+    if (!email.trim()) {
+      toast.warn("Please enter your email address.");
+      return;
     }
-  );
-
-  async function fetchproductData() {
-    const response = await NewRequest.get("/product/getcategoryproduct");
-    const mobilesCategory = response?.data;
-
-    return mobilesCategory;
-  }
-
-  // Use the data in your component
-  const { data: productsdata } = useQuery(
-    "productgetcategorysfooter",
-    fetchproductData
-  );
-
-  const [getTrendingProducts, setgetTrendingProducts] = useState('')
-  useEffect(() => {
-    NewRequest.get(`/product/getTrendingProducts`)
-      .then((response) => {
-        const userdata = response.data;
-        setgetTrendingProducts(userdata);
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-  }, []);
-
-  const viewmore = (product) => {
-    // const selectedCategory = productsdata.find((item) => item.category.name);
-    const selectedCategoryProducts = productsdata.find(
-      (item) => item.category.name === product.name
-    );
-
-    const subResponseString = JSON.stringify(selectedCategoryProducts);
-    sessionStorage.setItem("productmore", subResponseString);
-    navigate(`/moreproduct/${selectedCategoryProducts?.category?.name}`);
+    toast.success("Thanks for subscribing!");
+    setEmail("");
   };
 
-const viewmorefooter = (product) => {
-  NewRequest.post("/product/searchProduct", {
-    query: product.productId.name || "",
-  })
-    .then((response) => {
-      navigate("/search-results", { state: { searchResults: response.data } });
-    })
-    .catch((error) => {
-      console.error("Error searching product:", error);
-    });
-};
-
-
+  const scrollTop = () => {
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  };
 
   return (
-    <div>
-      <div className="py-4 gap-2 sm:px-16 px-8 h-auto w-full bg-[#4C005A] text-[#F0FFFF] relative">
-        <div className="w-full grid 2xl:grid-cols-3 lg:grid-cols-3 grid-cols-1">
-          <div className={`h-auto w-full flex flex-col gap-8 relative `}>
-            <h2 className="text-xl uppercase font-semibold text-start relativ e">
-              POPULAR CATEGORIES
-            </h2>
-            <div className={`text-white flex flex-col gap-1 `}>
-              {data?.slice(0, 5)?.map((section, index) => (
-                <p
-                  key={index}
-                  onClick={() => viewmore(section)}
-                  style={{ textDecoration: "none" }}
-                  className="text-white duration-300 hover:text-white cursor-pointer"
-                >
-                  <p>{section?.name}</p>
-                </p>
-              ))}
-            </div>
-          </div>
-
-          <div className={`h-auto w-full flex flex-col gap-8 relative `}>
-            <h2 className="text-xl uppercase font-semibold text-start relative">
-              TRENDING SEARCHES
-            </h2>
-            <div className={`text-white flex flex-col gap-1`}>
-              {getTrendingProducts &&
-                getTrendingProducts?.slice(0, 5)?.map((item) => (
-                  <p
-                    key={item._id}
-                    className="text-white duration-300 hover:text-white cursor-pointer"
-                    onClick={() => viewmorefooter(item)}
-                  >
-                    {item?.productId?.name || " "}
+    <>
+      <footer className="motta-footer pb-20 lg:pb-6">
+        <div className="motta-footer__inner">
+          {/* Top: contact + newsletter */}
+          <div className="motta-footer__top">
+            <div className="motta-footer__contact-grid">
+              <div className="motta-footer__contact-block">
+                <div className="motta-footer__contact-icon">
+                  <PhoneOutlinedIcon sx={{ fontSize: 36, color: "#4b5563" }} />
+                </div>
+                <div>
+                  <p className="motta-footer__contact-title">Call</p>
+                  <p className="motta-footer__contact-text">
+                    Call us from 8am to 12am ET.
                   </p>
-                ))}
-            </div>
-          </div>
-
-          <div className={`h-auto w-full flex flex-col gap-8 relative `}>
-            <h2 className="text-xl uppercase font-semibold text-start relative">
-              FOLLOW US
-            </h2>
-            <div className={`text-[#F0FFFF] flex flex-col gap-1 `}>
-              <div className="flex flex-row">
-                <Link
-                  to="https://www.facebook.com/profile.php?id=61565875032026"
-                  className="cursor-pointer "
-                  target="_black"
-                >
-                  <CiFacebook
-                    size={35}
-                    style={{ color: "#F0FFFF", marginLeft: "10px" }}
-                  />
-                </Link>
-
-                <Link
-                  to="https://www.instagram.com/pakardicom"
-                  className="cursor-pointer "
-                  target="_black"
-                >
-                  <FiInstagram
-                    size={32}
-                    style={{ color: "#F0FFFF", marginLeft: "12px" }}
-                  />
-                </Link>
-                <Link
-                  to="https://youtube.com/@pakardi-o8m?si=gi-78VrlpcaDMN0Q"
-                  className="cursor-pointer "
-                  target="_black"
-                >
-                  <FaYoutube size={32} style={{ color: "#F0FFFF", marginLeft: "12px" }} />
-                </Link>
-
+                  <p className="motta-footer__phone">1-866-237-8289</p>
+                </div>
+              </div>
+              <div className="motta-footer__contact-block">
+                <div className="motta-footer__contact-icon">
+                  <EmailOutlinedIcon sx={{ fontSize: 36, color: "#4b5563" }} />
+                </div>
+                <div>
+                  <p className="motta-footer__contact-title">Email</p>
+                  <p className="motta-footer__contact-text">
+                    Our response time is 1 to 3 business days.
+                  </p>
+                  <Link to="/contactus" className="motta-footer__link-inline">
+                    Send a Message
+                  </Link>
+                </div>
               </div>
             </div>
+
+            <div>
+              <h3 className="motta-footer__newsletter-title">
+                Let&apos;s keep in touch
+              </h3>
+              <p className="motta-footer__newsletter-desc">
+                Get recommendations, tips, updates, promotions and more.
+              </p>
+              <form
+                className="motta-footer__newsletter-form"
+                onSubmit={handleSubscribe}
+              >
+                <input
+                  type="email"
+                  className="motta-footer__newsletter-input"
+                  placeholder="Enter your email address"
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                  autoComplete="email"
+                />
+                <button type="submit" className="motta-footer__subscribe-btn">
+                  Subscribe
+                </button>
+              </form>
+            </div>
+          </div>
+
+          <hr className="motta-footer__divider" />
+
+          {/* Brand + link columns */}
+          <div className="motta-footer__mid">
+            <div>
+              <MottaLogoFooter />
+              <p className="motta-footer__brand-tagline">Best For Shopping</p>
+              <p className="motta-footer__brand-desc">
+                Sed do eiusmod tempor incididunt ut labore et dolore magna
+                aliqua. Ut enim ad minim veniam, quis nostrud exercitation.
+              </p>
+              <div className="motta-footer__social">
+                <a
+                  href="https://twitter.com"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  aria-label="Twitter"
+                >
+                  <TiSocialTwitterCircular size={28} />
+                </a>
+                <a
+                  href="https://www.facebook.com/profile.php?id=61565875032026"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  aria-label="Facebook"
+                >
+                  <CiFacebook size={28} />
+                </a>
+                <a
+                  href="https://youtube.com/@pakardi-o8m?si=gi-78VrlpcaDMN0Q"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  aria-label="YouTube"
+                >
+                  <FaYoutube size={24} />
+                </a>
+                <a
+                  href="https://www.instagram.com/pakardicom"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  aria-label="Instagram"
+                >
+                  <FiInstagram size={24} />
+                </a>
+                <a
+                  href="https://wa.me/"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  aria-label="WhatsApp"
+                >
+                  <FaWhatsapp size={24} />
+                </a>
+              </div>
+            </div>
+
+            <div>
+              <h4 className="motta-footer__col-title">Get to Know Us</h4>
+              <ul className="motta-footer__links">
+                <li>
+                  <Link to="/Aboutus">About Us</Link>
+                </li>
+                <li>
+                  <a href="#news">News &amp; Blog</a>
+                </li>
+                <li>
+                  <a href="#careers">Careers</a>
+                </li>
+                <li>
+                  <a href="#investors">Investors</a>
+                </li>
+                <li>
+                  <Link to="/contactus">Contact Us</Link>
+                </li>
+              </ul>
+            </div>
+
+            <div>
+              <h4 className="motta-footer__col-title">Customer Service</h4>
+              <ul className="motta-footer__links">
+                <li>
+                  <Link to="/contactus">Help Center</Link>
+                </li>
+                <li>
+                  <a href="#faq">FAQ&apos;s</a>
+                </li>
+                <li>
+                  <a href="#accessibility">Accessibility</a>
+                </li>
+                <li>
+                  <a href="#feedback">Feedback</a>
+                </li>
+                <li>
+                  <a href="#size">Size Guide</a>
+                </li>
+                <li>
+                  <a href="#payment">Payment Method</a>
+                </li>
+              </ul>
+            </div>
+
+            <div>
+              <h4 className="motta-footer__col-title">Orders &amp; Returns</h4>
+              <ul className="motta-footer__links">
+                <li>
+                  <a href="#track">Track Order</a>
+                </li>
+                <li>
+                  <a href="#shipping">Shipping &amp; Delivery</a>
+                </li>
+                <li>
+                  <a href="#return">Return &amp; Exchange</a>
+                </li>
+                <li>
+                  <a href="#price-match">Price Match Guarantee</a>
+                </li>
+              </ul>
+            </div>
+          </div>
+
+          {/* Legal + payments */}
+          <div className="motta-footer__bottom">
+            <nav className="motta-footer__legal" aria-label="Legal">
+              <a href="#privacy">Privacy Policy</a>
+              <a href="#terms">Terms of Use</a>
+              <a href="#legal">Legal</a>
+              <a href="#sitemap">Site Map</a>
+            </nav>
+            <div
+              className="motta-footer__payments"
+              aria-label="Payment methods"
+            >
+              <span className="motta-footer__pay-badge">BANK TRANSFER</span>
+              <span className="motta-footer__pay-badge">VISA</span>
+              <span className="motta-footer__pay-badge">MASTERCARD</span>
+              <span className="motta-footer__pay-badge">PayPal</span>
+            </div>
           </div>
         </div>
-      </div>
-      <div className={`bg-[#2D6A3C] text-white mb-14 lg:mb-0 sm:mb-16`}>
-        <div className="p-4">
-          <Link
-            to={`https://g.co/kgs/MQLeL3q`}
-            target="_blank"
-            className="text-end font-normal sm:font-semibold"
-          >
-            Power by Social IT solutions
-          </Link>
-        </div>
-      </div>
-    </div>
+      </footer>
+
+      <button
+        type="button"
+        className="motta-footer__back-top"
+        onClick={scrollTop}
+        aria-label="Back to top"
+      >
+        <KeyboardArrowUpIcon sx={{ fontSize: 26 }} />
+      </button>
+    </>
   );
 };
 

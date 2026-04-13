@@ -1,0 +1,340 @@
+/* Motta-style footer */
+
+.motta-footer {
+  background: #ffffff;
+  color: #111827;
+  border-top: 1px solid #e5e7eb;
+}
+
+.motta-footer__inner {
+  max-width: 1200px;
+  margin-left: auto;
+  margin-right: auto;
+  padding-left: 1rem;
+  padding-right: 1rem;
+}
+
+@media (min-width: 640px) {
+  .motta-footer__inner {
+    padding-left: 1.25rem;
+    padding-right: 1.25rem;
+  }
+}
+
+@media (min-width: 1024px) {
+  .motta-footer__inner {
+    padding-left: 1.5rem;
+    padding-right: 1.5rem;
+  }
+}
+
+.motta-footer__top {
+  display: grid;
+  gap: 2rem;
+  padding-top: 2.5rem;
+  padding-bottom: 2.5rem;
+}
+
+@media (min-width: 1024px) {
+  .motta-footer__top {
+    grid-template-columns: 1fr 1fr;
+    align-items: flex-start;
+  }
+}
+
+.motta-footer__contact-grid {
+  display: grid;
+  gap: 2rem;
+}
+
+@media (min-width: 480px) {
+  .motta-footer__contact-grid {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+.motta-footer__contact-block {
+  display: flex;
+  gap: 1rem;
+}
+
+.motta-footer__contact-icon {
+  flex-shrink: 0;
+  width: 40px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #4b5563;
+}
+
+.motta-footer__contact-title {
+  margin: 0 0 0.35rem;
+  font-size: 0.9375rem;
+  font-weight: 700;
+  color: #111827;
+}
+
+.motta-footer__contact-text {
+  margin: 0;
+  font-size: 0.8125rem;
+  line-height: 1.5;
+  color: #6b7280;
+}
+
+.motta-footer__phone {
+  margin: 0.5rem 0 0;
+  font-size: 1rem;
+  font-weight: 700;
+  color: #111827;
+}
+
+.motta-footer__link-inline {
+  margin: 0.5rem 0 0;
+  display: inline-block;
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: #111827;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  background: none;
+  border: none;
+  padding: 0;
+  cursor: pointer;
+}
+
+.motta-footer__link-inline:hover {
+  color: #004747;
+}
+
+.motta-footer__newsletter-title {
+  margin: 0 0 0.5rem;
+  font-size: 1.5rem;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  color: #111827;
+}
+
+.motta-footer__newsletter-desc {
+  margin: 0 0 1.25rem;
+  font-size: 0.875rem;
+  line-height: 1.55;
+  color: #6b7280;
+}
+
+.motta-footer__newsletter-form {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.motta-footer__newsletter-input {
+  flex: 1;
+  min-width: 180px;
+  padding: 0.65rem 1rem;
+  font-size: 0.875rem;
+  border: 1px solid #d1d5db;
+  border-radius: 8px;
+  outline: none;
+  color: #111827;
+}
+
+.motta-footer__newsletter-input::placeholder {
+  color: #9ca3af;
+}
+
+.motta-footer__newsletter-input:focus {
+  border-color: #004747;
+  box-shadow: 0 0 0 2px rgba(0, 71, 71, 0.12);
+}
+
+.motta-footer__subscribe-btn {
+  padding: 0.65rem 1.5rem;
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: #ffffff;
+  background: #064e4b;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: background 0.15s ease;
+}
+
+.motta-footer__subscribe-btn:hover {
+  background: #043d3a;
+}
+
+.motta-footer__divider {
+  height: 1px;
+  background: #e5e7eb;
+  margin: 0;
+  border: none;
+}
+
+.motta-footer__mid {
+  display: grid;
+  gap: 2.5rem;
+  padding-top: 2.5rem;
+  padding-bottom: 2.5rem;
+}
+
+@media (min-width: 1024px) {
+  .motta-footer__mid {
+    grid-template-columns: 1.15fr repeat(3, 1fr);
+    gap: 2rem;
+  }
+}
+
+.motta-footer__brand-tagline {
+  margin: 0.75rem 0 0.5rem;
+  font-size: 0.9375rem;
+  font-weight: 700;
+  color: #111827;
+}
+
+.motta-footer__brand-desc {
+  margin: 0 0 1.25rem;
+  font-size: 0.8125rem;
+  line-height: 1.6;
+  color: #6b7280;
+  max-width: 280px;
+}
+
+.motta-footer__social {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  align-items: center;
+}
+
+.motta-footer__social a {
+  display: flex;
+  color: #4b5563;
+  transition: color 0.15s ease;
+}
+
+.motta-footer__social a:hover {
+  color: #004747;
+}
+
+.motta-footer__col-title {
+  margin: 0 0 1rem;
+  font-size: 0.9375rem;
+  font-weight: 700;
+  color: #111827;
+}
+
+.motta-footer__links {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.motta-footer__links a {
+  font-size: 0.875rem;
+  color: #4b5563;
+  text-decoration: none;
+  transition: color 0.15s ease;
+}
+
+.motta-footer__links a:hover {
+  color: #004747;
+}
+
+.motta-footer__bottom {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  padding-top: 1.25rem;
+  padding-bottom: 1.25rem;
+  border-top: 1px solid #e5e7eb;
+}
+
+.motta-footer__legal {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem 1.25rem;
+  align-items: center;
+}
+
+.motta-footer__legal a {
+  font-size: 0.8125rem;
+  color: #6b7280;
+  text-decoration: none;
+}
+
+.motta-footer__legal a:hover {
+  color: #004747;
+  text-decoration: underline;
+}
+
+.motta-footer__payments {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  align-items: center;
+}
+
+.motta-footer__pay-badge {
+  font-size: 0.7rem;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  color: #9ca3af;
+  padding: 0.35rem 0.5rem;
+  border: 1px solid #e5e7eb;
+  border-radius: 4px;
+  background: #fafafa;
+}
+
+.motta-footer__logo-text {
+  font-weight: 800;
+  font-size: 1.35rem;
+  letter-spacing: -0.02em;
+  color: #111827;
+}
+
+.motta-footer__logo-grid {
+  display: inline-grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 2px;
+  width: 22px;
+  height: 22px;
+  vertical-align: middle;
+  margin-left: 6px;
+}
+
+.motta-footer__back-top {
+  position: fixed;
+  bottom: 5.5rem;
+  right: 1rem;
+  z-index: 35;
+  width: 44px;
+  height: 44px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 9999px;
+  background: #111827;
+  color: #fff;
+  border: none;
+  cursor: pointer;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.15);
+  transition: transform 0.15s ease, background 0.15s ease;
+}
+
+.motta-footer__back-top:hover {
+  background: #000;
+  transform: translateY(-2px);
+}
+
+@media (min-width: 1024px) {
+  .motta-footer__back-top {
+    bottom: 2rem;
+  }
+}
