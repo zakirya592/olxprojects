@@ -2,17 +2,12 @@ import React from "react";
 import Avatar from "@mui/material/Avatar";
 import Rating from "@mui/material/Rating";
 import imageLiveUrl from "../../../../utils/urlConverter/imageLiveUrl";
+import {
+  formatProductPriceDisplay,
+  formatProductOldPriceDisplay,
+  productHasSalePrice,
+} from "../../../../utils/formatProductPrice";
 import "./ProductCarouselCard.css";
-
-function formatMoney(v) {
-  if (v === undefined || v === null || v === "") return "";
-  const n = Number(v);
-  if (Number.isNaN(n)) return String(v);
-  return n.toLocaleString("en-US", {
-    minimumFractionDigits: 2,
-    maximumFractionDigits: 2,
-  });
-}
 
 /**
  * Motta-style product card (You Might Also Like / carousels).
@@ -27,12 +22,7 @@ function ProductCarouselCard({ product, ratingAverage = 0, reviewCount = 0, onCl
       : imageLiveUrl(user.image)
     : "";
 
-  const price = product?.price;
-  const oldPrice = product?.originalPrice ?? product?.oldPrice;
-  const showSale =
-    oldPrice != null &&
-    price != null &&
-    Number(oldPrice) > Number(price);
+  const showSale = productHasSalePrice(product);
 
   const colorCount = Array.isArray(product?.colors)
     ? product.colors.length
@@ -87,9 +77,11 @@ function ProductCarouselCard({ product, ratingAverage = 0, reviewCount = 0, onCl
       </div>
 
       <div className="pcard__price-row">
-        <span className="pcard__price">${formatMoney(price)}</span>
+        <span className="pcard__price">{formatProductPriceDisplay(product)}</span>
         {showSale && (
-          <span className="pcard__price-old">${formatMoney(oldPrice)}</span>
+          <span className="pcard__price-old">
+            {formatProductOldPriceDisplay(product)}
+          </span>
         )}
       </div>
 
