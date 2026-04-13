@@ -4,13 +4,15 @@ import { toast } from "react-toastify";
 import "swiper/css";
 import "swiper/css/pagination";
 import "swiper/css/navigation";
-import { Pagination, Navigation, Keyboard, Scrollbar } from "swiper/modules";
+import { Pagination, Navigation, Keyboard } from "swiper/modules";
 import { useQuery } from "react-query";
 import { useNavigate } from "react-router-dom";
 import { Button, CircularProgress } from "@mui/material";
 import { MdOutlineNavigateNext } from "react-icons/md";
 import NewRequest from "../../../../utils/NewRequest";
 import ProductCarouselCard from "../components/ProductCarouselCard";
+import CarouselThinChevron from "../components/CarouselThinChevron";
+import "./HomeCategoryCarousel.css";
 
 // Function to fetch products with dynamic limit
 async function fetchProductData(limit = 2) {
@@ -124,22 +126,6 @@ const Hadersilder = () => {
     navigate(`/Singleitem/${product._id}`);
   };
 
-    const [isMobile, setIsMobile] = useState(false);
-
-    // Check screen size
-    useEffect(() => {
-      const handleResize = () => {
-        setIsMobile(window.innerWidth < 425); // Mobile screen if width is less than 768px
-      };
-
-      handleResize(); // Check on initial render
-      window.addEventListener("resize", handleResize);
-
-      return () => {
-        window.removeEventListener("resize", handleResize);
-      };
-    }, []);
-
   // Use currentData instead of productsData for rendering to prevent flickering
   const dataToRender = currentData || productsData;
 
@@ -182,37 +168,62 @@ const Hadersilder = () => {
               </button>
             </div>
 
-            <div className="relative w-full rounded-xl bg-[#fafafa] p-2 lg:p-3">
-              <Swiper
-                slidesPerView={2}
-                spaceBetween={5}
-                keyboard={{ enabled: true }}
-                breakpoints={{
-                  640: { slidesPerView: 2, spaceBetween: 10 },
-                  768: { slidesPerView: 4, spaceBetween: 20 },
-                  1024: { slidesPerView: 5, spaceBetween: 30 },
-                }}
-                scrollbar={{ draggable: true }}
-                navigation
-                pagination={isMobile ? false : { clickable: true }}
-                modules={[Pagination, Navigation, Keyboard, Scrollbar]}
-                className="mySwiper py-6"
-              >
-                {activeProducts.map((product) => (
-                  <SwiperSlide key={product._id}>
-                    <div className="rounded-lg bg-white p-2 pb-3 shadow-sm transition hover:shadow-md">
-                      <ProductCarouselCard
-                        product={product}
-                        ratingAverage={
-                          productRatings[product._id]?.average ?? 0
-                        }
-                        reviewCount={productRatings[product._id]?.count ?? 0}
-                        onClick={() => viewSingleProduct(product)}
-                      />
-                    </div>
-                  </SwiperSlide>
-                ))}
-              </Swiper>
+            <div className="w-full rounded-xl bg-[#fafafa] p-2 pt-3 lg:p-3">
+              <div className="home-cat-swiper-wrap">
+                <button
+                  type="button"
+                  className={`home-cat-nav home-cat-nav--prev swiper-home-cat-prev-${index}`}
+                  aria-label="Previous products"
+                >
+                  <CarouselThinChevron
+                    direction="left"
+                    className="home-cat-chevron"
+                  />
+                </button>
+                <button
+                  type="button"
+                  className={`home-cat-nav home-cat-nav--next swiper-home-cat-next-${index}`}
+                  aria-label="Next products"
+                >
+                  <CarouselThinChevron
+                    direction="right"
+                    className="home-cat-chevron"
+                  />
+                </button>
+                <Swiper
+                  watchOverflow
+                  slidesPerView={2}
+                  spaceBetween={5}
+                  keyboard={{ enabled: true }}
+                  breakpoints={{
+                    640: { slidesPerView: 2, spaceBetween: 10 },
+                    768: { slidesPerView: 4, spaceBetween: 20 },
+                    1024: { slidesPerView: 5, spaceBetween: 30 },
+                  }}
+                  navigation={{
+                    prevEl: `.swiper-home-cat-prev-${index}`,
+                    nextEl: `.swiper-home-cat-next-${index}`,
+                  }}
+                  pagination={{ clickable: true }}
+                  modules={[Pagination, Navigation, Keyboard]}
+                  className="home-cat-swiper py-2"
+                >
+                  {activeProducts.map((product) => (
+                    <SwiperSlide key={product._id}>
+                      <div className="rounded-lg bg-white p-2 pb-3 shadow-sm transition hover:shadow-md">
+                        <ProductCarouselCard
+                          product={product}
+                          ratingAverage={
+                            productRatings[product._id]?.average ?? 0
+                          }
+                          reviewCount={productRatings[product._id]?.count ?? 0}
+                          onClick={() => viewSingleProduct(product)}
+                        />
+                      </div>
+                    </SwiperSlide>
+                  ))}
+                </Swiper>
+              </div>
             </div>
           </div>
         );

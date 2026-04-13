@@ -8,29 +8,8 @@ import { useNavigate } from "react-router-dom";
 import { CircularProgress } from "@mui/material";
 import NewRequest from "../../../../utils/NewRequest";
 import ProductCarouselCard from "../components/ProductCarouselCard";
+import CarouselThinChevron from "../components/CarouselThinChevron";
 import "./YouMightAlsoLike.css";
-
-function ThinChevron({ direction = "left" }) {
-  const isLeft = direction === "left";
-  return (
-    <svg
-      className="ymal__chevron"
-      width="11"
-      height="18"
-      viewBox="0 0 11 18"
-      aria-hidden
-    >
-      <path
-        d={isLeft ? "M8.5 1.5L2.5 9l6 7.5" : "M2.5 1.5l6 7.5-6 7.5"}
-        fill="none"
-        stroke="currentColor"
-        strokeWidth="1.65"
-        strokeLinecap="round"
-        strokeLinejoin="round"
-      />
-    </svg>
-  );
-}
 
 async function fetchHomeProducts(limit = 24) {
   const response = await NewRequest.get(
@@ -154,14 +133,14 @@ function YouMightAlsoLike() {
           className="ymal__nav ymal__nav--prev ymal-swiper-prev"
           aria-label="Previous products"
         >
-          <ThinChevron direction="left" />
+          <CarouselThinChevron direction="left" className="ymal__chevron" />
         </button>
         <button
           type="button"
           className="ymal__nav ymal__nav--next ymal-swiper-next"
           aria-label="Next products"
         >
-          <ThinChevron direction="right" />
+          <CarouselThinChevron direction="right" className="ymal__chevron" />
         </button>
 
         <Swiper
