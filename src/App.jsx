@@ -31,9 +31,9 @@ const queryClient = new QueryClient();
 function App() {
   const UserLayout = () => {
     return (
-      <div>
+      <div className="min-h-screen bg-white">
         <Header />
-        <main className="mx-auto flex max-w-[1760px] flex-col justify-center pt-[64px] pb-16 lg:pb-6">
+        <main className="w-full flex flex-col justify-center bg-white pt-[64px] pb-16 lg:pb-6">
           <Outlet />
         </main>
         <Footer />

@@ -1,9 +1,10 @@
-import React, { useState } from "react";
+import React, { useMemo, useState } from "react";
 import { useQuery } from "react-query";
 import { useNavigate } from "react-router-dom";
 import NewRequest from "../../../utils/NewRequest";
 import imageLiveUrl from "../../../utils/urlConverter/imageLiveUrl";
 import SearchAllCategoriesModal from "../../components/Header/SearchAllCategoriesModal";
+import "./HomeCategoryCircles.css";
 
 async function fetchCategories() {
   const response = await NewRequest.get("/category");
@@ -15,6 +16,29 @@ async function fetchCategoryProducts() {
   return response?.data;
 }
 
+function isDealsName(name) {
+  return /^deals$/i.test(String(name || "").trim());
+}
+
+/** Put Deals first (Motta reference); add synthetic Deals if missing. */
+function buildDisplayList(categories) {
+  const list = [...categories];
+  const dealsIdx = list.findIndex((c) => isDealsName(c.name));
+  if (dealsIdx > 0) {
+    const [d] = list.splice(dealsIdx, 1);
+    list.unshift(d);
+  } else if (dealsIdx === -1) {
+    list.unshift({
+      _id: "__synthetic_deals__",
+      name: "Deals",
+      icon: null,
+      status: 1,
+      isSyntheticDeals: true,
+    });
+  }
+  return list;
+}
+
 function HomeCategoryCircles() {
   const navigate = useNavigate();
   const [seeAllOpen, setSeeAllOpen] = useState(false);
@@ -24,7 +48,22 @@ function HomeCategoryCircles() {
     fetchCategoryProducts
   );
 
+  const displayCategories = useMemo(
+    () => (categories.length ? buildDisplayList(categories) : []),
+    [categories]
+  );
+
   const goTo = (item) => {
+    if (item.isSyntheticDeals) {
+      const match = productsdata?.find((p) => isDealsName(p.category?.name));
+      if (match) {
+        sessionStorage.setItem("productmore", JSON.stringify(match));
+        navigate(`/moreproduct/${match.category.name}`);
+      } else {
+        navigate("/");
+      }
+      return;
+    }
     const selected = productsdata?.find((p) => p.category.name === item.name);
     if (selected) {
       sessionStorage.setItem("productmore", JSON.stringify(selected));
@@ -34,66 +73,71 @@ function HomeCategoryCircles() {
 
   if (isLoading) {
     return (
-      <section id="shop-by-category" className="mb-12">
-        <div className="mb-6 flex items-end justify-between gap-4">
-          <div className="h-8 w-48 animate-pulse rounded bg-gray-200" />
-          <div className="h-4 w-16 animate-pulse rounded bg-gray-200" />
+      <section id="shop-by-category" className="shop-cat-section mb-10">
+        <div className="shop-cat-header">
+          <div className="h-8 w-52 animate-pulse rounded bg-gray-100" />
+          <div className="h-4 w-14 animate-pulse rounded bg-gray-100" />
         </div>
-        <div className="flex gap-4 overflow-x-auto py-2">
-          {[1, 2, 3, 4, 5, 6].map((i) => (
-            <div
-              key={i}
-              className="h-24 w-24 flex-shrink-0 animate-pulse rounded-full bg-gray-200"
-            />
+        <div className="shop-cat-row">
+          {[1, 2, 3, 4, 5, 6, 7, 8, 9].map((i) => (
+            <div key={i} className="shop-cat-item" style={{ pointerEvents: "none" }}>
+              <div
+                className={`shop-cat-circle ${i === 1 ? "shop-cat-circle--deals" : "shop-cat-circle--default"} animate-pulse`}
+              />
+              <div className="mt-2 h-3 w-12 animate-pulse rounded bg-gray-100" />
+            </div>
           ))}
         </div>
       </section>
     );
   }
 
-  if (!categories.length) return null;
+  if (!displayCategories.length) return null;
 
   return (
-    <section id="shop-by-category" className="mb-12 scroll-mt-24">
-      <div className="mb-6 flex flex-wrap items-end justify-between gap-3">
-        <h2 className="text-xl font-bold tracking-tight text-gray-900 sm:text-2xl">
-          Shop by Category
-        </h2>
+    <section id="shop-by-category" className="shop-cat-section mb-10 scroll-mt-24">
+      <div className="shop-cat-header">
+        <h2 className="shop-cat-title">Shop by Category</h2>
         <button
           type="button"
+          className="shop-cat-see-all"
           onClick={() => setSeeAllOpen(true)}
-          className="border-0 bg-transparent pb-0.5 text-sm font-semibold text-gray-900 underline decoration-gray-900 underline-offset-[5px] transition hover:text-[#004747] hover:decoration-[#004747]"
         >
           See All
         </button>
       </div>
 
-      <div className="-mx-1 flex gap-3 overflow-x-auto pb-2 pt-1 sm:gap-5 md:justify-center md:overflow-visible md:pb-0">
-        {categories.map((item) => (
-          <button
-            key={item._id || item.name}
-            type="button"
-            onClick={() => goTo(item)}
-            className="group flex w-[76px] flex-shrink-0 flex-col items-center gap-2.5 text-center sm:w-[92px]"
-          >
-            <span className="flex h-[76px] w-[76px] items-center justify-center rounded-full border border-gray-200/90 bg-white shadow-[0_2px_8px_rgba(0,0,0,0.06)] transition group-hover:border-[#004747] group-hover:shadow-[0_4px_14px_rgba(0,71,71,0.12)] sm:h-[88px] sm:w-[88px]">
-              {item?.icon ? (
-                <img
-                  src={imageLiveUrl(item.icon)}
-                  alt=""
-                  className="h-11 w-11 object-contain sm:h-12 sm:w-12"
-                />
-              ) : (
-                <span className="text-sm font-bold text-[#004747]">
-                  {item.name?.slice(0, 2)}
-                </span>
-              )}
-            </span>
-            <span className="line-clamp-2 max-w-[88px] text-[11px] font-medium leading-snug text-gray-800 sm:text-xs">
-              {item.name}
-            </span>
-          </button>
-        ))}
+      <div className="shop-cat-row">
+        {displayCategories.map((item) => {
+          const isDealsChip =
+            item.isSyntheticDeals || isDealsName(item.name);
+          const circleClass = isDealsChip
+            ? "shop-cat-circle shop-cat-circle--deals"
+            : "shop-cat-circle shop-cat-circle--default";
+          const showDealsWordmark = isDealsChip && !item?.icon;
+
+          return (
+            <button
+              key={item._id || item.name}
+              type="button"
+              className="shop-cat-item"
+              onClick={() => goTo(item)}
+            >
+              <span className={circleClass}>
+                {showDealsWordmark ? (
+                  <span className="shop-cat-deals-text">Deals</span>
+                ) : item?.icon ? (
+                  <img src={imageLiveUrl(item.icon)} alt="" />
+                ) : (
+                  <span className="text-xs font-bold text-[#004747]">
+                    {item.name?.slice(0, 2)}
+                  </span>
+                )}
+              </span>
+              <span className="shop-cat-label">{item.name}</span>
+            </button>
+          );
+        })}
       </div>
 
       <SearchAllCategoriesModal

@@ -297,7 +297,7 @@ function Header() {
   return (
     <>
       <header className="motta-header text-white fixed top-0 left-0 right-0 z-50">
-        <div className="mx-auto flex max-w-[1760px] flex-col gap-2 px-3 py-2 lg:flex-row lg:items-center lg:gap-4 lg:px-6 lg:py-2.5">
+        <div className="mx-auto flex w-full max-w-[1200px] flex-col gap-2 px-4 py-2 sm:px-5 lg:flex-row lg:items-center lg:gap-4 lg:px-6 lg:py-2.5">
           <div className="flex min-h-[44px] items-center gap-2 lg:min-w-0 lg:flex-shrink-0">
             <IconButton
               className="motta-icon-btn lg:!hidden"
