@@ -13,7 +13,10 @@ function Home() {
         <div className="rounded-2xl bg-[#fafafa] px-3 py-4 sm:px-4 sm:py-5 lg:px-5 lg:py-6">
           <Hadersilder />
         </div>
-        <HomeCategoryCircles />
+        {/* Inset white card with visible gray “empty” margin on left/right (same language as hero) */}
+        <div className="mt-5 rounded-2xl bg-[#fafafa] p-3 sm:mt-6 sm:p-4 lg:mt-8 lg:p-5 xl:p-6">
+          <HomeCategoryCircles />
+        </div>
         <MoreinKidscard />
       </div>
     </div>
