@@ -32,10 +32,8 @@ function App() {
   const UserLayout = () => {
     return (
       <div>
-        <div className="sticky top-0 z-50 bg-white">
-          <Header />
-        </div>
-        <main className="mx-auto flex max-w-[1760px] flex-col justify-center">
+        <Header />
+        <main className="mx-auto flex max-w-[1760px] flex-col justify-center pt-[64px] pb-16 lg:pb-6">
           <Outlet />
         </main>
         <Footer />

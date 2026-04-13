@@ -1,9 +1,318 @@
-/* Button72.css */
+/* Motta-style header */
+.motta-header {
+  background-color: #004747;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.12);
+}
+
+.motta-nav-link {
+  font-size: 0.9375rem;
+  font-weight: 500;
+  padding: 0.35rem 0.5rem;
+  border-radius: 6px;
+  white-space: nowrap;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  align-items: center;
+}
+
+.motta-nav-link:hover {
+  background: rgba(255, 255, 255, 0.08);
+}
+
+.motta-logo-mark {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.motta-logo-text {
+  font-weight: 800;
+  font-size: 1.35rem;
+  letter-spacing: -0.02em;
+  color: #fff;
+}
+
+.motta-logo-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 2px;
+  width: 22px;
+  height: 22px;
+}
+
+.motta-logo-grid span {
+  border-radius: 2px;
+}
+
+.motta-search-wrap {
+  display: flex;
+  flex: 1;
+  min-width: 0;
+  max-width: 640px;
+  align-items: stretch;
+  background: #fff;
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
+}
+
+.motta-search-all {
+  display: inline-flex;
+  align-items: center;
+  gap: 2px;
+  padding: 0 12px;
+  font-size: 0.9rem;
+  font-weight: 500;
+  color: #3c4043;
+  background: #fff;
+  border: none;
+  border-right: 1px solid #e0e0e0;
+  cursor: pointer;
+  white-space: nowrap;
+}
+
+.motta-search-all:hover {
+  background: #f8f9fa;
+}
+
+.motta-search-input {
+  flex: 1;
+  min-width: 0;
+  padding: 10px 12px;
+  font-size: 0.95rem;
+  color: #202124;
+  border: none;
+  outline: none;
+}
+
+.motta-search-input::placeholder {
+  color: #9aa0a6;
+}
+
+.motta-search-submit {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 48px;
+  min-width: 48px;
+  background: #ff9933;
+  border: none;
+  cursor: pointer;
+  transition: background 0.15s ease;
+}
+
+.motta-search-submit:hover {
+  background: #f28a1f;
+}
+
+.motta-icon-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 8px;
+  color: #fff;
+  background: transparent;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+.motta-icon-btn:hover {
+  background: rgba(255, 255, 255, 0.1);
+}
+
+.motta-signin {
+  font-size: 0.9375rem;
+  font-weight: 500;
+  color: #fff;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0.35rem 0.5rem;
+  border-radius: 6px;
+  white-space: nowrap;
+}
+
+.motta-signin:hover {
+  background: rgba(255, 255, 255, 0.08);
+}
+
+/* Categories nav dropdown (screenshot 2) */
+.motta-cat-popover {
+  position: absolute;
+  left: 0;
+  top: calc(100% + 10px);
+  z-index: 1300;
+  min-width: 280px;
+}
+
+.motta-cat-popover__caret {
+  position: absolute;
+  top: -8px;
+  left: 24px;
+  width: 0;
+  height: 0;
+  border-left: 8px solid transparent;
+  border-right: 8px solid transparent;
+  border-bottom: 8px solid #fff;
+  filter: drop-shadow(0 -1px 1px rgba(0, 0, 0, 0.06));
+}
+
+.motta-cat-popover__panel {
+  background: #fff;
+  border-radius: 8px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
+  overflow: hidden;
+  margin-top: 0;
+}
+
+.motta-cat-list {
+  list-style: none;
+  margin: 0;
+  padding: 8px 0;
+  max-height: min(70vh, 420px);
+  overflow-y: auto;
+}
+
+.motta-cat-list__row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  width: 100%;
+  padding: 10px 16px;
+  text-align: left;
+  font-size: 0.9375rem;
+  color: #3c4043;
+  background: none;
+  border: none;
+  cursor: pointer;
+}
+
+.motta-cat-list__row:hover {
+  background: #f1f3f4;
+}
+
+.motta-cat-list__icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+  flex-shrink: 0;
+}
+
+.motta-cat-list__label {
+  flex: 1;
+}
+
+/* Search "Select Categories" modal (screenshot 3) */
+.motta-search-modal {
+  padding: 8px 8px 20px;
+}
+
+.motta-search-modal__head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 8px 8px 16px;
+  border-bottom: 1px solid #e8eaed;
+}
+
+.motta-search-modal__title {
+  margin: 0;
+  font-size: 1.125rem;
+  font-weight: 700;
+  color: #202124;
+}
+
+.motta-search-modal__grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 16px 24px;
+  padding: 20px 12px 8px;
+}
+
+@media (max-width: 600px) {
+  .motta-search-modal__grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+.motta-search-modal__col {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.motta-search-modal__link {
+  display: block;
+  width: 100%;
+  text-align: left;
+  padding: 8px 4px;
+  font-size: 0.9375rem;
+  color: #202124;
+  background: none;
+  border: none;
+  cursor: pointer;
+  border-radius: 4px;
+}
+
+.motta-search-modal__link:hover {
+  background: #f1f3f4;
+}
+
+.motta-search-modal__link--all {
+  text-decoration: underline;
+  font-weight: 600;
+  margin-top: 4px;
+}
+
+/* Simple nav popover for Deals / What's New */
+.motta-simple-pop {
+  position: absolute;
+  left: 0;
+  top: calc(100% + 8px);
+  z-index: 1300;
+  min-width: 200px;
+  background: #fff;
+  border-radius: 8px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
+  padding: 12px 0;
+}
+
+.motta-simple-pop button {
+  display: block;
+  width: 100%;
+  padding: 10px 16px;
+  text-align: left;
+  font-size: 0.9rem;
+  color: #3c4043;
+  background: none;
+  border: none;
+  cursor: pointer;
+}
+
+.motta-simple-pop button:hover {
+  background: #f1f3f4;
+}
+
+.motta-mobile-search {
+  width: 100%;
+  padding: 8px 12px 12px;
+}
+
+/* Legacy gradient button styles (kept if referenced elsewhere) */
 .button-72 {
-    background-image: linear-gradient(rgba(179, 132, 201, 0.84), rgba(57, 31, 91, 0.84) 50%);
-    text-shadow: rgba(255, 255, 255, 0.4) 0 0 4px, rgba(255, 255, 255, 0.2) 0 0 12px, rgba(57, 31, 91, 0.6) 1px 1px 4px, rgba(57, 31, 91, 0.32) 4px 4px 16px;
+  background-image: linear-gradient(
+    rgba(179, 132, 201, 0.84),
+    rgba(57, 31, 91, 0.84) 50%
+  );
+  text-shadow: rgba(255, 255, 255, 0.4) 0 0 4px,
+    rgba(255, 255, 255, 0.2) 0 0 12px,
+    rgba(57, 31, 91, 0.6) 1px 1px 4px,
+    rgba(57, 31, 91, 0.32) 4px 4px 16px;
 }
 
 .button-72:hover {
-    background-image: linear-gradient(#B384C9, #391F5B 50%);
+  background-image: linear-gradient(#b384c9, #391f5b 50%);
 }

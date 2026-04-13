@@ -22,7 +22,11 @@
   position:unset
 }
 .swiper-pagination-bullet-active {
-  background-color: #4C005A !important;
+  background-color: #004747 !important;
+}
+
+.hero-swiper .swiper-pagination-bullet-active {
+  background-color: #004747 !important;
 }
 
 .choosefile {

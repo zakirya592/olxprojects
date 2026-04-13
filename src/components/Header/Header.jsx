@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef } from "react";
-import {  FaSearch, FaCommentDots, FaBell, FaCartPlus } from "react-icons/fa";
+import { FaSearch } from "react-icons/fa";
+import { FaCommentDots, FaRegUser } from "react-icons/fa";
 import { useNavigate } from "react-router-dom";
-import log from "../../assets/Images/logodone.png";
 import Firstloginsinup from "../../Pages/Admin/Login/Firstloginsinup";
 import PropTypes from "prop-types";
 import { Dropdown } from "@mui/base/Dropdown";
@@ -10,26 +10,96 @@ import { MenuButton as BaseMenuButton } from "@mui/base/MenuButton";
 import { MenuItem as BaseMenuItem, menuItemClasses } from "@mui/base/MenuItem";
 import { styled } from "@mui/system";
 import Avatar from "@mui/material/Avatar";
-import { Stack } from "@mui/material";
+import { Stack, Drawer, IconButton, Divider } from "@mui/material";
 import ArrowDropDownIcon from "@mui/icons-material/ArrowDropDown";
-import { FaRegUser } from "react-icons/fa";
+import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
+import MenuIcon from "@mui/icons-material/Menu";
+import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
+import ShoppingBagOutlinedIcon from "@mui/icons-material/ShoppingBagOutlined";
 import { useMutation } from "react-query";
 import NewRequest from "../../../utils/NewRequest";
 import { toast } from "react-toastify";
 import { useQuery } from "react-query";
 import imageLiveUrl from "../../../utils/urlConverter/imageLiveUrl";
-import "./Header.css"
-import DropDownSelection from "../DropDownSelection/DropDownSelection";
-import Categories from "../../Pages/Home/AllCategories/Categories";
+import "./Header.css";
 import NotificationComponent from "../../Pages/Notification/NotificationComponent";
+import MottaCategoryNavDropdown from "./MottaCategoryNavDropdown";
+import SearchAllCategoriesModal from "./SearchAllCategoriesModal";
+
+function MottaLogoMark({ onClick }) {
+  return (
+    <button
+      type="button"
+      onClick={onClick}
+      className="motta-logo-mark border-0 bg-transparent p-0 cursor-pointer"
+      aria-label="Home"
+    >
+      <span className="motta-logo-text">Motta</span>
+      <span className="motta-logo-grid" aria-hidden>
+        <span style={{ background: "#4caf50" }} />
+        <span style={{ background: "#ff9800" }} />
+        <span style={{ background: "#f44336" }} />
+        <span style={{ background: "#2196f3" }} />
+      </span>
+    </button>
+  );
+}
+
+function MottaSimpleDropdown({ label, children }) {
+  const [open, setOpen] = useState(false);
+  const rootRef = useRef(null);
+
+  useEffect(() => {
+    const onDoc = (e) => {
+      if (rootRef.current && !rootRef.current.contains(e.target)) {
+        setOpen(false);
+      }
+    };
+    document.addEventListener("mousedown", onDoc);
+    return () => document.removeEventListener("mousedown", onDoc);
+  }, []);
+
+  return (
+    <div className="relative" ref={rootRef}>
+      <button
+        type="button"
+        className="motta-nav-link flex items-center gap-0.5 text-white"
+        onClick={() => setOpen((v) => !v)}
+        aria-expanded={open}
+      >
+        {label}
+        <KeyboardArrowDownIcon sx={{ fontSize: 18 }} />
+      </button>
+      {open && (
+        <div className="motta-simple-pop">{children(() => setOpen(false))}</div>
+      )}
+    </div>
+  );
+}
+
+MottaSimpleDropdown.propTypes = {
+  label: PropTypes.string.isRequired,
+  children: PropTypes.func.isRequired,
+};
+
+async function fetchCategoryList() {
+  const response = await NewRequest.get("/category");
+  return response?.data?.filter((item) => item.status === 1) || [];
+}
 
 function Header() {
   const navigate = useNavigate();
   const [isCreatePopupVisible, setCreatePopupVisibility] = useState(false);
   const [isUserLoggedIn, setIsUserLoggedIn] = useState(false);
-  const [userprofileimage, setuserprofileimage] = useState("")
-  
-  const [isCategoriesPopupVisible, setCategoriesPopupVisibility] = useState(false);
+  const [userprofileimage, setuserprofileimage] = useState("");
+  const [searchAllOpen, setSearchAllOpen] = useState(false);
+  const [mobileOpen, setMobileOpen] = useState(false);
+
+  const { data: categoryList = [], isLoading: categoriesLoading } = useQuery(
+    "category",
+    fetchCategoryList
+  );
+
   useEffect(() => {
     const handleGoogleRedirect = () => {
       const urlParams = new URLSearchParams(window.location.search);
@@ -39,7 +109,6 @@ function Header() {
       if (token && userId) {
         localStorage.setItem("authToken", token);
         localStorage.setItem("userdata", userId);
-        // navigator("/"); // Uncomment to navigate to the dashboard
       }
     };
 
@@ -52,8 +121,8 @@ function Header() {
   }, [isCreatePopupVisible]);
 
   const storedUserResponseString = localStorage.getItem("userResponse");
-  const storedUserResponse = JSON.parse(storedUserResponseString);
-  let loginuserdata = storedUserResponse?.data.user._id || "";
+  const storedUserResponse = JSON.parse(storedUserResponseString || "null");
+  let loginuserdata = storedUserResponse?.data?.user?._id || "";
 
   if (!loginuserdata) {
     loginuserdata = localStorage.getItem("userdata") || "";
@@ -64,12 +133,13 @@ function Header() {
       .then((response) => {
         const userdata = response.data;
         const imageUrl = userdata?.image || "";
-        const finalUrl = imageUrl && imageUrl.startsWith("https") ? imageUrl : imageLiveUrl(imageUrl);
+        const finalUrl =
+          imageUrl && imageUrl.startsWith("https")
+            ? imageUrl
+            : imageLiveUrl(imageUrl);
         setuserprofileimage(finalUrl);
       })
-      .catch((err) => {
-        console.log(err);
-      });
+      .catch(() => {});
   }, []);
 
   const handleLogout = () => {
@@ -78,12 +148,11 @@ function Header() {
     sessionStorage.removeItem("userResponse");
     sessionStorage.clear();
     localStorage.clear();
-    navigate('/')
-    setIsUserLoggedIn(false); // Set user as logged out
+    navigate("/");
+    setIsUserLoggedIn(false);
   };
 
   const handleShowCreatePopup = () => {
-    // setCreatePopupVisibility(true);
     navigate("/LoginForm");
   };
 
@@ -92,7 +161,7 @@ function Header() {
 
   useEffect(() => {
     const loadScript = (url, callback) => {
-      let script = document.createElement("script");
+      const script = document.createElement("script");
       script.type = "text/javascript";
       script.src = url;
       script.onload = callback;
@@ -100,6 +169,7 @@ function Header() {
     };
 
     const handleScriptLoad = () => {
+      if (!inputRef.current || !window.google?.maps?.places) return;
       autocompleteRef.current = new window.google.maps.places.Autocomplete(
         inputRef.current,
         {
@@ -107,12 +177,9 @@ function Header() {
           componentRestrictions: { country: "pk" },
         }
       );
-
-      autocompleteRef.current.addListener("place_changed", handlePlaceSelect);
-    };
-
-    const handlePlaceSelect = () => {
-      const place = autocompleteRef.current.getPlace();
+      autocompleteRef.current.addListener("place_changed", () => {
+        autocompleteRef.current?.getPlace();
+      });
     };
 
     if (!window.google) {
@@ -132,6 +199,7 @@ function Header() {
       handleShowCreatePopup();
     }
   };
+
   const handlemessageButtonClick = () => {
     if (isUserLoggedIn) {
       navigate("/Chat");
@@ -139,8 +207,6 @@ function Header() {
       navigate("/LoginForm");
     }
   };
-
-
 
   function MenuSection({ children, label }) {
     return (
@@ -159,9 +225,9 @@ function Header() {
   const [query, setQuery] = useState("");
 
   const searchMutation = useMutation({
-    mutationFn: async (query) => {
+    mutationFn: async (q) => {
       const response = await NewRequest.post("/product/searchProduct", {
-        query,
+        query: q,
       });
       return response.data;
     },
@@ -173,22 +239,16 @@ function Header() {
       toast.error(error?.response?.data?.error || "Search failed", {
         position: "top-right",
         autoClose: 2000,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-        progress: undefined,
-        theme: "light",
       });
     },
   });
 
   const handleSearch = (e) => {
-    e.preventDefault();
-     if (query.trim() === "") {
-       toast.warn("Please enter a search term", { position: "top-right" });
-       return;
-     }
+    e?.preventDefault?.();
+    if (query.trim() === "") {
+      toast.warn("Please enter a search term", { position: "top-right" });
+      return;
+    }
     searchMutation.mutate(query);
   };
 
@@ -198,259 +258,322 @@ function Header() {
     }
   };
 
-  const {
-    isLoading,
-    error,
-    data: productsdata,
-  } = useQuery("productgetcategory", fetchproductData);
-
-  async function fetchproductData() {
-    const response = await NewRequest.get("/product/getcategoryproduct");
-
-    const activeProducts = response?.data.flatMap((category) =>
-      category.products.filter(
-        (product) => product.status.toLowerCase() === "active"
-      )
-    );
-
-    return { categories: response.data, products: activeProducts };
-  }
-
-  const [productdata, setproductdata] = useState([])
-  const fetchData = async () => {
-    try {
-      const response = await NewRequest.get("/product/getallproductbyadmin");
-
-      const Activeproduct = response?.data.filter(product => product.status.toLowerCase() == "active");
-      setproductdata(Activeproduct || []);
-    } catch (err) {
-      console.log(err);
-    }
-  };
-
-  useEffect(() => {
-    fetchData()
-  }, [])
-
-  if (isLoading) return <p>Loading...</p>;
-  if (error) return <p>Error loading products</p>;
-
-  const categories = productsdata.categories;
+  const accountMenu = (
+    <>
+      {isUserLoggedIn && (
+        <Dropdown>
+          <MenuButton>
+            <Stack
+              style={{
+                borderRadius: "12px",
+                display: "flex",
+                flexDirection: "row",
+                color: "black",
+              }}
+            >
+              <Avatar src={userprofileimage || "broken-image.jpg"} />
+              <ArrowDropDownIcon className="my-auto text-white hover:text-black" />
+            </Stack>
+          </MenuButton>
+          <Menu slots={{ listbox: Listbox }} style={{ zIndex: 200 }}>
+            <MenuSection>
+              <MenuItem onClick={() => navigate("/ProfilePage")}>
+                profile
+              </MenuItem>
+              <MenuItem onClick={() => navigate("/MyProduct")}>
+                My Product
+              </MenuItem>
+              <MenuItem onClick={() => navigate("/Myfavorites")}>
+                Favourites & Saved searches
+              </MenuItem>
+              <MenuItem onClick={handleLogout}>Logout</MenuItem>
+            </MenuSection>
+          </Menu>
+        </Dropdown>
+      )}
+    </>
+  );
 
   return (
     <>
-      <div className="bg-maincolor text-white shadow-md px-0 smm:px-0 lg:px-12 lg:fixed top-0 left-0 right-0 z-50">
-        <div className="pt-2 mx-3">
-          <header className="flex pt-2 w-full flex-col sm:flex-row justify-between">
-            <div className="flex  lg:w-1/4 sm:w-full w-full justify-center lg:justify-start sm:justify-center smm:justify-center">
-              <div
-                onClick={() => navigate("/")}
-                className="cursor-pointer  mr-5" //lg:-rotate-12
-              >
-                <img
-                  src={log}
-                  alt="logo"
-                  className="h-14 lg:h-24 sm:h-14 w-full object-contain"
-                />
-              </div>
-            </div>
-            <div className="w-full">
-              <div className="flex items-center space-x-4 w-full flex-col sm:flex-row  justify-center lg:justify-end sm:justify-center smm:justify-center mt-2 lg:mt-0 sm:mt-2">
-                <div className="flex items-center w-full sm:px-0 px-0 lg:px-2">
-                  <div className="flex w-full mt-2 lg:mt-0 sm:px-0 px-0 lg:px-2">
-                    <div className="bg-white flex items-center rounded-full w-full shadow-lg">
-                      <div className="text-maincolor text-lg font-bold py-2 pl-4 rounded focus:outline-none  ">
-                        <Categories />
-                      </div>
-                      <div className="relative w-full">
-                        <input
-                          type="text"
-                          className="lg:ml-2 sm:ml-0 ml-0 px-2 py-1 rounded-full text-maincolor border w-full focus:outline-none"
-                          value={query}
-                          onChange={(e) => setQuery(e.target.value)}
-                          onKeyDown={handleKeyDown}
-                        />
-                        <span className="absolute inset-y-0 right-2 flex items-center">
-                          <FaSearch
-                            className="text-maincolor"
-                            onClick={handleSearch}
-                          />
-                        </span>
-                      </div>
-                      <div className="p-2"></div>
-                    </div>
-                  </div>
+      <header className="motta-header text-white fixed top-0 left-0 right-0 z-50">
+        <div className="mx-auto flex max-w-[1760px] flex-col gap-2 px-3 py-2 lg:flex-row lg:items-center lg:gap-4 lg:px-6 lg:py-2.5">
+          <div className="flex min-h-[44px] items-center gap-2 lg:min-w-0 lg:flex-shrink-0">
+            <IconButton
+              className="motta-icon-btn lg:!hidden"
+              onClick={() => setMobileOpen(true)}
+              aria-label="Open menu"
+              sx={{ color: "#fff" }}
+            >
+              <MenuIcon />
+            </IconButton>
 
-                  <span className="ml-2 border-l border-gray-300"></span>
-                </div>
-                <div className="hidden mt-2 gap-2 lg:mt-0 sm:mt-2 lg:flex md:flex sm:hidden">
-                  <div
-                    className="p-1 lg:block my-auto mx-3"
-                    onClick={handleSellButtonClick}
-                  >
-                    <button className="bg-white flex justify-center items-center text-maincolor hover:text-white font-semibold  px-2 rounded-full cursor-pointer shadow-[0_2px_2px_rgba(57,31,91,0.24),0_8px_12px_rgba(179,132,201,0.4)] transition-all duration-200 hover:bg-gradient-to-b from-[#B384C9] to-[#391F5B] md:text-[21px] md:px-[20px]">
-                      SELL
+            <MottaLogoMark onClick={() => navigate("/")} />
+
+            <nav className="ml-1 hidden items-center gap-1 lg:flex xl:gap-2">
+              <MottaCategoryNavDropdown
+                categories={categoryList}
+                isLoading={categoriesLoading}
+              />
+              <MottaSimpleDropdown label="Deals">
+                {(close) => (
+                  <>
+                    <button
+                      type="button"
+                      onClick={() => {
+                        close();
+                        navigate("/");
+                      }}
+                    >
+                      Featured deals
                     </button>
-                  </div>
-                  <div className="flex items-center space-x-4 my-auto">
-                    <FaCommentDots
-                      className="text-white cursor-pointer lg:block"
-                      size={25}
-                      onClick={handlemessageButtonClick}
-                    />
-                    {/* <FaBell
-                      className="text-white cursor-pointer  lg:block"
-                      size={25}
-                      onClick={handlenotificationButtonClick}
-                    /> */}
-                    <NotificationComponent />
-
-                    {isUserLoggedIn && (
-                      <>
-                        <Dropdown>
-                          <MenuButton>
-                            <Stack
-                              style={{
-                                borderRadius: "12px",
-                                display: "flex",
-                                flexDirection: "row",
-                                color: "black",
-                              }}
-                            >
-                              <Avatar
-                                src={userprofileimage || "broken-image.jpg"}
-                              />
-                              <ArrowDropDownIcon className="my-auto text-white hover:text-black" />
-                            </Stack>
-                          </MenuButton>
-                          <Menu
-                            slots={{ listbox: Listbox }}
-                            style={{ zIndex: "200" }}
-                          >
-                            <MenuSection>
-                              <MenuItem
-                                onClick={() => navigate("/ProfilePage")}
-                              >
-                                profile
-                              </MenuItem>
-                              <MenuItem onClick={() => navigate("/MyProduct")}>
-                                My Product
-                              </MenuItem>
-                              <MenuItem
-                                onClick={() => navigate("/Myfavorites")}
-                              >
-                                Favourites & Saved searches
-                              </MenuItem>
-
-                              <MenuItem onClick={handleLogout}>Logout</MenuItem>
-                            </MenuSection>
-                          </Menu>
-                        </Dropdown>
-                      </>
-                    )}
-                  </div>
-
-                  {!isUserLoggedIn && (
-                    <h6
-                      className="text-white flexcursor-pointer flex mx-4 cursor-pointer"
-                      onClick={handleShowCreatePopup}
+                    <button
+                      type="button"
+                      onClick={() => {
+                        close();
+                        navigate("/");
+                      }}
                     >
-                      <div className="my-auto">
-                        <FaRegUser size={24} />
-                      </div>
-                      <div className="ms-3 my-auto flex flex-col">
-                        <span className="text-sm">Login</span>
-                        <span className="text-md">Account</span>
-                      </div>
-                    </h6>
-                  )}
-                </div>
-                <div className="fixed bottom-0 -left-4 w-full bg-maincolor text-white flex justify-around items-center py-2 sm:hidden">
-                  {/* Chat Icon */}
-                  <button className="text-white p-2">
-                    <FaCommentDots
-                      size={24}
-                      onClick={handlemessageButtonClick}
-                    />
-                  </button>
-
-                  {/* Notification Icon */}
-                  <button className="text-white">
-                    {/* <FaBell size={24} onClick={handlenotificationButtonClick} /> */}
-                    <NotificationComponent />
-                  </button>
-
-                  {/* Sell Button */}
-                  <button
-                    className="bg-white text-purple-800 font-bold py-1 px-4 rounded-full"
-                    onClick={handleSellButtonClick}
-                  >
-                    SELL
-                  </button>
-
-                  {/* Cart Icon */}
-                  <button className="text-white">
-                    <FaCartPlus
-                      size={24}
-                      onClick={() => navigate("/Myfavorites")}
-                    />
-                  </button>
-
-                  {isUserLoggedIn && (
-                    <>
-                      <Dropdown>
-                        <MenuButton>
-                          <Stack
-                            style={{
-                              borderRadius: "12px",
-                              display: "flex",
-                              flexDirection: "row",
-                              color: "black",
-                            }}
-                          >
-                            <Avatar
-                              src={userprofileimage || "broken-image.jpg"}
-                            />
-                            <ArrowDropDownIcon className="my-auto text-white hover:text-black" />
-                          </Stack>
-                        </MenuButton>
-                        <Menu
-                          slots={{ listbox: Listbox }}
-                          style={{ zIndex: "200" }}
-                        >
-                          <MenuSection>
-                            <MenuItem onClick={() => navigate("/ProfilePage")}>
-                              profile
-                            </MenuItem>
-                            <MenuItem onClick={() => navigate("/MyProduct")}>
-                              My Product
-                            </MenuItem>
-                            <MenuItem onClick={() => navigate("/Myfavorites")}>
-                              Favourites & Saved searches
-                            </MenuItem>
-
-                            <MenuItem onClick={handleLogout}>Logout</MenuItem>
-                          </MenuSection>
-                        </Menu>
-                      </Dropdown>
-                    </>
-                  )}
-                  {!isUserLoggedIn && (
-                    <h6
-                      className="text-white flexcursor-pointer flex mx-4 cursor-pointer"
-                      onClick={handleShowCreatePopup}
+                      View homepage
+                    </button>
+                  </>
+                )}
+              </MottaSimpleDropdown>
+              <MottaSimpleDropdown label="What's New">
+                {(close) => (
+                  <>
+                    <button
+                      type="button"
+                      onClick={() => {
+                        close();
+                        navigate("/");
+                      }}
                     >
-                      <div className="my-auto">
-                        <FaRegUser size={24} />
-                      </div>
-                    </h6>
-                  )}
-                </div>
-              </div>
-              <DropDownSelection />
-            </div>
-          </header>
+                      New arrivals
+                    </button>
+                    <button
+                      type="button"
+                      onClick={() => {
+                        close();
+                        navigate("/Aboutus");
+                      }}
+                    >
+                      About us
+                    </button>
+                  </>
+                )}
+              </MottaSimpleDropdown>
+            </nav>
+          </div>
+
+          <form
+            className="motta-search-wrap mx-auto w-full lg:mx-0 lg:max-w-xl xl:max-w-2xl"
+            onSubmit={handleSearch}
+          >
+            <button
+              type="button"
+              className="motta-search-all"
+              onClick={() => setSearchAllOpen(true)}
+            >
+              All
+              <KeyboardArrowDownIcon sx={{ fontSize: 18, color: "#5f6368" }} />
+            </button>
+            <input
+              ref={inputRef}
+              type="search"
+              className="motta-search-input"
+              placeholder="Search for anything"
+              value={query}
+              onChange={(e) => setQuery(e.target.value)}
+              onKeyDown={handleKeyDown}
+              autoComplete="off"
+            />
+            <button
+              type="submit"
+              className="motta-search-submit"
+              aria-label="Search"
+            >
+              <FaSearch className="text-white text-lg" />
+            </button>
+          </form>
+
+          <div className="hidden items-center justify-end gap-1 lg:flex lg:flex-shrink-0 xl:gap-2">
+            <button
+              type="button"
+              className="motta-signin"
+              onClick={
+                isUserLoggedIn ? () => navigate("/ProfilePage") : handleShowCreatePopup
+              }
+            >
+              {isUserLoggedIn ? "Account" : "Sign in"}
+            </button>
+            <button
+              type="button"
+              className="motta-icon-btn"
+              aria-label="Wishlist"
+              onClick={() => navigate("/Myfavorites")}
+            >
+              <FavoriteBorderIcon sx={{ fontSize: 24 }} />
+            </button>
+            <button
+              type="button"
+              className="motta-icon-btn"
+              aria-label="Shopping bag"
+              onClick={() => navigate("/Myfavorites")}
+            >
+              <ShoppingBagOutlinedIcon sx={{ fontSize: 24 }} />
+            </button>
+            <button
+              type="button"
+              className="motta-icon-btn hidden xl:inline-flex"
+              aria-label="Messages"
+              onClick={handlemessageButtonClick}
+            >
+              <FaCommentDots size={22} />
+            </button>
+            <NotificationComponent />
+            <div className="flex items-center pl-1">{accountMenu}</div>
+            <button
+              type="button"
+              onClick={handleSellButtonClick}
+              className="ml-1 rounded-full bg-white px-4 py-1.5 text-sm font-bold text-[#004747] shadow-sm hover:bg-gray-100"
+            >
+              SELL
+            </button>
+          </div>
         </div>
+
+        <SearchAllCategoriesModal
+          open={searchAllOpen}
+          onClose={() => setSearchAllOpen(false)}
+          categories={categoryList}
+          isLoading={categoriesLoading}
+        />
+
+        <Drawer
+          anchor="left"
+          open={mobileOpen}
+          onClose={() => setMobileOpen(false)}
+          PaperProps={{ sx: { width: 280, bgcolor: "#004747", color: "#fff" } }}
+        >
+          <div className="flex items-center justify-between p-3">
+            <span className="font-bold text-lg">Menu</span>
+            <IconButton onClick={() => setMobileOpen(false)} sx={{ color: "#fff" }}>
+              <span className="text-2xl leading-none">&times;</span>
+            </IconButton>
+          </div>
+          <Divider sx={{ borderColor: "rgba(255,255,255,0.2)" }} />
+          <div className="flex flex-col gap-2 p-3">
+            <button
+              type="button"
+              className="text-left py-2"
+              onClick={() => {
+                setMobileOpen(false);
+                navigate("/");
+              }}
+            >
+              Home
+            </button>
+            <button
+              type="button"
+              className="text-left py-2"
+              onClick={() => {
+                setMobileOpen(false);
+                setSearchAllOpen(true);
+              }}
+            >
+              All categories
+            </button>
+            <button
+              type="button"
+              className="text-left py-2"
+              onClick={() => {
+                setMobileOpen(false);
+                handlemessageButtonClick();
+              }}
+            >
+              Messages
+            </button>
+            <button
+              type="button"
+              className="text-left py-2"
+              onClick={() => {
+                setMobileOpen(false);
+                navigate("/contactus");
+              }}
+            >
+              Contact us
+            </button>
+            <button
+              type="button"
+              className="text-left py-2"
+              onClick={() => {
+                setMobileOpen(false);
+                navigate("/Aboutus");
+              }}
+            >
+              About
+            </button>
+            <button
+              type="button"
+              className="mt-2 rounded-full bg-white py-2 font-bold text-[#004747]"
+              onClick={() => {
+                setMobileOpen(false);
+                handleSellButtonClick();
+              }}
+            >
+              SELL
+            </button>
+          </div>
+        </Drawer>
+      </header>
+
+      <div className="fixed bottom-0 left-0 right-0 z-40 flex items-center justify-around border-t border-white/10 bg-[#004747] py-2 text-white lg:hidden">
+        <button
+          type="button"
+          className="p-2"
+          onClick={handlemessageButtonClick}
+          aria-label="Messages"
+        >
+          <FaCommentDots size={24} />
+        </button>
+        <NotificationComponent />
+        <button
+          type="button"
+          className="rounded-full bg-white px-4 py-1.5 text-sm font-bold text-[#004747]"
+          onClick={handleSellButtonClick}
+        >
+          SELL
+        </button>
+        <button
+          type="button"
+          className="p-2"
+          onClick={() => navigate("/Myfavorites")}
+          aria-label="Wishlist"
+        >
+          <FavoriteBorderIcon sx={{ fontSize: 24 }} />
+        </button>
+        {isUserLoggedIn ? (
+          <Dropdown>
+            <MenuButton>
+              <Avatar src={userprofileimage || "broken-image.jpg"} sx={{ width: 32, height: 32 }} />
+            </MenuButton>
+            <Menu slots={{ listbox: Listbox }} style={{ zIndex: 200 }}>
+              <MenuSection>
+                <MenuItem onClick={() => navigate("/ProfilePage")}>profile</MenuItem>
+                <MenuItem onClick={() => navigate("/MyProduct")}>My Product</MenuItem>
+                <MenuItem onClick={() => navigate("/Myfavorites")}>
+                  Favourites & Saved searches
+                </MenuItem>
+                <MenuItem onClick={handleLogout}>Logout</MenuItem>
+              </MenuSection>
+            </Menu>
+          </Dropdown>
+        ) : (
+          <button type="button" className="p-2" onClick={handleShowCreatePopup}>
+            <FaRegUser size={24} />
+          </button>
+        )}
       </div>
 
       {isCreatePopupVisible && (
@@ -459,21 +582,11 @@ function Header() {
           setVisibility={setCreatePopupVisibility}
         />
       )}
-
-      {isCategoriesPopupVisible && (
-        <Firstloginsinup
-          isVisible={isCategoriesPopupVisible}
-          setVisibility={setCategoriesPopupVisibility}
-          refreshBrandData={fetchData}
-        />
-      )}
     </>
   );
 }
 
 export default Header;
-
-
 
 const blue = {
   50: "#F0F7FF",
@@ -522,7 +635,6 @@ const Listbox = styled("ul")(
   `
 );
 
-
 const MenuItem = styled(BaseMenuItem)(
   ({ theme }) => `
   list-style: none;
@@ -557,10 +669,11 @@ const MenuButton = styled(BaseMenuButton)(
   color: white;
   transition: all 150ms ease;
   cursor: pointer;
+  border: none;
+  background: transparent;
 
   &:hover {
-    background: ${theme.palette.mode === "dark" ? grey[800] : grey[50]};
-    border-color: ${theme.palette.mode === "dark" ? grey[600] : grey[300]};
+    background: ${theme.palette.mode === "dark" ? grey[800] : "rgba(255,255,255,0.08)"};
   }
 
   &:active {
@@ -568,8 +681,7 @@ const MenuButton = styled(BaseMenuButton)(
   }
 
   &:focus-visible {
-    box-shadow: 0 0 0 4px ${theme.palette.mode === "dark" ? blue[300] : blue[200]
-    };
+    box-shadow: 0 0 0 4px ${theme.palette.mode === "dark" ? blue[300] : blue[200]};
     outline: none;
   }
 `

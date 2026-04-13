@@ -171,7 +171,7 @@ const Hadersilder = () => {
 
   if (queryLoading && !dataToRender) return (
     <div className="flex justify-center items-center min-h-[200px]">
-      <CircularProgress sx={{ color: '#E50010' }} />
+      <CircularProgress sx={{ color: "#004747" }} />
     </div>
   );
   
@@ -182,7 +182,7 @@ const Hadersilder = () => {
   );
 
   return (
-    <div className="relative h-auto w-full bg-white border-b mt-10 mb-20">
+    <div className="relative h-auto w-full bg-white border-b border-gray-100 mt-6 mb-16">
       {dataToRender?.categories?.map((category, index) => {
         const activeProducts = category.products.filter(
           (product) => product.status.toLowerCase() === "active"
@@ -193,7 +193,7 @@ const Hadersilder = () => {
         return (
           <div key={index} className="mt-5">
             <div className="flex justify-between">
-              <h6 className="text-maincolor text-3xl font-bold my-7">
+              <h6 className="text-[#004747] text-3xl font-bold my-7">
                 {category?.category?.name}
               </h6>
               <div
@@ -262,10 +262,10 @@ const Hadersilder = () => {
             onClick={handleLoadMore}
             disabled={isLoadingMore || queryLoading}
             sx={{ 
-              bgcolor: '#4C005A',
+              bgcolor: '#004747',
               color: 'white',
               '&:hover': { 
-                bgcolor: '#C5000E',
+                bgcolor: '#003838',
                 transform: 'translateY(-2px)',
                 boxShadow: '0 4px 8px rgba(0,0,0,0.2)'
               },
