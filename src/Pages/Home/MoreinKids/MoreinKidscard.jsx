@@ -7,13 +7,10 @@ import "swiper/css/navigation";
 import { Pagination, Navigation, Keyboard, Scrollbar } from "swiper/modules";
 import { useQuery } from "react-query";
 import { useNavigate } from "react-router-dom";
-import { Dialog, DialogContent, IconButton, Rating, Button, CircularProgress } from "@mui/material";
+import { Button, CircularProgress } from "@mui/material";
 import { MdOutlineNavigateNext } from "react-icons/md";
-import { GrLike } from "react-icons/gr";
-import { GridCloseIcon } from "@mui/x-data-grid";
 import NewRequest from "../../../../utils/NewRequest";
-import DescriptionWithToggle from "./DescriptionWithToggle";
-import imageLiveUrl from "../../../../utils/urlConverter/imageLiveUrl";
+import ProductCarouselCard from "../components/ProductCarouselCard";
 
 // Function to fetch products with dynamic limit
 async function fetchProductData(limit = 2) {
@@ -36,7 +33,7 @@ async function fetchProductData(limit = 2) {
   return { categories, products: activeProducts, pagination };
 }
 
-// Function to fetch ratings
+// Function to fetch ratings + review counts
 async function fetchProductRatings(products) {
   const ratings = {};
   try {
@@ -47,10 +44,15 @@ async function fetchProductRatings(products) {
         (acc, comment) => acc + (comment.rating || 0),
         0
       );
-      ratings[product._id] = totalRatings / productRatings.length || 0;
+      ratings[product._id] = {
+        average: productRatings.length
+          ? totalRatings / productRatings.length
+          : 0,
+        count: productRatings.length,
+      };
     });
 
-    await Promise.all(ratingPromises); // Fetch all ratings in parallel
+    await Promise.all(ratingPromises);
     return ratings;
   } catch (error) {
     console.error("Error fetching product ratings:", error);
@@ -60,8 +62,6 @@ async function fetchProductRatings(products) {
 
 const Hadersilder = () => {
   const navigate = useNavigate();
-  const [isDialogOpen, setIsDialogOpen] = useState(false);
-  const [selectedImage, setSelectedImage] = useState(null);
   const [productRatings, setProductRatings] = useState({});
   const [limit, setLimit] = useState(8);
   const [isLoadingMore, setIsLoadingMore] = useState(false);
@@ -114,32 +114,6 @@ const Hadersilder = () => {
     }
   }, [productsData]);
 
-  const openImagePreview = (image) => {
-    setSelectedImage(image);
-    setIsDialogOpen(true);
-  };
-
-  const closeDialog = () => {
-    setIsDialogOpen(false);
-  };
-
-  const addToWishlist = (product) => {
-    try {
-      const userResponse = JSON.parse(localStorage.getItem("userResponse"));
-      const userId = userResponse?.data?.user?._id || "";
-      NewRequest.post(`/wishlist/${userId}`, { productId: product._id });
-      toast.success("Product added to wishlist successfully!", {
-        position: "top-right",
-        autoClose: 2000,
-      });
-    } catch (error) {
-      toast.error("Failed to add product to wishlist.", {
-        position: "top-right",
-        autoClose: 2000,
-      });
-    }
-  };
-
   const viewMore = (category) => {
     sessionStorage.setItem("productmore", JSON.stringify(category));
     navigate(`/moreproduct/${category.category.name}`);
@@ -182,7 +156,10 @@ const Hadersilder = () => {
   );
 
   return (
-    <div className="relative h-auto w-full bg-white border-b border-gray-100 mt-6 mb-16">
+    <div
+      id="more-products"
+      className="relative mt-6 mb-16 h-auto w-full border-b border-gray-100 bg-white"
+    >
       {dataToRender?.categories?.map((category, index) => {
         const activeProducts = category.products.filter(
           (product) => product.status.toLowerCase() === "active"
@@ -191,21 +168,21 @@ const Hadersilder = () => {
         if (activeProducts.length === 0) return null;
 
         return (
-          <div key={index} className="mt-5">
-            <div className="flex justify-between">
-              <h6 className="text-[#004747] text-3xl font-bold my-7">
+          <div key={index} className={index === 0 ? "mt-2" : "mt-10"}>
+            <div className="mb-4 flex flex-wrap items-baseline justify-between gap-3">
+              <h6 className="my-0 text-2xl font-bold tracking-tight text-gray-900 sm:text-[1.6rem]">
                 {category?.category?.name}
               </h6>
-              <div
-                className="text-viewmorebutton text-xl flex cursor-pointer items-center"
+              <button
+                type="button"
+                className="border-0 bg-transparent text-sm font-medium text-gray-900 underline decoration-gray-900 underline-offset-[4px] transition hover:text-[#004747] hover:decoration-[#004747]"
                 onClick={() => viewMore(category)}
               >
-                <span>View more</span>
-                <MdOutlineNavigateNext size={30} />
-              </div>
+                View more
+              </button>
             </div>
 
-            <div className="relative w-full bg-fourthcolor lg:p-3 p-1">
+            <div className="relative w-full rounded-xl bg-[#fafafa] p-2 lg:p-3">
               <Swiper
                 slidesPerView={2}
                 spaceBetween={5}
@@ -221,29 +198,17 @@ const Hadersilder = () => {
                 modules={[Pagination, Navigation, Keyboard, Scrollbar]}
                 className="mySwiper py-6"
               >
-                {activeProducts.map((product, index) => (
-                  <SwiperSlide key={index}>
-                    <div className="h-[320px] relative bg-white border rounded-md shadow-lg hover:shadow-xl">
-                      <img
-                        src={imageLiveUrl(product.images[0])}
-                        alt={product.name}
-                        className="w-full h-44 object-cover cursor-pointer"
+                {activeProducts.map((product) => (
+                  <SwiperSlide key={product._id}>
+                    <div className="rounded-lg bg-white p-2 pb-3 shadow-sm transition hover:shadow-md">
+                      <ProductCarouselCard
+                        product={product}
+                        ratingAverage={
+                          productRatings[product._id]?.average ?? 0
+                        }
+                        reviewCount={productRatings[product._id]?.count ?? 0}
                         onClick={() => viewSingleProduct(product)}
                       />
-                      <div className="p-3">
-                        <DescriptionWithToggle description={product.name} />
-                        <div className="flex justify-between items-center mt-2">
-                          <Rating
-                            value={productRatings[product._id] || 0}
-                            precision={0.5}
-                            readOnly
-                          />
-                          <GrLike
-                            className="text-maincolor cursor-pointer"
-                            onClick={() => addToWishlist(product)}
-                          />
-                        </div>
-                      </div>
                     </div>
                   </SwiperSlide>
                 ))}
@@ -306,29 +271,6 @@ const Hadersilder = () => {
         </div>
       )}
 
-      {/* Dialog for image preview */}
-      <Dialog open={isDialogOpen} onClose={closeDialog} maxWidth="md">
-        <DialogContent>
-          <div className="relative">
-            <IconButton
-              onClick={closeDialog}
-              sx={{
-                position: "absolute",
-                right: 1,
-                top: 1,
-                color: "white",
-              }}
-            >
-              <GridCloseIcon />
-            </IconButton>
-            <img
-              src={selectedImage}
-              alt="Preview"
-              className="w-full h-80 object-cover"
-            />
-          </div>
-        </DialogContent>
-      </Dialog>
     </div>
   );
 };

@@ -2,6 +2,7 @@ import React from "react";
 import Hadersilder from "./HaderSilder/Hadersilder";
 import MoreinKidscard from "./MoreinKids/MoreinKidscard";
 import HomeCategoryCircles from "./HomeCategoryCircles";
+import YouMightAlsoLike from "./YouMightAlsoLike/YouMightAlsoLike";
 import RtlToggle from "./RtlToggle";
 
 function Home() {
@@ -17,6 +18,7 @@ function Home() {
         <div className="mt-5 rounded-2xl bg-[#fafafa] p-3 sm:mt-6 sm:p-4 lg:mt-8 lg:p-5 xl:p-6">
           <HomeCategoryCircles />
         </div>
+        <YouMightAlsoLike />
         <MoreinKidscard />
       </div>
     </div>

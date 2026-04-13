@@ -1,0 +1,106 @@
+/* Shared Motta-style product card (carousel) */
+
+.pcard {
+  display: block;
+  border: none;
+  background: transparent;
+  padding: 0 0.25rem;
+  cursor: pointer;
+}
+
+.pcard__image-wrap {
+  position: relative;
+  margin: 0 auto;
+  aspect-ratio: 1;
+  max-height: 200px;
+  width: 100%;
+  overflow: hidden;
+  border-radius: 8px;
+  background: #fafafa;
+}
+
+.pcard__badge {
+  position: absolute;
+  left: 8px;
+  top: 8px;
+  z-index: 1;
+  border-radius: 4px;
+  background: #e53935;
+  padding: 2px 8px;
+  font-size: 11px;
+  font-weight: 700;
+  color: #fff;
+  text-transform: uppercase;
+  letter-spacing: 0.02em;
+}
+
+.pcard__img {
+  height: 100%;
+  width: 100%;
+  object-fit: contain;
+  object-position: center;
+  transition: transform 0.25s ease;
+}
+
+.group:hover .pcard__img {
+  transform: scale(1.03);
+}
+
+.pcard__colors {
+  margin: 0.5rem 0 0;
+  font-size: 0.75rem;
+  color: #9ca3af;
+}
+
+.pcard__title {
+  margin: 0.35rem 0 0;
+  min-height: 2.5rem;
+  font-size: 0.875rem;
+  font-weight: 500;
+  line-height: 1.35;
+  color: #111827;
+}
+
+.pcard__rating {
+  display: flex;
+  align-items: center;
+  gap: 0.35rem;
+  margin-top: 0.35rem;
+}
+
+.pcard__reviews {
+  font-size: 0.8125rem;
+  color: #6b7280;
+}
+
+.pcard__price-row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 0.5rem;
+  margin-top: 0.35rem;
+}
+
+.pcard__price {
+  font-size: 0.9375rem;
+  font-weight: 700;
+  color: #111827;
+}
+
+.pcard__price-old {
+  font-size: 0.8125rem;
+  color: #9ca3af;
+  text-decoration: line-through;
+}
+
+.pcard__vendor {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  margin-top: 0.65rem;
+}
+
+.pcard__vendor-name {
+  font-size: 0.8125rem;
+  color: #4b5563;
+}
