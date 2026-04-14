@@ -3,10 +3,10 @@ import { Swiper, SwiperSlide } from "swiper/react";
 import "swiper/css";
 import "swiper/css/pagination";
 import "swiper/css/navigation";
-import { Autoplay, Pagination, Navigation, Scrollbar, Keyboard } from "swiper/modules";
+import { Pagination, Navigation, Scrollbar, Keyboard } from "swiper/modules";
 import Avatar from "@mui/material/Avatar";
 import NewRequest from "../../../../utils/NewRequest";
-import { useNavigate, useParams } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import PinDropIcon from "@mui/icons-material/PinDrop";
 import { toast } from "react-toastify";
 import Skeleton from "@mui/material/Skeleton";
@@ -14,18 +14,29 @@ import DescriptionWithToggle from "../MoreinKids/DescriptionWithToggle";
 import { useQuery, useQueryClient } from "react-query";
 import imageLiveUrl from "../../../../utils/urlConverter/imageLiveUrl";
 import Commentproduct from "../../Commentproduct/Commentproduct";
-import { MdEmail } from "react-icons/md";
-import { FaPhoneAlt } from "react-icons/fa";
 import { GrLike } from "react-icons/gr";
-import { Dialog, DialogContent, IconButton, Rating } from "@mui/material";
-import { GridCloseIcon } from "@mui/x-data-grid";
+import { Rating } from "@mui/material";
 import PanZoom from "react-easy-panzoom";
 import FullscreenIcon from "@mui/icons-material/Fullscreen";
-import WhatsAppIcon from "@mui/icons-material/WhatsApp";import { Tooltip } from "@mui/material";
+import ShareOutlinedIcon from "@mui/icons-material/ShareOutlined";
+import PrintOutlinedIcon from "@mui/icons-material/PrintOutlined";
+import ShoppingCartOutlinedIcon from "@mui/icons-material/ShoppingCartOutlined";
+import SwapHorizIcon from "@mui/icons-material/SwapHoriz";
+import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
+import LocalShippingOutlinedIcon from "@mui/icons-material/LocalShippingOutlined";
+import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
+import {
+  formatProductPriceDisplay,
+  formatProductOldPriceDisplay,
+  productHasSalePrice,
+  parsePriceNumber,
+  formatPriceAmount,
+  getProductCurrencySymbol,
+} from "../../../../utils/formatProductPrice";
+import "./Singleitem.css";
 
 const Singleitem = () => {
   const navigate = useNavigate();
-  const cardDataitem = localStorage.getItem("singleproduct");
   const cardData = useParams();
   const queryClient = useQueryClient();
   const [Userdataget, setUserdataget] = useState("");
@@ -33,10 +44,12 @@ const Singleitem = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [data, setdata] = useState("");
   const [ratings, setratings] = useState(0);
+  const [reviewCount, setReviewCount] = useState(0);
   const [imageuser, setimageuser] = useState("");
-  const [isDialogOpen, setIsDialogOpen] = useState(false);
   const [selectedImage, setSelectedImage] = useState(null);
   const [isOpen, setIsOpen] = useState(false);
+  const [activeImageIndex, setActiveImageIndex] = useState(0);
+  const [quantity, setQuantity] = useState(1);
   useEffect(() => {
     if (isOpen) {
       document.body.style.overflow = "hidden";
@@ -70,9 +83,11 @@ const Singleitem = () => {
       setdata(productData);
       setmoreproductData(enrichedProducts);
 
-      // Fetch ratings for the current product
-      const averageRating = await fetchProductRating(productData._id);
-      setratings(averageRating);
+      const ratingData = await fetchProductRating(productData._id);
+      setratings(ratingData.average);
+      setReviewCount(ratingData.count);
+      setActiveImageIndex(0);
+      setQuantity(1);
 
       // Fetch user image for the product owner
       const userImage = await fetchUserImage(productData.User._id);
@@ -128,7 +143,7 @@ const Singleitem = () => {
     );
   };
 
-  // Helper function to fetch product ratings
+  // Helper function to fetch product ratings + review count
   const fetchProductRating = async (productId) => {
     try {
       const response = await NewRequest.get(`/comment/replay/${productId}`);
@@ -137,10 +152,11 @@ const Singleitem = () => {
         (acc, comment) => acc + (comment.rating || 0),
         0
       );
-      return comments.length ? totalRatings / comments.length : 0;
+      const average = comments.length ? totalRatings / comments.length : 0;
+      return { average, count: comments.length };
     } catch (error) {
       console.error(`Error fetching ratings for product ${productId}:`, error);
-      return 0;
+      return { average: 0, count: 0 };
     }
   };
 
@@ -248,9 +264,6 @@ const Singleitem = () => {
     navigate(`/Productlist/${product._id}`);
   };
 
-  // Modal functions
-  const closeDialog = () => setIsDialogOpen(false);
-
   const openModal = (image) => {
     setIsOpen(true);
     setSelectedImage(image);
@@ -266,8 +279,7 @@ const Singleitem = () => {
     fetchData(); // Ensure data is fetched
   };
 
-  const [zoomLevel, setZoomLevel] = useState(1); // Zoom state
-    const toggleFullScreen = () => {
+  const toggleFullScreen = () => {
       const modalElement = document.getElementById("imageModal");
       if (!document.fullscreenElement) {
         modalElement.requestFullscreen().catch((err) => {
@@ -308,246 +320,420 @@ const Singleitem = () => {
            };
          }, []);
 
+  const goToCategoryFromBreadcrumb = () => {
+    if (!data?.Category) return;
+    const cat = productsdata?.find((c) => c.name === data.Category.name);
+    if (cat) {
+      viewmore(cat);
+    } else {
+      navigate(`/moreproduct/${encodeURIComponent(data.Category.name)}`);
+    }
+  };
+
+  const handleShare = async () => {
+    const url = window.location.href;
+    const title = data?.name || "Product";
+    try {
+      if (navigator.share) {
+        await navigator.share({ title, url });
+      } else {
+        await navigator.clipboard.writeText(url);
+        toast.success("Link copied to clipboard");
+      }
+    } catch {
+      try {
+        await navigator.clipboard.writeText(url);
+        toast.success("Link copied to clipboard");
+      } catch {
+        toast.error("Could not share");
+      }
+    }
+  };
+
+  const handlePrint = () => window.print();
+
+  const addToCompare = () => {
+    if (!data?._id) return;
+    try {
+      const raw = localStorage.getItem("compareProducts") || "[]";
+      const arr = JSON.parse(raw);
+      if (!Array.isArray(arr)) {
+        localStorage.setItem("compareProducts", JSON.stringify([data._id]));
+        toast.success("Added to compare");
+        return;
+      }
+      if (arr.includes(data._id)) {
+        toast.info("Already in compare");
+        return;
+      }
+      arr.push(data._id);
+      localStorage.setItem("compareProducts", JSON.stringify(arr.slice(-4)));
+      toast.success("Added to compare");
+    } catch {
+      toast.error("Could not add to compare");
+    }
+  };
+
+  const saleActive = data && productHasSalePrice(data);
+  const discountPct =
+    saleActive && data
+      ? (() => {
+          const p = parsePriceNumber(data.price);
+          const o = parsePriceNumber(data.originalPrice ?? data.oldPrice);
+          if (Number.isNaN(p) || Number.isNaN(o) || o <= 0) return 0;
+          return Math.max(1, Math.round((1 - p / o) * 100));
+        })()
+      : 0;
+  const savingsAmount =
+    saleActive && data
+      ? (() => {
+          const p = parsePriceNumber(data.price);
+          const o = parsePriceNumber(data.originalPrice ?? data.oldPrice);
+          if (Number.isNaN(p) || Number.isNaN(o)) return null;
+          const diff = o - p;
+          if (diff <= 0) return null;
+          const sym = getProductCurrencySymbol(data);
+          return `${sym} ${formatPriceAmount(String(Math.round(diff)))}`;
+        })()
+      : null;
+
+  const inStock =
+    data && String(data.status || "").toLowerCase() === "active";
+
+  const images = data?.images?.length ? data.images : [];
+  const safeImageIndex =
+    images.length > 0
+      ? Math.min(activeImageIndex, Math.max(0, images.length - 1))
+      : 0;
+  const mainImageSrc =
+    images.length > 0 ? imageLiveUrl(images[safeImageIndex]) : "";
+
   return (
-    <div className="lg:px-8 mt-3 lg:mt-28 sm:mt-2 mx-auto w-full lg:w-[90%] sm:w-full ">
-      <div className="my-5 bg-maincolor text-white rounded-full py-2 shadow-md px-3">
-        <span
-          className="cursor-pointer ms-4"
-          onClick={() => {
-            navigate("/");
-          }}
-        >
-          Home
-        </span>{" "}
-        {/* | <span className="cursor-pointer"> {cardData?.name || ""}</span> */}
-      </div>
-      <div className="flex flex-col-reverse sm:flex-col-reverse md:flex-col lg:flex-row gap-1 sm:gap-1 lg:gap-6 md:gap-6 ">
-        <div className="w-full lg:w-[35%] sm:w-full flex md:flex-col lg:flex-col flex-col-reverse sm:flex-col-reverse">
-          <div className="border rounded shadow py-6 px-4 bg-maincolor mt-2 md:mt-0 sm:mt-2">
-            <p className="text-white font-sans text-center text-lg">
-              Listed by private user
-            </p>
-            {isLoading ? (
-              <div className="flex">
-                <Skeleton height={50} width={50} circle={true} />{" "}
-                <Skeleton height={50} width={50} circle={true} />{" "}
-              </div> // Skeleton for user avatar
-            ) : (
-              <div className="flex my-auto mt-5 justify-between">
-                <div className="flex lg:flex-row sm:flex-col flex-col w-full">
-                  <div className="flex sm:justify-center lg:justify-start justify-center items-center">
-                    <Avatar
-                      className="my-auto cursor-pointer"
-                      src={imageuser || ""}
-                      onClick={() => productlist(Userdataget)}
-                    />
-                  </div>
-                  <div className="lg:ml-5 sm:ml-1 ml-1  w-full">
-                    <div className="flex justify-between  my-auto w-full">
-                      <div className="my-auto">
-                        <p className="text-white font-sans ">
-                          {Userdataget?.User?.username || ""}
-                        </p>
-                      </div>
-                      <div className="my-auto flex flex-col">
-                        <button
-                          className="text-maincolor border bg-white rounded-full text-lg font-sans font-bold px-4 "
-                          onClick={() => charfunction(Userdataget)}
-                        >
-                          Chat
-                        </button>
-                      </div>
-                    </div>
-
-                    <div className="flex my-3 w-full lg:flex-row sm:flex-col flex-col justify-center items-center sm:justify-center lg:justify-start">
-                      <MdEmail className="text-white w-7 h-7" />
-                      <a
-                        href={`mailto:${Userdataget?.User?.email || ""}`}
-                        className="text-white font-sans  hover:underline lg:ms-5 sm:ms-1 ms-1  my-auto mt-3 sm:mt-3 lg:mt-0"
-                      >
-                        {Userdataget?.User?.email || ""}
-                      </a>
-                    </div>
-                    <div className="flex justify-between w-100">
-                      <div className="flex mt-3 lg:flex-row sm:flex-col flex-col justify-center items-center sm:justify-center lg:justify-start">
-                        <FaPhoneAlt className="text-white w-6 h-6" />
-                        <a
-                          href={`tel:${Userdataget?.User?.phone || ""}`}
-                          className="text-white font-sans  hover:underline lg:ms-5 sm:ms-1 mt-3 sm:mt-3 lg:mt-0 ms-1 my-auto"
-                        >
-                          {Userdataget?.User?.phone || ""}
-                        </a>{" "}
-                      </div>
-                      <div className="flex justify-between items-end cursor-pointer">
-                        <Tooltip title="Chat on WhatsApp" arrow>
-                          <a
-                            href={`https://wa.me/${
-                              Userdataget?.User?.phone || ""
-                            }`}
-                            target="_blank"
-                            rel="noopener noreferrer"
-                          >
-                            <WhatsAppIcon
-                              sx={{ color: "#25D366", fontSize: 35 }}
-                            />
-                          </a>
-                        </Tooltip>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            )}
-          </div>
-          <div className="sm:block lg:hidden">
-            <Commentproduct productdata={cardData} />
-          </div>
-          <div className="border rounded shadow py-6 px-4 mt-0 md:mt-5 lg:mt-5 sm:mt-0 bg-cardbg">
-            <p className="text-maincolor text-lg font-sans font-semibold">
-              Location
-            </p>
-            <div className="flex my-auto mt-5">
-              <div className=" flex">
-                <div className="text-secondary">
-                  {isLoading ? (
-                    <Skeleton height={30} width={150} />
-                  ) : (
-                    <div className="flex my-auto">
-                      <PinDropIcon className="text-[#757575]" />
-                      <p className="text-secondary ml-2">
-                        {data?.location || "location"}
-                      </p>
-                    </div>
-                  )}
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <div className="border rounded shadow py-6 px-4 mt-5  hidden lg:block bg-cardbg">
-            <div className="mb-4">
-              <h2 className=" text-maincolor font-sans font-bold text-lg mb-2">
-                Product Categories
-              </h2>
-              <ul>
-                {productsdata &&
-                  productsdata.length > 0 &&
-                  productsdata.map((category, index) => (
-                    <li key={index} className="mb-2 text-gray-500">
-                      <p
-                        onClick={() => viewmore(category)}
-                        className="cursor-pointer"
-                      >
-                        {category?.name || ""} ({category?.count || "0"})
-                      </p>
-                    </li>
-                  ))}
-              </ul>
-            </div>
-          </div>
-        </div>
-        <div className="relative h-auto w-full lg:w-[65%] sm:w-full bg-white border-b lg:mb-20 sm:mb-5 mb-5 ">
-          <div className="relative h-[250px] w-full">
-            {isLoading ? (
-              <Skeleton height={200} />
-            ) : (
-              <Swiper
-                spaceBetween={30}
-                centeredSlides={true}
-                autoplay={{
-                  delay: 4500,
-                  disableOnInteraction: false,
-                }}
-                navigation={{
-                  nextEl: "#swiper-button-next",
-                  prevEl: "#swiper-button-prev",
-                }}
-                pagination={{
-                  clickable: true,
-                }}
-                modules={[Autoplay, Pagination, Navigation]}
-                className="mySwiper "
+    <div className="pdp-page pdp-page--pt">
+      <div className="pdp-topbar">
+        <nav className="pdp-breadcrumbs" aria-label="Breadcrumb">
+          <Link to="/">Home</Link>
+          <span className="pdp-breadcrumbs__sep">/</span>
+          {data?.Category?.name ? (
+            <>
+              <button
+                type="button"
+                className="pdp-breadcrumbs__current bg-transparent border-0 p-0 cursor-pointer text-left"
+                style={{ color: "#6b7280", font: "inherit" }}
+                onClick={goToCategoryFromBreadcrumb}
               >
-                {/* <SwiperSlide> */}
-                <div className="relative w-full">
-                  {data?.images?.map((image, index) => (
-                    <SwiperSlide key={index}>
-                      <div className="relative w-full h-[250px]">
-                        <img
-                          src={imageLiveUrl(image)}
-                          className="w-full h-full object-contain"
-                          alt={`Slide ${index}`}
-                          onClick={() => openModal(index)}
-                        />
-                      </div>
-                    </SwiperSlide>
-                  ))}
-                </div>
-                {/* </SwiperSlide> */}
-              </Swiper>
+                {data.Category.name}
+              </button>
+              <span className="pdp-breadcrumbs__sep">/</span>
+            </>
+          ) : null}
+          <span className="pdp-breadcrumbs__current line-clamp-2">
+            {isLoading ? "…" : data?.name || "Product"}
+          </span>
+        </nav>
+        <div className="pdp-util">
+          <button type="button" onClick={handleShare}>
+            <ShareOutlinedIcon sx={{ fontSize: 18 }} />
+            Share
+          </button>
+          <button type="button" onClick={handlePrint}>
+            <PrintOutlinedIcon sx={{ fontSize: 18 }} />
+            Print
+          </button>
+        </div>
+      </div>
+
+      <div className="pdp-grid">
+        {/* Gallery */}
+        <div className="pdp-gallery">
+          <div className="pdp-gallery__main-wrap">
+            {isLoading ? (
+              <Skeleton variant="rectangular" width="100%" height={380} />
+            ) : images.length ? (
+              <>
+                <img
+                  src={mainImageSrc}
+                  alt={data?.name || ""}
+                  className="pdp-gallery__main-img"
+                  onClick={() => openModal(safeImageIndex)}
+                />
+                <button
+                  type="button"
+                  className="pdp-gallery__expand"
+                  aria-label="Expand image"
+                  onClick={() => openModal(safeImageIndex)}
+                >
+                  <FullscreenIcon sx={{ fontSize: 22 }} />
+                </button>
+              </>
+            ) : (
+              <div className="text-gray-400 p-8">No image</div>
             )}
           </div>
-          <div className="border rounded bg-cardbg shadow mt-20">
-            <div className="w-full mb-1 p-4 ">
+          {!isLoading && images.length > 1 ? (
+            <div className="pdp-thumbs" role="tablist" aria-label="Product images">
+              {images.map((img, index) => (
+                <button
+                  key={index}
+                  type="button"
+                  className={`pdp-thumb ${
+                    index === safeImageIndex ? "pdp-thumb--active" : ""
+                  }`}
+                  onClick={() => setActiveImageIndex(index)}
+                  aria-label={`Image ${index + 1}`}
+                  aria-selected={index === safeImageIndex}
+                >
+                  <img src={imageLiveUrl(img)} alt="" />
+                </button>
+              ))}
+            </div>
+          ) : null}
+        </div>
+
+        {/* Product info */}
+        <div className="pdp-info">
+          {saleActive && discountPct ? (
+            <span className="pdp-discount-badge">-{discountPct}%</span>
+          ) : null}
+
+          {isLoading ? (
+            <Skeleton height={36} width="90%" />
+          ) : (
+            <h1 className="pdp-title">{data?.name || ""}</h1>
+          )}
+
+          <div className="pdp-meta">
+            {data?.Category?.name ? (
+              <span className="pdp-meta__cat">
+                in{" "}
+                <button type="button" onClick={goToCategoryFromBreadcrumb}>
+                  {data.Category.name}
+                </button>
+              </span>
+            ) : null}
+            <span className="pdp-meta__reviews flex items-center gap-1">
+              <Rating
+                name="pdp-rating"
+                precision={0.5}
+                value={ratings}
+                readOnly
+                size="small"
+                sx={{ color: "#facc15" }}
+              />
+              <span>
+                ({reviewCount}{" "}
+                {reviewCount === 1 ? "Review" : "Reviews"})
+              </span>
+            </span>
+          </div>
+
+          <div className="pdp-price-row">
+            <div className="pdp-price-block">
               {isLoading ? (
-                <Skeleton height={30} width={150} />
+                <Skeleton width={160} height={40} />
               ) : (
                 <>
-                  <div className="flex justify-between">
-                    <h3 className="font-bold text-2xl mb-2 ">
-                      {data?.currency || "Rs"}
-                      <span className="text-maincolor ms-1">
-                        {data?.price || ""}
-                      </span>
-                    </h3>
-                    <GrLike
-                      className=" text-maincolor cursor-pointer mb-4 font-bold w-6 h-6"
-                      onClick={() => postcard(data)}
-                    />
-                  </div>
-                  <p className="text-gray-700 text-lg ">{data?.name || ""}</p>
-                  <div className="mt-4">
-                    <Rating
-                      name="half-rating"
-                      precision={0.5}
-                      value={ratings}
-                      sx={{
-                        color: "#4C005A",
-                      }}
-                      readOnly
-                    />
-                  </div>
+                  <span className="pdp-price-current">
+                    {formatProductPriceDisplay(data)}
+                  </span>
+                  {saleActive ? (
+                    <span className="pdp-price-old">
+                      {formatProductOldPriceDisplay(data)}
+                    </span>
+                  ) : null}
+                  {savingsAmount ? (
+                    <span className="pdp-price-save">
+                      Save: {savingsAmount}
+                    </span>
+                  ) : null}
                 </>
               )}
             </div>
+            <span
+              className={`pdp-stock ${inStock ? "" : "pdp-stock--out"}`}
+            >
+              {inStock ? "Available in stock" : "Unavailable"}
+            </span>
           </div>
-          <div className="border rounded shadow mt-5 bg-cardbg w-full">
-            <div className="w-full mb-5 p-4">
-              <p className="text-maincolor text-lg font-sans font-semibold mb-5">
-                Description
-              </p>
-              {isLoading ? (
-                <Skeleton count={3} />
-              ) : (
-                <p className="text-productdesc mb-5 w-full">
-                  {/* {data?.description || ""} */}
-                  <span
-                    dangerouslySetInnerHTML={{
-                      __html: data?.description || "",
-                    }}
-                  />
+
+          <div className="pdp-qty" aria-label="Quantity">
+            <button
+              type="button"
+              disabled={quantity <= 1}
+              onClick={() => setQuantity((q) => Math.max(1, q - 1))}
+            >
+              −
+            </button>
+            <span>{quantity}</span>
+            <button
+              type="button"
+              disabled={quantity >= 99}
+              onClick={() => setQuantity((q) => Math.min(99, q + 1))}
+            >
+              +
+            </button>
+          </div>
+
+          <div className="pdp-actions">
+            <button
+              type="button"
+              className="pdp-btn-cart"
+              disabled={isLoading || !data}
+              onClick={() => data && postcard(data)}
+            >
+              <ShoppingCartOutlinedIcon sx={{ fontSize: 20 }} />
+              Add to cart
+            </button>
+            <button
+              type="button"
+              className="pdp-btn-buy"
+              disabled={isLoading || !Userdataget}
+              onClick={() => Userdataget && charfunction(Userdataget)}
+            >
+              Buy Now
+            </button>
+          </div>
+
+          <div className="pdp-secondary-actions">
+            <button
+              type="button"
+              disabled={isLoading || !data}
+              onClick={addToCompare}
+            >
+              <SwapHorizIcon sx={{ fontSize: 20 }} />
+              Add To Compare
+            </button>
+            <button
+              type="button"
+              disabled={isLoading || !data}
+              onClick={() => data && postcard(data)}
+            >
+              <FavoriteBorderIcon sx={{ fontSize: 20 }} />
+              Add To Wishlist
+            </button>
+          </div>
+
+          {/* Seller card */}
+          <div className="pdp-store-card">
+            {isLoading ? (
+              <Skeleton variant="circular" width={56} height={56} />
+            ) : (
+              <Avatar
+                className="pdp-store-card__avatar"
+                src={imageuser || ""}
+                sx={{ width: 56, height: 56, cursor: "pointer" }}
+                onClick={() => productlist(Userdataget)}
+              />
+            )}
+            <div className="pdp-store-card__body">
+              <div className="pdp-store-card__head">
+                <p className="pdp-store-card__name">
+                  {Userdataget?.User?.username || "Seller"}
                 </p>
-              )}
+                <button
+                  type="button"
+                  className="pdp-store-card__chat"
+                  onClick={() => charfunction(Userdataget)}
+                >
+                  Chat
+                </button>
+              </div>
+              <div className="pdp-store-card__rating">
+                <Rating
+                  name="seller-rating"
+                  precision={0.1}
+                  value={ratings}
+                  readOnly
+                  size="small"
+                  sx={{ color: "#facc15" }}
+                />
+                <span>
+                  {ratings ? ratings.toFixed(2) : "—"} ({reviewCount}{" "}
+                  {reviewCount === 1 ? "Review" : "Reviews"})
+                </span>
+              </div>
             </div>
           </div>
-          {/* Related ads */}
+
+          <div className="pdp-ship-block">
+            <div className="pdp-ship-row">
+              <div className="pdp-ship-row__left">
+                <LocalShippingOutlinedIcon className="pdp-ship-row__icon" />
+                <div className="pdp-ship-row__text">
+                  <strong>Free Shipping &amp; Returns</strong>
+                  <span>On many items — check with the seller.</span>
+                </div>
+              </div>
+              <button type="button" className="pdp-ship-row__link">
+                See Details
+              </button>
+            </div>
+            <div className="pdp-ship-row">
+              <div className="pdp-ship-row__left">
+                <LockOutlinedIcon className="pdp-ship-row__icon" />
+                <div className="pdp-ship-row__text">
+                  <strong>Delivery within 3–5 business days</strong>
+                  <span>Estimated — varies by location.</span>
+                </div>
+              </div>
+              <button type="button" className="pdp-ship-row__link">
+                See Details
+              </button>
+            </div>
+            <div className="pdp-ship-row">
+              <div className="pdp-ship-row__left">
+                <PinDropIcon className="pdp-ship-row__icon" />
+                <div className="pdp-ship-row__text">
+                  <strong>Location</strong>
+                  <span>
+                    {isLoading ? "…" : data?.location || "Not specified"}
+                  </span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div className="sm:block lg:hidden mt-8">
+            <Commentproduct productdata={cardData} />
+          </div>
         </div>
       </div>
-      <div className="w-full mt-2">
-        <p className="text-maincolor mb-5 font-sans font-bold text-2xl">
-          Related ads
-        </p>
-        <div className=" w-full bg-fourthcolor lg:p-3 p-1  sm:p-1 rounded-sm">
+
+      <div className="pdp-section">
+        <h2 className="pdp-section__title">Description</h2>
+        <div className="pdp-description">
+          {isLoading ? (
+            <Skeleton variant="rounded" height={120} />
+          ) : (
+            <p className="text-productdesc mb-0 w-full">
+              <span
+                dangerouslySetInnerHTML={{
+                  __html: data?.description || "",
+                }}
+              />
+            </p>
+          )}
+        </div>
+      </div>
+
+      {productsdata && productsdata.length > 0 ? (
+        <div className="pdp-categories-box hidden lg:block">
+          <h3>Product Categories</h3>
+          <ul>
+            {productsdata.map((category, index) => (
+              <li key={index}>
+                <button type="button" onClick={() => viewmore(category)}>
+                  {category?.name || ""} ({category?.count || "0"})
+                </button>
+              </li>
+            ))}
+          </ul>
+        </div>
+      ) : null}
+
+      <div className="pdp-section w-full mt-2">
+        <p className="pdp-related-title">Related ads</p>
+        <div className="pdp-related-wrap w-full">
           <Swiper
             slidesPerView={2}
             spaceBetween={10}
@@ -586,7 +772,7 @@ const Singleitem = () => {
             <div className="w-full ">
               {/* <SwiperSlide> */}
               {isLoading ? (
-                <Skeleton height={250} count={3} />
+                <Skeleton variant="rounded" height={250} />
               ) : (
                 moreproductData.map((card, index) => (
                   <SwiperSlide key={index}>
@@ -612,7 +798,7 @@ const Singleitem = () => {
                               precision={0.5}
                               value={card?.averageRating}
                               sx={{
-                                color: "#4C005A",
+                                color: "#facc15",
                               }}
                               readOnly
                             />
@@ -634,49 +820,6 @@ const Singleitem = () => {
       <div className="hidden lg:block">
         <Commentproduct productdata={cardData} />
       </div>
-
-      <Dialog open={isDialogOpen} onClose={closeDialog} maxWidth="md">
-        <DialogContent>
-          <div className="relative">
-            {/* Close button */}
-            <IconButton
-              aria-label="close"
-              onClick={closeDialog}
-              sx={{
-                position: "absolute",
-                right: 1,
-                top: 8,
-                color: (theme) => theme.palette.grey[500],
-              }}
-            >
-              <GridCloseIcon className="text-white bg-black" />
-            </IconButton>
-
-            {/* Image */}
-            {data?.images?.map((image, index) => (
-              <SwiperSlide key={index}>
-                <div className="relative w-full h-[250px]">
-                  <PanZoom
-                    minZoom={1}
-                    maxZoom={3}
-                    enablePan={true}
-                    enableZoom={true}
-                    className="w-full h-full"
-                    onDoubleClick={handleDoubleClick} // Attach double-click handler
-                  >
-                    <img
-                      src={imageLiveUrl(image)}
-                      className="w-full h-full object-contain cursor-pointer"
-                      alt={`Slide ${index}`}
-                      onClick={() => openModal(index)} // Pass the image index
-                    />
-                  </PanZoom>
-                </div>
-              </SwiperSlide>
-            ))}
-          </div>
-        </DialogContent>
-      </Dialog>
 
       {isOpen && (
         <div
@@ -701,13 +844,8 @@ const Singleitem = () => {
             <Swiper
               initialSlide={selectedImage}
               modules={[Navigation, Pagination]}
-              // className="swiper-container"
               spaceBetween={30}
               centeredSlides={true}
-              autoplay={{
-                delay: 4500,
-                disableOnInteraction: false,
-              }}
               navigation={{
                 nextEl: "#swiper-button-next",
                 prevEl: "#swiper-button-prev",
