@@ -22,7 +22,7 @@ import makeicon from "../../../assets/Images/make.jpg"
 import Bedroomicon from "../../../assets/Images/Bedroom.png"
 import Furnishedicon from "../../../assets/Images/Furnished.jpg"
 import usericon from "../../../assets/Images/usersicon.png"
-import logonmm from "../../../assets/Images/logo1.png"
+import { PAKARDAI_LOGO_SRC } from "../../../constants/brandLogo"
 import Wifiicon from "../../../assets/Images/Wifi.png"
 import BathRoom from "../../../assets/Images/Bath Room.png"
 import Storeyicon from "../../../assets/Images/Storey.png"
@@ -179,7 +179,7 @@ const SideBar = () => {
             // onClick={() => navigate("/track")}
             onClick={handleLogoClick}
           >
-            <img src={logonmm} className="h-auto w-32 rounded-md " alt="" />
+            <img src={PAKARDAI_LOGO_SRC} className="h-auto w-36 rounded-md object-contain" alt="Pakardai" />
           </div>
           <hr />
 

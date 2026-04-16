@@ -15,15 +15,15 @@
 
 .auth-page__logo {
   display: block;
-  height: 48px;
+  height: 54px;
   width: auto;
-  max-width: 200px;
+  max-width: 220px;
   object-fit: contain;
 }
 
 @media (min-width: 640px) {
   .auth-page__logo {
-    height: 56px;
+    height: 62px;
   }
 }
 

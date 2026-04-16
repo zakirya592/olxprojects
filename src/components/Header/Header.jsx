@@ -25,6 +25,7 @@ import "./Header.css";
 import NotificationComponent from "../../Pages/Notification/NotificationComponent";
 import MottaCategoryNavDropdown from "./MottaCategoryNavDropdown";
 import SearchAllCategoriesModal from "./SearchAllCategoriesModal";
+import { PAKARDAI_LOGO_SRC } from "../../constants/brandLogo";
 
 function MottaLogoMark({ onClick }) {
   return (
@@ -34,13 +35,11 @@ function MottaLogoMark({ onClick }) {
       className="motta-logo-mark border-0 bg-transparent p-0 cursor-pointer"
       aria-label="Home"
     >
-      <span className="motta-logo-text">Motta</span>
-      <span className="motta-logo-grid" aria-hidden>
-        <span style={{ background: "#4caf50" }} />
-        <span style={{ background: "#ff9800" }} />
-        <span style={{ background: "#f44336" }} />
-        <span style={{ background: "#2196f3" }} />
-      </span>
+      <img
+        src={PAKARDAI_LOGO_SRC}
+        alt=""
+        className="motta-logo-img h-12 w-auto max-h-12 object-contain"
+      />
     </button>
   );
 }

@@ -6,7 +6,7 @@ import "react-phone-input-2/lib/style.css";
 import "./Login.css";
 import { RxCross2 } from "react-icons/rx";
 import Login from "./Login";
-import logo from "../../../assets/Images/logo1.png";
+import { PAKARDAI_LOGO_SRC } from "../../../constants/brandLogo";
 
 const Singup = ({ isVisiblepop, setVisibilitypop }) => { 
   const [isCreatePopupVisiblepoplogin, setCreatePopupVisibilitypoplogin] = useState(false);
@@ -119,7 +119,7 @@ const Singup = ({ isVisiblepop, setVisibilitypop }) => {
                 />
               </div>
               <div className="flex flex-col justify-center items-center">
-                <img src={logo} alt="" className="h-24 w-auto cursor-pointer" />
+                <img src={PAKARDAI_LOGO_SRC} alt="Pakardai" className="h-28 w-auto cursor-pointer" />
                 <h2
                   className={`text-loactioncolor font-sans font-semibold mt-6 text-2xl`}
                 >

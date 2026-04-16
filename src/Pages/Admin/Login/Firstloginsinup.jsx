@@ -6,7 +6,7 @@ import { RxCross2 } from "react-icons/rx";
 import Singup from "./Singup";
 import { FaGoogle } from "react-icons/fa6";
 import Firstsinguppop from "./Firstsinguppop";
-import logo from "../../../assets/Images/logo1.png";
+import { PAKARDAI_LOGO_SRC } from "../../../constants/brandLogo";
 import { baseUrl } from "../../../../utils/config";
 import { useNavigate } from "react-router-dom";
 
@@ -89,9 +89,9 @@ const Firstloginsinup = ({ isVisible, setVisibility }) => {
               <form className="w-full">
                 <div className="flex justify-center items-center mb-10">
                   <img
-                    src={logo}
+                    src={PAKARDAI_LOGO_SRC}
                     alt=""
-                    className="h-24 w-auto cursor-pointer"
+                    className="h-28 w-auto cursor-pointer"
                   />
                 </div>
                 <h2

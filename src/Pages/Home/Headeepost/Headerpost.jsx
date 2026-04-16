@@ -1,5 +1,5 @@
 import React from "react";
-import log from "../../../assets/Images/logo1.png";
+import { FOOTER_LOGO_SRC } from "../../../constants/brandLogo";
 import { useNavigate } from "react-router-dom";
 import { IoMdArrowBack } from "react-icons/io";
 
@@ -56,9 +56,9 @@ function Headerpost() {
           }}
         >
           <img
-            src={log}
+            src={FOOTER_LOGO_SRC}
             alt="Pakardai"
-            style={{ height: "34px", width: "auto", objectFit: "contain" }}
+            style={{ height: "40px", width: "auto", objectFit: "contain" }}
           />
           <span
             style={{

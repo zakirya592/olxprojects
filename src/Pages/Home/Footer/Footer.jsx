@@ -10,17 +10,16 @@ import EmailOutlinedIcon from "@mui/icons-material/EmailOutlined";
 import KeyboardArrowUpIcon from "@mui/icons-material/KeyboardArrowUp";
 import { toast } from "react-toastify";
 import "./Footer.css";
+import { FOOTER_LOGO_SRC } from "../../../constants/brandLogo";
 
 function MottaLogoFooter() {
   return (
     <div className="flex items-center gap-2">
-      <span className="motta-footer__logo-text">Motta</span>
-      <span className="motta-footer__logo-grid" aria-hidden>
-        <span style={{ background: "#2563eb", borderRadius: 2 }} />
-        <span style={{ background: "#f97316", borderRadius: 2 }} />
-        <span style={{ background: "#ef4444", borderRadius: 2 }} />
-        <span style={{ background: "#38bdf8", borderRadius: 2 }} />
-      </span>
+      <img
+        src={FOOTER_LOGO_SRC}
+        alt="Pakardai"
+        className="h-12 w-auto max-w-[240px] object-contain"
+      />
     </div>
   );
 }
@@ -58,7 +57,7 @@ const Footer = () => {
                   <p className="motta-footer__contact-text">
                     Call us from 8am to 12am ET.
                   </p>
-                  <p className="motta-footer__phone">1-866-237-8289</p>
+                  <p className="motta-footer__phone">+92 300 5868401</p>
                 </div>
               </div>
               <div className="motta-footer__contact-block">

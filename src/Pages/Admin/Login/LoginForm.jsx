@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import Googleicon from "../../../assets/Images/googleicon.png";
-import logoPakardai from "../../../assets/Images/logo1.png";
+import { FOOTER_LOGO_SRC } from "../../../constants/brandLogo";
 import { toast } from "react-toastify";
 import NewRequest from "../../../../utils/NewRequest";
 import { useNavigate } from "react-router-dom";
@@ -125,7 +125,7 @@ const LoginForm = () => {
     <section className="auth-page">
       <div className="auth-page__logo-wrap">
         <img
-          src={logoPakardai}
+          src={FOOTER_LOGO_SRC}
           alt="Pakardai"
           className="auth-page__logo"
         />

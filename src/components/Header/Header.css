@@ -26,6 +26,10 @@
   gap: 8px;
 }
 
+.motta-logo-img {
+  display: block;
+}
+
 .motta-logo-text {
   font-weight: 800;
   font-size: 1.35rem;

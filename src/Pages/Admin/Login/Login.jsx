@@ -5,7 +5,7 @@ import { AiOutlineEye, AiOutlineEyeInvisible } from "react-icons/ai"; // Import 
 import "./Login.css";
 import { RxCross2 } from "react-icons/rx";
 import { useNavigate } from "react-router-dom";
-import logo from "../../../assets/Images/logo1.png";
+import { FOOTER_LOGO_SRC } from "../../../constants/brandLogo"; 
 
 const Login = ({ isVisiblepop, setVisibilitypop, setParentVisibility }) => {
   const navigator = useNavigate();
@@ -98,7 +98,7 @@ const Login = ({ isVisiblepop, setVisibilitypop, setParentVisibility }) => {
                 />
               </div>
               <div className="flex flex-col justify-center items-center">
-                <img src={logo} alt="" className="h-24 w-auto cursor-pointer" />
+                <img src={FOOTER_LOGO_SRC} alt="Pakardai" className="h-28 w-auto cursor-pointer" />
                 <h2
                   className={`text-loactioncolor font-sans font-semibold mt-5 text-2xl`}
                 >
