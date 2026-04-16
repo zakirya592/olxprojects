@@ -50,3 +50,12 @@ export function productHasSalePrice(product) {
   if (Number.isNaN(a) || Number.isNaN(b)) return false;
   return b > a;
 }
+
+/** Integer percent off when old price & current price imply a sale (e.g. 9 for −9%). */
+export function productDiscountPercent(product) {
+  if (!productHasSalePrice(product)) return null;
+  const p = parsePriceNumber(product?.price);
+  const o = parsePriceNumber(product?.originalPrice ?? product?.oldPrice);
+  if (Number.isNaN(p) || Number.isNaN(o) || o <= 0) return null;
+  return Math.max(1, Math.round((1 - p / o) * 100));
+}

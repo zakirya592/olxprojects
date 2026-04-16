@@ -3,18 +3,19 @@ import { Swiper, SwiperSlide } from "swiper/react";
 import "swiper/css";
 import "swiper/css/pagination";
 import "swiper/css/navigation";
-import { Pagination, Navigation, Scrollbar, Keyboard } from "swiper/modules";
+import { Pagination, Navigation, Keyboard } from "swiper/modules";
 import Avatar from "@mui/material/Avatar";
 import NewRequest from "../../../../utils/NewRequest";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import PinDropIcon from "@mui/icons-material/PinDrop";
 import { toast } from "react-toastify";
 import Skeleton from "@mui/material/Skeleton";
-import DescriptionWithToggle from "../MoreinKids/DescriptionWithToggle";
-import { useQuery, useQueryClient } from "react-query";
+import { useQueryClient } from "react-query";
 import imageLiveUrl from "../../../../utils/urlConverter/imageLiveUrl";
 import Commentproduct from "../../Commentproduct/Commentproduct";
-import { GrLike } from "react-icons/gr";
+import ProductCarouselCard from "../components/ProductCarouselCard";
+import CarouselThinChevron from "../components/CarouselThinChevron";
+import "../MoreinKids/HomeCategoryCarousel.css";
 import { Rating } from "@mui/material";
 import PanZoom from "react-easy-panzoom";
 import FullscreenIcon from "@mui/icons-material/Fullscreen";
@@ -217,34 +218,6 @@ const Singleitem = () => {
     }
   };
 
-  // Function: Fetch product categories with counts
-  const fetchproductData = async () => {
-    try {
-      const response = await NewRequest.get("/product/getcategoryproduct");
-      return response?.data.map((item) => ({
-        name: item.category.name,
-        count: item.products.length,
-        id: item,
-      }));
-    } catch (error) {
-      console.error("Error fetching product categories:", error);
-      return [];
-    }
-  };
-
-  // React Query: Cache product category data
-  const { data: productsdata } = useQuery(
-    "getcategoryproductget",
-    fetchproductData
-  );
-
-  // Function: View more products by category
-  const viewmore = (product) => {
-    const subResponseString = JSON.stringify(product.id);
-    sessionStorage.setItem("productmore", subResponseString);
-    navigate(`/moreproduct/${product.name}`);
-  };
-
   // Function: Open chat for product owner
   const charfunction = (Product) => {
     if (!loginuserid) {
@@ -304,30 +277,11 @@ const Singleitem = () => {
        }
      };
 
-         const [isMobile, setIsMobile] = useState(false);
-     
-         // Check screen size
-         useEffect(() => {
-           const handleResize = () => {
-             setIsMobile(window.innerWidth < 425); // Mobile screen if width is less than 768px
-           };
-     
-           handleResize(); // Check on initial render
-           window.addEventListener("resize", handleResize);
-     
-           return () => {
-             window.removeEventListener("resize", handleResize);
-           };
-         }, []);
-
   const goToCategoryFromBreadcrumb = () => {
-    if (!data?.Category) return;
-    const cat = productsdata?.find((c) => c.name === data.Category.name);
-    if (cat) {
-      viewmore(cat);
-    } else {
-      navigate(`/moreproduct/${encodeURIComponent(data.Category.name)}`);
-    }
+    if (!data?.Category?._id || !data?.Category?.name) return;
+    const stub = { category: data.Category, products: [] };
+    sessionStorage.setItem("productmore", JSON.stringify(stub));
+    navigate(`/moreproduct/${encodeURIComponent(data.Category.name)}`);
   };
 
   const handleShare = async () => {
@@ -716,105 +670,81 @@ const Singleitem = () => {
         </div>
       </div>
 
-      {productsdata && productsdata.length > 0 ? (
-        <div className="pdp-categories-box hidden lg:block">
-          <h3>Product Categories</h3>
-          <ul>
-            {productsdata.map((category, index) => (
-              <li key={index}>
-                <button type="button" onClick={() => viewmore(category)}>
-                  {category?.name || ""} ({category?.count || "0"})
+      <div className="pdp-section pdp-related-block w-full mt-2">
+        <h2 className="pdp-related-title">Related ads</h2>
+        <div className="pdp-related-wrap w-full rounded-xl bg-[#fafafa] p-2 pt-3 lg:p-3">
+          <div className="pdp-related-carousel home-cat-swiper-wrap">
+            {!isLoading ? (
+              <>
+                <button
+                  type="button"
+                  className="home-cat-nav home-cat-nav--prev swiper-related-prev"
+                  aria-label="Previous related ads"
+                >
+                  <CarouselThinChevron
+                    direction="left"
+                    className="home-cat-chevron"
+                  />
                 </button>
-              </li>
-            ))}
-          </ul>
-        </div>
-      ) : null}
-
-      <div className="pdp-section w-full mt-2">
-        <p className="pdp-related-title">Related ads</p>
-        <div className="pdp-related-wrap w-full">
-          <Swiper
-            slidesPerView={2}
-            spaceBetween={10}
-            centeredSlides={false}
-            slidesPerGroupSkip={1}
-            grabCursor={true}
-            keyboard={{
-              enabled: true,
-            }}
-            breakpoints={{
-              640: {
-                slidesPerView: 2,
-                slidesPerGroup: 2,
-                spaceBetween: 20,
-              },
-              768: {
-                slidesPerView: 4,
-                slidesPerGroup: 4,
-                spaceBetween: 30,
-              },
-              1024: {
-                slidesPerView: 5,
-                slidesPerGroup: 5,
-                spaceBetween: 40,
-              },
-            }}
-            scrollbar={{ draggable: true }}
-            navigation={true}
-            // pagination={{
-            //   clickable: true,
-            // }}
-            pagination={isMobile ? false : { clickable: true }}
-            modules={[Keyboard, Scrollbar, Navigation, Pagination]}
-            className="mySwiper py-6"
-          >
-            <div className="w-full ">
-              {/* <SwiperSlide> */}
-              {isLoading ? (
-                <Skeleton variant="rounded" height={250} />
-              ) : (
-                moreproductData.map((card, index) => (
-                  <SwiperSlide key={index}>
-                    <div className="h-[300px] lg:h-[340px] sm:h-[300px]  relative w-full py-1  border my-3 border-gray-300 bg-white rounded-md shadow-lg">
-                      <div
-                        className="font-semibold text-secondary sm:text-lg text-base hover:text-maincolor mt-3"
+                <button
+                  type="button"
+                  className="home-cat-nav home-cat-nav--next swiper-related-next"
+                  aria-label="Next related ads"
+                >
+                  <CarouselThinChevron
+                    direction="right"
+                    className="home-cat-chevron"
+                  />
+                </button>
+              </>
+            ) : null}
+            {isLoading ? (
+              <Skeleton variant="rounded" height={280} className="mx-2" />
+            ) : (
+              <Swiper
+                watchOverflow
+                slidesPerView={2}
+                spaceBetween={8}
+                slidesPerGroup={1}
+                grabCursor
+                keyboard={{ enabled: true }}
+                breakpoints={{
+                  640: {
+                    slidesPerView: 2,
+                    spaceBetween: 12,
+                  },
+                  768: {
+                    slidesPerView: 4,
+                    spaceBetween: 16,
+                  },
+                  1024: {
+                    slidesPerView: 5,
+                    spaceBetween: 20,
+                  },
+                }}
+                navigation={{
+                  prevEl: ".swiper-related-prev",
+                  nextEl: ".swiper-related-next",
+                }}
+                pagination={false}
+                modules={[Keyboard, Navigation]}
+                className="pdp-related-swiper py-2"
+              >
+                {moreproductData.map((card) => (
+                  <SwiperSlide key={card._id}>
+                    <div className="h-full rounded-lg bg-white p-2 pb-3 shadow-sm ring-1 ring-gray-100 transition hover:shadow-md hover:ring-gray-200">
+                      <ProductCarouselCard
+                        product={card}
+                        ratingAverage={card?.averageRating ?? 0}
+                        reviewCount={card?.comments?.length ?? 0}
                         onClick={() => singleproduct(card)}
-                      >
-                        <center>
-                          <img
-                            src={imageLiveUrl(card.images[0])}
-                            alt=""
-                            className="w-52 h-44 object-cover cursor-pointer"
-                          />
-                        </center>
-                        <div className="w-full">
-                          <p className="px-3 mt-3 font-normal">
-                            <DescriptionWithToggle description={card.name} />
-                          </p>
-                          <div className="px-3 flex flex-row mt-5 justify-between gap-2 lg:absolute lg:bottom-1">
-                            <Rating
-                              name="half-rating"
-                              precision={0.5}
-                              value={card?.averageRating}
-                              sx={{
-                                color: "#facc15",
-                              }}
-                              readOnly
-                            />
-                            <GrLike
-                              className=" text-maincolor cursor-pointer mb-4"
-                              onClick={() => postcard(card)}
-                            />
-                          </div>
-                        </div>
-                      </div>
+                      />
                     </div>
                   </SwiperSlide>
-                ))
-              )}
-            </div>
-          </Swiper>
+                ))}
+              </Swiper>
+            )}
+          </div>
         </div>
       </div>
       <div className="hidden lg:block">

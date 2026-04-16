@@ -6,13 +6,20 @@ import {
   formatProductPriceDisplay,
   formatProductOldPriceDisplay,
   productHasSalePrice,
+  productDiscountPercent,
 } from "../../../../utils/formatProductPrice";
 import "./ProductCarouselCard.css";
 
 /**
  * Motta-style product card (You Might Also Like / carousels).
  */
-function ProductCarouselCard({ product, ratingAverage = 0, reviewCount = 0, onClick }) {
+function ProductCarouselCard({
+  product,
+  ratingAverage = 0,
+  reviewCount = 0,
+  onClick,
+  showHot,
+}) {
   const img = product?.images?.[0];
   const user = product?.User || product?.user;
   const sellerName = user?.username || user?.name || "Store";
@@ -23,6 +30,11 @@ function ProductCarouselCard({ product, ratingAverage = 0, reviewCount = 0, onCl
     : "";
 
   const showSale = productHasSalePrice(product);
+  const discountPct = productDiscountPercent(product);
+  const hotBadge =
+    showHot !== undefined
+      ? showHot
+      : Boolean(product?.isHot ?? product?.hot ?? product?.featured);
 
   const colorCount = Array.isArray(product?.colors)
     ? product.colors.length
@@ -37,11 +49,18 @@ function ProductCarouselCard({ product, ratingAverage = 0, reviewCount = 0, onCl
       className="pcard group w-full text-left"
     >
       <div className="pcard__image-wrap">
-        {showSale && (
-          <span className="pcard__badge" aria-hidden>
-            Sale
-          </span>
-        )}
+        {discountPct != null || hotBadge ? (
+          <div className="pcard__badges" aria-hidden>
+            {discountPct != null ? (
+              <span className="pcard__badge pcard__badge--discount">
+                −{discountPct}%
+              </span>
+            ) : null}
+            {hotBadge ? (
+              <span className="pcard__badge pcard__badge--hot">Hot</span>
+            ) : null}
+          </div>
+        ) : null}
         {img ? (
           <img
             src={imageLiveUrl(img)}
