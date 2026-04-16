@@ -10,6 +10,7 @@ import { baseUrl } from "../../../../utils/config";
 import PhoneInput from "react-phone-input-2";
 import "react-phone-input-2/lib/style.css";
 import TermsAndCondition from "./TermsAndCondition/TermsAndCondition";
+import "./SinUpForm.css";
 
 const SinUpForm = () => {
   const navigator = useNavigate();
@@ -36,9 +37,18 @@ const SinUpForm = () => {
   const [selectedFilebackcnic, setSelectedFilebackcnic] = useState(null);
   const [imageshowbackcnic, setimageshowbackcnic] = useState(backpage || "");
 
+  useEffect(() => {
+    const pre = sessionStorage.getItem("prefillEmail");
+    if (pre) {
+      setemail(pre);
+      sessionStorage.removeItem("prefillEmail");
+    }
+  }, []);
+
   const handleChangeStatus = (e) => {
-    setStatus(e.target.value);
-    setIsGemstone(true)
+    const value = e.target.value;
+    setStatus(value);
+    setIsGemstone(value === "Gemstone" || value === "wholesale");
   };
 
   function handleChangeback(e) {
@@ -213,372 +223,219 @@ const SinUpForm = () => {
   };
 
   return (
-    <section className="bg-gray-50">
-      <div className="h-full w-full lg:w-1/2  sm:w-full mx-auto rounded-md shadow-xl bg-white flex flex-col items-center justify-between p-0 lg:p-8 sm:p-0">
-        <div className="w-full sm:w-full dark:bg-gray-800 border rounded-lg shadow dark:border-gray-700 flex flex-col items-center justify-between overflow-y-auto h-full">
-          <div className="w-full mx-auto bg-white rounded-lg shadow dark:bg-gray-800 dark:border-gray-700 p-6 h-[100%] overflow-y-auto space-y-4 md:space-y-6">
-            <h1 className="text-xl font-bold leading-tight tracking-tight text-gray-900 md:text-2xl dark:text-white">
-              Create a new account
-            </h1>
-            <form className="space-y-4 md:space-y-6">
-              <div className="flex flex-col sm:gap-3 gap-3 mt-5">
-                {/* Username */}
-                <div className="w-full font-body sm:text-base text-sm flex flex-col gap-2">
-                  <label
-                    htmlFor="name"
-                    className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
-                  >
-                    User Name
-                  </label>
-                  <input
-                    type="text"
-                    required
-                    id="name"
-                    value={name}
-                    onChange={(e) => setname(e.target.value)}
-                    placeholder={`User Name`}
-                    className="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 pr-10"
-                  />
-                </div>
-                {/* Email */}
-                <div className="w-full font-body sm:text-base text-sm flex flex-col gap-2">
-                  <label
-                    htmlFor="email"
-                    className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
-                  >
-                    Email
-                  </label>
-                  <input
-                    type="email"
-                    id="email"
-                    required
-                    value={email}
-                    onChange={(e) => setemail(e.target.value)}
-                    placeholder={`Enter you Email`}
-                    className="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 pr-10"
-                  />
-                </div>
-                <label
-                  htmlFor="landline"
-                  className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
-                >
-                  Phone Number
-                </label>
-                <PhoneInput
-                  international
-                  country={"pk"}
-                  defaultCountry={"pk"}
-                  value={companyLandLine}
-                  onChange={handlecompanyLandLine}
-                  inputProps={{
-                    id: "landline",
-                    placeholder: "Company Landline",
-                    autoComplete: "off",
-                  }}
-                  inputStyle={{
-                    width: "100%",
-                    borderRadius: "0px",
-                    border: "#212121",
-                    background: "none",
-                    // color: "white",
-                  }}
-                  className="bg-gray-50 border border-gray-300 rounded-lg focus:ring-primary-600 focus:border-primary-600 text-black dark:text-white  block w-full p-1 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400  dark:focus:ring-blue-500 dark:focus:border-blue-500 pr-10"
+    <section className="auth-signup-page">
+      <div className="auth-signup-card">
+        <h1 className="auth-signup-title">Create a new account</h1>
+
+        <form>
+          <div className="auth-signup-field">
+            <label htmlFor="name">User Name</label>
+            <input
+              type="text"
+              required
+              id="name"
+              value={name}
+              onChange={(e) => setname(e.target.value)}
+              placeholder="User Name"
+              className="auth-signup-input"
+            />
+          </div>
+
+          <div className="auth-signup-field">
+            <label htmlFor="email">Email</label>
+            <input
+              type="email"
+              id="email"
+              required
+              value={email}
+              onChange={(e) => setemail(e.target.value)}
+              placeholder="Enter your Email"
+              className="auth-signup-input"
+            />
+          </div>
+
+          <div className="auth-signup-field auth-signup-phone-wrap">
+            <label htmlFor="landline">Phone Number</label>
+            <PhoneInput
+              international
+              country={"pk"}
+              defaultCountry={"pk"}
+              value={companyLandLine}
+              onChange={handlecompanyLandLine}
+              inputProps={{
+                id: "landline",
+                placeholder: "Phone Number",
+                autoComplete: "off",
+              }}
+            />
+            {companyLandlineError && (
+              <p className="auth-signup-error">{companyLandlineError}</p>
+            )}
+          </div>
+
+          <div className="auth-signup-field">
+            <label htmlFor="password">Password</label>
+            <div className="auth-signup-pass-wrap">
+              <input
+                type={showPassword ? "text" : "password"}
+                id="password"
+                required
+                value={password}
+                onChange={(e) => setpassword(e.target.value)}
+                placeholder="Enter password"
+                className="auth-signup-input auth-signup-input--password"
+              />
+              <button
+                type="button"
+                className="auth-signup-eye"
+                onClick={toggleShowPassword}
+                aria-label={showPassword ? "Hide password" : "Show password"}
+              >
+                {showPassword ? <AiOutlineEye /> : <AiOutlineEyeInvisible />}
+              </button>
+            </div>
+          </div>
+
+          <div className="auth-signup-field">
+            <label htmlFor="status">Status</label>
+            <select
+              id="status"
+              value={status}
+              onChange={handleChangeStatus}
+              className="auth-signup-input auth-signup-select"
+            >
+              <option value="">-- status --</option>
+              <option value="Gemstone">Gemstone</option>
+              <option value="wholesale">Wholesale</option>
+            </select>
+          </div>
+
+          {(status === "wholesale" || status === "Gemstone") && (
+            <div className="auth-signup-extra">
+              <p className="auth-signup-extra-title">Business Details</p>
+
+              <div className="auth-signup-field">
+                <label htmlFor="idCardNumber">ID card / Passport Number</label>
+                <input
+                  type="text"
+                  id="idCardNumber"
+                  value={id_cardNo}
+                  onChange={handleChange}
+                  className="auth-signup-input"
+                  placeholder="Enter your ID card / Passport Number"
                 />
-                {companyLandlineError && (
-                  <p className="text-red-600">{companyLandlineError}</p>
-                )}
-                {/* Password */}
-                <div className="w-full font-body sm:text-base text-sm flex flex-col gap-2 relative">
-                  <label
-                    htmlFor="password"
-                    className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
-                  >
-                    Password
-                  </label>
-                  <input
-                    type={showPassword ? "text" : "password"}
-                    id="password"
-                    required
-                    value={password}
-                    onChange={(e) => setpassword(e.target.value)}
-                    placeholder={`Enter password`}
-                    className="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 pr-10"
-                  />
-                  <div
-                    className="absolute inset-y-0 right-0 text-white mt-7 flex items-center pr-3 cursor-pointer"
-                    onClick={toggleShowPassword}
-                  >
-                    {showPassword ? (
-                      <AiOutlineEye />
-                    ) : (
-                      <AiOutlineEyeInvisible />
-                    )}
-                  </div>
-                </div>
-
-                <div className="w-full font-body sm:text-base text-sm flex flex-col gap-2">
-                  <label
-                    htmlFor="status"
-                    className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
-                  >
-                    status
-                  </label>
-                  <select
-                    id="status"
-                    value={status}
-                    onChange={handleChangeStatus}
-                    className="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 pr-10"
-                  >
-                    <option value="">-- status --</option>
-                    <option value="Gemstone">Gemstone </option>
-                    <option value="wholesale">wholesale</option>
-                  </select>
-                </div>
-
-                {(status === "wholesale" || status === "Gemstone") && (
-                  <>
-                    {/* ID Card Number */}
-                    <div className="w-full font-body sm:text-base text-sm flex flex-col gap-2">
-                      <label
-                        htmlFor="idCardNumber"
-                        className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
-                      >
-                        ID card / Passport Number
-                      </label>
-                      <input
-                        type="text"
-                        id="idCardNumber"
-                        value={id_cardNo}
-                        onChange={handleChange}
-                        className="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                        placeholder="Enter your ID card / Passport Number"
-                      />
-                    </div>
-
-                    {/* Tax Number */}
-                    <div className="w-full font-body sm:text-base text-sm flex flex-col gap-2">
-                      <label
-                        htmlFor="taxNumber"
-                        className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
-                      >
-                        Tax No
-                      </label>
-                      <input
-                        type="text"
-                        id="taxNumber"
-                        value={taxNo}
-                        onChange={(e) => settaxNo(e.target.value)}
-                        className="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                        placeholder="Enter Tax No"
-                      />
-                    </div>
-
-                    {/* Image Upload Section */}
-                    <div className="flex justify-between flex-col sm:flex-row">
-                      <div className="printerPic font-body sm:text-base text-sm flex flex-col gap-2">
-                        <label
-                          htmlFor="Image"
-                          className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
-                        >
-                          Business Certificate
-                        </label>
-                        <div className="imgesection">
-                          <img
-                            src={
-                              selectedFile
-                                ? URL.createObjectURL(selectedFile)
-                                : imageshow != null
-                                  ? imageshow
-                                  : ""
-                            }
-                            className="printerpic text-black"
-                            alt="Uploaded Business Certificate"
-                            style={{
-                              width:
-                                selectedFile || imageshow ? "200px" : "200px",
-                              height:
-                                selectedFile || imageshow ? "200px" : "200px",
-                            }}
-                          />
-                          <div className="row " htmlFor="file-inputs">
-                            <label
-                              htmlFor="file-inputs"
-                              className="choosefile bg-loactioncolor hover:bg-primary"
-                            >
-                              choose file
-                            </label>
-                            <input
-                              id="file-inputs"
-                              type="file"
-                              onChange={handleChangeback}
-                              style={{ display: "none" }}
-                            />
-                          </div>
-                        </div>
-                      </div>
-
-                      <div className="printerPic font-body sm:text-base text-sm flex flex-col gap-2">
-                        <label
-                          htmlFor="frontCNIC"
-                          className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
-                        >
-                          Front CNIC
-                        </label>
-                        <div className="imgesection">
-                          <img
-                            src={
-                              selectedFilefrontcnic
-                                ? URL.createObjectURL(selectedFilefrontcnic)
-                                : imageshowfrontcnic != null
-                                  ? imageshowfrontcnic
-                                  : ""
-                            }
-                            className="printerpic text-black"
-                            alt="Front CNIC"
-                            style={{
-                              width:
-                                selectedFilefrontcnic || imageshowfrontcnic
-                                  ? "200px"
-                                  : "200px",
-                              height:
-                                selectedFilefrontcnic || imageshowfrontcnic
-                                  ? "200px"
-                                  : "200px",
-                            }}
-                          />
-                          <div className="row " htmlFor="file-inputs">
-                            <label
-                              htmlFor="frontCNIC"
-                              className="choosefile bg-loactioncolor hover:bg-primary"
-                            >
-                              Upload
-                            </label>
-                            <input
-                              id="frontCNIC"
-                              type="file"
-                              onChange={handleChangebackfrontcnic}
-                              style={{ display: "none" }}
-                            />
-                          </div>
-                        </div>
-                      </div>
-
-                      <div className="printerPic font-body sm:text-base text-sm flex flex-col gap-2">
-                        <label
-                          htmlFor="backcnic"
-                          className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
-                        >
-                          Back CNIC
-                        </label>
-                        <div className="imgesection">
-                          <img
-                            src={
-                              selectedFilebackcnic
-                                ? URL.createObjectURL(selectedFilebackcnic)
-                                : imageshowbackcnic != null
-                                  ? imageshowbackcnic
-                                  : ""
-                            }
-                            className="printerpic text-black"
-                            alt="Back CNIC"
-                            style={{
-                              width:
-                                selectedFilebackcnic || imageshowbackcnic
-                                  ? "200px"
-                                  : "200px",
-                              height:
-                                selectedFilebackcnic || imageshowbackcnic
-                                  ? "200px"
-                                  : "200px",
-                            }}
-                          />
-                          <div className="row " htmlFor="backcnic">
-                            <label
-                              htmlFor="backcnic"
-                              className="choosefile bg-loactioncolor hover:bg-primary"
-                            >
-                              Upload
-                            </label>
-                            <input
-                              id="backcnic"
-                              type="file"
-                              onChange={handleChangebackbackcnic}
-                              style={{ display: "none" }}
-                            />
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  </>
-                )}
-
-                <div className="flex items-center justify-between mt-5">
-                  <div className="flex items-start">
-                    <div className="flex items-center h-5">
-                      <input
-                        id="remember"
-                        aria-describedby="remember"
-                        type="checkbox"
-                        className="w-4 h-4 border border-gray-300 rounded bg-gray-50 focus:ring-3 focus:ring-primary-300 dark:bg-gray-700 dark:border-gray-600 dark:focus:ring-primary-600 dark:ring-offset-gray-800"
-                        required
-                        checked={isChecked}
-                        onChange={handleTermsAndCondition}
-                      />
-                    </div>
-                    <div className="ml-3 text-sm">
-                      <label
-                        htmlFor="remember"
-                        className="text-gray-500 dark:text-gray-300"
-                      >
-                        Accept Term & Conditions
-                      </label>
-                    </div>
-                  </div>
-                  {/* <a
-                  href="#"
-                  className="text-sm font-medium text-primary-600 hover:underline dark:text-primary-500"
-                >
-                  Forgot password?
-                </a> */}
-                </div>
               </div>
 
-              <button
-                // type="submit"
-                type="button"
-                onClick={handleAddCompany}
-                className="w-full text-white bg-headingcolor hover:bg-viewmorebutton focus:ring-4 focus:outline-none  font-medium rounded-lg text-md px-5 py-2.5 text-center"
-              >
-                Sign Up
-              </button>
-            </form>
-            <div className="flex w-full my-auto">
-              <hr className="w-full my-auto" />
-              <p className="my-auto mx-3 text-white">OR</p>
-              <hr className="w-full my-auto" />
+              <div className="auth-signup-field">
+                <label htmlFor="taxNumber">Tax No</label>
+                <input
+                  type="text"
+                  id="taxNumber"
+                  value={taxNo}
+                  onChange={(e) => settaxNo(e.target.value)}
+                  className="auth-signup-input"
+                  placeholder="Enter Tax No"
+                />
+              </div>
+
+              <div className="auth-signup-upload-grid">
+                <div className="auth-signup-upload-box">
+                  <label htmlFor="file-inputs">Business Certificate</label>
+                  <img
+                    src={selectedFile ? URL.createObjectURL(selectedFile) : imageshow || ""}
+                    alt="Uploaded Business Certificate"
+                  />
+                  <label htmlFor="file-inputs" className="auth-signup-choose">
+                    Choose file
+                  </label>
+                  <input
+                    id="file-inputs"
+                    type="file"
+                    onChange={handleChangeback}
+                    style={{ display: "none" }}
+                  />
+                </div>
+
+                <div className="auth-signup-upload-box">
+                  <label htmlFor="frontCNIC">Front CNIC</label>
+                  <img
+                    src={
+                      selectedFilefrontcnic
+                        ? URL.createObjectURL(selectedFilefrontcnic)
+                        : imageshowfrontcnic || ""
+                    }
+                    alt="Front CNIC"
+                  />
+                  <label htmlFor="frontCNIC" className="auth-signup-choose">
+                    Upload
+                  </label>
+                  <input
+                    id="frontCNIC"
+                    type="file"
+                    onChange={handleChangebackfrontcnic}
+                    style={{ display: "none" }}
+                  />
+                </div>
+
+                <div className="auth-signup-upload-box">
+                  <label htmlFor="backcnic">Back CNIC</label>
+                  <img
+                    src={
+                      selectedFilebackcnic
+                        ? URL.createObjectURL(selectedFilebackcnic)
+                        : imageshowbackcnic || ""
+                    }
+                    alt="Back CNIC"
+                  />
+                  <label htmlFor="backcnic" className="auth-signup-choose">
+                    Upload
+                  </label>
+                  <input
+                    id="backcnic"
+                    type="file"
+                    onChange={handleChangebackbackcnic}
+                    style={{ display: "none" }}
+                  />
+                </div>
+              </div>
             </div>
-            <p
-              className="w-full flex justify-center text-black dark:text-white  shadow-lg text-lg hover:border-white cursor-pointer dark:bg-gray-800 dark:border-gray-700 border  font-medium rounded-lg  px-5 py-2.5 text-center "
-              onClick={handleGoogleSignup}
-            >
-              <img
-                src={Googleicon}
-                alt=""
-                className="w-10 h-8 p-1 object-contain bg-transparent"
-              />{" "}
-              <span className="my-auto mx-3">Singup with Google</span>
-            </p>
-            <p
-              className="text-sm font-light text-viewmorebutton cursor-pointer"
-              onClick={() => navigator("/LoginForm")}
-            >
-              Already have an account?{" "}
-              <span className="font-medium text-primary-600 hover:underline dark:text-primary-500">
-                Login
-              </span>
-            </p>
+          )}
+
+          <div className="auth-signup-terms">
+            <input
+              id="remember"
+              aria-describedby="remember"
+              type="checkbox"
+              checked={isChecked}
+              onChange={handleTermsAndCondition}
+            />
+            <label htmlFor="remember">Accept Term & Conditions</label>
           </div>
+
+          <button
+            type="button"
+            onClick={handleAddCompany}
+            className="auth-signup-btn"
+          >
+            Sign Up
+          </button>
+        </form>
+
+        <div className="auth-signup-divider">
+          <span>OR</span>
         </div>
+
+        <button type="button" className="auth-signup-google" onClick={handleGoogleSignup}>
+          <img src={Googleicon} alt="" />
+          Signup with Google
+        </button>
+
+        <p className="auth-signup-footer">
+          Already have an account?{" "}
+          <button type="button" onClick={() => navigator("/LoginForm")}>
+            Login
+          </button>
+        </p>
       </div>
       {isTermsAndConditionPopUp && (
         <TermsAndCondition

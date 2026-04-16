@@ -1,0 +1,316 @@
+/* Registration — white minimalist card */
+
+.auth-signup-page {
+  min-height: 100vh;
+  padding: 2rem 1rem 3rem;
+  background: #ffffff;
+}
+
+.auth-signup-card {
+  width: 100%;
+  max-width: 760px;
+  margin-left: auto;
+  margin-right: auto;
+  background: #ffffff;
+  border: 1px solid #e5e7eb;
+  border-radius: 12px;
+  box-shadow: 0 4px 24px rgba(0, 0, 0, 0.06);
+  padding: 1.75rem 1.5rem 2rem;
+}
+
+.auth-signup-title {
+  margin: 0 0 1.5rem;
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: #111827;
+  letter-spacing: -0.02em;
+}
+
+.auth-signup-field {
+  margin-bottom: 1.1rem;
+}
+
+.auth-signup-field label {
+  display: block;
+  margin-bottom: 0.4rem;
+  font-size: 0.8125rem;
+  font-weight: 500;
+  color: #111827;
+}
+
+.auth-signup-input {
+  width: 100%;
+  padding: 0.65rem 0.85rem;
+  font-size: 0.9375rem;
+  color: #111827;
+  background: #ffffff;
+  border: 1px solid #d1d5db;
+  border-radius: 8px;
+  outline: none;
+  transition:
+    border-color 0.15s ease,
+    box-shadow 0.15s ease;
+}
+
+.auth-signup-input::placeholder {
+  color: #9ca3af;
+}
+
+.auth-signup-input:focus {
+  border-color: #9ca3af;
+  box-shadow: 0 0 0 3px rgba(17, 24, 39, 0.06);
+}
+
+.auth-signup-input--password {
+  padding-right: 2.75rem;
+}
+
+.auth-signup-pass-wrap {
+  position: relative;
+}
+
+.auth-signup-eye {
+  position: absolute;
+  right: 0.65rem;
+  top: 50%;
+  transform: translateY(-50%);
+  padding: 0.25rem;
+  border: none;
+  background: none;
+  color: #6b7280;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.auth-signup-eye:hover {
+  color: #111827;
+}
+
+.auth-signup-select {
+  appearance: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke='%236b7280'%3E%3Cpath stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M19 9l-7 7-7-7'%3E%3C/path%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 0.65rem center;
+  background-size: 1.1rem;
+  padding-right: 2.25rem;
+}
+
+/* react-phone-input-2 — white theme */
+.auth-signup-page .auth-signup-phone-wrap .react-tel-input .form-control {
+  width: 100% !important;
+  height: auto !important;
+  padding: 0.65rem 0.85rem 0.65rem 3rem !important;
+  font-size: 0.9375rem !important;
+  color: #111827 !important;
+  background: #ffffff !important;
+  border: 1px solid #d1d5db !important;
+  border-radius: 8px !important;
+}
+
+.auth-signup-page .auth-signup-phone-wrap .react-tel-input .flag-dropdown {
+  background: #ffffff !important;
+  border: 1px solid #d1d5db !important;
+  border-radius: 8px 0 0 8px !important;
+}
+
+.auth-signup-page .auth-signup-phone-wrap .react-tel-input .selected-flag {
+  padding-left: 0.65rem !important;
+  border-radius: 8px 0 0 8px !important;
+}
+
+.auth-signup-page .auth-signup-phone-wrap .react-tel-input .selected-flag:hover,
+.auth-signup-page .auth-signup-phone-wrap .react-tel-input .selected-flag:focus {
+  background: #f3f4f6 !important;
+}
+
+.auth-signup-page .auth-signup-phone-wrap .country-list {
+  background: #ffffff !important;
+  color: #111827 !important;
+  border: 1px solid #d1d5db !important;
+  z-index: 10050 !important;
+}
+
+.auth-signup-select option {
+  background: #ffffff;
+  color: #111827;
+}
+
+.auth-signup-error {
+  margin-top: 0.35rem;
+  font-size: 0.8125rem;
+  color: #dc2626;
+}
+
+.auth-signup-terms {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.5rem;
+  margin: 1.25rem 0 1.5rem;
+}
+
+.auth-signup-terms input[type="checkbox"] {
+  margin-top: 0.2rem;
+  width: 1rem;
+  height: 1rem;
+  accent-color: #2563eb;
+  cursor: pointer;
+}
+
+.auth-signup-terms label {
+  font-size: 0.8125rem;
+  color: #6b7280;
+  cursor: pointer;
+  line-height: 1.4;
+}
+
+.auth-signup-btn {
+  width: 100%;
+  padding: 0.75rem 1rem;
+  font-size: 0.9375rem;
+  font-weight: 700;
+  color: #fff;
+  background: #2563eb;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background 0.15s ease, filter 0.15s ease;
+}
+
+.auth-signup-btn:hover {
+  background: #1d4ed8;
+}
+
+.auth-signup-divider {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  margin: 1.5rem 0;
+}
+
+.auth-signup-divider::before,
+.auth-signup-divider::after {
+  content: "";
+  flex: 1;
+  height: 1px;
+  background: #e5e7eb;
+}
+
+.auth-signup-divider span {
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: #6b7280;
+  letter-spacing: 0.06em;
+}
+
+.auth-signup-google {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.65rem;
+  width: 100%;
+  padding: 0.65rem 1rem;
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: #4b5563;
+  background: #ffffff;
+  border: 1px solid #d1d5db;
+  border-radius: 8px;
+  cursor: pointer;
+  transition:
+    border-color 0.15s ease,
+    background 0.15s ease;
+}
+
+.auth-signup-google:hover {
+  background: #f9fafb;
+  border-color: #9ca3af;
+}
+
+.auth-signup-google img {
+  width: 20px;
+  height: 20px;
+  object-fit: contain;
+}
+
+.auth-signup-footer {
+  margin-top: 1.5rem;
+  font-size: 0.875rem;
+  color: #6b7280;
+}
+
+.auth-signup-footer button {
+  font: inherit;
+  color: #2563eb;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+
+.auth-signup-footer button:hover {
+  color: #1d4ed8;
+}
+
+/* Gemstone / wholesale extra section */
+.auth-signup-extra {
+  margin-top: 1rem;
+  padding-top: 1rem;
+  border-top: 1px solid #e5e7eb;
+}
+
+.auth-signup-extra-title {
+  margin: 0 0 1rem;
+  font-size: 0.8125rem;
+  font-weight: 600;
+  color: #6b7280;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+.auth-signup-upload-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+}
+
+@media (min-width: 640px) {
+  .auth-signup-upload-grid {
+    flex-direction: row;
+    flex-wrap: wrap;
+  }
+
+  .auth-signup-upload-grid > div {
+    flex: 1;
+    min-width: 140px;
+  }
+}
+
+.auth-signup-upload-box img {
+  max-width: 100%;
+  height: auto;
+  max-height: 140px;
+  object-fit: contain;
+  border-radius: 6px;
+  border: 1px solid #d1d5db;
+  background: #ffffff;
+}
+
+.auth-signup-choose {
+  display: inline-block;
+  margin-top: 0.5rem;
+  padding: 0.35rem 0.75rem;
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: #111827;
+  background: #f3f4f6;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+.auth-signup-choose:hover {
+  background: #e5e7eb;
+}
