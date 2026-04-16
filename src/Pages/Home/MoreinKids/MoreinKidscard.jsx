@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { toast } from "react-toastify";
 import "swiper/css";
@@ -88,6 +88,43 @@ const Hadersilder = () => {
     }
   );
 
+  const { data: categoryProductGroups } = useQuery(
+    "getcategoryproduct-sellers",
+    async () => {
+      const response = await NewRequest.get("/product/getcategoryproduct");
+      return response?.data || [];
+    },
+    { staleTime: 60 * 1000 }
+  );
+
+  const sellerByProductId = useMemo(() => {
+    if (!Array.isArray(categoryProductGroups)) return {};
+    const map = {};
+    for (const row of categoryProductGroups) {
+      const prods = row?.products;
+      if (!Array.isArray(prods)) continue;
+      for (const p of prods) {
+        if (p?._id) map[p._id] = p;
+      }
+    }
+    return map;
+  }, [categoryProductGroups]);
+
+  const mergeSellerFromCategoryPayload = (product) => {
+    const paginatedUser = product.User ?? product.user;
+    const hasPopulatedUser =
+      paginatedUser &&
+      typeof paginatedUser === "object" &&
+      (paginatedUser.username || paginatedUser.name);
+    if (hasPopulatedUser) return product;
+    const fromCat = sellerByProductId[product._id];
+    const mergedUser = fromCat?.User ?? fromCat?.user;
+    if (mergedUser && typeof mergedUser === "object") {
+      return { ...product, User: mergedUser };
+    }
+    return product;
+  };
+
   // Handle "Load More" click
   const handleLoadMore = async () => {
     try {
@@ -147,9 +184,9 @@ const Hadersilder = () => {
       className="relative mt-6 mb-16 h-auto w-full border-b border-gray-100 bg-white"
     >
       {dataToRender?.categories?.map((category, index) => {
-        const activeProducts = category.products.filter(
-          (product) => product.status.toLowerCase() === "active"
-        );
+        const activeProducts = category.products
+          .filter((product) => product.status.toLowerCase() === "active")
+          .map(mergeSellerFromCategoryPayload);
 
         if (activeProducts.length === 0) return null;
 
