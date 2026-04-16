@@ -60,16 +60,7 @@ function Headerpost() {
             alt="Pakardai"
             style={{ height: "40px", width: "auto", objectFit: "contain" }}
           />
-          <span
-            style={{
-              fontSize: "22px",
-              fontWeight: 800,
-              color: "#1f2937",
-              letterSpacing: "-0.02em",
-            }}
-          >
-            Pakardai
-          </span>
+          
         </div>
 
         <div style={{ width: "56px" }} />
