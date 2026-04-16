@@ -1,14 +1,12 @@
 import React, { useState } from "react";
-import { FaRegHeart } from "react-icons/fa";
 import { useQuery, useQueryClient } from "react-query";
 import { useNavigate } from "react-router-dom";
 import NewRequest from "../../../../utils/NewRequest";
 import { toast } from "react-toastify";
 import Skeleton from "@mui/material/Skeleton";
-import DescriptionWithToggle from "../MoreinKids/DescriptionWithToggle";
 import imageLiveUrl from "../../../../utils/urlConverter/imageLiveUrl";
-import { GrLike } from "react-icons/gr";
-import { Rating } from "@mui/material";
+import "./MoreProductview.css";
+import ProductCarouselCard from "../components/ProductCarouselCard";
 
 const MoreProductview = () => {
   const navigate = useNavigate();
@@ -20,12 +18,12 @@ const MoreProductview = () => {
   const storedUserResponse = JSON.parse(storedUserResponseString);
   const loginuserid = storedUserResponse?.data?.user?._id || "";
 
-  const [productRatings, setProductRatings] = useState({});
+  const [productRatingMeta, setProductRatingMeta] = useState({});
   const [limit, setLimit] = useState(10);
   const [hasMore, setHasMore] = useState(true);
 
   async function fetchProductRatings(products) {
-    const ratings = {};
+    const meta = {};
 
     // Loop through products and fetch ratings for each product
     for (const product of products) {
@@ -34,19 +32,27 @@ const MoreProductview = () => {
           `/comment/replay/${product._id}`
         );
 
-        const productRatings = ratingResponse?.data?.comments;
+        const comments = ratingResponse?.data?.comments || [];
 
         // Calculate the average rating
-        const totalRatings = productRatings.reduce((acc, comment) => acc + (comment.rating || 0), 0);
-        const averageRating = productRatings ? totalRatings / productRatings.length : 0;
+        const totalRatings = comments.reduce(
+          (acc, comment) => acc + (comment.rating || 0),
+          0
+        );
+        const averageRating = comments.length
+          ? totalRatings / comments.length
+          : 0;
 
-        ratings[product._id] = averageRating || 0;
+        meta[product._id] = {
+          avg: averageRating || 0,
+          count: comments.length || 0,
+        };
       } catch (error) {
-        ratings[product._id] = 0;
+        meta[product._id] = { avg: 0, count: 0 };
       }
     }
 
-    setProductRatings(ratings);
+    setProductRatingMeta(meta);
   }
 
   const {
@@ -141,35 +147,195 @@ const MoreProductview = () => {
     setLimit(prevLimit => prevLimit + 10);
   };
 
+  const currentCategoryName = subCategoriesResponse?.category?.name || "";
+  const currentCategoryMeta = productsdata?.find(
+    (c) => c?.name === currentCategoryName
+  );
+  const currentCategoryCount = currentCategoryMeta?.count || 0;
+
+  const allProductsCount = Array.isArray(productsdata)
+    ? productsdata.reduce((acc, c) => acc + (c?.count || 0), 0)
+    : 0;
+
   return (
     <>
-      <div className="lg:px-7 mt-5 lg:mt-28 sm:mt-2">
-        <div className="my-5 bg-maincolor text-white rounded-full py-2 shadow-md px-3">
-          <span className="cursor-pointer" onClick={() => navigate("/")}>
-            Home
-          </span>
-          |
-          <span className="cursor-pointer">
-            {subCategoriesResponse?.category?.name || ""}
-          </span>
-        </div>
-        <div className="flex justify-between items-center mb-4">
-          <h2 className="text-xl font-bold text-maincolor">
-            {subCategoriesResponse?.category?.name || ""}
-          </h2>
-        </div>
-        <div className="flex flex-col lg:flex-row sm:flex-col">
-          {/* Main Content */}
-          <main className="flex-1 p-4 flex-col lg:flex-row sm:flex-col">
-            <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-4 gap-4">
-              {isLoading ? (
-                <div>
-                  {[...Array(3)].map((_, index) => (
+      <section className="mpv-page">
+        <div className="mpv-container">
+          <div className="mpv-breadcrumb">
+            <span className="mpv-breadcrumb-home" onClick={() => navigate("/")}>
+              Home
+            </span>
+            <span className="mpv-breadcrumb-sep">|</span>
+            <span className="mpv-breadcrumb-current">
+              {subCategoriesResponse?.category?.name || ""}
+            </span>
+          </div>
+
+          <div className="mpv-header">
+            <h2 className="mpv-title">
+              {subCategoriesResponse?.category?.name || ""}
+            </h2>
+          </div>
+
+          <div className="mpv-banner" aria-hidden="true">
+            {subCategoriesResponse?.category?.icon ? (
+              <img
+                className="mpv-banner-img"
+                src={imageLiveUrl(subCategoriesResponse?.category?.icon)}
+                alt=""
+              />
+            ) : (
+              <div className="mpv-banner-placeholder" />
+            )}
+          </div>
+
+          <div className="mpv-layout">
+            <aside className="mpv-sidebar">
+              <div className="mpv-sidebar-head">
+                <div className="mpv-sidebar-title">Refine by</div>
+                <button type="button" className="mpv-clear" onClick={() => {}}>
+                  Clear All
+                </button>
+              </div>
+
+              <div className="mpv-filter-block">
+                <div className="mpv-filter-label">Filter</div>
+                <div className="mpv-chip-row">
+                  <span className="mpv-chip">
+                    {currentCategoryName}
+                    <button
+                      type="button"
+                      className="mpv-chip-x"
+                      aria-label="Remove filter"
+                      onClick={() => navigate("/")}
+                    >
+                      ×
+                    </button>
+                  </span>
+                </div>
+              </div>
+
+              <div className="mpv-filter-block">
+                <div className="mpv-filter-header">
+                  <span>Categories</span>
+                  <span className="mpv-collapse">-</span>
+                </div>
+                <div className="mpv-filter-items mpv-cat-items">
+                  <div className="mpv-cat-item">
+                    <span className="mpv-cat-plus">-</span>
+                    <span className="mpv-cat-text">All Categories ({allProductsCount})</span>
+                  </div>
+                  <div className="mpv-cat-item">
+                    <span className="mpv-cat-plus">+</span>
+                    <span
+                      className="mpv-cat-text mpv-cat-text--active"
+                      onClick={() => {
+                        if (currentCategoryMeta) viewmore(currentCategoryMeta);
+                      }}
+                    >
+                      {currentCategoryName} ({currentCategoryCount})
+                    </span>
+                  </div>
+                  <button type="button" className="mpv-lessmore">
+                    Less More
+                  </button>
+                </div>
+              </div>
+
+              <div className="mpv-filter-block">
+                <div className="mpv-filter-header">
+                  <span>Price</span>
+                  <span className="mpv-collapse">-</span>
+                </div>
+                <div className="mpv-filter-items">
+                  <label className="mpv-checkbox">
+                    <input type="checkbox" />
+                    <span className="mpv-checkbox-text">$0 - $100.00</span>
+                  </label>
+                  <label className="mpv-checkbox">
+                    <input type="checkbox" />
+                    <span className="mpv-checkbox-text">$100.00 - $200.00</span>
+                  </label>
+                  <label className="mpv-checkbox">
+                    <input type="checkbox" />
+                    <span className="mpv-checkbox-text">$250.00 +</span>
+                  </label>
+
+                  <div className="mpv-price-range">
+                    <div className="mpv-price-inputs">
+                      <div className="mpv-price-col">
+                        <div className="mpv-price-label">Min</div>
+                        <input className="mpv-price-input" placeholder="$0" />
+                      </div>
+                      <div className="mpv-price-col">
+                        <div className="mpv-price-label">Max</div>
+                        <input className="mpv-price-input" placeholder="$250" />
+                      </div>
+                    </div>
+                    <button type="button" className="mpv-apply-btn">
+                      Apply
+                    </button>
+                  </div>
+                </div>
+              </div>
+
+              <div className="mpv-filter-block">
+                <div className="mpv-filter-header">
+                  <span>Color</span>
+                  <span className="mpv-collapse">-</span>
+                </div>
+                <div className="mpv-filter-items mpv-color-items">
+                  <div className="mpv-color-dot mpv-color-dot--black" />
+                  <div className="mpv-color-dot mpv-color-dot--blue" />
+                  <div className="mpv-color-dot mpv-color-dot--brown" />
+                  <div className="mpv-color-dot mpv-color-dot--gray" />
+                </div>
+              </div>
+            </aside>
+
+            <main className="mpv-main">
+              <div className="mpv-toolbar">
+                <div className="mpv-results">
+                  1-{moreproductData?.length || 0} of {moreproductData?.length || 0} Results
+                </div>
+                <div className="mpv-toolbar-right">
+                  <div className="mpv-sort">
+                    <span className="mpv-sort-label">Sort by:</span>
+                    <select className="mpv-select" disabled>
+                      <option>Default</option>
+                    </select>
+                  </div>
+                  <div className="mpv-view-icons">
+                    <button
+                      type="button"
+                      className="mpv-view-btn mpv-view-btn--active"
+                      aria-label="Grid view"
+                    >
+                      <span className="mpv-view-icon" aria-hidden="true">
+                        ▦
+                      </span>
+                    </button>
+                    <button
+                      type="button"
+                      className="mpv-view-btn"
+                      aria-label="List view"
+                    >
+                      <span className="mpv-view-icon" aria-hidden="true">
+                        ≡
+                      </span>
+                    </button>
+                  </div>
+                </div>
+              </div>
+
+              <div className="mpv-grid">
+                {isLoading ? (
+                  [...Array(3)].map((_, index) => (
                     <div
-                      className="border rounded shadow cursor-pointer"
+                      className="mpv-card mpv-skeleton-card cursor-pointer"
                       key={index}
                     >
-                      <div className="flex flex-col gap-1 sm:gap-1 lg:gap-3 ">
+                      <div className="flex flex-col gap-1 sm:gap-1 lg:gap-3">
                         <Skeleton
                           variant="rectangular"
                           width="100%"
@@ -202,99 +368,38 @@ const MoreProductview = () => {
                         </div>
                       </div>
                     </div>
-                  ))}
-                </div>
-              ) : error ? (
-                <div>Error loading products</div>
-              ) : moreproductData.length === 0 ? (
-                <div>No products available</div>
-              ) : (
-                moreproductData.map((item, index) => (
-                  <div
-                    className="border rounded shadow cursor-pointer hover:shadow-lg "
-                    key={index}
-                  >
-                    <div className="flex flex-col gap-1 sm:gap-1 lg:gap-3">
-                      <div className=" w-full">
-                        <img
-                          src={imageLiveUrl(item?.images?.[0]) || ""}
-                          alt="Product"
-                          className="w-full h-40 lg:h-52 sm:h-40  lg:object-contain sm:object-cover object-cover"
-                          onClick={() => singproductitem(item)}
-                        />
-                      </div>
-                      <div className="w-full  sm:p-1 lg:p-4 p-2">
-                        <DescriptionWithToggle description={item.name} />
-                        <div className="flex justify-between mt-3">
-                          <Rating
-                            name="half-rating"
-                            precision={0.5}
-                            value={productRatings[item._id] ? Number(productRatings[item._id]) : 0}
-                            sx={{
-                              color: "#4C005A",
-                              fontSize: {
-                                xs: "15px",
-                                sm: "15px",
-                                md: "1rem",
-                                lg: "1.5rem",
-                              },
-                            }}
-                            readOnly
-                          />
-                          <GrLike
-                            className=" text-maincolor cursor-pointer mb-4"
-                            onClick={() => postcard(item._id)}
-                          />
-                        </div>
-
-                        <div className="flex mt-4">
-                          <button
-                            className="text-white hover:bg-white hover:text-maincolor border bg-maincolor border-maincolor rounded-full text-lg font-sans font-bold px-4  "
-                            onClick={() => charfunction(item)}
-                          >
-                            Chat
-                          </button>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                ))
-              )}
-            </div>
-            
-            {!isLoading && hasMore && (
-              <div className="flex justify-center mt-6">
-                <button
-                  onClick={loadMore}
-                  className="bg-maincolor text-white px-6 py-2 rounded-full hover:bg-white hover:text-maincolor border border-maincolor"
-                >
-                  Load More
-                </button>
+                  ))
+                ) : error ? (
+                  <div>Error loading products</div>
+                ) : moreproductData.length === 0 ? (
+                  <div>No products available</div>
+                ) : (
+                  moreproductData.map((item) => (
+                    <ProductCarouselCard
+                      key={item?._id}
+                      product={item}
+                      ratingAverage={productRatingMeta[item?._id]?.avg || 0}
+                      reviewCount={productRatingMeta[item?._id]?.count || 0}
+                      onClick={() => singproductitem(item)}
+                    />
+                  ))
+                )}
               </div>
-            )}
-          </main>
-          {/* Sidebar */}
-          <aside className="w-full sm:w-full lg:w-1/4 p-4 border my-3 border-gray-300 bg-cardbg rounded shadow">
-            <div className="mb-4">
-              <h2 className="font-bold text-lg mb-2">Product Categories</h2>
-              <ul>
-                {productsdata &&
-                  productsdata.length > 0 &&
-                  productsdata.map((category, index) => (
-                    <li key={index} className="mb-2 text-gray-500">
-                      <p
-                        onClick={() => viewmore(category)}
-                        className="cursor-pointer"
-                      >
-                        {category?.name || ""} ({category?.count || "0"})
-                      </p>
-                    </li>
-                  ))}
-              </ul>
-            </div>
-          </aside>
+
+              {!isLoading && hasMore && (
+                <div className="mpv-load-more">
+                  <button
+                    onClick={loadMore}
+                    className="mpv-load-more-btn"
+                  >
+                    Load More
+                  </button>
+                </div>
+              )}
+            </main>
+          </div>
         </div>
-      </div>
+      </section>
     </>
   );
 };
