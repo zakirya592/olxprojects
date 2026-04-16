@@ -1,11 +1,13 @@
 import React, { useEffect, useState } from "react";
-import logimage from "../../../assets/Images/loginimage.svg";
-import Googleicon from "../../../assets/Images/googleicon.png"
+import Googleicon from "../../../assets/Images/googleicon.png";
+import logoPakardai from "../../../assets/Images/logo1.png";
 import { toast } from "react-toastify";
 import NewRequest from "../../../../utils/NewRequest";
 import { useNavigate } from "react-router-dom";
 import { AiOutlineEye, AiOutlineEyeInvisible } from "react-icons/ai";
+import { FaFacebookF } from "react-icons/fa";
 import { baseUrl } from "../../../../utils/config";
+import "./LoginForm.css";
 
 const LoginForm = () => {
   const navigator = useNavigate();
@@ -13,10 +15,23 @@ const LoginForm = () => {
   const [password, setpassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
   const [loading, setloading] = useState(false);
+  const [activeTab, setActiveTab] = useState("signin");
+  const [rememberMe, setRememberMe] = useState(false);
+  const [createEmail, setCreateEmail] = useState("");
+  const [createPassword, setCreatePassword] = useState("");
+  const [showCreatePassword, setShowCreatePassword] = useState(false);
 
+  useEffect(() => {
+    const remembered = localStorage.getItem("rememberEmail");
+    if (remembered) {
+      setemail(remembered);
+      setRememberMe(true);
+    }
+  }, []);
 
   const handleAddCompany = async (e) => {
-    setloading(true)
+    e?.preventDefault?.();
+    setloading(true);
     try {
       const response = await NewRequest.post("/users/login", {
         email: email,
@@ -26,63 +41,47 @@ const LoginForm = () => {
       const userstatus = response.data.user.status;
       setloading(false);
       if (userstatus === 1) {
+        if (rememberMe) {
+          localStorage.setItem("rememberEmail", email);
+        } else {
+          localStorage.removeItem("rememberEmail");
+        }
+
         navigator("/");
 
         localStorage.setItem("authToken", response.data.token);
-        // Correct way to store an object in sessionStorage
         localStorage.setItem("userdata", response.data);
-        // Convert the object to a JSON string
         const userResponseString = JSON.stringify(response);
-        // Store the JSON string in sessionStorage
         localStorage.setItem("userResponse", userResponseString);
 
         toast.success(`Login has been successful.`, {
           position: "top-right",
           autoClose: 2000,
-          hideProgressBar: false,
-          closeOnClick: true,
-          pauseOnHover: true,
-          draggable: true,
-          progress: undefined,
           theme: "light",
         });
-        // handleCloseCreatePopup();
-        // setParentVisibility(false);
       } else {
         toast.error("Your account is not Active.", {
           position: "top-right",
           autoClose: 2000,
-          hideProgressBar: false,
-          closeOnClick: true,
-          pauseOnHover: true,
-          draggable: true,
-          progress: undefined,
           theme: "light",
         });
       }
       localStorage.setItem("authToken", response.data.token);
     } catch (error) {
       setloading(false);
-      console.log(error, 'errorr');
+      console.log(error, "errorr");
 
       toast.error(error?.response?.data?.error || "Error show", {
         position: "top-right",
         autoClose: 2000,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-        progress: undefined,
         theme: "light",
       });
     }
   };
 
-
   const toggleShowPassword = () => {
     setShowPassword(!showPassword);
   };
-
 
   useEffect(() => {
     const handleGoogleRedirect = () => {
@@ -93,7 +92,7 @@ const LoginForm = () => {
       if (token && userId) {
         localStorage.setItem("authToken", token);
         localStorage.setItem("userdata", userId);
-        navigator("/"); // Redirect to dashboard
+        navigator("/");
       }
     };
 
@@ -104,115 +103,296 @@ const LoginForm = () => {
     window.location.href = `${baseUrl}/users/login_with_google`;
   };
 
+  const handleGoogleSignup = () => {
+    window.location.href = `${baseUrl}/users/signup_with_google`;
+  };
+
+  const handleFacebookClick = () => {
+    toast.info("Facebook sign-in is not connected yet. Please use Google or email.", {
+      position: "top-right",
+      autoClose: 3000,
+      theme: "light",
+    });
+  };
+
   const handleKeyDown = (event) => {
     if (event.key === "Enter") {
       event.preventDefault();
-      handleAddCompany();
+      if (activeTab === "signin") handleAddCompany(event);
     }
   };
 
+  const handleRegisterNavigate = () => {
+    if (createEmail.trim()) {
+      sessionStorage.setItem("prefillEmail", createEmail.trim());
+    }
+    navigator("/SinUpForm");
+  };
+
+  const toggleCreatePassword = () => {
+    setShowCreatePassword((v) => !v);
+  };
 
   return (
-    <section className="bg-gray-50 h-screen">
-      {/* <div className="flex flex-col lg:flex-row items-center justify-between bg-gray-900 mx-auto"> */}
-      <div className="h-full w-full lg:w-1/2  sm:w-full mx-auto rounded-md shadow-xl bg-white flex flex-col items-center justify-between p-0 lg:p-8 sm:p-0">
-        <div className="w-full  sm:w-full dark:bg-gray-800 border rounded-lg shadow dark:border-gray-700 h-screen flex flex-col lg:flex-row items-center justify-between ">
-          <div className="w-full  mx-auto bg-white rounded-lg shadow  dark:bg-gray-800 dark:border-gray-700 p-6 space-y-4 md:space-y-6">
-            <h1 className="text-xl font-bold leading-tight tracking-tight text-gray-900 md:text-2xl dark:text-white">
-              Sign in to your account
-            </h1>
-            <form className="space-y-4 md:space-y-6">
-              <div>
-                <label
-                  htmlFor="email"
-                  className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
-                >
-                  Your email
-                </label>
-                <input
-                  type="email"
-                  name="email"
-                  id="email"
-                  value={email}
-                  onKeyDown={handleKeyDown}
-                  onChange={(e) => setemail(e.target.value)}
-                  className="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                  placeholder="name@company.com"
-                  required
-                />
-              </div>
-              <div className="relative">
-                <label
-                  htmlFor="password"
-                  className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
-                >
-                  Password
-                </label>
-                <input
-                  type={showPassword ? "text" : "password"}
-                  name="password"
-                  id="password"
-                  placeholder="*********"
-                  onKeyDown={handleKeyDown}
-                  value={password}
-                  onChange={(e) => setpassword(e.target.value)}
-                  className="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 pr-10"
-                  required
-                />
-                <div
-                  className="absolute inset-y-0 right-0 text-white mt-7 flex items-center pr-3 cursor-pointer"
-                  onClick={toggleShowPassword}
-                >
-                  {showPassword ? <AiOutlineEye /> : <AiOutlineEyeInvisible />}
-                </div>
-              </div>
+    <section className="auth-page">
+      <div className="auth-page__logo-wrap">
+        <img
+          src={logoPakardai}
+          alt="Pakardai"
+          className="auth-page__logo"
+        />
+      </div>
 
-              <div className="text-end">
-                <p
-                  className="font-medium hover:underline dark:text-primary-500 text-viewmorebutton cursor-pointer"
-                  onClick={() => navigator("/forgot-password")}
-                >
-                  Forgot Password
-                </p>
-              </div>
-
-              <button
-                type="button"
-                onClick={handleAddCompany}
-                // onKeyDown={handleKeyDown}
-                className="w-full text-white bg-headingcolor hover:bg-viewmorebutton focus:ring-4 focus:outline-none  font-medium rounded-lg text-md px-5 py-2.5 text-center"
-              >
-                {loading ? "Login ..." : "Sign in"}
-              </button>
-            </form>
-            <div className="flex w-full my-auto">
-              <hr className="w-full my-auto" />
-              <p className="my-auto mx-3 text-white">OR</p>
-              <hr className="w-full my-auto" />
-            </div>
-            <p
-              className="w-full flex justify-center text-black dark:text-white shadow-lg text-lg hover:border-white cursor-pointer dark:bg-gray-800 dark:border-gray-700 border  font-medium rounded-lg  px-5 py-2.5 text-center "
-              onClick={handleGoogleLogin}
-            >
-              <img
-                src={Googleicon}
-                alt=""
-                className="w-10 h-8 p-1 object-contain bg-transparent"
-              />{" "}
-              <span className="my-auto mx-3">Login with Google</span>
-            </p>
-            <p
-              className="text-sm font-light text-viewmorebutton cursor-pointer"
-              onClick={() => navigator("/SinUpForm")}
-            >
-              Don’t have an account yet?{" "}
-              <span className="font-medium text-primary-600 hover:underline dark:text-primary-500">
-                Sign up
-              </span>
-            </p>
-          </div>
+      <div className="auth-card">
+        <div className="auth-card__tabs" role="tablist">
+          <button
+            type="button"
+            role="tab"
+            aria-selected={activeTab === "signin"}
+            className={`auth-card__tab ${
+              activeTab === "signin" ? "auth-card__tab--active" : ""
+            }`}
+            onClick={() => setActiveTab("signin")}
+          >
+            Sign in
+          </button>
+          <button
+            type="button"
+            role="tab"
+            aria-selected={activeTab === "create"}
+            className={`auth-card__tab ${
+              activeTab === "create" ? "auth-card__tab--active" : ""
+            }`}
+            onClick={() => setActiveTab("create")}
+          >
+            Create Account
+          </button>
         </div>
 
+        <div className="auth-card__body">
+          {activeTab === "signin" ? (
+            <>
+              <form
+                className="auth-form-signin"
+                onSubmit={handleAddCompany}
+                noValidate
+              >
+                <div className="auth-field">
+                  <label htmlFor="auth-email">Email</label>
+                  <input
+                    type="email"
+                    id="auth-email"
+                    name="email"
+                    autoComplete="email"
+                    value={email}
+                    onKeyDown={handleKeyDown}
+                    onChange={(e) => setemail(e.target.value)}
+                    className="auth-input"
+                    placeholder="you@example.com"
+                    required
+                  />
+                </div>
+
+                <div className="auth-field">
+                  <label htmlFor="auth-password">Password</label>
+                  <div className="auth-field__wrap">
+                    <input
+                      type={showPassword ? "text" : "password"}
+                      id="auth-password"
+                      name="password"
+                      autoComplete="current-password"
+                      placeholder="••••••••"
+                      onKeyDown={handleKeyDown}
+                      value={password}
+                      onChange={(e) => setpassword(e.target.value)}
+                      className="auth-input auth-input--password"
+                      required
+                    />
+                    <button
+                      type="button"
+                      className="auth-field__toggle"
+                      onClick={toggleShowPassword}
+                      aria-label={
+                        showPassword ? "Hide password" : "Show password"
+                      }
+                    >
+                      {showPassword ? (
+                        <AiOutlineEye size={20} />
+                      ) : (
+                        <AiOutlineEyeInvisible size={20} />
+                      )}
+                    </button>
+                  </div>
+                </div>
+
+                <div className="auth-row-between">
+                  <label className="auth-check">
+                    <input
+                      type="checkbox"
+                      checked={rememberMe}
+                      onChange={(e) => setRememberMe(e.target.checked)}
+                    />
+                    Keep me signed in
+                  </label>
+                  <button
+                    type="button"
+                    className="auth-link"
+                    onClick={() => navigator("/forgot-password")}
+                  >
+                    Forgot password?
+                  </button>
+                </div>
+
+                <button
+                  type="submit"
+                  className="auth-btn-primary"
+                  disabled={loading}
+                >
+                  {loading ? "Signing in…" : "Sign in"}
+                </button>
+              </form>
+
+              <div className="auth-social-row">
+                <button
+                  type="button"
+                  className="auth-social-btn auth-social-btn--fb"
+                  onClick={handleFacebookClick}
+                >
+                  <FaFacebookF size={16} />
+                  Facebook
+                </button>
+                <button
+                  type="button"
+                  className="auth-social-btn auth-social-btn--google"
+                  onClick={handleGoogleLogin}
+                >
+                  <img src={Googleicon} alt="" />
+                  Google
+                </button>
+              </div>
+
+              <p className="auth-footer-link">
+                New Customer?{" "}
+                <button
+                  type="button"
+                  onClick={() => setActiveTab("create")}
+                >
+                  Create account
+                </button>
+              </p>
+            </>
+          ) : (
+            <>
+              <p className="auth-create-subtitle">Sign up with…</p>
+
+              <div className="auth-social-row">
+                <button
+                  type="button"
+                  className="auth-social-btn auth-social-btn--fb"
+                  onClick={handleFacebookClick}
+                >
+                  <FaFacebookF size={16} />
+                  Facebook
+                </button>
+                <button
+                  type="button"
+                  className="auth-social-btn auth-social-btn--google"
+                  onClick={handleGoogleSignup}
+                >
+                  <img src={Googleicon} alt="" />
+                  Google
+                </button>
+              </div>
+
+              <div className="auth-or-divider">
+                <span>or sign up using your email address</span>
+              </div>
+
+              <form
+                className="auth-form-create"
+                onSubmit={(e) => {
+                  e.preventDefault();
+                  handleRegisterNavigate();
+                }}
+              >
+                <div className="auth-field">
+                  <label htmlFor="create-email">Email</label>
+                  <input
+                    type="email"
+                    id="create-email"
+                    autoComplete="email"
+                    value={createEmail}
+                    onChange={(e) => setCreateEmail(e.target.value)}
+                    className="auth-input"
+                    placeholder="you@example.com"
+                  />
+                </div>
+
+                <div className="auth-field">
+                  <label htmlFor="create-password">Password</label>
+                  <div className="auth-field__wrap">
+                    <input
+                      type={showCreatePassword ? "text" : "password"}
+                      id="create-password"
+                      autoComplete="new-password"
+                      value={createPassword}
+                      onChange={(e) => setCreatePassword(e.target.value)}
+                      className="auth-input auth-input--password"
+                      placeholder="••••••••"
+                    />
+                    <button
+                      type="button"
+                      className="auth-field__toggle"
+                      onClick={toggleCreatePassword}
+                      aria-label={
+                        showCreatePassword ? "Hide password" : "Show password"
+                      }
+                    >
+                      {showCreatePassword ? (
+                        <AiOutlineEye size={20} />
+                      ) : (
+                        <AiOutlineEyeInvisible size={20} />
+                      )}
+                    </button>
+                  </div>
+                </div>
+
+                <p className="auth-privacy-notice">
+                  Your personal data will be used to support your experience
+                  throughout this website, to manage access to your account, and
+                  for other purposes described in our{" "}
+                  <button
+                    type="button"
+                    className="auth-privacy-inline"
+                    onClick={() =>
+                      toast.info(
+                        "Add a Privacy policy page URL in the app when ready.",
+                        { position: "top-right", autoClose: 2500 }
+                      )
+                    }
+                  >
+                    Privacy policy
+                  </button>
+                  .
+                </p>
+
+                <button type="submit" className="auth-btn-register">
+                  Register
+                </button>
+              </form>
+
+              <p className="auth-footer-link auth-footer-link--create">
+                Already have an account?{" "}
+                <button
+                  type="button"
+                  onClick={() => setActiveTab("signin")}
+                >
+                  Sign in
+                </button>
+              </p>
+            </>
+          )}
+        </div>
       </div>
     </section>
   );

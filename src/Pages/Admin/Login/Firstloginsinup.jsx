@@ -1,14 +1,12 @@
 import { useState, useEffect } from "react";
 import "react-phone-input-2/lib/style.css";
 import "./Login.css";
-import Login from "./Login";
 import { MdOutlineMailOutline } from "react-icons/md";
 import { RxCross2 } from "react-icons/rx";
 import Singup from "./Singup";
 import { FaGoogle } from "react-icons/fa6";
 import Firstsinguppop from "./Firstsinguppop";
 import logo from "../../../assets/Images/logo1.png";
-import NewRequest from "../../../../utils/NewRequest";
 import { baseUrl } from "../../../../utils/config";
 import { useNavigate } from "react-router-dom";
 
@@ -22,12 +20,11 @@ const Firstloginsinup = ({ isVisible, setVisibility }) => {
        const [isCreatePopupVisiblepopfirstsinguppage, setisCreatePopupVisiblepopfirstsinguppage] = useState(false);
    const handleShowCreatePopuppopfirstsinguppage = () => {
      setisCreatePopupVisiblepopfirstsinguppage(true);
-     setCreatePopupVisibilitypoplogin(false)
    };
 
-      const [isCreatePopupVisiblepoplogin, setCreatePopupVisibilitypoplogin] = useState(false);
-   const handleShowCreatePopuppoplogin = () => { 
-     setCreatePopupVisibilitypoplogin(true);
+   const handleShowCreatePopuppoplogin = () => {
+     handleCloseCreatePopup();
+     navigate("/LoginForm");
    };
 
   useEffect(() => {
@@ -144,14 +141,6 @@ const Firstloginsinup = ({ isVisible, setVisibility }) => {
           isVisiblesinuppage={isCreatePopupVisiblepopfirstsinguppage}
           setVisibilitysinuppage={setisCreatePopupVisiblepopfirstsinguppage}
           // refreshBrandData={fetchData}
-        />
-      )}
-      {isCreatePopupVisiblepoplogin && (
-        <Login
-          isVisiblepop={isCreatePopupVisiblepoplogin}
-          setVisibilitypop={setCreatePopupVisibilitypoplogin}
-          // refreshBrandData={fetchData}
-          setParentVisibility={setVisibility}
         />
       )}
     </div>
