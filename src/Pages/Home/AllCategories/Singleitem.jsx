@@ -12,7 +12,7 @@ import { toast } from "react-toastify";
 import Skeleton from "@mui/material/Skeleton";
 import { useQueryClient } from "react-query";
 import imageLiveUrl from "../../../../utils/urlConverter/imageLiveUrl";
-import Commentproduct from "../../Commentproduct/Commentproduct";
+import ProductDetailTabs from "./ProductDetailTabs";
 import ProductCarouselCard from "../components/ProductCarouselCard";
 import CarouselThinChevron from "../components/CarouselThinChevron";
 import "../MoreinKids/HomeCategoryCarousel.css";
@@ -647,28 +647,21 @@ const Singleitem = () => {
             </div>
           </div>
 
-          <div className="sm:block lg:hidden mt-8">
-            <Commentproduct productdata={cardData} />
-          </div>
         </div>
       </div>
 
-      <div className="pdp-section">
-        <h2 className="pdp-section__title">Description</h2>
-        <div className="pdp-description">
-          {isLoading ? (
-            <Skeleton variant="rounded" height={120} />
-          ) : (
-            <p className="text-productdesc mb-0 w-full">
-              <span
-                dangerouslySetInnerHTML={{
-                  __html: data?.description || "",
-                }}
-              />
-            </p>
-          )}
-        </div>
-      </div>
+      <ProductDetailTabs
+        data={data}
+        isLoading={isLoading}
+        reviewCount={reviewCount}
+        productRouteParams={cardData}
+        onReviewsChange={async () => {
+          if (!cardData._id) return;
+          const ratingData = await fetchProductRating(cardData._id);
+          setratings(ratingData.average);
+          setReviewCount(ratingData.count);
+        }}
+      />
 
       <div className="pdp-section pdp-related-block w-full mt-2">
         <h2 className="pdp-related-title">Related ads</h2>
@@ -747,10 +740,6 @@ const Singleitem = () => {
           </div>
         </div>
       </div>
-      <div className="hidden lg:block">
-        <Commentproduct productdata={cardData} />
-      </div>
-
       {isOpen && (
         <div
           id="imageModal"
