@@ -1,8 +1,12 @@
-/* Post /Attributes — white + light green (Pakardai) */
+/* Post /Attributes — white + brand teal #004747 */
 
 .post-attr-page {
+  --post-brand: #004747;
+  --post-brand-mid: #006b6b;
+  --post-brand-soft: rgba(0, 71, 71, 0.08);
+  --post-brand-ring: rgba(0, 71, 71, 0.22);
   min-height: 100vh;
-  background: #fafdfb;
+  background: #f7faf9;
   font-family: Inter, "Open Sans", system-ui, sans-serif;
   padding-bottom: 48px;
 }
@@ -29,7 +33,7 @@
   height: 3px;
   margin: 14px auto 0;
   border-radius: 999px;
-  background: linear-gradient(90deg, #8bc34a, #aed581);
+  background: linear-gradient(90deg, var(--post-brand), var(--post-brand-mid));
 }
 
 .post-attr-loading {
@@ -45,9 +49,9 @@
 
 .post-attr-card {
   background: #ffffff;
-  border: 1px solid #e8f0e0;
+  border: 1px solid rgba(0, 71, 71, 0.14);
   border-radius: 16px;
-  box-shadow: 0 8px 32px rgba(17, 24, 39, 0.06);
+  box-shadow: 0 8px 32px rgba(0, 71, 71, 0.06);
   overflow: hidden;
 }
 
@@ -112,8 +116,8 @@
 
 .post-attr-input:focus,
 .post-attr-field select:focus {
-  border-color: #8bc34a;
-  box-shadow: 0 0 0 3px rgba(139, 195, 74, 0.2);
+  border-color: var(--post-brand);
+  box-shadow: 0 0 0 3px var(--post-brand-ring);
 }
 
 .post-attr-input--price {
@@ -141,9 +145,9 @@
 .post-attr-upload-box {
   width: 64px;
   height: 64px;
-  border: 2px dashed #c5e1a5;
+  border: 2px dashed rgba(0, 71, 71, 0.35);
   border-radius: 12px;
-  background: linear-gradient(180deg, #fcfef8 0%, #f7fbf0 100%);
+  background: linear-gradient(180deg, #f7fcfb 0%, #eef6f5 100%);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -152,7 +156,7 @@
 }
 
 .post-attr-upload-box:hover {
-  border-color: #8bc34a;
+  border-color: var(--post-brand);
   background: #ffffff;
 }
 
@@ -165,7 +169,7 @@
 .post-attr-upload-placeholder {
   font-size: 1.5rem;
   font-weight: 300;
-  color: #8bc34a;
+  color: var(--post-brand);
   line-height: 1;
 }
 
@@ -190,14 +194,14 @@
 }
 
 .post-attr-pill:hover {
-  border-color: #aed581;
-  background: #fcfef8;
+  border-color: rgba(0, 71, 71, 0.45);
+  background: var(--post-brand-soft);
 }
 
 .post-attr-pill--active {
-  border-color: #8bc34a;
-  background: #e8f5e9;
-  color: #33691e;
+  border-color: var(--post-brand);
+  background: var(--post-brand);
+  color: #ffffff;
 }
 
 /* MUI Autocomplete — light theme */
@@ -211,7 +215,7 @@
 }
 
 .post-attr-mui .Mui-focused .MuiOutlinedInput-notchedOutline {
-  border-color: #8bc34a !important;
+  border-color: var(--post-brand) !important;
   border-width: 2px !important;
 }
 
@@ -261,6 +265,11 @@
   background: #f3f4f6 !important;
 }
 
+.post-attr-phone .react-tel-input .form-control:focus {
+  border-color: var(--post-brand) !important;
+  box-shadow: 0 0 0 3px var(--post-brand-ring) !important;
+}
+
 /* Submit */
 .post-attr-submit {
   width: 100%;
@@ -268,12 +277,12 @@
   font-size: 1rem;
   font-weight: 800;
   color: #ffffff;
-  background: linear-gradient(180deg, #9ccc65 0%, #8bc34a 100%);
+  background: linear-gradient(180deg, var(--post-brand-mid) 0%, var(--post-brand) 100%);
   border: none;
   border-radius: 12px;
   cursor: pointer;
   font-family: inherit;
-  box-shadow: 0 8px 24px rgba(139, 195, 74, 0.35);
+  box-shadow: 0 8px 24px rgba(0, 71, 71, 0.35);
   transition: filter 0.15s ease, transform 0.1s ease;
 }
 
