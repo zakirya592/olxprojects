@@ -442,7 +442,7 @@ const UpdateMyProduct = () => {
           className="loading-spinner-background"
           style={{
             zIndex: 9999,
-            position: "absolute",
+            position: "fixed",
             top: 0,
             left: 0,
             width: "100%",
@@ -451,7 +451,6 @@ const UpdateMyProduct = () => {
             display: "flex",
             justifyContent: "center",
             alignItems: "center",
-            position: "fixed",
           }}
         >
           <DotLoader

@@ -1,0 +1,304 @@
+/* Post /Attributes — white + light green (Pakardai) */
+
+.post-attr-page {
+  min-height: 100vh;
+  background: #fafdfb;
+  font-family: Inter, "Open Sans", system-ui, sans-serif;
+  padding-bottom: 48px;
+}
+
+.post-attr-inner {
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 20px 16px 40px;
+}
+
+.post-attr-title {
+  margin: 12px 0 28px;
+  text-align: center;
+  font-size: clamp(1.45rem, 2.2vw, 1.75rem);
+  font-weight: 800;
+  letter-spacing: -0.03em;
+  color: #1a1a1a;
+}
+
+.post-attr-title::after {
+  content: "";
+  display: block;
+  width: 56px;
+  height: 3px;
+  margin: 14px auto 0;
+  border-radius: 999px;
+  background: linear-gradient(90deg, #8bc34a, #aed581);
+}
+
+.post-attr-loading {
+  z-index: 9999;
+  position: fixed;
+  inset: 0;
+  background: rgba(255, 255, 255, 0.72);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  backdrop-filter: blur(2px);
+}
+
+.post-attr-card {
+  background: #ffffff;
+  border: 1px solid #e8f0e0;
+  border-radius: 16px;
+  box-shadow: 0 8px 32px rgba(17, 24, 39, 0.06);
+  overflow: hidden;
+}
+
+.post-attr-section {
+  padding: 20px 20px 24px;
+  border-bottom: 1px solid #eef2f7;
+}
+
+.post-attr-section:last-of-type {
+  border-bottom: none;
+}
+
+.post-attr-row {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-bottom: 20px;
+}
+
+@media (min-width: 1024px) {
+  .post-attr-row {
+    flex-direction: row;
+    align-items: flex-start;
+    gap: 16px;
+  }
+
+  .post-attr-row .post-attr-label {
+    width: 26%;
+    flex-shrink: 0;
+    padding-top: 10px;
+  }
+
+  .post-attr-row .post-attr-field {
+    flex: 1;
+    min-width: 0;
+  }
+}
+
+.post-attr-label {
+  font-size: 0.875rem;
+  font-weight: 700;
+  color: #374151;
+}
+
+.post-attr-field {
+  width: 100%;
+}
+
+.post-attr-input,
+.post-attr-field select {
+  width: 100%;
+  padding: 10px 14px;
+  font-size: 0.9375rem;
+  color: #111827;
+  background: #ffffff;
+  border: 1px solid #d1d5db;
+  border-radius: 10px;
+  outline: none;
+  transition: border-color 0.15s ease, box-shadow 0.15s ease;
+  font-family: inherit;
+}
+
+.post-attr-input:focus,
+.post-attr-field select:focus {
+  border-color: #8bc34a;
+  box-shadow: 0 0 0 3px rgba(139, 195, 74, 0.2);
+}
+
+.post-attr-input--price {
+  padding-left: 2.5rem;
+}
+
+/* Image upload grid */
+.post-attr-upload-grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 12px;
+}
+
+@media (min-width: 640px) {
+  .post-attr-upload-grid {
+    grid-template-columns: repeat(6, minmax(0, 1fr));
+  }
+}
+
+.post-attr-upload-slot label {
+  cursor: pointer;
+  display: block;
+}
+
+.post-attr-upload-box {
+  width: 64px;
+  height: 64px;
+  border: 2px dashed #c5e1a5;
+  border-radius: 12px;
+  background: linear-gradient(180deg, #fcfef8 0%, #f7fbf0 100%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  transition: border-color 0.15s ease, background 0.15s ease;
+}
+
+.post-attr-upload-box:hover {
+  border-color: #8bc34a;
+  background: #ffffff;
+}
+
+.post-attr-upload-box img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.post-attr-upload-placeholder {
+  font-size: 1.5rem;
+  font-weight: 300;
+  color: #8bc34a;
+  line-height: 1;
+}
+
+/* Pills (Condition / DeviceType) */
+.post-attr-pills {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.post-attr-pill {
+  border: 1px solid #d1d5db;
+  background: #ffffff;
+  color: #374151;
+  padding: 10px 16px;
+  border-radius: 10px;
+  font-size: 0.875rem;
+  font-weight: 600;
+  cursor: pointer;
+  font-family: inherit;
+  transition: border-color 0.15s ease, background 0.15s ease, color 0.15s ease;
+}
+
+.post-attr-pill:hover {
+  border-color: #aed581;
+  background: #fcfef8;
+}
+
+.post-attr-pill--active {
+  border-color: #8bc34a;
+  background: #e8f5e9;
+  color: #33691e;
+}
+
+/* MUI Autocomplete — light theme */
+.post-attr-mui .MuiOutlinedInput-root {
+  border-radius: 10px;
+  background: #ffffff;
+}
+
+.post-attr-mui .MuiOutlinedInput-notchedOutline {
+  border-color: #d1d5db !important;
+}
+
+.post-attr-mui .Mui-focused .MuiOutlinedInput-notchedOutline {
+  border-color: #8bc34a !important;
+  border-width: 2px !important;
+}
+
+.post-attr-mui .MuiInputBase-input {
+  color: #111827 !important;
+}
+
+/* React Quill */
+.post-attr-quill .ql-toolbar.ql-snow {
+  border: 1px solid #e5e7eb;
+  border-radius: 10px 10px 0 0;
+  background: #fafafa;
+}
+
+.post-attr-quill .ql-container.ql-snow {
+  border: 1px solid #e5e7eb;
+  border-top: none;
+  border-radius: 0 0 10px 10px;
+  min-height: 140px;
+  font-family: inherit;
+}
+
+.post-attr-quill .ql-editor {
+  min-height: 120px;
+  color: #111827;
+}
+
+/* Phone input */
+.post-attr-phone .react-tel-input .form-control {
+  width: 100% !important;
+  height: auto !important;
+  padding: 10px 12px 10px 48px !important;
+  font-size: 0.9375rem !important;
+  border-radius: 10px !important;
+  border: 1px solid #d1d5db !important;
+  color: #111827 !important;
+}
+
+.post-attr-phone .react-tel-input .flag-dropdown {
+  border: 1px solid #d1d5db !important;
+  border-radius: 10px 0 0 10px !important;
+  background: #f9fafb !important;
+}
+
+.post-attr-phone .react-tel-input .selected-flag:hover,
+.post-attr-phone .react-tel-input .selected-flag:focus {
+  background: #f3f4f6 !important;
+}
+
+/* Submit */
+.post-attr-submit {
+  width: 100%;
+  padding: 14px 20px;
+  font-size: 1rem;
+  font-weight: 800;
+  color: #ffffff;
+  background: linear-gradient(180deg, #9ccc65 0%, #8bc34a 100%);
+  border: none;
+  border-radius: 12px;
+  cursor: pointer;
+  font-family: inherit;
+  box-shadow: 0 8px 24px rgba(139, 195, 74, 0.35);
+  transition: filter 0.15s ease, transform 0.1s ease;
+}
+
+.post-attr-submit:hover {
+  filter: brightness(1.05);
+}
+
+.post-attr-submit:active {
+  transform: scale(0.99);
+}
+
+.post-attr-fields-block .post-attr-row:last-child {
+  margin-bottom: 0;
+}
+
+.post-attr-price-wrap {
+  position: relative;
+}
+
+.post-attr-price-prefix {
+  position: absolute;
+  left: 14px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: #6b7280;
+  font-size: 0.9375rem;
+  pointer-events: none;
+}

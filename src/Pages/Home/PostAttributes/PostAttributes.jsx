@@ -11,6 +11,7 @@ import { useNavigate } from "react-router-dom";
 import { currencies } from "./CountryData.js";
 import ReactQuill from "react-quill";
 import "react-quill/dist/quill.snow.css";
+import "./PostAttributes.css";
 
 const PostAttributes = () => {
   const { DataSelectionModel } = useContext(Selectioncardcontext);
@@ -171,25 +172,24 @@ const handleImageChange = (e, index) => {
     handleChange("DeviceType", name);
   };
 
-  const CustomRadioButton = ({ options, selectedOption, onChange }) => {
-    return (
-      <div className="flex space-x-2">
-        {options.map((option) => (
-          <div
-            key={option._id}
-            className={`cursor-pointer border rounded px-4 py-2 ${
-              selectedOption === option.name
-                ? "bg-teal-100 border-teal-500"
-                : "border-gray-500"
-            }`}
-            onClick={() => onChange(option.name)}
-          >
-            {option.name}
-          </div>
-        ))}
-      </div>
-    );
-  };
+  const CustomRadioButton = ({ options, selectedOption, onChange }) => (
+    <div className="post-attr-pills">
+      {options.map((option) => (
+        <button
+          type="button"
+          key={option._id}
+          className={
+            selectedOption === option.name
+              ? "post-attr-pill post-attr-pill--active"
+              : "post-attr-pill"
+          }
+          onClick={() => onChange(option.name)}
+        >
+          {option.name}
+        </button>
+      ))}
+    </div>
+  );
 
   // Phone number
   const handlecompanyLandLine = (value) => {
@@ -315,107 +315,77 @@ const handleImageChange = (e, index) => {
 
 
   return (
-    <>
+    <div className="post-attr-page">
       <Headerpost />
-      <h2 className="text-2xl font-semibold mb-4 text-center">
-        Create a new Ad
-      </h2>
-      {isLoading && (
-        <div
-          className="loading-spinner-background"
-          style={{
-            zIndex: 9999,
-            position: "absolute",
-            top: 0,
-            left: 0,
-            width: "100%",
-            height: "100%",
-            backgroundColor: "rgba(255, 255, 255, 0.5)",
-            display: "flex",
-            justifyContent: "center",
-            alignItems: "center",
-            position: "fixed",
-          }}
-        >
-          <DotLoader
-            size={45}
-            color={"#406367"}
-            // height={4}
-            loading={isLoading}
-          />
-        </div>
-      )}
-      <div className="w-full sm:w-1/2 lg:w-[900px] my-10 mx-auto bg-white border border-bordderscolor shadow-md rounded-lg">
-        <form>
-          <div className="border-t border-b border-bordderscolor p-3 lg:p-6 sm:3">
-            <div className="mb-4 flex flex-col lg:flex-row items-start lg:items-center">
-              <label className="w-full lg:w-1/4 mb-1 font-semibold">
-                Upload Images
-              </label>
-              <div className="w-full p-2 flex space-x-2">
-                <div className="grid grid-cols-4 sm:grid-cols-4 md:grid-cols-6 gap-4">
-                  {images.map((image, index) => (
-                    <div key={index} className="relative">
-                      <input
-                        type="file"
-                        accept="image/*"
-                        className="hidden"
-                        id={`image-upload-${index}`}
-                        onChange={(e) => handleImageChange(e, index)}
-                        multiple // Allow multiple file selection
-                      />
-                      <label htmlFor={`image-upload-${index}`}>
-                        <div className="w-16 h-16 bg-gray-200 border border-dashed border-gray-400 flex items-center justify-center cursor-pointer">
-                          {image ? (
-                            <img
-                              src={URL.createObjectURL(image)} // Create a preview URL for the image
-                              alt={`Uploaded ${index}`}
-                              className="w-full h-full object-cover"
-                            />
-                          ) : (
-                            <span className="text-gray-400">+</span>
-                          )}
-                        </div>
-                      </label>
-                    </div>
-                  ))}
+      <div className="post-attr-inner">
+        <h1 className="post-attr-title">Create a new Ad</h1>
+        {isLoading && (
+          <div className="post-attr-loading">
+            <DotLoader size={45} color="#8bc34a" loading={isLoading} />
+          </div>
+        )}
+        <div className="post-attr-card">
+          <form>
+            <div className="post-attr-section">
+              <div className="post-attr-row">
+                <label className="post-attr-label">Upload Images</label>
+                <div className="post-attr-field">
+                  <div className="post-attr-upload-grid">
+                    {images.map((image, index) => (
+                      <div key={index} className="post-attr-upload-slot">
+                        <input
+                          type="file"
+                          accept="image/*"
+                          className="hidden"
+                          id={`image-upload-${index}`}
+                          onChange={(e) => handleImageChange(e, index)}
+                          multiple
+                        />
+                        <label htmlFor={`image-upload-${index}`}>
+                          <div className="post-attr-upload-box">
+                            {image ? (
+                              <img
+                                src={URL.createObjectURL(image)}
+                                alt={`Uploaded ${index}`}
+                              />
+                            ) : (
+                              <span className="post-attr-upload-placeholder">
+                                +
+                              </span>
+                            )}
+                          </div>
+                        </label>
+                      </div>
+                    ))}
+                  </div>
                 </div>
               </div>
             </div>
-          </div>
 
-          <div className="border-t border-b border-bordderscolor p-3 lg:p-6 sm:3">
-            {fields.map((field, index) => (
-              <div
-                key={index}
-                className="flex flex-row gap-3 sm:flex-row sm:justify-between mt-6"
-              >
-                <div className="w-full font-body sm:text-base text-sm flex flex-col lg:flex-row items-start lg:items-center">
-                  <label className="w-full lg:w-1/4 mb-1 font-semibold">
-                    {field.model} <span className="text-red-600"> *</span>
+            <div className="post-attr-section post-attr-fields-block">
+              {fields.map((field, index) => (
+                <div key={index} className="post-attr-row">
+                  <label className="post-attr-label">
+                    {field.model} <span className="text-red-600">*</span>
                   </label>
-                  {field.model === "Condition" ? (
-                    <div className="w-full">
+                  <div className="post-attr-field">
+                    {field.model === "Condition" ? (
                       <CustomRadioButton
                         options={conditions}
                         selectedOption={selectedCondition}
                         onChange={handleConditionChange}
                       />
-                    </div>
-                  ) : field.model === "DeviceType" ? (
-                    <div className="w-full">
+                    ) : field.model === "DeviceType" ? (
                       <CustomRadioButton
                         options={deviceTypes}
                         selectedOption={selectedDeviceType}
                         onChange={handleDeviceTypeChange}
                       />
-                    </div>
-                  ) : filterdata.length > 0 ? (
-                    <div className="w-full">
+                    ) : filterdata.length > 0 ? (
                       <Autocomplete
                         id="model"
                         options={filterdata}
-                        value={form[field.model] || null} // Ensure the correct value is displayed
+                        value={form[field.model] || null}
                         required
                         getOptionLabel={(option) => option?.name || ""}
                         onChange={(event, newValue) =>
@@ -428,222 +398,182 @@ const handleImageChange = (e, index) => {
                         }}
                         renderInput={(params) => (
                           <TextField
-                            autoComplete="off"
                             {...params}
-                            InputProps={{
-                              ...params.InputProps,
-                              className: "text-white",
-                            }}
-                            InputLabelProps={{
-                              ...params.InputLabelProps,
-                              style: {
-                                color: "white",
-                              },
-                            }}
-                            className="text-xs rounded-lg w-full"
+                            autoComplete="off"
+                            className="post-attr-mui w-full"
                             placeholder={`Select ${field.model}`}
                           />
                         )}
                       />
-                    </div>
-                  ) : (
-                    <div className="w-full">
+                    ) : (
                       <input
                         type="text"
                         value={form[field.model] || ""}
                         onChange={(e) =>
                           handleChange(field.model, e.target.value)
                         }
-                        className="w-full p-2 border border-gray-300 rounded"
+                        className="post-attr-input"
                         placeholder={`Select ${field.model}`}
                       />
-                    </div>
-                  )}
+                    )}
+                  </div>
+                </div>
+              ))}
+            </div>
+
+            <div className="post-attr-section">
+              <div className="post-attr-row">
+                <label className="post-attr-label">
+                  Ad title <span className="text-red-600">*</span>
+                </label>
+                <div className="post-attr-field">
+                  <input
+                    type="text"
+                    value={form.title}
+                    onChange={(e) => {
+                      setForm({
+                        ...form,
+                        title: e.target.value,
+                      });
+                    }}
+                    className="post-attr-input"
+                    placeholder="Enter title"
+                  />
                 </div>
               </div>
-            ))}
-          </div>
 
-          <div className="border-t border-b border-bordderscolor p-3 lg:p-6 sm:3">
-            <div className="mb-4 flex flex-col lg:flex-row items-start lg:items-center">
-              <label className="w-1/4  mb-1 font-semibold">
-                Ad title <span className="text-red-600">*</span>
-              </label>
-              <div className="w-full">
-                <input
-                  type="text"
-                  value={form.title}
-                  onChange={(e) => {
-                    setForm({
-                      ...form,
-                      title: e.target.value,
-                    });
-                  }}
-                  className="w-full p-2 border border-gray-300 rounded"
-                  placeholder="Enter title"
-                />
+              <div className="post-attr-row">
+                <label className="post-attr-label">
+                  Description <span className="text-red-600">*</span>
+                </label>
+                <div className="post-attr-field post-attr-quill">
+                  <ReactQuill
+                    theme="snow"
+                    modules={modules}
+                    formats={formats}
+                    placeholder="Describe the item you're selling"
+                    onChange={(value) => {
+                      setForm({
+                        ...form,
+                        description: value,
+                      });
+                    }}
+                  />
+                </div>
+              </div>
+
+              <div className="post-attr-row">
+                <label className="post-attr-label">
+                  Location <span className="text-red-600">*</span>
+                </label>
+                <div className="post-attr-field">
+                  <input
+                    id="location"
+                    type="text"
+                    value={form.Location}
+                    onChange={(e) => {
+                      setForm({
+                        ...form,
+                        Location: e.target.value,
+                      });
+                    }}
+                    className="post-attr-input"
+                    placeholder="Enter Location"
+                  />
+                </div>
               </div>
             </div>
 
-            <div className="mb-4 flex flex-col lg:flex-row items-start lg:items-center">
-              <label className="w-full lg:w-1/4 mb-1 font-semibold">
-                Description <span className="text-red-600"> *</span>
-              </label>
-              <div className="w-full">
-                {/* <textarea
-                  value={form.description}
-                  onChange={(e) => {
-                    setForm({
-                      ...form,
-                      description: e.target.value,
-                    });
-                  }}
-                  className="w-full p-2 border border-gray-300 rounded"
-                  placeholder="Describe the item you're selling"
-                  rows={4}
-                /> */}
-                <ReactQuill
-                  theme="snow"
-                  modules={modules}
-                  formats={formats}
-                  className="w-full rounded"
-                  placeholder="Describe the item you're selling"
-                  // onChange={(value) => setname_en(value)}
-                  onChange={(value) => {
-                    setForm({
-                      ...form,
-                      description: value,
-                    });
-                  }}
-                />
+            <div className="post-attr-section">
+              <div className="post-attr-row">
+                <label htmlFor="currency" className="post-attr-label">
+                  Select Currency
+                </label>
+                <div className="post-attr-field">
+                  <select
+                    id="currency"
+                    value={selectedCurrency}
+                    onChange={handleCurrencyChange}
+                  >
+                    {currencies.map((currency) => (
+                      <option key={currency.code} value={currency.symbol}>
+                        {currency.name} ({currency.code})
+                      </option>
+                    ))}
+                  </select>
+                </div>
+              </div>
+              <div className="post-attr-row">
+                <label className="post-attr-label">
+                  Price <span className="text-red-600">*</span>
+                </label>
+                <div className="post-attr-field">
+                  <div className="post-attr-price-wrap">
+                    <span className="post-attr-price-prefix">
+                      {selectedCurrencySymbol}:
+                    </span>
+                    <input
+                      type="text"
+                      value={form.price}
+                      onChange={handlePriceChange}
+                      className="post-attr-input post-attr-input--price"
+                      placeholder="Enter price"
+                    />
+                  </div>
+                </div>
               </div>
             </div>
 
-            <div className="mb-4 flex flex-col lg:flex-row items-start lg:items-center">
-              <label className="w-full lg:w-1/4 mb-1 font-semibold">
-                Location <span className="text-red-600"> *</span>
-              </label>
-              <div className="w-full">
-                <input
-                  id="location"
-                  type="text"
-                  value={form.Location}
-                  onChange={(e) => {
-                    setForm({
-                      ...form,
-                      Location: e.target.value,
-                    });
-                  }}
-                  className="w-full p-2 border border-gray-300 rounded"
-                  placeholder="Enter Location"
-                />
+            <div className="post-attr-section">
+              <div className="post-attr-row">
+                <label className="post-attr-label">Name</label>
+                <div className="post-attr-field">
+                  <input
+                    type="text"
+                    value={form.user}
+                    onChange={(e) => {
+                      setForm({
+                        ...form,
+                        user: e.target.value,
+                      });
+                    }}
+                    className="post-attr-input"
+                    placeholder="Enter your Name"
+                  />
+                </div>
+              </div>
+              <div className="post-attr-row">
+                <label className="post-attr-label">Your phone number</label>
+                <div className="post-attr-field post-attr-phone">
+                  <PhoneInput
+                    international
+                    country={"pk"}
+                    defaultCountry={"pk"}
+                    value={phoneNumber}
+                    onChange={handlecompanyLandLine}
+                    inputProps={{
+                      id: "landline",
+                      placeholder: "Phone number",
+                      autoComplete: "off",
+                    }}
+                  />
+                </div>
               </div>
             </div>
-          </div>
 
-          <div className="border-t border-b border-bordderscolor p-3 lg:p-6 sm:3">
-            <div className="mb-4 flex flex-col lg:flex-row items-start lg:items-center">
-              <label
-                htmlFor="currency"
-                className="w-full lg:w-1/4 mb-1 font-semibold"
+            <div className="post-attr-section">
+              <button
+                type="button"
+                onClick={handleAddCompany}
+                className="post-attr-submit"
               >
-                Select Currency:
-              </label>
-              <select
-                id="currency"
-                value={selectedCurrency}
-                onChange={handleCurrencyChange}
-                className="w-full p-2 border border-gray-300 rounded"
-              >
-                {currencies.map((currency) => (
-                  <option key={currency.code} value={currency.symbol}>
-                    {currency.name} ({currency.code})
-                  </option>
-                ))}
-              </select>
+                Post Ad
+              </button>
             </div>
-            <div className="mb-4 flex flex-col lg:flex-row items-start lg:items-center">
-              <label className="w-full lg:w-1/4 mb-1 font-semibold">
-                Price <span className="text-red-600"> *</span>
-              </label>
-              <div className="w-full relative">
-                <span className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-500">
-                  {selectedCurrencySymbol}:
-                </span>
-                <input
-                  type="text"
-                  value={form.price}
-                  // onChange={(e) => {
-                  //   setForm({
-                  //     ...form,
-                  //     price: e.target.value,
-                  //   });
-                  // }}
-                  onChange={handlePriceChange}
-                  className="w-full p-2 border ps-8 border-gray-300 rounded"
-                  placeholder=" Enter price"
-                />
-              </div>
-            </div>
-          </div>
-
-          <div className="border-t border-b border-bordderscolor p-3 lg:p-6 sm:3">
-            <div className="mb-4 flex flex-col lg:flex-row items-start lg:items-center">
-              <label className="w-full lg:w-1/4 mb-1 font-semibold">Name</label>
-              <div className="w-full">
-                <input
-                  type="text"
-                  value={form.user}
-                  onChange={(e) => {
-                    setForm({
-                      ...form,
-                      user: e.target.value,
-                    });
-                  }}
-                  className="w-full p-2 border border-gray-300 rounded"
-                  placeholder="Enter your Name"
-                />
-              </div>
-            </div>
-            <div className="mb-4 flex flex-col lg:flex-row items-start lg:items-center">
-              <label className="w-full lg:w-1/4 mb-1 font-semibold ">
-                Your phone number
-              </label>
-              <div className="w-full">
-                <PhoneInput
-                  international
-                  country={"pk"}
-                  defaultCountry={"pk"}
-                  value={phoneNumber}
-                  onChange={handlecompanyLandLine}
-                  inputProps={{
-                    id: "landline",
-                    placeholder: "Company Landline",
-                    autoComplete: "off",
-                  }}
-                  className="w-full border border-gray-300 rounded"
-                  inputStyle={{
-                    width: "100%",
-                    borderRadius: "0px",
-                    border: "none",
-                  }}
-                />
-              </div>
-            </div>
-          </div>
-
-          <div className="border-t border-b border-bordderscolor p-3 lg:p-6 sm:3">
-            <button
-              type="button"
-              onClick={handleAddCompany}
-              className="w-full bg-headingcolor text-white hover:bg-primary py-2 rounded"
-            >
-              Post Ad
-            </button>
-          </div>
-        </form>
+          </form>
+        </div>
       </div>
-    </>
+    </div>
   );
 };
 
