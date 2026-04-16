@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useMemo, useState } from "react";
 import { useQuery, useQueryClient } from "react-query";
 import { useNavigate } from "react-router-dom";
 import NewRequest from "../../../../utils/NewRequest";
@@ -157,6 +157,31 @@ const MoreProductview = () => {
     ? productsdata.reduce((acc, c) => acc + (c?.count || 0), 0)
     : 0;
 
+  /** Merge populated `User` from `/product/getcategoryproduct` when paginated API returns an id-only `User`. */
+  const categoryProductsById = useMemo(() => {
+    const list = currentCategoryMeta?.id?.products;
+    if (!Array.isArray(list)) return {};
+    return Object.fromEntries(list.map((p) => [p._id, p]));
+  }, [currentCategoryMeta]);
+
+  const productsForGrid = useMemo(() => {
+    if (!Array.isArray(moreproductData)) return [];
+    return moreproductData.map((p) => {
+      const paginatedUser = p.User ?? p.user;
+      const hasPopulatedUser =
+        paginatedUser &&
+        typeof paginatedUser === "object" &&
+        (paginatedUser.username || paginatedUser.name);
+      if (hasPopulatedUser) return p;
+      const fromCat = categoryProductsById[p._id];
+      const mergedUser = fromCat?.User ?? fromCat?.user;
+      if (mergedUser && typeof mergedUser === "object") {
+        return { ...p, User: mergedUser };
+      }
+      return p;
+    });
+  }, [moreproductData, categoryProductsById]);
+
   return (
     <>
       <section className="mpv-page">
@@ -296,7 +321,7 @@ const MoreProductview = () => {
             <main className="mpv-main">
               <div className="mpv-toolbar">
                 <div className="mpv-results">
-                  1-{moreproductData?.length || 0} of {moreproductData?.length || 0} Results
+                  1-{productsForGrid?.length || 0} of {productsForGrid?.length || 0} Results
                 </div>
                 <div className="mpv-toolbar-right">
                   <div className="mpv-sort">
@@ -371,10 +396,10 @@ const MoreProductview = () => {
                   ))
                 ) : error ? (
                   <div>Error loading products</div>
-                ) : moreproductData.length === 0 ? (
+                ) : productsForGrid.length === 0 ? (
                   <div>No products available</div>
                 ) : (
-                  moreproductData.map((item) => (
+                  productsForGrid.map((item) => (
                     <ProductCarouselCard
                       key={item?._id}
                       product={item}

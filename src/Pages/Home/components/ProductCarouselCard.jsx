@@ -21,8 +21,15 @@ function ProductCarouselCard({
   showHot,
 }) {
   const img = product?.images?.[0];
-  const user = product?.User || product?.user;
-  const sellerName = user?.username || user?.name || "Store";
+  const rawUser = product?.User ?? product?.user;
+  const user =
+    rawUser && typeof rawUser === "object" ? rawUser : null;
+  const sellerName =
+    user?.username ||
+    user?.name ||
+    (typeof product?.username === "string" ? product.username : null) ||
+    (typeof product?.sellerName === "string" ? product.sellerName : null) ||
+    "Store";
   const sellerImg = user?.image
     ? user.image.startsWith("http")
       ? user.image
