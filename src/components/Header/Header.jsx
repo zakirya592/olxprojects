@@ -38,7 +38,8 @@ function MottaLogoMark({ onClick }) {
       <img
         src={PAKARDAI_LOGO_SRC}
         alt=""
-        className="motta-logo-img h-12 w-auto max-h-12 object-contain"
+      
+        style={{ height: "70px", width: "auto", objectFit: "contain" }}
       />
     </button>
   );

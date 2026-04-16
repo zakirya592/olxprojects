@@ -127,7 +127,7 @@ const LoginForm = () => {
         <img
           src={FOOTER_LOGO_SRC}
           alt="Pakardai"
-          className="auth-page__logo"
+          style={{ height: "70px", width: "auto", objectFit: "contain" }}
         />
       </div>
 

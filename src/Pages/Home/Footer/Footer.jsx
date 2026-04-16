@@ -18,7 +18,8 @@ function MottaLogoFooter() {
       <img
         src={FOOTER_LOGO_SRC}
         alt="Pakardai"
-        className="h-12 w-auto max-w-[240px] object-contain"
+        
+        style={{ height: "70px", width: "auto", objectFit: "contain" }}
       />
     </div>
   );

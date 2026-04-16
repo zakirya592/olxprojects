@@ -92,6 +92,7 @@ const Firstloginsinup = ({ isVisible, setVisibility }) => {
                     src={PAKARDAI_LOGO_SRC}
                     alt=""
                     className="h-28 w-auto cursor-pointer"
+                    style={{ height: "70px", width: "auto", objectFit: "contain" }}
                   />
                 </div>
                 <h2

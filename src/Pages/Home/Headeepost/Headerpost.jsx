@@ -58,7 +58,7 @@ function Headerpost() {
           <img
             src={FOOTER_LOGO_SRC}
             alt="Pakardai"
-            style={{ height: "40px", width: "auto", objectFit: "contain" }}
+            style={{ height: "70px", width: "auto", objectFit: "contain" }}
           />
           
         </div>
