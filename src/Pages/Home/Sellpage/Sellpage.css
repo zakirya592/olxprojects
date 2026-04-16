@@ -1,0 +1,275 @@
+.sell-page-root {
+  min-height: 100vh;
+  background: #fafdfb;
+  font-family: Inter, "Open Sans", system-ui, sans-serif;
+}
+
+.sell-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 24px 20px 56px;
+}
+
+/* Step 1 — “Post Your Ad” category grid (white + light green theme) */
+.sell-pick-shell {
+  width: 100%;
+}
+
+.sell-hero-title {
+  margin: 8px 0 28px;
+  text-align: center;
+  font-size: clamp(1.5rem, 2.5vw, 1.85rem);
+  font-weight: 800;
+  letter-spacing: -0.03em;
+  color: #1a1a1a;
+  font-family: Inter, "Segoe UI", system-ui, sans-serif;
+}
+
+.sell-hero-title::after {
+  content: "";
+  display: block;
+  width: 56px;
+  height: 3px;
+  margin: 14px auto 0;
+  border-radius: 999px;
+  background: linear-gradient(90deg, #8bc34a, #aed581);
+}
+
+.sell-loading {
+  text-align: center;
+  color: #6b7280;
+  font-weight: 600;
+  padding: 32px 0;
+}
+
+.sell-card-grid {
+  display: grid;
+  grid-template-columns: repeat(1, minmax(0, 1fr));
+  gap: 14px;
+}
+
+@media (min-width: 640px) {
+  .sell-card-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (min-width: 1024px) {
+  .sell-card-grid {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 16px;
+  }
+}
+
+.sell-card {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  width: 100%;
+  padding: 14px 16px;
+  text-align: left;
+  font: inherit;
+  cursor: pointer;
+  border: 1px solid #e8f0e0;
+  border-radius: 14px;
+  background: #ffffff;
+  box-shadow: 0 2px 10px rgba(17, 24, 39, 0.04);
+  transition:
+    border-color 0.18s ease,
+    box-shadow 0.18s ease,
+    transform 0.18s ease;
+}
+
+.sell-card:hover {
+  border-color: #c5e1a5;
+  box-shadow: 0 8px 28px rgba(139, 195, 74, 0.18);
+  transform: translateY(-2px);
+}
+
+.sell-card:active {
+  transform: translateY(0);
+}
+
+.sell-card-inner {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  min-width: 0;
+  flex: 1;
+}
+
+.sell-card-thumb {
+  width: 44px;
+  height: 44px;
+  object-fit: contain;
+  border-radius: 10px;
+  flex-shrink: 0;
+  background: #f9fafb;
+}
+
+.sell-card-thumb--placeholder {
+  border: 1px dashed #c5e1a5;
+  background: linear-gradient(180deg, #fcfef8 0%, #f7fbf0 100%);
+}
+
+.sell-card-label {
+  font-size: 0.9375rem;
+  font-weight: 600;
+  color: #1f2937;
+  line-height: 1.35;
+  letter-spacing: -0.01em;
+  font-family: Inter, "Segoe UI", system-ui, sans-serif;
+}
+
+.sell-card-chevron {
+  flex-shrink: 0;
+  color: #8bc34a;
+  opacity: 0.9;
+}
+
+.sell-flow {
+  width: 100%;
+  max-width: 980px;
+  margin: 0 auto;
+}
+
+.sell-flow-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  margin-bottom: 18px;
+}
+
+.sell-choose-card {
+  background: #ffffff;
+  border: 1px solid #e5e7eb;
+  border-radius: 16px;
+  box-shadow: 0 14px 34px rgba(17, 24, 39, 0.05);
+  overflow: hidden;
+}
+
+.sell-cols {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
+@media (max-width: 900px) {
+  .sell-cols {
+    grid-template-columns: 1fr;
+  }
+}
+
+.sell-back {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  border: none;
+  background: transparent;
+  padding: 0;
+  cursor: pointer;
+  color: #8bc34a;
+  font-weight: 700;
+  font-family: inherit;
+}
+
+.sell-heading {
+  margin: 0;
+  font-size: 18px;
+  font-weight: 800;
+  color: #1f2937;
+}
+
+.sell-col {
+  min-height: 280px;
+  background: #ffffff;
+}
+
+.sell-col--left,
+.sell-col--middle {
+  border-right: 1px solid #eef2f7;
+}
+
+@media (max-width: 900px) {
+  .sell-col--left,
+  .sell-col--middle {
+    border-right: none;
+    border-bottom: 1px solid #eef2f7;
+  }
+}
+
+.sell-list-item {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 12px 14px;
+  border: none;
+  background: transparent;
+  cursor: pointer;
+  border-bottom: 1px solid #f1f5f9;
+  text-align: left;
+  font-family: inherit;
+}
+
+.sell-list-item:hover {
+  background: #f9fdf2;
+}
+
+.sell-list-item--active {
+  background: #8bc34a;
+}
+
+.sell-list-item--active .sell-item-text {
+  color: #ffffff;
+}
+
+.sell-list-item--active .sell-item-next {
+  color: #ffffff;
+}
+
+.sell-item-left {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  min-width: 0;
+}
+
+.sell-icon {
+  width: 32px;
+  height: 32px;
+  object-fit: contain;
+  border-radius: 10px;
+}
+
+.sell-icon--placeholder {
+  border: 1px solid #d1d5db;
+  background: #ffffff;
+}
+
+.sell-item-text {
+  font-size: 14px;
+  font-weight: 700;
+  color: #1f2937;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.sell-item-text--single {
+  max-width: 100%;
+}
+
+.sell-item-next {
+  color: #8bc34a;
+  flex: 0 0 auto;
+}
+
+.sell-empty {
+  padding: 18px 14px;
+  color: #6b7280;
+  font-weight: 600;
+}
+
