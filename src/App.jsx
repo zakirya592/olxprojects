@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { BrowserRouter, Outlet, Route, Routes } from "react-router-dom";
 import "./App.css";
 import Home from "./Pages/Home/Home";
@@ -25,15 +25,20 @@ import UserProductlist from "./Pages/Home/UserProductlist/UserProductlist";
 import ForgotPassword from "./Pages/Admin/Login/ForgotPassword/ForgotPassword";
 import ResetPassword from "./Pages/Admin/Login/ResetPassword/ResetPassword";
 import Otp from "./Pages/Admin/Login/OTP/Otp";
+import { syncDocumentDirectionFromStorage } from "../utils/rtlDocumentSync";
 
 const queryClient = new QueryClient();
 
 function App() {
+  useEffect(() => {
+    syncDocumentDirectionFromStorage();
+  }, []);
+
   const UserLayout = () => {
     return (
       <div className="min-h-screen bg-white">
         <Header />
-        <main className="w-full flex flex-col justify-center bg-white pt-[64px] pb-16 lg:pb-6">
+        <main className="flex min-h-0 w-full min-w-0 flex-col justify-center bg-white pt-[64px] pb-16 lg:pb-6">
           <Outlet />
         </main>
         <Footer />

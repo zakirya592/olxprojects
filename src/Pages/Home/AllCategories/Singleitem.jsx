@@ -21,7 +21,7 @@ import PanZoom from "react-easy-panzoom";
 import FullscreenIcon from "@mui/icons-material/Fullscreen";
 import ShareOutlinedIcon from "@mui/icons-material/ShareOutlined";
 import PrintOutlinedIcon from "@mui/icons-material/PrintOutlined";
-import ShoppingCartOutlinedIcon from "@mui/icons-material/ShoppingCartOutlined";
+import { FaWhatsapp } from "react-icons/fa";
 import SwapHorizIcon from "@mui/icons-material/SwapHoriz";
 import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
 import LocalShippingOutlinedIcon from "@mui/icons-material/LocalShippingOutlined";
@@ -230,6 +230,32 @@ const Singleitem = () => {
     navigate("/Chat");
   };
 
+  const sellerPhoneDigits =
+    Userdataget?.User?.phone != null && Userdataget?.User?.phone !== ""
+      ? String(Userdataget.User.phone).replace(/\D/g, "")
+      : "";
+
+  const openWhatsApp = () => {
+    let digits = sellerPhoneDigits;
+    if (digits.startsWith("0") && digits.length === 11) {
+      digits = `92${digits.slice(1)}`;
+    }
+    if (!digits) {
+      toast.info("Seller phone is not available for WhatsApp.");
+      return;
+    }
+    const productName = data?.name || "this product";
+    const pageUrl = typeof window !== "undefined" ? window.location.href : "";
+    const text = encodeURIComponent(
+      `Hi, I'm interested in: ${productName}${pageUrl ? `\n${pageUrl}` : ""}`
+    );
+    window.open(
+      `https://wa.me/${digits}?text=${text}`,
+      "_blank",
+      "noopener,noreferrer"
+    );
+  };
+
   // Function: Navigate to product list
   const productlist = (product) => {
     const subResponseString = JSON.stringify(product);
@@ -363,7 +389,7 @@ const Singleitem = () => {
     images.length > 0 ? imageLiveUrl(images[safeImageIndex]) : "";
 
   return (
-    <div className="pdp-page pdp-page--pt">
+    <div className="pdp-page pdp-page--pt" dir="ltr">
       <div className="pdp-topbar">
         <nav className="pdp-breadcrumbs" aria-label="Breadcrumb">
           <Link to="/">Home</Link>
@@ -531,20 +557,20 @@ const Singleitem = () => {
           <div className="pdp-actions">
             <button
               type="button"
-              className="pdp-btn-cart"
-              disabled={isLoading || !data}
-              onClick={() => data && postcard(data)}
+              className="pdp-btn-whatsapp"
+              disabled={isLoading || !data || !sellerPhoneDigits}
+              onClick={openWhatsApp}
             >
-              <ShoppingCartOutlinedIcon sx={{ fontSize: 20 }} />
-              Add to cart
+              <FaWhatsapp size={20} aria-hidden />
+              WhatsApp
             </button>
             <button
               type="button"
-              className="pdp-btn-buy"
+              className="pdp-btn-chat"
               disabled={isLoading || !Userdataget}
               onClick={() => Userdataget && charfunction(Userdataget)}
             >
-              Buy Now
+              Chat
             </button>
           </div>
 

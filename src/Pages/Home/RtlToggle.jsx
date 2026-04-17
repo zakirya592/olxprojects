@@ -1,20 +1,15 @@
 import React, { useEffect, useState } from "react";
-
-const STORAGE_KEY = "motta-rtl";
+import {
+  RTL_STORAGE_KEY,
+  syncDocumentDirectionFromStorage,
+} from "../../../utils/rtlDocumentSync";
 
 function RtlToggle() {
-  const [rtl, setRtl] = useState(() => localStorage.getItem(STORAGE_KEY) === "1");
+  const [rtl, setRtl] = useState(() => localStorage.getItem(RTL_STORAGE_KEY) === "1");
 
   useEffect(() => {
-    const root = document.documentElement;
-    if (rtl) {
-      root.classList.add("directionrtl");
-      root.classList.remove("directionltr");
-    } else {
-      root.classList.add("directionltr");
-      root.classList.remove("directionrtl");
-    }
-    localStorage.setItem(STORAGE_KEY, rtl ? "1" : "0");
+    localStorage.setItem(RTL_STORAGE_KEY, rtl ? "1" : "0");
+    syncDocumentDirectionFromStorage();
   }, [rtl]);
 
   return (
