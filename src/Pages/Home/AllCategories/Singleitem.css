@@ -345,7 +345,7 @@
   margin-bottom: 1rem;
 }
 
-.pdp-btn-cart {
+.pdp-btn-whatsapp {
   display: inline-flex;
   align-items: center;
   justify-content: center;
@@ -354,24 +354,24 @@
   font-size: 0.9375rem;
   font-weight: 600;
   color: #fff;
-  background: #2563eb;
+  background: #25d366;
   border: none;
   border-radius: 8px;
   cursor: pointer;
   transition: background 0.15s ease;
 }
 
-.pdp-btn-cart:hover:not(:disabled) {
-  background: #1d4ed8;
+.pdp-btn-whatsapp:hover:not(:disabled) {
+  background: #1ebe57;
 }
 
-.pdp-btn-cart:disabled,
-.pdp-btn-buy:disabled {
+.pdp-btn-whatsapp:disabled,
+.pdp-btn-chat:disabled {
   opacity: 0.5;
   cursor: not-allowed;
 }
 
-.pdp-btn-buy {
+.pdp-btn-chat {
   display: inline-flex;
   align-items: center;
   justify-content: center;
@@ -386,7 +386,7 @@
   transition: background 0.15s ease, color 0.15s ease;
 }
 
-.pdp-btn-buy:hover:not(:disabled) {
+.pdp-btn-chat:hover:not(:disabled) {
   background: #eff6ff;
 }
 
