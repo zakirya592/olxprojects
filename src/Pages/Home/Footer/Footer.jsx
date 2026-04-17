@@ -14,12 +14,11 @@ import { FOOTER_LOGO_SRC } from "../../../constants/brandLogo";
 
 function MottaLogoFooter() {
   return (
-    <div className="flex items-center gap-2">
+    <div className="motta-footer__logo-wrap flex items-center gap-2">
       <img
         src={FOOTER_LOGO_SRC}
         alt="Pakardai"
-        
-        style={{ height: "70px", width: "auto", objectFit: "contain" }}
+        className="motta-footer__logo-img"
       />
     </div>
   );
@@ -44,7 +43,7 @@ const Footer = () => {
 
   return (
     <>
-      <footer className="motta-footer pb-20 lg:pb-6">
+      <footer className="motta-footer min-w-0 overflow-x-clip pb-20 lg:pb-6">
         <div className="motta-footer__inner">
           {/* Top: contact + newsletter */}
           <div className="motta-footer__top">
@@ -107,7 +106,7 @@ const Footer = () => {
 
           {/* Brand + link columns */}
           <div className="motta-footer__mid">
-            <div>
+            <div className="motta-footer__brand">
               <MottaLogoFooter />
               <p className="motta-footer__brand-tagline">Best For Shopping</p>
               <p className="motta-footer__brand-desc">

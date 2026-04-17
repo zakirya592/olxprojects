@@ -4,14 +4,39 @@
   background: #ffffff;
   color: #111827;
   border-top: 1px solid #e5e7eb;
+  box-sizing: border-box;
+  width: 100%;
 }
 
 .motta-footer__inner {
+  box-sizing: border-box;
   max-width: 1200px;
+  width: 100%;
+  min-width: 0;
   margin-left: auto;
   margin-right: auto;
   padding-left: 1rem;
   padding-right: 1rem;
+}
+
+.motta-footer__logo-img {
+  height: auto;
+  max-height: 52px;
+  width: auto;
+  max-width: 100%;
+  object-fit: contain;
+}
+
+@media (min-width: 480px) {
+  .motta-footer__logo-img {
+    max-height: 60px;
+  }
+}
+
+@media (min-width: 768px) {
+  .motta-footer__logo-img {
+    max-height: 70px;
+  }
 }
 
 @media (min-width: 640px) {
@@ -129,8 +154,8 @@
 }
 
 .motta-footer__newsletter-input {
-  flex: 1;
-  min-width: 180px;
+  flex: 1 1 auto;
+  min-width: 0;
   padding: 0.65rem 1rem;
   font-size: 0.875rem;
   border: 1px solid #d1d5db;
@@ -198,7 +223,13 @@
   font-size: 0.8125rem;
   line-height: 1.6;
   color: #6b7280;
-  max-width: 280px;
+  max-width: 42rem;
+}
+
+@media (min-width: 1024px) {
+  .motta-footer__brand-desc {
+    max-width: 280px;
+  }
 }
 
 .motta-footer__social {
@@ -336,5 +367,105 @@
 @media (min-width: 1024px) {
   .motta-footer__back-top {
     bottom: 2rem;
+  }
+}
+
+/* —— Mobile / small tablets —— */
+@media (max-width: 639px) {
+  .motta-footer__inner {
+    padding-left: 0.875rem;
+    padding-right: 0.875rem;
+  }
+
+  .motta-footer__top {
+    padding-top: 1.75rem;
+    padding-bottom: 1.75rem;
+    gap: 1.5rem;
+  }
+
+  .motta-footer__contact-grid {
+    gap: 1.25rem;
+  }
+
+  .motta-footer__contact-block {
+    min-width: 0;
+  }
+
+  .motta-footer__phone {
+    word-break: break-word;
+  }
+
+  .motta-footer__newsletter-title {
+    font-size: 1.25rem;
+    line-height: 1.3;
+  }
+
+  .motta-footer__newsletter-desc {
+    margin-bottom: 1rem;
+  }
+
+  .motta-footer__newsletter-form {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .motta-footer__newsletter-input {
+    width: 100%;
+  }
+
+  .motta-footer__subscribe-btn {
+    width: 100%;
+    min-height: 44px;
+  }
+
+  .motta-footer__mid {
+    gap: 1.75rem;
+    padding-top: 1.75rem;
+    padding-bottom: 1.75rem;
+  }
+
+  .motta-footer__col-title {
+    margin-bottom: 0.75rem;
+  }
+
+  .motta-footer__social {
+    gap: 0.65rem;
+  }
+
+  .motta-footer__social a {
+    min-width: 44px;
+    min-height: 44px;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .motta-footer__bottom {
+    flex-direction: column;
+    align-items: stretch;
+    text-align: center;
+    gap: 1.25rem;
+    padding-top: 1rem;
+    padding-bottom: 1.5rem;
+  }
+
+  .motta-footer__legal {
+    justify-content: center;
+    gap: 0.5rem 1rem;
+  }
+
+  .motta-footer__payments {
+    justify-content: center;
+  }
+}
+
+/* Tablet: link columns in two rows under brand */
+@media (min-width: 640px) and (max-width: 1023px) {
+  .motta-footer__mid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 2rem 1.5rem;
+  }
+
+  .motta-footer__brand {
+    grid-column: 1 / -1;
   }
 }
