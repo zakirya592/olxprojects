@@ -1,4 +1,4 @@
-import React, { useMemo, useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import { useQuery, useQueryClient } from "react-query";
 import { useNavigate } from "react-router-dom";
 import NewRequest from "../../../../utils/NewRequest";
@@ -21,6 +21,41 @@ const MoreProductview = () => {
   const [productRatingMeta, setProductRatingMeta] = useState({});
   const [limit, setLimit] = useState(10);
   const [hasMore, setHasMore] = useState(true);
+  const [filtersOpen, setFiltersOpen] = useState(false);
+  const [isNarrow, setIsNarrow] = useState(true);
+
+  useEffect(() => {
+    const mqNarrow = window.matchMedia("(max-width: 1023px)");
+    const mqDesktop = window.matchMedia("(min-width: 1024px)");
+    const sync = () => {
+      setIsNarrow(mqNarrow.matches);
+      if (mqDesktop.matches) setFiltersOpen(false);
+    };
+    sync();
+    mqNarrow.addEventListener("change", sync);
+    mqDesktop.addEventListener("change", sync);
+    return () => {
+      mqNarrow.removeEventListener("change", sync);
+      mqDesktop.removeEventListener("change", sync);
+    };
+  }, []);
+
+  useEffect(() => {
+    const mq = window.matchMedia("(max-width: 1023px)");
+    if (!mq.matches || !filtersOpen) {
+      return undefined;
+    }
+    const prev = document.body.style.overflow;
+    document.body.style.overflow = "hidden";
+    const onKey = (e) => {
+      if (e.key === "Escape") setFiltersOpen(false);
+    };
+    window.addEventListener("keydown", onKey);
+    return () => {
+      document.body.style.overflow = prev;
+      window.removeEventListener("keydown", onKey);
+    };
+  }, [filtersOpen]);
 
   async function fetchProductRatings(products) {
     const meta = {};
@@ -184,7 +219,7 @@ const MoreProductview = () => {
 
   return (
     <>
-      <section className="mpv-page">
+      <section className="mpv-page" dir="ltr">
         <div className="mpv-container">
           <div className="mpv-breadcrumb">
             <span className="mpv-breadcrumb-home" onClick={() => navigate("/")}>
@@ -215,7 +250,52 @@ const MoreProductview = () => {
           </div>
 
           <div className="mpv-layout">
-            <aside className="mpv-sidebar">
+            <button
+              type="button"
+              className="mpv-filter-trigger"
+              aria-expanded={filtersOpen}
+              aria-controls="mpv-filter-panel"
+              onClick={() => setFiltersOpen(true)}
+            >
+              <span className="mpv-filter-trigger__icon" aria-hidden>
+                ◧
+              </span>
+              <span>Filters</span>
+              {currentCategoryName ? (
+                <span className="mpv-filter-trigger__pill">{currentCategoryName}</span>
+              ) : null}
+            </button>
+
+            {filtersOpen ? (
+              <div
+                className="mpv-filter-backdrop"
+                role="presentation"
+                aria-hidden
+                onClick={() => setFiltersOpen(false)}
+              />
+            ) : null}
+
+            <aside
+              id="mpv-filter-panel"
+              className={`mpv-sidebar ${filtersOpen ? "mpv-sidebar--open" : ""}`}
+              aria-hidden={isNarrow ? !filtersOpen : false}
+            >
+              <div className="mpv-sidebar-mobile-bar">
+                <span className="mpv-sidebar-mobile-title">Refine by</span>
+                <div className="mpv-sidebar-mobile-actions">
+                  <button type="button" className="mpv-clear" onClick={() => {}}>
+                    Clear All
+                  </button>
+                  <button
+                    type="button"
+                    className="mpv-sidebar-close"
+                    aria-label="Close filters"
+                    onClick={() => setFiltersOpen(false)}
+                  >
+                    ×
+                  </button>
+                </div>
+              </div>
               <div className="mpv-sidebar-head">
                 <div className="mpv-sidebar-title">Refine by</div>
                 <button type="button" className="mpv-clear" onClick={() => {}}>
