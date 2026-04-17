@@ -346,56 +346,6 @@ const MoreProductview = () => {
                   </button>
                 </div>
               </div>
-
-              <div className="mpv-filter-block">
-                <div className="mpv-filter-header">
-                  <span>Price</span>
-                  <span className="mpv-collapse">-</span>
-                </div>
-                <div className="mpv-filter-items">
-                  <label className="mpv-checkbox">
-                    <input type="checkbox" />
-                    <span className="mpv-checkbox-text">$0 - $100.00</span>
-                  </label>
-                  <label className="mpv-checkbox">
-                    <input type="checkbox" />
-                    <span className="mpv-checkbox-text">$100.00 - $200.00</span>
-                  </label>
-                  <label className="mpv-checkbox">
-                    <input type="checkbox" />
-                    <span className="mpv-checkbox-text">$250.00 +</span>
-                  </label>
-
-                  <div className="mpv-price-range">
-                    <div className="mpv-price-inputs">
-                      <div className="mpv-price-col">
-                        <div className="mpv-price-label">Min</div>
-                        <input className="mpv-price-input" placeholder="$0" />
-                      </div>
-                      <div className="mpv-price-col">
-                        <div className="mpv-price-label">Max</div>
-                        <input className="mpv-price-input" placeholder="$250" />
-                      </div>
-                    </div>
-                    <button type="button" className="mpv-apply-btn">
-                      Apply
-                    </button>
-                  </div>
-                </div>
-              </div>
-
-              <div className="mpv-filter-block">
-                <div className="mpv-filter-header">
-                  <span>Color</span>
-                  <span className="mpv-collapse">-</span>
-                </div>
-                <div className="mpv-filter-items mpv-color-items">
-                  <div className="mpv-color-dot mpv-color-dot--black" />
-                  <div className="mpv-color-dot mpv-color-dot--blue" />
-                  <div className="mpv-color-dot mpv-color-dot--brown" />
-                  <div className="mpv-color-dot mpv-color-dot--gray" />
-                </div>
-              </div>
             </aside>
 
             <main className="mpv-main">
