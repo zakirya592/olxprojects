@@ -1,14 +1,11 @@
-import React, { useState } from "react";
+import React from "react";
 import { Link } from "react-router-dom";
 import { TiSocialTwitterCircular } from "react-icons/ti";
 import { CiFacebook } from "react-icons/ci";
 import { FiInstagram } from "react-icons/fi";
 import { FaYoutube } from "react-icons/fa";
 import { FaWhatsapp } from "react-icons/fa";
-import PhoneOutlinedIcon from "@mui/icons-material/PhoneOutlined";
-import EmailOutlinedIcon from "@mui/icons-material/EmailOutlined";
 import KeyboardArrowUpIcon from "@mui/icons-material/KeyboardArrowUp";
-import { toast } from "react-toastify";
 import "./Footer.css";
 import { FOOTER_LOGO_SRC } from "../../../constants/brandLogo";
 
@@ -25,18 +22,6 @@ function MottaLogoFooter() {
 }
 
 const Footer = () => {
-  const [email, setEmail] = useState("");
-
-  const handleSubscribe = (e) => {
-    e.preventDefault();
-    if (!email.trim()) {
-      toast.warn("Please enter your email address.");
-      return;
-    }
-    toast.success("Thanks for subscribing!");
-    setEmail("");
-  };
-
   const scrollTop = () => {
     window.scrollTo({ top: 0, behavior: "smooth" });
   };
@@ -45,65 +30,6 @@ const Footer = () => {
     <>
       <footer className="motta-footer min-w-0 overflow-x-clip pb-20 lg:pb-6">
         <div className="motta-footer__inner">
-          {/* Top: contact + newsletter */}
-          <div className="motta-footer__top">
-            <div className="motta-footer__contact-grid">
-              <div className="motta-footer__contact-block">
-                <div className="motta-footer__contact-icon">
-                  <PhoneOutlinedIcon sx={{ fontSize: 36, color: "#4b5563" }} />
-                </div>
-                <div>
-                  <p className="motta-footer__contact-title">Call</p>
-                  <p className="motta-footer__contact-text">
-                    Call us from 8am to 12am ET.
-                  </p>
-                  <p className="motta-footer__phone">+92 300 5868401</p>
-                </div>
-              </div>
-              <div className="motta-footer__contact-block">
-                <div className="motta-footer__contact-icon">
-                  <EmailOutlinedIcon sx={{ fontSize: 36, color: "#4b5563" }} />
-                </div>
-                <div>
-                  <p className="motta-footer__contact-title">Email</p>
-                  <p className="motta-footer__contact-text">
-                    Our response time is 1 to 3 business days.
-                  </p>
-                  <Link to="/contactus" className="motta-footer__link-inline">
-                    Send a Message
-                  </Link>
-                </div>
-              </div>
-            </div>
-
-            <div>
-              <h3 className="motta-footer__newsletter-title">
-                Let&apos;s keep in touch
-              </h3>
-              <p className="motta-footer__newsletter-desc">
-                Get recommendations, tips, updates, promotions and more.
-              </p>
-              <form
-                className="motta-footer__newsletter-form"
-                onSubmit={handleSubscribe}
-              >
-                <input
-                  type="email"
-                  className="motta-footer__newsletter-input"
-                  placeholder="Enter your email address"
-                  value={email}
-                  onChange={(e) => setEmail(e.target.value)}
-                  autoComplete="email"
-                />
-                <button type="submit" className="motta-footer__subscribe-btn">
-                  Subscribe
-                </button>
-              </form>
-            </div>
-          </div>
-
-          <hr className="motta-footer__divider" />
-
           {/* Brand + link columns */}
           <div className="motta-footer__mid">
             <div className="motta-footer__brand">
