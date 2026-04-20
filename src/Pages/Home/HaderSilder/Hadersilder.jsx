@@ -5,6 +5,8 @@ import "swiper/css/pagination";
 import "swiper/css/navigation";
 import { Autoplay, Pagination, Navigation } from "swiper/modules";
 import { useQuery } from "react-query";
+import { useMemo } from "react";
+import { useNavigate } from "react-router-dom";
 import { CircularProgress } from "@mui/material";
 import NewRequest from "../../../../utils/NewRequest";
 import imageLiveUrl from "../../../../utils/urlConverter/imageLiveUrl";
@@ -23,12 +25,69 @@ function partitionSliders(list) {
   };
 }
 
+function pickRandomItems(list, count) {
+  if (!Array.isArray(list) || list.length === 0 || count <= 0) return [];
+  const shuffled = [...list];
+  for (let i = shuffled.length - 1; i > 0; i -= 1) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
+  }
+  return shuffled.slice(0, count);
+}
+
+function productStatusIsActive(product) {
+  const status = product?.status;
+  if (typeof status === "number") return status === 1;
+  if (typeof status === "string") return status.toLowerCase() === "active";
+  return true;
+}
+
+function stripHtmlTags(text) {
+  if (typeof text !== "string") return "";
+  return text.replace(/<[^>]*>/g, " ").replace(/\s+/g, " ").trim();
+}
+
+function cleanDescription(text) {
+  const plain = stripHtmlTags(text);
+  return plain
+    .replace(/^\*?\s*product\s*name\s*\*?\s*:\s*/i, "")
+    .replace(/^\s*product\s*name\s*:\s*/i, "")
+    .trim();
+}
+
 const Hadersilder = () => {
+  const navigate = useNavigate();
   const { isLoading, error, data: slidersData = [] } = useQuery(
     "fetchAllSliders",
     async () => {
       const response = await NewRequest.get("/slider");
       return response?.data.filter((item) => item.status === 1) || [];
+    },
+    {
+      staleTime: 5 * 60 * 1000,
+      cacheTime: 10 * 60 * 1000,
+    }
+  );
+
+  const { data: sideProductsRaw = [] } = useQuery(
+    "heroRandomSideProducts",
+    async () => {
+      const response = await NewRequest.get("/product/getcategoryproduct");
+      const grouped = Array.isArray(response?.data) ? response.data : [];
+
+      const flattened = grouped.flatMap((group) => {
+        const categoryName = group?.category?.name || "";
+        const products = Array.isArray(group?.products) ? group.products : [];
+
+        return products
+          .filter((product) => productStatusIsActive(product))
+          .map((product) => ({
+            ...product,
+            __categoryName: categoryName,
+          }));
+      });
+
+      return flattened.filter((product) => Array.isArray(product?.images) && product.images[0]);
     },
     {
       staleTime: 5 * 60 * 1000,
@@ -43,7 +102,53 @@ const Hadersilder = () => {
   };
 
   const { main: mainSlides, side: sideSlides } = partitionSliders(slidersData);
-  const showSideColumn = sideSlides.length > 0;
+
+  const sideProducts = useMemo(
+    () => pickRandomItems(sideProductsRaw, 2),
+    [sideProductsRaw]
+  );
+
+  const showSideColumn = sideProducts.length > 0 || sideSlides.length > 0;
+
+  const sidePromoItems = useMemo(() => {
+    if (sideProducts.length > 0) {
+      return sideProducts.map((product) => ({
+        type: "product",
+        id: product?._id,
+        image: product?.images?.[0],
+        category: product?.__categoryName || "Featured",
+        title: product?.name || "Featured Product",
+        description: cleanDescription(
+          product?.description ||
+            product?.shortDescription ||
+            "Explore this product and discover more details."
+        ),
+        product,
+      }));
+    }
+
+    return sideSlides.map((item, idx) => {
+      const copy = getSidePromoCopy(item, idx);
+      return {
+        type: "slider",
+        id: item?._id || `slider-${idx}`,
+        image: item?.image,
+        category: copy.badge,
+        title: copy.title,
+        description: copy.description,
+        slider: item,
+      };
+    });
+  }, [sideProducts, sideSlides]);
+
+  const onSidePromoClick = (promo) => {
+    if (promo?.type === "product" && promo?.product?._id) {
+      localStorage.setItem("singleproduct", JSON.stringify(promo.product));
+      navigate(`/Singleitem/${promo.product._id}`);
+      return;
+    }
+    openLink(promo?.slider?.url);
+  };
 
   return (
     <section className="hero-motta-wrap">
@@ -153,24 +258,23 @@ const Hadersilder = () => {
         {/* Side promos — ~33% */}
         {showSideColumn && (
         <div className="flex flex-col gap-4 lg:col-span-4 lg:min-h-[380px]">
-          {sideSlides.map((item, idx) => {
-            const copy = getSidePromoCopy(item, idx);
+          {sidePromoItems.map((item) => {
             return (
               <button
-                key={item._id || idx}
+                key={item.id}
                 type="button"
                 className="hero-motta-side-card text-left"
-                onClick={() => openLink(item.url)}
+                onClick={() => onSidePromoClick(item)}
               >
                 <div className="hero-motta-side-card__text">
                   <span className="text-[10px] font-bold uppercase tracking-[0.15em] text-gray-500">
-                    {copy.badge}
+                    {item.category}
                   </span>
                   <span className="mt-1 block text-lg font-bold leading-snug text-gray-900">
-                    {copy.title}
+                    {item.title}
                   </span>
                   <p className="mt-1 line-clamp-2 text-xs leading-relaxed text-gray-600">
-                    {copy.description}
+                    {item.description}
                   </p>
                   <span className="hero-motta-shop-link" role="presentation">
                     Shop Now
