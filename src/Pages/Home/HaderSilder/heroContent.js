@@ -33,20 +33,38 @@ export const SIDE_PROMO_FALLBACK = [
   },
 ];
 
+function firstNonEmpty(...values) {
+  return values.find((value) => typeof value === "string" && value.trim()) || "";
+}
+
 export function getMainSlideCopy(item, index) {
   const fb = MAIN_SLIDE_FALLBACK[index % MAIN_SLIDE_FALLBACK.length];
+  const label = firstNonEmpty(item?.label, item?.kicker, item?.tag, item?.title, fb.label);
+  const title = firstNonEmpty(
+    item?.heading,
+    item?.headline,
+    item?.name,
+    item?.title,
+    fb.title
+  );
+  const description = firstNonEmpty(item?.description, item?.subtitle, fb.description);
+
   return {
-    label: item?.label || item?.kicker || item?.tag || fb.label,
-    title: item?.title || item?.headline || item?.name || fb.title,
-    description: item?.description || item?.subtitle || fb.description,
+    label,
+    title,
+    description,
   };
 }
 
 export function getSidePromoCopy(item, index) {
   const fb = SIDE_PROMO_FALLBACK[index % SIDE_PROMO_FALLBACK.length];
+  const badge = firstNonEmpty(item?.badge, item?.tag, item?.title, fb.badge);
+  const title = firstNonEmpty(item?.heading, item?.headline, item?.title, fb.title);
+  const description = firstNonEmpty(item?.description, item?.subtitle, fb.description);
+
   return {
-    badge: item?.badge || item?.tag || fb.badge,
-    title: item?.title || item?.headline || fb.title,
-    description: item?.description || item?.subtitle || fb.description,
+    badge,
+    title,
+    description,
   };
 }

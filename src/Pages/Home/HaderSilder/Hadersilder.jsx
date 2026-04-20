@@ -10,20 +10,8 @@ import { useNavigate } from "react-router-dom";
 import { CircularProgress } from "@mui/material";
 import NewRequest from "../../../../utils/NewRequest";
 import imageLiveUrl from "../../../../utils/urlConverter/imageLiveUrl";
-import { getMainSlideCopy, getSidePromoCopy } from "./heroContent";
+import { getMainSlideCopy } from "./heroContent";
 import "./Hadersilder.css";
-
-/** Last 2 sliders = side promos; remaining = main carousel (avoids duplicate images). */
-function partitionSliders(list) {
-  const n = list.length;
-  if (n === 0) return { main: [], side: [] };
-  if (n === 1) return { main: list, side: [] };
-  if (n === 2) return { main: [list[0]], side: [list[1]] };
-  return {
-    main: list.slice(0, n - 2),
-    side: list.slice(n - 2),
-  };
-}
 
 function pickRandomItems(list, count) {
   if (!Array.isArray(list) || list.length === 0 || count <= 0) return [];
@@ -101,45 +89,30 @@ const Hadersilder = () => {
     }
   };
 
-  const { main: mainSlides, side: sideSlides } = partitionSliders(slidersData);
+  const mainSlides = slidersData;
 
   const sideProducts = useMemo(
     () => pickRandomItems(sideProductsRaw, 2),
     [sideProductsRaw]
   );
 
-  const showSideColumn = sideProducts.length > 0 || sideSlides.length > 0;
+  const showSideColumn = sideProducts.length > 0;
 
   const sidePromoItems = useMemo(() => {
-    if (sideProducts.length > 0) {
-      return sideProducts.map((product) => ({
-        type: "product",
-        id: product?._id,
-        image: product?.images?.[0],
-        category: product?.__categoryName || "Featured",
-        title: product?.name || "Featured Product",
-        description: cleanDescription(
-          product?.description ||
-            product?.shortDescription ||
-            "Explore this product and discover more details."
-        ),
-        product,
-      }));
-    }
-
-    return sideSlides.map((item, idx) => {
-      const copy = getSidePromoCopy(item, idx);
-      return {
-        type: "slider",
-        id: item?._id || `slider-${idx}`,
-        image: item?.image,
-        category: copy.badge,
-        title: copy.title,
-        description: copy.description,
-        slider: item,
-      };
-    });
-  }, [sideProducts, sideSlides]);
+    return sideProducts.map((product) => ({
+      type: "product",
+      id: product?._id,
+      image: product?.images?.[0],
+      category: product?.__categoryName || "Featured",
+      title: product?.name || "Featured Product",
+      description: cleanDescription(
+        product?.description ||
+          product?.shortDescription ||
+          "Explore this product and discover more details."
+      ),
+      product,
+    }));
+  }, [sideProducts]);
 
   const onSidePromoClick = (promo) => {
     if (promo?.type === "product" && promo?.product?._id) {
