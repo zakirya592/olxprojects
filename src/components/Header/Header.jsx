@@ -189,7 +189,9 @@ function Header() {
   const [query, setQuery] = useState("");
   const [suggestions, setSuggestions] = useState([]);
   const [showSuggestions, setShowSuggestions] = useState(false);
+  const [isSuggestionsLoading, setIsSuggestionsLoading] = useState(false);
   const suggestionBoxRef = useRef(null);
+  const suggestionsRequestRef = useRef(0);
 
   const searchMutation = useMutation({
     mutationFn: async (q) => {
@@ -243,25 +245,35 @@ function Header() {
     if (trimmedQuery.length < 2) {
       setSuggestions([]);
       setShowSuggestions(false);
+      setIsSuggestionsLoading(false);
       return undefined;
     }
 
+    setShowSuggestions(true);
+    setIsSuggestionsLoading(true);
+    const requestId = ++suggestionsRequestRef.current;
     const timer = setTimeout(async () => {
       try {
         const response = await NewRequest.post("/product/searchProduct", {
           query: trimmedQuery,
         });
 
+        if (requestId !== suggestionsRequestRef.current) return;
         const rawList = Array.isArray(response?.data) ? response.data : [];
         const normalized = rawList
           .map((item) => item?.name?.trim())
           .filter(Boolean);
         const unique = [...new Set(normalized)].slice(0, 7);
         setSuggestions(unique);
-        setShowSuggestions(unique.length > 0);
+        setShowSuggestions(true);
       } catch {
+        if (requestId !== suggestionsRequestRef.current) return;
         setSuggestions([]);
-        setShowSuggestions(false);
+        setShowSuggestions(true);
+      } finally {
+        if (requestId === suggestionsRequestRef.current) {
+          setIsSuggestionsLoading(false);
+        }
       }
     }, 300);
 
@@ -411,23 +423,37 @@ function Header() {
                 type="submit"
                 className="motta-search-submit"
                 aria-label="Search"
+                disabled={searchMutation.isLoading}
               >
-                <FaSearch className="text-white text-lg" />
+                {searchMutation.isLoading ? (
+                  <span className="motta-search-spinner" />
+                ) : (
+                  <FaSearch className="text-white text-lg" />
+                )}
               </button>
             </form>
 
-            {showSuggestions && (
+            {showSuggestions && query.trim().length >= 2 && (
               <div className="motta-search-suggestions">
-                {suggestions.map((item) => (
-                  <button
-                    key={item}
-                    type="button"
-                    className="motta-search-suggestion-item"
-                    onClick={() => handleSuggestionClick(item)}
-                  >
-                    {item}
-                  </button>
-                ))}
+                {isSuggestionsLoading ? (
+                  <div className="motta-search-suggestion-status">
+                    <span className="motta-search-spinner motta-search-spinner--small" />
+                    Searching products...
+                  </div>
+                ) : suggestions.length > 0 ? (
+                  suggestions.map((item) => (
+                    <button
+                      key={item}
+                      type="button"
+                      className="motta-search-suggestion-item"
+                      onClick={() => handleSuggestionClick(item)}
+                    >
+                      {item}
+                    </button>
+                  ))
+                ) : (
+                  <div className="motta-search-suggestion-status">No matching products found</div>
+                )}
               </div>
             )}
           </div>
