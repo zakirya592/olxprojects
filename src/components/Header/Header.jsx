@@ -156,42 +156,6 @@ function Header() {
     navigate("/LoginForm");
   };
 
-  const inputRef = useRef(null);
-  const autocompleteRef = useRef(null);
-
-  useEffect(() => {
-    const loadScript = (url, callback) => {
-      const script = document.createElement("script");
-      script.type = "text/javascript";
-      script.src = url;
-      script.onload = callback;
-      document.head.appendChild(script);
-    };
-
-    const handleScriptLoad = () => {
-      if (!inputRef.current || !window.google?.maps?.places) return;
-      autocompleteRef.current = new window.google.maps.places.Autocomplete(
-        inputRef.current,
-        {
-          types: ["geocode"],
-          componentRestrictions: { country: "pk" },
-        }
-      );
-      autocompleteRef.current.addListener("place_changed", () => {
-        autocompleteRef.current?.getPlace();
-      });
-    };
-
-    if (!window.google) {
-      loadScript(
-        `https://maps.googleapis.com/maps/api/js?key=YOUR_API_KEY&libraries=places`,
-        handleScriptLoad
-      );
-    } else {
-      handleScriptLoad();
-    }
-  }, []);
-
   const handleSellButtonClick = () => {
     if (isUserLoggedIn) {
       navigate("/Post");
@@ -223,6 +187,9 @@ function Header() {
   };
 
   const [query, setQuery] = useState("");
+  const [suggestions, setSuggestions] = useState([]);
+  const [showSuggestions, setShowSuggestions] = useState(false);
+  const suggestionBoxRef = useRef(null);
 
   const searchMutation = useMutation({
     mutationFn: async (q) => {
@@ -245,17 +212,66 @@ function Header() {
 
   const handleSearch = (e) => {
     e?.preventDefault?.();
-    if (query.trim() === "") {
+    const trimmedQuery = query.trim();
+    if (trimmedQuery === "") {
       toast.warn("Please enter a search term", { position: "top-right" });
       return;
     }
-    searchMutation.mutate(query);
+    if (searchMutation.isLoading) return;
+    setShowSuggestions(false);
+    searchMutation.mutate(trimmedQuery);
   };
 
   const handleKeyDown = (e) => {
     if (e.key === "Enter") {
-      searchMutation.mutate(query);
+      handleSearch(e);
     }
+  };
+
+  useEffect(() => {
+    const onDocClick = (event) => {
+      if (suggestionBoxRef.current && !suggestionBoxRef.current.contains(event.target)) {
+        setShowSuggestions(false);
+      }
+    };
+    document.addEventListener("mousedown", onDocClick);
+    return () => document.removeEventListener("mousedown", onDocClick);
+  }, []);
+
+  useEffect(() => {
+    const trimmedQuery = query.trim();
+    if (trimmedQuery.length < 2) {
+      setSuggestions([]);
+      setShowSuggestions(false);
+      return undefined;
+    }
+
+    const timer = setTimeout(async () => {
+      try {
+        const response = await NewRequest.post("/product/searchProduct", {
+          query: trimmedQuery,
+        });
+
+        const rawList = Array.isArray(response?.data) ? response.data : [];
+        const normalized = rawList
+          .map((item) => item?.name?.trim())
+          .filter(Boolean);
+        const unique = [...new Set(normalized)].slice(0, 7);
+        setSuggestions(unique);
+        setShowSuggestions(unique.length > 0);
+      } catch {
+        setSuggestions([]);
+        setShowSuggestions(false);
+      }
+    }, 300);
+
+    return () => clearTimeout(timer);
+  }, [query]);
+
+  const handleSuggestionClick = (suggestion) => {
+    setQuery(suggestion);
+    setShowSuggestions(false);
+    searchMutation.mutate(suggestion);
   };
 
   const accountMenu = (
@@ -366,36 +382,55 @@ function Header() {
             </nav>
           </div>
 
-          <form
-            className="motta-search-wrap mx-auto w-full lg:mx-0 lg:max-w-xl xl:max-w-2xl"
-            onSubmit={handleSearch}
+          <div
+            className="motta-search-area mx-auto w-full lg:mx-0 lg:max-w-xl xl:max-w-2xl"
+            ref={suggestionBoxRef}
           >
-            <button
-              type="button"
-              className="motta-search-all"
-              onClick={() => setSearchAllOpen(true)}
-            >
-              All
-              <KeyboardArrowDownIcon sx={{ fontSize: 18, color: "#5f6368" }} />
-            </button>
-            <input
-              ref={inputRef}
-              type="search"
-              className="motta-search-input"
-              placeholder="Search for anything"
-              value={query}
-              onChange={(e) => setQuery(e.target.value)}
-              onKeyDown={handleKeyDown}
-              autoComplete="off"
-            />
-            <button
-              type="submit"
-              className="motta-search-submit"
-              aria-label="Search"
-            >
-              <FaSearch className="text-white text-lg" />
-            </button>
-          </form>
+            <form className="motta-search-wrap w-full" onSubmit={handleSearch}>
+              <button
+                type="button"
+                className="motta-search-all"
+                onClick={() => setSearchAllOpen(true)}
+              >
+                All
+                <KeyboardArrowDownIcon sx={{ fontSize: 18, color: "#5f6368" }} />
+              </button>
+              <input
+                type="text"
+                className="motta-search-input"
+                placeholder="Search for anything"
+                value={query}
+                onChange={(e) => setQuery(e.target.value)}
+                onFocus={() => {
+                  if (suggestions.length > 0) setShowSuggestions(true);
+                }}
+                onKeyDown={handleKeyDown}
+                autoComplete="off"
+              />
+              <button
+                type="submit"
+                className="motta-search-submit"
+                aria-label="Search"
+              >
+                <FaSearch className="text-white text-lg" />
+              </button>
+            </form>
+
+            {showSuggestions && (
+              <div className="motta-search-suggestions">
+                {suggestions.map((item) => (
+                  <button
+                    key={item}
+                    type="button"
+                    className="motta-search-suggestion-item"
+                    onClick={() => handleSuggestionClick(item)}
+                  >
+                    {item}
+                  </button>
+                ))}
+              </div>
+            )}
+          </div>
 
           <div className="hidden items-center justify-end gap-1 lg:flex lg:flex-shrink-0 xl:gap-2">
             <button
