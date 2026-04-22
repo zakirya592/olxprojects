@@ -6,10 +6,12 @@ import imageLiveUrl from "../../../utils/urlConverter/imageLiveUrl";
 import { FaSearch } from "react-icons/fa";
 import { useNavigate } from "react-router-dom";
 import { IoReorderThree } from "react-icons/io5";
+import { IoChevronBack } from "react-icons/io5";
 import { RxCross2 } from "react-icons/rx";
 import DoneAllIcon from "@mui/icons-material/DoneAll";
 import CheckIcon from "@mui/icons-material/Check";
 import { Avatar } from "@mui/material";
+
 const Chat = () => {
   const navigate = useNavigate();
   const [message, setMessage] = useState("");
@@ -50,6 +52,13 @@ const Chat = () => {
   const handleMessageChange = (e) => {
     setMessage(e.target.value);
   };
+
+  const formatTime = (timestamp) =>
+    new Date(timestamp).toLocaleString("en-US", {
+      hour: "2-digit",
+      minute: "2-digit",
+      hour12: true,
+    });
 
   const { data: chatHistorydata, refetch } = useQuery(
     ["chatdata", selectedUser?._id],
@@ -146,7 +155,7 @@ const Chat = () => {
       });
   }, []);
   const [Responseimageshow, setResponseimageshow] = useState("");
-  const [Responsename, setResponsename] = useState('')
+  const [Responsename, setResponsename] = useState("");
 
   useEffect(() => {
     NewRequest.get(`/users/${chatResponse?._id || ""}`)
@@ -172,287 +181,252 @@ const Chat = () => {
       chat?.lastMessage?.toLowerCase().includes(searchQuery.toLowerCase())
   );
 
+  const activeChatUser = selectedUser || chatResponse;
+  const hasActiveConversation = Boolean(activeChatUser);
+  const showSidebarOnMobile = isChatListVisible || !hasActiveConversation;
+
   return (
-    <>
-      <div className="flex flex-col sm:flex-col lg:flex-row h-[80vh] w-full overflow-y-scroll lg:px-10 mt-5 lg:mt-40 sm:mt-1">
-        {/* Sidebar */}
-        <div
-          className="sm:block lg:hidden p-2 text--blue-600 rounded-md"
-          onClick={() => setIsChatListVisible(!isChatListVisible)}
-        >
-          {isChatListVisible ? (
-            <div className="flex">
-              <RxCross2 className="my-auto" />{" "}
-              <span className="my-auto">Hide Chat List</span>{" "}
-            </div>
+    <div className="mx-auto mt-2 flex h-[calc(100vh-130px)] min-h-[520px] w-full max-w-[1440px] flex-col gap-3 px-2 sm:mt-3 md:px-4 lg:mt-8 lg:flex-row lg:px-8">
+      <div
+        className="flex cursor-pointer items-center gap-2 rounded-xl border border-slate-200 bg-white px-3 py-2 text-sm font-medium text-slate-700 shadow-sm lg:hidden"
+        onClick={() => setIsChatListVisible(!isChatListVisible)}
+      >
+        {isChatListVisible ? (
+          <>
+            <RxCross2 className="text-base" />
+            <span>Hide Conversations</span>
+          </>
+        ) : (
+          <>
+            <IoReorderThree className="text-lg" />
+            <span>Show Conversations</span>
+          </>
+        )}
+      </div>
+
+      <aside
+        className={`w-full overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-sm lg:block lg:w-[360px] ${
+          showSidebarOnMobile ? "block" : "hidden lg:block"
+        }`}
+      >
+        <div className="flex items-center gap-3 border-b border-slate-100 bg-slate-50/80 p-4">
+          {imageshow ? (
+            <img src={imageshow} alt="Avatar" className="h-11 w-11 rounded-full object-cover" />
           ) : (
-            <div className="flex">
-              <IoReorderThree className="my-auto" />{" "}
-              <span className="my-auto">Show Chat List</span>{" "}
-            </div>
+            <Avatar className="h-11 !w-11" />
           )}
+          <div className="min-w-0">
+            <h3 className="truncate text-sm font-semibold text-slate-900">{name || "My Profile"}</h3>
+            <p className="truncate text-xs text-slate-500">{aboutMe || "Start messaging your buyers and sellers"}</p>
+          </div>
         </div>
 
-        <div
-          className={`w-full lg:w-1/4 sm:w-full h-auto border-gray-300 rounded-md shadow-lg transition-all ${
-            isChatListVisible ? "block" : "hidden sm:block"
-          }`}
-        >
-          <div className="flex items-center bg-gray-300 p-4 rounded-sm">
-            <img
-              src={imageshow || ""}
-              alt="Avatar"
-              className="w-10 h-10 rounded-full"
+        <div className="p-3">
+          <div className="relative">
+            <span className="absolute inset-y-0 left-3 flex items-center text-slate-400">
+              <FaSearch />
+            </span>
+            <input
+              type="text"
+              className="w-full rounded-xl border border-slate-200 bg-slate-50 py-2 pl-10 pr-3 text-sm text-slate-700 outline-none transition focus:border-indigo-500 focus:bg-white"
+              placeholder="Search conversations..."
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
             />
-            {/* Username and Message */}
-            <div className="ml-4">
-              <h3 className="font-bold text-gray-900">{name || ""}</h3>
-              <p className="text-sm text-gray-600 truncate w-40">{aboutMe}</p>
-            </div>
           </div>
-          <div className="text-xl font-semibold p-3">
-            <div className="relative">
-              {/* Search Icon */}
-              <span className="absolute inset-y-0 left-3 flex items-center text-gray-400">
-                <FaSearch />
-              </span>
+        </div>
 
-              {/* Input Field */}
-              <input
-                type="text"
-                className="w-full p-2 pl-10 border rounded-lg focus:outline-none "
-                placeholder="Search..."
-                value={searchQuery}
-                onChange={(e) => setSearchQuery(e.target.value)}
-              />
-            </div>
-          </div>
-          <div className="space-y-4 p-4">
-            {filteredChatList.length > 0 ? (
-              filteredChatList.map((chatlist, index) => (
-                <div
-                  className={`flex items-center p-2 rounded cursor-pointer shadow ${
-                    activeChatId === chatlist?.user._id
-                      ? "bg-gray-300"
-                      : "bg-gray-100"
-                  }`}
-                  key={index}
-                  onClick={() => handleChatSelection(chatlist)}
-                >
+        <div className="max-h-[calc(100vh-290px)] space-y-2 overflow-y-auto p-3 lg:max-h-[calc(100vh-320px)]">
+          {filteredChatList.length > 0 ? (
+            filteredChatList.map((chatItem, index) => (
+              <button
+                type="button"
+                className={`flex w-full items-start gap-3 rounded-xl border p-3 text-left transition ${
+                  activeChatId === chatItem?.user?._id
+                    ? "border-indigo-200 bg-indigo-50 shadow-sm"
+                    : "border-slate-100 bg-white hover:border-slate-200 hover:bg-slate-50"
+                }`}
+                key={index}
+                onClick={() => {
+                  handleChatSelection(chatItem);
+                  setIsChatListVisible(false);
+                }}
+              >
+                {chatItem?.user?.image ? (
                   <img
                     src={
-                      chatlist?.user?.image
-                        ? chatlist?.user?.image.startsWith("https")
-                          ? chatlist?.user?.image
-                          : imageLiveUrl(chatlist.user.image)
-                        : ""
+                      chatItem.user.image.startsWith("https")
+                        ? chatItem.user.image
+                        : imageLiveUrl(chatItem.user.image)
                     }
                     alt="User"
-                    className="w-10 h-10 rounded-full mr-3"
+                    className="h-10 w-10 rounded-full object-cover"
                   />
-                  <div className="w-full">
-                    <div className="flex justify-between w-full">
-                      <h3 className="font-medium">
-                        {" "}
-                        {chatlist?.user.username || ""}
-                      </h3>
-                      <span className="text-sm font-semibold text-blue-600">
-                        {/* {chatlist?.timestamp || ""} */}
-                        {new Date(chatlist?.timestamp).toLocaleString("en-US", {
-                          // day: "2-digit",
-                          // month: "2-digit",
-                          // year: "numeric",
-                          hour: "2-digit",
-                          minute: "2-digit",
-                          second: "2-digit",
-                          hour12: true,
-                        })}
-                      </span>
-                    </div>
-                    <p className="text-gray-500 text-sm">
-                      {chatlist?.lastMessage || ""}
-                    </p>
+                ) : (
+                  <Avatar className="h-10 !w-10" />
+                )}
+
+                <div className="min-w-0 flex-1">
+                  <div className="mb-1 flex items-center justify-between gap-2">
+                    <h3 className="truncate text-sm font-semibold text-slate-800">
+                      {chatItem?.user?.username || "Unknown user"}
+                    </h3>
+                    <span className="whitespace-nowrap text-xs text-slate-400">
+                      {chatItem?.timestamp ? formatTime(chatItem.timestamp) : ""}
+                    </span>
                   </div>
+                  <p className="truncate text-xs text-slate-500">{chatItem?.lastMessage || "No messages yet"}</p>
                 </div>
-              ))
-            ) : (
-              <p className="text-center text-gray-500">No chats found</p>
-            )}
+              </button>
+            ))
+          ) : (
+            <p className="rounded-xl border border-dashed border-slate-200 bg-slate-50 px-3 py-6 text-center text-sm text-slate-500">
+              No matching conversations found.
+            </p>
+          )}
+        </div>
+      </aside>
+
+      <section
+        className={`flex min-h-[420px] flex-1 flex-col overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-sm sm:min-h-[520px] ${
+          showSidebarOnMobile ? "hidden lg:flex" : "flex"
+        }`}
+      >
+        <div className="flex items-center gap-3 border-b border-slate-100 bg-slate-50/80 p-4">
+          <button
+            type="button"
+            className="flex h-8 w-8 items-center justify-center rounded-full border border-slate-200 text-slate-600 lg:hidden"
+            onClick={() => setIsChatListVisible(true)}
+            aria-label="Back to conversation list"
+          >
+            <IoChevronBack />
+          </button>
+          {activeChatUser?.image ? (
+            <img
+              src={
+                activeChatUser.image.startsWith("https")
+                  ? activeChatUser.image
+                  : imageLiveUrl(activeChatUser.image)
+              }
+              alt="Avatar"
+              className="h-11 w-11 rounded-full object-cover"
+            />
+          ) : Responseimageshow ? (
+            <img
+              src={
+                Responseimageshow.startsWith("https")
+                  ? Responseimageshow
+                  : imageLiveUrl(Responseimageshow)
+              }
+              alt="Avatar"
+              className="h-11 w-11 rounded-full object-cover"
+            />
+          ) : (
+            <Avatar className="h-11 !w-11" />
+          )}
+          <div className="min-w-0">
+            <h3 className="truncate text-base font-semibold text-slate-900">
+              {activeChatUser?.username || Responsename || "Conversation"}
+            </h3>
+            <p className="text-xs text-slate-500">Messages are end-to-end on your account</p>
           </div>
         </div>
 
-        {/* Main Chat Area */}
-        <div className="flex-1">
-          <div className="flex items-center bg-gray-300 p-4 rounded-sm ms-1">
-            {selectedUser ? (
-              <>
-                {selectedUser.image ? (
-                  <img
-                    src={
-                      selectedUser.image.startsWith("https")
-                        ? selectedUser.image
-                        : imageLiveUrl(selectedUser.image)
-                    }
-                    alt="Avatar"
-                    className="w-10 h-10 rounded-full"
-                  />
-                ) : (
-                  <Avatar className="w-10 h-10 rounded-full" />
-                )}
-              </>
-            ) : (
-              <>
-                {Responseimageshow ? (
-                  <img
-                    src={
-                      Responseimageshow.startsWith("https")
-                        ? Responseimageshow
-                        : imageLiveUrl(Responseimageshow)
-                    }
-                    alt="Avatar"
-                    className="w-10 h-10 rounded-full"
-                  />
-                ) : (
-                  <Avatar className="w-10 h-10 rounded-full" />
-                )}
-              </>
-            )}
+        <div className="flex flex-1 flex-col bg-gradient-to-b from-slate-50 to-white px-2 py-3 md:px-4">
+          <div className="mb-3 flex-1 overflow-y-auto pr-1" ref={chatContainerRef}>
+            {chatHistorydata?.length ? (
+              chatHistorydata.map((chat, index) => {
+                const isSender = chat.sender?._id === senderId;
+                return (
+                  <div
+                    key={index}
+                    className={`mb-3 flex items-end gap-2 ${isSender ? "justify-end" : "justify-start"}`}
+                  >
+                    {!isSender &&
+                      (chat.sender?.image ? (
+                        <img
+                          src={
+                            chat.sender.image.startsWith("https")
+                              ? chat.sender.image
+                              : imageLiveUrl(chat.sender.image)
+                          }
+                          alt={chat.sender?.name || "Sender"}
+                          className="h-8 w-8 rounded-full object-cover"
+                        />
+                      ) : (
+                        <Avatar className="h-8 !w-8" />
+                      ))}
 
-            {/* Username and Message */}
-            <div className="ml-4">
-              {selectedUser ? (
-                <>
-                  <h3 className="font-bold text-gray-900">
-                    {selectedUser.username}
-                  </h3>
-                </>
-              ) : (
-                <p className="font-bold text-gray-900">{Responsename}</p>
-              )}
-            </div>
-          </div>
-          <div className="p-1 h-[350px] sm:h-[200px] lg:h-[600px]">
-            <div className="border border-gray-300 bg-[#FFFFFF] p-4 h-full flex flex-col justify-between w-full">
-              <div
-                className=" overflow-y-auto mb-5 flex-grow"
-                ref={chatContainerRef}
-              >
-                {chatHistorydata &&
-                  chatHistorydata.map((chat, index) => (
                     <div
-                      key={index}
-                      className={`mb-3 ${
-                        chat.sender._id === senderId
-                          ? "text-right mx-4"
-                          : "text-left mx-4"
+                      className={`max-w-[88%] rounded-2xl px-3 py-2 shadow-sm sm:px-4 md:max-w-[65%] ${
+                        isSender
+                          ? "rounded-br-md bg-indigo-600 text-white"
+                          : "rounded-bl-md border border-slate-200 bg-white text-slate-800"
                       }`}
                     >
-                      <div>
-                        <div
-                          className={`flex ${
-                            chat.sender._id === senderId
-                              ? "justify-end"
-                              : "justify-start"
-                          }`}
-                        >
-                          {/* Avatar for the sender */}
-                          {chat.sender._id !== senderId && (
-                            <img
-                              src={
-                                chat.sender.image
-                                  ? chat.sender.image.startsWith("https")
-                                    ? chat.sender.image
-                                    : imageLiveUrl(chat.sender.image)
-                                  : ""
-                              }
-                              alt={chat.sender.name}
-                              className="w-8 h-8 rounded-full mr-2"
-                            />
-                          )}
-
-                          <div
-                            className={`${
-                              chat.sender._id === senderId
-                                ? "bg-[#F5F7FB] text-black"
-                                : " bg-indigo-600 text-white py-2 px-4 rounded-lg max-w-xs shadow-lg"
-                            } py-2 px-4 rounded-lg max-w-xs shadow-lg`}
-                          >
-                            <div className="flex">
-                              <p className=""> {chat?.content || ""}</p>
-                            </div>
-                            <div className="flex w-full justify-between my-auto">
-                              <p className="text-xs text-gray-400 ">
-                                {new Date(chat.timestamp).toLocaleString(
-                                  "en-US",
-                                  {
-                                    hour: "2-digit",
-                                    minute: "2-digit",
-                                    second: "2-digit",
-                                    hour12: true,
-                                  }
-                                )}
-                              </p>
-
-                              {chat.sender._id === senderId && (
-                                <div className="ms-10">
-                                  <p className="h-2">
-                                    {chat.status === "read" ? (
-                                      <DoneAllIcon className="text-blue-600" />
-                                    ) : chat.status === "delivered" ? (
-                                      <DoneAllIcon className="text-black" />
-                                    ) : (
-                                      <CheckIcon />
-                                    )}
-                                  </p>
-                                </div>
-                              )}
-                            </div>
-                          </div>
-
-                          {/* Show the current user's image if they are the sender */}
-                          {chat.sender._id === senderId && (
-                            <img
-                              src={
-                                chat.sender.image
-                                  ? chat.sender.image.startsWith("https")
-                                    ? chat.sender.image
-                                    : imageLiveUrl(chat.sender.image)
-                                  : ""
-                              }
-                              alt={chat.sender.name} // Current user's name
-                              className="w-8 h-8 rounded-full ml-2"
-                            />
-                          )}
-                        </div>
+                      <p className="break-words text-sm">{chat?.content || ""}</p>
+                      <div className={`mt-1 flex items-center justify-end gap-1 text-[11px] ${isSender ? "text-indigo-100" : "text-slate-400"}`}>
+                        <span>{chat?.timestamp ? formatTime(chat.timestamp) : ""}</span>
+                        {isSender &&
+                          (chat.status === "read" ? (
+                            <DoneAllIcon sx={{ fontSize: 15, color: "#bfdbfe" }} />
+                          ) : chat.status === "delivered" ? (
+                            <DoneAllIcon sx={{ fontSize: 15 }} />
+                          ) : (
+                            <CheckIcon sx={{ fontSize: 15 }} />
+                          ))}
                       </div>
                     </div>
-                  ))}
-              </div>
 
-              <div className="lg:p-4 md:p-3 sm:p-1 p-1 border-t border-gray-300">
-                <div className="flex">
-                  <input
-                    type="text"
-                    value={message}
-                    onChange={handleMessageChange}
-                    className="flex-1 px-2 lg:py-4 md:py-3 sm:py-1 py:1 border border-gray-300 rounded focus:outline-none bg-[#E6EBF5] focus:ring-2 focus:ring-blue-500"
-                    placeholder="Enter your message..."
-                    onKeyDown={handleKeyDown}
-                  />
-                  <button
-                    onClick={handleSendMessage}
-                    className="ml-2 px-1 lg:px-4 md:px-3 sm:px-1 bg-[#7269EF] text-white rounded hover:bg-blue-600 transition duration-300"
-                  >
-                    {/* Send */}
-                    <GiPlayButton size={34} />
-                  </button>
-                </div>
+                    {isSender &&
+                      (chat.sender?.image ? (
+                        <img
+                          src={
+                            chat.sender.image.startsWith("https")
+                              ? chat.sender.image
+                              : imageLiveUrl(chat.sender.image)
+                          }
+                          alt={chat.sender?.name || "You"}
+                          className="h-8 w-8 rounded-full object-cover"
+                        />
+                      ) : (
+                        <Avatar className="h-8 !w-8" />
+                      ))}
+                  </div>
+                );
+              })
+            ) : (
+              <div className="flex h-full items-center justify-center px-4">
+                <p className="rounded-xl border border-dashed border-slate-200 bg-white px-4 py-3 text-center text-sm text-slate-500">
+                  No messages yet. Send your first message to start this conversation.
+                </p>
               </div>
+            )}
+          </div>
+
+          <div className="rounded-2xl border border-slate-200 bg-white p-2 md:p-3">
+            <div className="flex items-center gap-2">
+              <input
+                type="text"
+                value={message}
+                onChange={handleMessageChange}
+                className="flex-1 rounded-xl border border-slate-200 bg-slate-50 px-3 py-2.5 text-sm text-slate-700 outline-none transition focus:border-indigo-500 focus:bg-white sm:py-3"
+                placeholder="Type your message..."
+                onKeyDown={handleKeyDown}
+              />
+              <button
+                onClick={handleSendMessage}
+                className="flex h-11 w-11 items-center justify-center rounded-xl bg-indigo-600 text-white transition hover:bg-indigo-700 disabled:cursor-not-allowed disabled:opacity-50"
+                disabled={!message.trim()}
+                aria-label="Send message"
+              >
+                <GiPlayButton size={22} />
+              </button>
             </div>
           </div>
         </div>
-      </div>
-    </>
+      </section>
+    </div>
   );
 };
 
