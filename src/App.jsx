@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import { BrowserRouter, Outlet, Route, Routes } from "react-router-dom";
+import { BrowserRouter, Outlet, Route, Routes, useLocation } from "react-router-dom";
 import "./App.css";
 import Home from "./Pages/Home/Home";
 import Sellpage from "./Pages/Home/Sellpage/Sellpage";
@@ -29,6 +29,16 @@ import { syncDocumentDirectionFromStorage } from "../utils/rtlDocumentSync";
 
 const queryClient = new QueryClient();
 
+function ScrollToTop() {
+  const { pathname } = useLocation();
+
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, [pathname]);
+
+  return null;
+}
+
 function App() {
   useEffect(() => {
     syncDocumentDirectionFromStorage();
@@ -48,6 +58,7 @@ function App() {
 
   return (
     <BrowserRouter>
+      <ScrollToTop />
       <QueryClientProvider client={queryClient}>
         <SelectionDataProvider>
           <Routes>
