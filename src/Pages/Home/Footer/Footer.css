@@ -129,7 +129,7 @@
 }
 
 .motta-footer__link-inline:hover {
-  color: #004747;
+  color: #792998;
 }
 
 .motta-footer__newsletter-title {
@@ -169,7 +169,7 @@
 }
 
 .motta-footer__newsletter-input:focus {
-  border-color: #004747;
+  border-color: #792998;
   box-shadow: 0 0 0 2px rgba(0, 71, 71, 0.12);
 }
 
@@ -246,7 +246,7 @@
 }
 
 .motta-footer__social a:hover {
-  color: #004747;
+  color: #792998;
 }
 
 .motta-footer__col-title {
@@ -273,7 +273,7 @@
 }
 
 .motta-footer__links a:hover {
-  color: #004747;
+  color: #792998;
 }
 
 .motta-footer__bottom {
@@ -301,7 +301,7 @@
 }
 
 .motta-footer__legal a:hover {
-  color: #004747;
+  color: #792998;
   text-decoration: underline;
 }
 

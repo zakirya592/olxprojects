@@ -1,6 +1,6 @@
 /* Motta-style header */
 .motta-header {
-  background-color: #004747;
+  background-color: #792998;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.12);
 }
 
@@ -100,14 +100,14 @@
   justify-content: center;
   width: 48px;
   min-width: 48px;
-  background: #ff9933;
+  background: #792998;
   border: none;
   cursor: pointer;
   transition: background 0.15s ease;
 }
 
 .motta-search-submit:hover {
-  background: #f28a1f;
+  background: #5f2077;
 }
 
 .motta-icon-btn {

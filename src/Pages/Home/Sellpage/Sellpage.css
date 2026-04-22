@@ -1,5 +1,5 @@
 .sell-page-root {
-  --post-brand: #004747;
+  --post-brand: #792998;
   --post-brand-mid: #006b6b;
   min-height: 100vh;
   background: #f7faf9;
@@ -12,7 +12,7 @@
   padding: 24px 20px 56px;
 }
 
-/* Step 1 — “Post Your Ad” category grid (white + brand #004747) */
+/* Step 1 — “Post Your Ad” category grid (white + brand #792998) */
 .sell-pick-shell {
   width: 100%;
 }

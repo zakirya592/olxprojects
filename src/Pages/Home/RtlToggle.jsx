@@ -16,7 +16,7 @@ function RtlToggle() {
     <button
       type="button"
       onClick={() => setRtl((v) => !v)}
-      className="fixed bottom-24 right-3 z-40 flex h-11 w-11 items-center justify-center rounded-full bg-[#004747] text-xs font-bold text-white shadow-lg ring-2 ring-white/30 hover:bg-[#003838] lg:bottom-8"
+      className="fixed bottom-24 right-3 z-40 flex h-11 w-11 items-center justify-center rounded-full bg-[#792998] text-xs font-bold text-white shadow-lg ring-2 ring-white/30 hover:bg-[#5f2077] lg:bottom-8"
       title="Toggle RTL / LTR"
       aria-pressed={rtl}
     >

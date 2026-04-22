@@ -23,7 +23,7 @@
 }
 
 .hero-motta-swiper .swiper-pagination-bullet-active {
-  background: #004747;
+  background: #792998;
 }
 
 .hero-motta-arrow {
@@ -38,7 +38,7 @@
   border-radius: 8px;
   border: none;
   background: rgba(255, 255, 255, 0.95);
-  color: #004747;
+  color: #792998;
   font-size: 22px;
   line-height: 1;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
@@ -125,5 +125,5 @@
 }
 
 .hero-motta-shop-link:hover {
-  color: #004747;
+  color: #792998;
 }

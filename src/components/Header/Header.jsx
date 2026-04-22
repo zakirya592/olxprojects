@@ -436,7 +436,7 @@ function Header() {
             <button
               type="button"
               onClick={handleSellButtonClick}
-              className="ml-1 rounded-full bg-white px-4 py-1.5 text-sm font-bold text-[#004747] shadow-sm hover:bg-gray-100"
+              className="ml-1 rounded-full bg-white px-4 py-1.5 text-sm font-bold text-[#792998] shadow-sm hover:bg-gray-100"
             >
               SELL
             </button>
@@ -454,7 +454,7 @@ function Header() {
           anchor="left"
           open={mobileOpen}
           onClose={() => setMobileOpen(false)}
-          PaperProps={{ sx: { width: 280, bgcolor: "#004747", color: "#fff" } }}
+          PaperProps={{ sx: { width: 280, bgcolor: "#792998", color: "#fff" } }}
         >
           <div className="flex items-center justify-between p-3">
             <span className="font-bold text-lg">Menu</span>
@@ -516,7 +516,7 @@ function Header() {
             </button>
             <button
               type="button"
-              className="mt-2 rounded-full bg-white py-2 font-bold text-[#004747]"
+              className="mt-2 rounded-full bg-white py-2 font-bold text-[#792998]"
               onClick={() => {
                 setMobileOpen(false);
                 handleSellButtonClick();
@@ -528,7 +528,7 @@ function Header() {
         </Drawer>
       </header>
 
-      <div className="fixed bottom-0 left-0 right-0 z-40 flex items-center justify-around border-t border-white/10 bg-[#004747] py-2 text-white lg:hidden">
+      <div className="fixed bottom-0 left-0 right-0 z-40 flex items-center justify-around border-t border-white/10 bg-[#792998] py-2 text-white lg:hidden">
         <button
           type="button"
           className="p-2"
@@ -540,7 +540,7 @@ function Header() {
         <NotificationComponent />
         <button
           type="button"
-          className="rounded-full bg-white px-4 py-1.5 text-sm font-bold text-[#004747]"
+          className="rounded-full bg-white px-4 py-1.5 text-sm font-bold text-[#792998]"
           onClick={handleSellButtonClick}
         >
           SELL
