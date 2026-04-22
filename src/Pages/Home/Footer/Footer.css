@@ -351,7 +351,7 @@
   align-items: center;
   justify-content: center;
   border-radius: 9999px;
-  background: #111827;
+  background: #792998;
   color: #fff;
   border: none;
   cursor: pointer;
@@ -360,7 +360,7 @@
 }
 
 .motta-footer__back-top:hover {
-  background: #000;
+  background: #5f2077;
   transform: translateY(-2px);
 }
 
