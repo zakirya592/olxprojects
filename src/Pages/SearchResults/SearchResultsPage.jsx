@@ -1,12 +1,15 @@
-import React, { useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import imageLiveUrl from "../../../utils/urlConverter/imageLiveUrl";
+import NewRequest from "../../../utils/NewRequest";
 
 function SearchResultsPage() {
   const location = useLocation();
   const navigate = useNavigate();
   const searchResults = location.state?.searchResults || [];
   const [isLoading, setisLoading] = useState(false);
+  const [relatedProducts, setRelatedProducts] = useState([]);
+  const [relatedLoading, setRelatedLoading] = useState(false);
 
   const singproductitem = (card) => {
     navigate(`/Singleitem/${card._id}`, { state: { cardData: card } });
@@ -35,6 +38,74 @@ function SearchResultsPage() {
     }
     return "bg-slate-100 text-slate-700 border-slate-200";
   };
+
+  const searchResultIds = useMemo(
+    () => new Set(searchResults.map((item) => item?._id).filter(Boolean)),
+    [searchResults]
+  );
+
+  useEffect(() => {
+    const fetchRelatedProducts = async () => {
+      if (!searchResults.length) {
+        setRelatedProducts([]);
+        return;
+      }
+
+      const categoryIds = [
+        ...new Set(
+          searchResults
+            .map((item) => {
+              if (typeof item?.Category === "string") return item.Category;
+              if (typeof item?.category === "string") return item.category;
+              return item?.Category?._id || item?.category?._id || "";
+            })
+            .filter(Boolean)
+        ),
+      ].slice(0, 3);
+
+      if (!categoryIds.length) {
+        setRelatedProducts([]);
+        return;
+      }
+
+      setRelatedLoading(true);
+      try {
+        const responses = await Promise.all(
+          categoryIds.map((categoryId) =>
+            NewRequest.get(`/product/getProductsByCategory/${categoryId}`)
+          )
+        );
+
+        const merged = responses.flatMap((response) =>
+          Array.isArray(response?.data) ? response.data : []
+        );
+
+        const uniqueById = [];
+        const seenIds = new Set();
+
+        for (const product of merged) {
+          const productId = product?._id;
+          if (!productId || seenIds.has(productId) || searchResultIds.has(productId)) continue;
+
+          const status = String(product?.status || "").toLowerCase();
+          if (status !== "active") continue;
+
+          seenIds.add(productId);
+          uniqueById.push(product);
+
+          if (uniqueById.length >= 8) break;
+        }
+
+        setRelatedProducts(uniqueById);
+      } catch {
+        setRelatedProducts([]);
+      } finally {
+        setRelatedLoading(false);
+      }
+    };
+
+    fetchRelatedProducts();
+  }, [searchResults, searchResultIds]);
 
   return (
     <div className="mx-auto min-h-screen max-w-7xl bg-slate-50/60 px-4 py-6 lg:px-10 lg:py-12">
@@ -117,6 +188,61 @@ function SearchResultsPage() {
           </article>
         ))}
       </div>
+
+      <section className="mt-10">
+        <div className="mb-4 flex items-center justify-between border-b border-slate-200 pb-3">
+          <h2 className="text-xl font-bold text-slate-900">Related Products</h2>
+          <p className="text-sm text-slate-500">Based on similar categories</p>
+        </div>
+
+        {relatedLoading ? (
+          <div className="grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-4">
+            {Array.from({ length: 4 }).map((_, idx) => (
+              <div
+                key={idx}
+                className="h-60 animate-pulse rounded-xl border border-slate-200 bg-white"
+              />
+            ))}
+          </div>
+        ) : relatedProducts.length > 0 ? (
+          <div className="grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-4">
+            {relatedProducts.map((product) => (
+              <article
+                key={product._id}
+                onClick={() => singproductitem(product)}
+                className="cursor-pointer overflow-hidden rounded-xl border border-slate-200 bg-white shadow-sm transition hover:-translate-y-0.5 hover:shadow-md"
+              >
+                <img
+                  src={
+                    product?.images?.[0]
+                      ? product.images[0].startsWith("https")
+                        ? product.images[0]
+                        : imageLiveUrl(product.images[0])
+                      : ""
+                  }
+                  alt={product?.name || "Related product"}
+                  className="h-40 w-full object-cover"
+                />
+                <div className="p-3">
+                  <h3 className="line-clamp-2 text-sm font-semibold text-slate-900">
+                    {product?.name || "Unnamed Product"}
+                  </h3>
+                  <p className="mt-2 text-base font-bold text-slate-900">
+                    Rs {formatPrice(product?.price)}
+                  </p>
+                  <p className="mt-1 line-clamp-1 text-xs text-slate-500">
+                    {product?.location || "Location not provided"}
+                  </p>
+                </div>
+              </article>
+            ))}
+          </div>
+        ) : (
+          <p className="rounded-md border border-dashed border-slate-300 bg-white px-4 py-6 text-center text-sm text-slate-500">
+            No related products available right now.
+          </p>
+        )}
+      </section>
     </div>
   );
 }

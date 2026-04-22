@@ -114,123 +114,118 @@ const ProfilePage = () => {
       };
 
     return (
-      <div className="lg:px-10 my-5 lg:my-40 sm:my-2 flex justify-center items-center flex-col">
-        <div className="from-purple-400 to-blue-200 h-50 bg-gradient-to-b w-full h-40 rounded-lg ">
-          <h1 className="text-white p-5 text-2xl"> Edit profile</h1>
+      <div className="mx-auto my-3 w-full max-w-[1320px] px-2 sm:my-4 sm:px-4 lg:my-10 lg:px-8">
+        <div className="overflow-hidden rounded-3xl border border-indigo-100 bg-gradient-to-r from-indigo-600 via-violet-600 to-fuchsia-500 shadow-lg">
+          <div className="px-5 py-7 sm:px-8 sm:py-10">
+            <h1 className="text-2xl font-bold tracking-tight text-white sm:text-3xl">
+              Edit Profile
+            </h1>
+            <p className="mt-1 text-sm text-indigo-100 sm:text-base">
+              Keep your account details updated to build trust with buyers and sellers.
+            </p>
+          </div>
         </div>
-        <div className="bg-white rounded-lg shadow-lg p-8 w-full max-w-7xl -mt-16">
-          <div className="flex flex-col md:flex-row md:space-x-6">
-            <div className="flex-shrink-0 flex justify-center md:justify-start">
-              <div className="flex justify-between flex-col sm:flex-row">
-                <div className="printerPic font-body sm:text-base text-sm flex flex-col gap-2">
-                  <div className="imgesection">
-                    <img
-                      src={
-                        selectedFile
-                          ? URL.createObjectURL(selectedFile)
-                          : imageshow // Ensure this is correctly set in useEffect
-                      }
-                      // src={ selectedFile ? URL.createObjectURL(selectedFile) : imageshow != null ? imageshow : ""}
-                      className="printerpic w-32 h-32"
-                      style={{
-                        width: selectedFile || imageshow ? "200px" : "200px",
-                        height: selectedFile || imageshow ? "200px" : "200px",
-                      }}
-                    />
 
-                    <div className="row " htmlFor="file-inputs">
-                      <label
-                        htmlFor="file-inputs"
-                        className="choosefile bg-loactioncolor hover:bg-primary"
-                      >
-                        choose Image
-                      </label>
-                      <input
-                        id="file-inputs"
-                        type="file"
-                        onChange={handleChangeback}
-                        style={{ display: "none" }}
-                      />
-                    </div>
-                  </div>
+        <div className="-mt-4 rounded-3xl border border-slate-200 bg-white p-4 shadow-xl sm:-mt-6 sm:p-6 lg:p-8">
+          <div className="grid grid-cols-1 gap-8 xl:grid-cols-[290px_1fr]">
+            <aside className="rounded-2xl border border-slate-200 bg-slate-50/70 p-4 sm:p-5">
+              <h2 className="text-sm font-semibold uppercase tracking-wide text-slate-500">
+                Profile Picture
+              </h2>
 
-                  {/* </center> */}
+              <div className="mt-5 flex flex-col items-center gap-4">
+                <div className="h-44 w-44 overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-sm">
+                  <img
+                    src={selectedFile ? URL.createObjectURL(selectedFile) : imageshow}
+                    alt="Profile"
+                    className="h-full w-full object-cover"
+                  />
                 </div>
+
+                <label
+                  htmlFor="file-inputs"
+                  className="cursor-pointer rounded-xl bg-indigo-600 px-4 py-2 text-sm font-medium text-white transition hover:bg-indigo-700"
+                >
+                  Choose Image
+                </label>
+                <input
+                  id="file-inputs"
+                  type="file"
+                  onChange={handleChangeback}
+                  className="hidden"
+                />
+
+                <p className="text-center text-xs text-slate-500">
+                  Use a clear photo for a more trusted profile.
+                </p>
               </div>
-            </div>
-            <div className="flex-grow mt-0 sm:mt-0 lg:mt-6 md:mt-0">
-              <div className="mt-8">
-                <div className="grid grid-cols-1  md:grid-cols-1 lg:grid-cols-2  gap-4">
-                  {/* User Name */}
-                  <div className="w-full font-body sm:text-base text-sm flex flex-col gap-2">
-                    <label htmlFor="name" className={`text-loactioncolor`}>
-                      User Name
-                    </label>
-                    <input
-                      type="text"
-                      id="name"
-                      value={name}
-                      onChange={(e) => setname(e.target.value)}
-                      placeholder={`Enter User Name`}
-                      className={`border w-full rounded-md border-[#8E9CAB] p-2 mb-3`}
-                    />
-                  </div>
-                  {/* Email */}
-                  <div className="w-full font-body sm:text-base text-sm flex flex-col gap-2">
-                    <label htmlFor="email" className={`text-loactioncolor`}>
-                      Email
-                    </label>
-                    <input
-                      type="email"
-                      id="email"
-                      required
-                      value={email}
-                      onChange={(e) => setemail(e.target.value)}
-                      placeholder={`Enter you Email`}
-                      className={`border w-full border-[#8E9CAB] rounded-md p-2 mb-3`}
-                    />
-                  </div>
-                  {/* Date Of Birth */}
-                  <div className="w-full font-body sm:text-base text-sm flex flex-col gap-2">
-                    <label
-                      htmlFor="dateOfBirth"
-                      className={`text-loactioncolor`}
-                    >
-                      Date Of Birth
-                    </label>
-                    <input
-                      type="date"
-                      id="dateOfBirth"
-                      required
-                      value={dateOfBirth}
-                      onChange={(e) => setdateOfBirth(e.target.value)}
-                      //   placeholder={`User Name`}
-                      className={`border w-full rounded-md border-[#8E9CAB] p-2 mb-3`}
-                    />
-                  </div>
-                  {/* Address */}
-                  <div className="w-full font-body sm:text-base text-sm flex flex-col gap-2">
-                    <label htmlFor="address" className={`text-loactioncolor`}>
-                      Address
-                    </label>
-                    <input
-                      type="text"
-                      id="address"
-                      required
-                      value={address}
-                      onChange={(e) => setaddress(e.target.value)}
-                      placeholder={`Enter your Address`}
-                      className={`border w-full rounded-md border-[#8E9CAB] p-2 mb-3`}
-                    />
-                  </div>
-                  {/* Phone Number */}
-                  <div className="w-full font-body sm:text-base text-sm flex flex-col gap-2">
-                    <label
-                      htmlFor="Phonenumber"
-                      className={`text-loactioncolor`}
-                    >
-                      Phone Number
-                    </label>
+            </aside>
+
+            <div>
+              <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
+                <div className="flex flex-col gap-2">
+                  <label htmlFor="name" className="text-sm font-medium text-slate-700">
+                    User Name
+                  </label>
+                  <input
+                    type="text"
+                    id="name"
+                    value={name}
+                    onChange={(e) => setname(e.target.value)}
+                    placeholder="Enter user name"
+                    className="w-full rounded-xl border border-slate-200 bg-slate-50 px-3 py-2.5 text-sm text-slate-700 outline-none transition focus:border-indigo-500 focus:bg-white"
+                  />
+                </div>
+
+                <div className="flex flex-col gap-2">
+                  <label htmlFor="email" className="text-sm font-medium text-slate-700">
+                    Email
+                  </label>
+                  <input
+                    type="email"
+                    id="email"
+                    required
+                    value={email}
+                    onChange={(e) => setemail(e.target.value)}
+                    placeholder="Enter your email"
+                    className="w-full rounded-xl border border-slate-200 bg-slate-50 px-3 py-2.5 text-sm text-slate-700 outline-none transition focus:border-indigo-500 focus:bg-white"
+                  />
+                </div>
+
+                <div className="flex flex-col gap-2">
+                  <label htmlFor="dateOfBirth" className="text-sm font-medium text-slate-700">
+                    Date Of Birth
+                  </label>
+                  <input
+                    type="date"
+                    id="dateOfBirth"
+                    required
+                    value={dateOfBirth}
+                    onChange={(e) => setdateOfBirth(e.target.value)}
+                    className="w-full rounded-xl border border-slate-200 bg-slate-50 px-3 py-2.5 text-sm text-slate-700 outline-none transition focus:border-indigo-500 focus:bg-white"
+                  />
+                </div>
+
+                <div className="flex flex-col gap-2">
+                  <label htmlFor="address" className="text-sm font-medium text-slate-700">
+                    Address
+                  </label>
+                  <input
+                    type="text"
+                    id="address"
+                    required
+                    value={address}
+                    onChange={(e) => setaddress(e.target.value)}
+                    placeholder="Enter your address"
+                    className="w-full rounded-xl border border-slate-200 bg-slate-50 px-3 py-2.5 text-sm text-slate-700 outline-none transition focus:border-indigo-500 focus:bg-white"
+                  />
+                </div>
+
+                <div className="flex flex-col gap-2">
+                  <label htmlFor="landline" className="text-sm font-medium text-slate-700">
+                    Phone Number
+                  </label>
+                  <div className="rounded-xl border border-slate-200 bg-slate-50 px-2 py-1 transition focus-within:border-indigo-500 focus-within:bg-white">
                     <PhoneInput
                       international
                       country={"pk"}
@@ -239,71 +234,74 @@ const ProfilePage = () => {
                       onChange={handlecompanyLandLine}
                       inputProps={{
                         id: "landline",
-                        placeholder: "Enter you Phone Number",
+                        placeholder: "Enter your phone number",
                         autoComplete: "off",
                       }}
                       inputStyle={{
                         width: "100%",
-                        borderRadius: "0px",
+                        borderRadius: "12px",
                         border: "none",
+                        background: "transparent",
+                        height: "38px",
+                        fontSize: "14px",
                       }}
-                      // required
-
-                      className={`border w-full rounded-md border-[#8E9CAB] p-0.5 mb-3`}
-                    />
-                    {companyLandlineError && (
-                      <p className="text-red-600">{companyLandlineError}</p>
-                    )}
-                  </div>
-                  {/* Password */}
-                  <div className="w-full font-body sm:text-base text-sm flex flex-col gap-2 relative">
-                    <label htmlFor="password" className={`text-loactioncolor`}>
-                      Password
-                    </label>
-                    <input
-                      type={showPassword ? "text" : "password"}
-                      id="password"
-                      required
-                      value={password}
-                      onChange={(e) => setpassword(e.target.value)}
-                      placeholder={`Enter password`}
-                      className={`border w-full rounded-md border-[#8E9CAB] p-2 mb-3 pr-7`}
-                    />
-                    <div
-                      className="absolute inset-y-0 right-0 mt-5 text-maincolor flex items-center pr-3  cursor-pointer"
-                      onClick={toggleShowPassword}
-                    >
-                      {showPassword ? (
-                        <AiOutlineEye />
-                      ) : (
-                        <AiOutlineEyeInvisible />
-                      )}
-                    </div>
-                  </div>
-                  {/* About Me */}
-                  <div className="w-full font-body sm:text-base text-sm flex flex-col gap-2">
-                    <label htmlFor="aboutMe" className={`text-loactioncolor`}>
-                      About Me
-                    </label>
-                    <textarea
-                      type="text"
-                      id="aboutMe"
-                      value={aboutMe}
-                      onChange={(e) => setaboutMe(e.target.value)}
-                      placeholder={`Enter your About Me`}
-                      className={`border w-full rounded-md border-[#8E9CAB] p-2 mb-3`}
+                      buttonStyle={{
+                        border: "none",
+                        background: "transparent",
+                      }}
                     />
                   </div>
+                  {companyLandlineError && (
+                    <p className="text-xs text-red-600">{companyLandlineError}</p>
+                  )}
                 </div>
-                <div className="w-full flex justify-center items-center gap-8 mt-5">
+
+                <div className="relative flex flex-col gap-2">
+                  <label htmlFor="password" className="text-sm font-medium text-slate-700">
+                    Password
+                  </label>
+                  <input
+                    type={showPassword ? "text" : "password"}
+                    id="password"
+                    required
+                    value={password}
+                    onChange={(e) => setpassword(e.target.value)}
+                    placeholder="Enter password"
+                    className="w-full rounded-xl border border-slate-200 bg-slate-50 px-3 py-2.5 pr-9 text-sm text-slate-700 outline-none transition focus:border-indigo-500 focus:bg-white"
+                  />
                   <button
                     type="button"
-                    onClick={handleAddCompany}
-                    className="px-5 py-3 rounded-sm w-[70%] bg-maincolor hover:bg-[#474352] text-white font-body text-sm ml-2"
+                    className="absolute right-3 top-[38px] text-slate-500 transition hover:text-indigo-600"
+                    onClick={toggleShowPassword}
+                    aria-label={showPassword ? "Hide password" : "Show password"}
                   >
-                    Update Profile
+                    {showPassword ? <AiOutlineEye /> : <AiOutlineEyeInvisible />}
                   </button>
                 </div>
+
+                <div className="md:col-span-2 flex flex-col gap-2">
+                  <label htmlFor="aboutMe" className="text-sm font-medium text-slate-700">
+                    About Me
+                  </label>
+                  <textarea
+                    id="aboutMe"
+                    value={aboutMe}
+                    onChange={(e) => setaboutMe(e.target.value)}
+                    placeholder="Tell people a little about yourself"
+                    rows={4}
+                    className="w-full rounded-xl border border-slate-200 bg-slate-50 px-3 py-2.5 text-sm text-slate-700 outline-none transition focus:border-indigo-500 focus:bg-white"
+                  />
+                </div>
+              </div>
+
+              <div className="mt-6 flex flex-col-reverse gap-3 sm:flex-row sm:justify-end">
+                <button
+                  type="button"
+                  onClick={handleAddCompany}
+                  className="w-full rounded-xl bg-indigo-600 px-6 py-3 text-sm font-semibold text-white transition hover:bg-indigo-700 sm:w-auto"
+                >
+                  Update Profile
+                </button>
               </div>
             </div>
           </div>
