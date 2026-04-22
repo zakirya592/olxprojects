@@ -10,6 +10,7 @@ import imageLiveUrl from "../../../../utils/urlConverter/imageLiveUrl";
 import { toast } from "react-toastify";
 function Sellpage() {
   const navigate = useNavigate();
+  const [mobileStep, setMobileStep] = useState(1);
 
   const {
     isLoading,
@@ -58,6 +59,7 @@ function Sellpage() {
        const userResponseString = JSON.stringify(category);
        sessionStorage.setItem("category", userResponseString);
        setselectedfooter(null);
+      setMobileStep(2);
      }
 
   };
@@ -70,10 +72,24 @@ function Sellpage() {
       navigate("/Post/Attributes");
     } else {
       setselectedfooter(sub);
+      setMobileStep(3);
     }
   };
 
   const handleBackClick = () => {
+    if (mobileStep === 3) {
+      setselectedfooter(null);
+      setMobileStep(2);
+      return;
+    }
+
+    if (mobileStep === 2) {
+      setSelectedCategory(null);
+      setselectedfooter(null);
+      setMobileStep(1);
+      return;
+    }
+
     setSelectedCategory(null);
   };
 
@@ -128,10 +144,56 @@ function Sellpage() {
               </button>
               <h2 className="sell-heading">Choose a category</h2>
             </div>
+            <div className="sell-mobile-steps" aria-label="Category selection steps">
+              <button
+                type="button"
+                className={
+                  mobileStep === 1
+                    ? "sell-step-chip sell-step-chip--active"
+                    : "sell-step-chip"
+                }
+                onClick={() => {
+                  setMobileStep(1);
+                  setselectedfooter(null);
+                }}
+              >
+                Main
+              </button>
+              <button
+                type="button"
+                className={
+                  mobileStep === 2
+                    ? "sell-step-chip sell-step-chip--active"
+                    : "sell-step-chip"
+                }
+                onClick={() => selectedCategory && setMobileStep(2)}
+                disabled={!selectedCategory}
+              >
+                Subcategory
+              </button>
+              <button
+                type="button"
+                className={
+                  mobileStep === 3
+                    ? "sell-step-chip sell-step-chip--active"
+                    : "sell-step-chip"
+                }
+                onClick={() => selectedfooter && setMobileStep(3)}
+                disabled={!selectedfooter}
+              >
+                Final
+              </button>
+            </div>
 
             <div className="sell-choose-card">
               <div className="sell-cols">
-                <div className="sell-col sell-col--left">
+                <div
+                  className={
+                    mobileStep === 1
+                      ? "sell-col sell-col--left sell-col--mobile-active"
+                      : "sell-col sell-col--left"
+                  }
+                >
                   {(eventsData || []).map((category) => (
                     <button
                       key={category._id}
@@ -160,7 +222,13 @@ function Sellpage() {
                   ))}
                 </div>
 
-                <div className="sell-col sell-col--middle">
+                <div
+                  className={
+                    mobileStep === 2
+                      ? "sell-col sell-col--middle sell-col--mobile-active"
+                      : "sell-col sell-col--middle"
+                  }
+                >
                   {selectedCategory.subCategories &&
                   selectedCategory.subCategories.length > 0 ? (
                     selectedCategory.subCategories.map((sub, index) => (
@@ -188,7 +256,13 @@ function Sellpage() {
                   )}
                 </div>
 
-                <div className="sell-col sell-col--right">
+                <div
+                  className={
+                    mobileStep === 3
+                      ? "sell-col sell-col--right sell-col--mobile-active"
+                      : "sell-col sell-col--right"
+                  }
+                >
                   {selectedfooter &&
                   selectedfooter.footerCategories &&
                   selectedfooter.footerCategories.length > 0 ? (

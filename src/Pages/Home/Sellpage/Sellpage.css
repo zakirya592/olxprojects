@@ -144,6 +144,10 @@
   margin-bottom: 18px;
 }
 
+.sell-mobile-steps {
+  display: none;
+}
+
 .sell-choose-card {
   background: #ffffff;
   border: 1px solid #e5e7eb;
@@ -273,5 +277,72 @@
   padding: 18px 14px;
   color: #6b7280;
   font-weight: 600;
+}
+
+@media (max-width: 900px) {
+  .sell-container {
+    padding: 14px 12px 30px;
+  }
+
+  .sell-flow-head {
+    margin-bottom: 12px;
+  }
+
+  .sell-heading {
+    font-size: 16px;
+  }
+
+  .sell-mobile-steps {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 8px;
+    margin: 0 0 10px;
+  }
+
+  .sell-step-chip {
+    border: 1px solid #dbe3ef;
+    background: #f8fafc;
+    color: #526070;
+    border-radius: 999px;
+    font-size: 12px;
+    font-weight: 700;
+    padding: 8px 10px;
+    cursor: pointer;
+    text-align: center;
+  }
+
+  .sell-step-chip:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+  }
+
+  .sell-step-chip--active {
+    border-color: transparent;
+    background: linear-gradient(135deg, #792998 0%, #5a1f73 100%);
+    color: #ffffff;
+    box-shadow: 0 8px 20px rgba(121, 41, 152, 0.25);
+  }
+
+  .sell-choose-card {
+    border-radius: 14px;
+  }
+
+  .sell-cols {
+    grid-template-columns: 1fr;
+  }
+
+  .sell-col {
+    min-height: 260px;
+    display: none;
+  }
+
+  .sell-col--mobile-active {
+    display: block;
+  }
+
+  .sell-col--left,
+  .sell-col--middle {
+    border-bottom: none;
+  }
 }
 
