@@ -20,7 +20,6 @@ import { Rating } from "@mui/material";
 import PanZoom from "react-easy-panzoom";
 import FullscreenIcon from "@mui/icons-material/Fullscreen";
 import ShareOutlinedIcon from "@mui/icons-material/ShareOutlined";
-import PrintOutlinedIcon from "@mui/icons-material/PrintOutlined";
 import { FaWhatsapp } from "react-icons/fa";
 import SwapHorizIcon from "@mui/icons-material/SwapHoriz";
 import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
@@ -330,8 +329,6 @@ const Singleitem = () => {
     }
   };
 
-  const handlePrint = () => window.print();
-
   const addToCompare = () => {
     if (!data?._id) return;
     try {
@@ -415,10 +412,6 @@ const Singleitem = () => {
           <button type="button" onClick={handleShare}>
             <ShareOutlinedIcon sx={{ fontSize: 18 }} />
             Share
-          </button>
-          <button type="button" onClick={handlePrint}>
-            <PrintOutlinedIcon sx={{ fontSize: 18 }} />
-            Print
           </button>
         </div>
       </div>
