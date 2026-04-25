@@ -118,6 +118,18 @@
   overflow: hidden;
 }
 
+.pdp-gallery__main-swiper {
+  width: 100%;
+  height: 100%;
+}
+
+.pdp-gallery__main-slide {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+}
+
 @media (min-width: 640px) {
   .pdp-gallery__main-wrap {
     min-height: 380px;

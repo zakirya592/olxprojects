@@ -288,7 +288,8 @@ const Singleitem = () => {
       }
     };
 
-     const panZoomRef = useRef(null);
+  const panZoomRef = useRef(null);
+  const mainSwiperRef = useRef(null);
 
      const handleDoubleClick = () => {
        if (panZoomRef.current) {
@@ -382,8 +383,6 @@ const Singleitem = () => {
     images.length > 0
       ? Math.min(activeImageIndex, Math.max(0, images.length - 1))
       : 0;
-  const mainImageSrc =
-    images.length > 0 ? imageLiveUrl(images[safeImageIndex]) : "";
 
   return (
     <div className="pdp-page pdp-page--pt" dir="ltr">
@@ -424,12 +423,29 @@ const Singleitem = () => {
               <Skeleton variant="rectangular" width="100%" height={380} />
             ) : images.length ? (
               <>
-                <img
-                  src={mainImageSrc}
-                  alt={data?.name || ""}
-                  className="pdp-gallery__main-img"
-                  onClick={() => openModal(safeImageIndex)}
-                />
+                <Swiper
+                  key={data?._id || "product-gallery"}
+                  slidesPerView={1}
+                  spaceBetween={0}
+                  onSwiper={(swiper) => {
+                    mainSwiperRef.current = swiper;
+                  }}
+                  onSlideChange={(swiper) => setActiveImageIndex(swiper.activeIndex)}
+                  modules={[Keyboard]}
+                  keyboard={{ enabled: true }}
+                  className="pdp-gallery__main-swiper"
+                >
+                  {images.map((img, index) => (
+                    <SwiperSlide key={img || index} className="pdp-gallery__main-slide">
+                      <img
+                        src={imageLiveUrl(img)}
+                        alt={data?.name || ""}
+                        className="pdp-gallery__main-img"
+                        onClick={() => openModal(index)}
+                      />
+                    </SwiperSlide>
+                  ))}
+                </Swiper>
                 <button
                   type="button"
                   className="pdp-gallery__expand"
@@ -452,7 +468,10 @@ const Singleitem = () => {
                   className={`pdp-thumb ${
                     index === safeImageIndex ? "pdp-thumb--active" : ""
                   }`}
-                  onClick={() => setActiveImageIndex(index)}
+                  onClick={() => {
+                    setActiveImageIndex(index);
+                    mainSwiperRef.current?.slideTo(index);
+                  }}
                   aria-label={`Image ${index + 1}`}
                   aria-selected={index === safeImageIndex}
                 >
