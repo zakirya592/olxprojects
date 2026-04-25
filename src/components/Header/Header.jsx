@@ -16,6 +16,9 @@ import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
 import MenuIcon from "@mui/icons-material/Menu";
 import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
 import ShoppingBagOutlinedIcon from "@mui/icons-material/ShoppingBagOutlined";
+import HomeOutlinedIcon from "@mui/icons-material/HomeOutlined";
+import WidgetsOutlinedIcon from "@mui/icons-material/WidgetsOutlined";
+import ShoppingCartOutlinedIcon from "@mui/icons-material/ShoppingCartOutlined";
 import { useMutation } from "react-query";
 import NewRequest from "../../../utils/NewRequest";
 import { toast } from "react-toastify";
@@ -192,6 +195,7 @@ function Header() {
   const [isSuggestionsLoading, setIsSuggestionsLoading] = useState(false);
   const suggestionBoxRef = useRef(null);
   const suggestionsRequestRef = useRef(0);
+  const pathName = window.location.pathname;
 
   const searchMutation = useMutation({
     mutationFn: async (q) => {
@@ -326,7 +330,7 @@ function Header() {
     <>
       <header className="motta-header text-white fixed top-0 left-0 right-0 z-50">
         <div className="mx-auto flex w-full max-w-[1200px] flex-col gap-2 px-4 py-2 sm:px-5 lg:flex-row lg:items-center lg:gap-4 lg:px-6 lg:py-2.5">
-          <div className="flex min-h-[44px] items-center gap-2 lg:min-w-0 lg:flex-shrink-0">
+          <div className="motta-mobile-top-row flex min-h-[44px] items-center gap-2 lg:min-w-0 lg:flex-shrink-0">
             <IconButton
               className="motta-icon-btn lg:!hidden"
               onClick={() => setMobileOpen(true)}
@@ -337,6 +341,25 @@ function Header() {
             </IconButton>
 
             <MottaLogoMark onClick={() => navigate("/")} />
+
+            <div className="motta-mobile-right-icons ml-auto flex items-center gap-1 lg:hidden">
+              <button
+                type="button"
+                className="motta-icon-btn"
+                aria-label="Wishlist"
+                onClick={() => navigate("/Myfavorites")}
+              >
+                <FavoriteBorderIcon sx={{ fontSize: 24 }} />
+              </button>
+              <button
+                type="button"
+                className="motta-icon-btn"
+                aria-label="Shopping bag"
+                onClick={() => navigate("/Myfavorites")}
+              >
+                <ShoppingBagOutlinedIcon sx={{ fontSize: 24 }} />
+              </button>
+            </div>
 
             <nav className="ml-1 hidden items-center gap-1 lg:flex xl:gap-2">
               <MottaCategoryNavDropdown
@@ -399,14 +422,6 @@ function Header() {
             ref={suggestionBoxRef}
           >
             <form className="motta-search-wrap w-full" onSubmit={handleSearch}>
-              <button
-                type="button"
-                className="motta-search-all"
-                onClick={() => setSearchAllOpen(true)}
-              >
-                All
-                <KeyboardArrowDownIcon sx={{ fontSize: 18, color: "#5f6368" }} />
-              </button>
               <input
                 type="text"
                 className="motta-search-input"
@@ -589,35 +604,50 @@ function Header() {
         </Drawer>
       </header>
 
-      <div className="fixed bottom-0 left-0 right-0 z-40 flex items-center justify-around border-t border-white/10 bg-[#792998] py-2 text-white lg:hidden">
+      <div className="motta-mobile-bottom-nav fixed bottom-0 left-0 right-0 z-40 lg:hidden">
         <button
           type="button"
-          className="p-2"
-          onClick={handlemessageButtonClick}
-          aria-label="Messages"
+          className={`motta-mobile-bottom-item ${pathName === "/" ? "is-active" : ""}`}
+          onClick={() => navigate("/")}
+          aria-label="Home"
         >
-          <FaCommentDots size={24} />
-        </button>
-        <NotificationComponent />
-        <button
-          type="button"
-          className="rounded-full bg-white px-4 py-1.5 text-sm font-bold text-[#792998]"
-          onClick={handleSellButtonClick}
-        >
-          SELL
+          <HomeOutlinedIcon sx={{ fontSize: 24 }} />
+          <span>Home</span>
         </button>
         <button
           type="button"
-          className="p-2"
+          className="motta-mobile-bottom-item"
+          onClick={() => setSearchAllOpen(true)}
+          aria-label="Shop"
+        >
+          <WidgetsOutlinedIcon sx={{ fontSize: 24 }} />
+          <span>Shop</span>
+        </button>
+        <button
+          type="button"
+          className="motta-mobile-bottom-item"
+          onClick={() => navigate("/Myfavorites")}
+          aria-label="Cart"
+        >
+          <ShoppingCartOutlinedIcon sx={{ fontSize: 24 }} />
+          <span>Cart</span>
+        </button>
+        <button
+          type="button"
+          className={`motta-mobile-bottom-item ${pathName === "/Myfavorites" ? "is-active" : ""}`}
           onClick={() => navigate("/Myfavorites")}
           aria-label="Wishlist"
         >
           <FavoriteBorderIcon sx={{ fontSize: 24 }} />
+          <span>Wishlist</span>
         </button>
         {isUserLoggedIn ? (
           <Dropdown>
             <MenuButton>
-              <Avatar src={userprofileimage || "broken-image.jpg"} sx={{ width: 32, height: 32 }} />
+              <span className="motta-mobile-bottom-item" aria-label="Account">
+                <Avatar src={userprofileimage || "broken-image.jpg"} sx={{ width: 24, height: 24 }} />
+                <span>Account</span>
+              </span>
             </MenuButton>
             <Menu slots={{ listbox: Listbox }} style={{ zIndex: 200 }}>
               <MenuSection>
@@ -631,8 +661,14 @@ function Header() {
             </Menu>
           </Dropdown>
         ) : (
-          <button type="button" className="p-2" onClick={handleShowCreatePopup}>
-            <FaRegUser size={24} />
+          <button
+            type="button"
+            className={`motta-mobile-bottom-item ${pathName === "/ProfilePage" ? "is-active" : ""}`}
+            onClick={handleShowCreatePopup}
+            aria-label="Account"
+          >
+            <FaRegUser size={22} />
+            <span>Account</span>
           </button>
         )}
       </div>

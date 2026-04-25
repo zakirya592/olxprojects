@@ -48,7 +48,7 @@ function App() {
     return (
       <div className="min-h-screen bg-white">
         <Header />
-        <main className="flex min-h-0 w-full min-w-0 flex-col justify-center bg-white pt-[64px] pb-16 lg:pb-6">
+        <main className="flex min-h-0 w-full min-w-0 flex-col justify-center bg-white pt-[126px] pb-20 lg:pt-[64px] lg:pb-6">
           <Outlet />
         </main>
         <Footer />

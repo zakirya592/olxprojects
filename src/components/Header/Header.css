@@ -381,6 +381,73 @@
   padding: 8px 12px 12px;
 }
 
+.motta-mobile-bottom-nav {
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+  background: #792998;
+  padding: 0.5rem 0.35rem calc(0.5rem + env(safe-area-inset-bottom));
+}
+
+.motta-mobile-bottom-item {
+  display: inline-flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 0.2rem;
+  min-width: 58px;
+  border: none;
+  background: transparent;
+  color: #ffffff;
+  font-size: 0.72rem;
+  font-weight: 500;
+  padding: 0.2rem;
+}
+
+.motta-mobile-bottom-item.is-active {
+  color: #ffffff;
+}
+
+@media (max-width: 1023px) {
+  .motta-mobile-top-row {
+    min-height: 56px;
+  }
+
+  .motta-logo-mark img {
+    height: 50px !important;
+  }
+
+  .motta-search-wrap {
+    border-radius: 12px;
+    box-shadow: none;
+  }
+
+  .motta-search-input {
+    min-height: 48px;
+    padding: 11px 14px;
+    font-size: 1.05rem;
+  }
+
+  .motta-search-submit {
+    width: 58px;
+    min-width: 58px;
+    background: #792998;
+    border-left: 0;
+    box-shadow: none;
+    border-top-right-radius: 12px;
+    border-bottom-right-radius: 12px;
+  }
+
+  .motta-search-submit:hover {
+    background: #5f2077;
+  }
+
+  .motta-icon-btn {
+    border-radius: 9999px;
+  }
+}
+
 /* Legacy gradient button styles (kept if referenced elsewhere) */
 .button-72 {
   background-image: linear-gradient(
