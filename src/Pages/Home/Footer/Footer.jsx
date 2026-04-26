@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { TiSocialTwitterCircular } from "react-icons/ti";
 import { CiFacebook } from "react-icons/ci";
@@ -8,6 +8,7 @@ import { FaWhatsapp } from "react-icons/fa";
 import KeyboardArrowUpIcon from "@mui/icons-material/KeyboardArrowUp";
 import "./Footer.css";
 import { FOOTER_LOGO_SRC } from "../../../constants/brandLogo";
+import NewRequest from "../../../../utils/NewRequest";
 
 function MottaLogoFooter() {
   return (
@@ -22,6 +23,51 @@ function MottaLogoFooter() {
 }
 
 const Footer = () => {
+  const [footerContent, setFooterContent] = useState({
+    heading: "Best For Shopping",
+    description:
+      "Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation.",
+  });
+
+  useEffect(() => {
+    const extractFooterItem = (payload) => {
+      if (Array.isArray(payload) && payload.length > 0) return payload[0];
+      if (Array.isArray(payload?.data) && payload.data.length > 0)
+        return payload.data[0];
+      if (Array.isArray(payload?.result) && payload.result.length > 0)
+        return payload.result[0];
+      if (payload && typeof payload === "object") {
+        if (payload.heading || payload.description) return payload;
+        if (payload.data && typeof payload.data === "object") return payload.data;
+      }
+      return null;
+    };
+
+    const fetchFooterContent = async () => {
+      try {
+        let response;
+        try {
+          response = await NewRequest.get("/api/footerContent");
+        } catch {
+          response = await NewRequest.get("/footerContent");
+        }
+
+        const firstItem = extractFooterItem(response?.data);
+
+        if (!firstItem) return;
+
+        setFooterContent((prev) => ({
+          heading: firstItem?.heading || prev.heading,
+          description: firstItem?.description || prev.description,
+        }));
+      } catch (error) {
+        console.error("Failed to load footer content", error);
+      }
+    };
+
+    fetchFooterContent();
+  }, []);
+
   const scrollTop = () => {
     window.scrollTo({ top: 0, behavior: "smooth" });
   };
@@ -34,10 +80,9 @@ const Footer = () => {
           <div className="motta-footer__mid">
             <div className="motta-footer__brand">
               <MottaLogoFooter />
-              <p className="motta-footer__brand-tagline">Best For Shopping</p>
+              <p className="motta-footer__brand-tagline">{footerContent.heading}</p>
               <p className="motta-footer__brand-desc">
-                Sed do eiusmod tempor incididunt ut labore et dolore magna
-                aliqua. Ut enim ad minim veniam, quis nostrud exercitation.
+                {footerContent.description}
               </p>
               <div className="motta-footer__social">
                 <a
