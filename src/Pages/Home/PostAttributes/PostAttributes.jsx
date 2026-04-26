@@ -321,7 +321,7 @@ const handleImageChange = (e, index) => {
         <h1 className="post-attr-title">Create a new Ad</h1>
         {isLoading && (
           <div className="post-attr-loading">
-            <DotLoader size={45} color="#792998" loading={isLoading} />
+            <DotLoader size={45} color="#4a0157" loading={isLoading} />
           </div>
         )}
         <div className="post-attr-card">

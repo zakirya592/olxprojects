@@ -129,7 +129,7 @@ function HomeCategoryCircles() {
                 ) : item?.icon ? (
                   <img src={imageLiveUrl(item.icon)} alt="" />
                 ) : (
-                  <span className="text-xs font-bold text-[#792998]">
+                  <span className="text-xs font-bold text-[#4a0157]">
                     {item.name?.slice(0, 2)}
                   </span>
                 )}

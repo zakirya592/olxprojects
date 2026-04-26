@@ -129,7 +129,7 @@
 }
 
 .motta-footer__link-inline:hover {
-  color: #792998;
+  color: #4a0157;
 }
 
 .motta-footer__newsletter-title {
@@ -169,7 +169,7 @@
 }
 
 .motta-footer__newsletter-input:focus {
-  border-color: #792998;
+  border-color: #4a0157;
   box-shadow: 0 0 0 2px rgba(0, 71, 71, 0.12);
 }
 
@@ -246,7 +246,7 @@
 }
 
 .motta-footer__social a:hover {
-  color: #792998;
+  color: #4a0157;
 }
 
 .motta-footer__col-title {
@@ -273,7 +273,7 @@
 }
 
 .motta-footer__links a:hover {
-  color: #792998;
+  color: #4a0157;
 }
 
 .motta-footer__bottom {
@@ -301,7 +301,7 @@
 }
 
 .motta-footer__legal a:hover {
-  color: #792998;
+  color: #4a0157;
   text-decoration: underline;
 }
 
@@ -351,7 +351,7 @@
   align-items: center;
   justify-content: center;
   border-radius: 9999px;
-  background: #792998;
+  background: #4a0157;
   color: #fff;
   border: none;
   cursor: pointer;
@@ -360,7 +360,7 @@
 }
 
 .motta-footer__back-top:hover {
-  background: #5f2077;
+  background: #3b0146;
   transform: translateY(-2px);
 }
 

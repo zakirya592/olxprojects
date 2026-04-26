@@ -1,5 +1,5 @@
 .sell-page-root {
-  --post-brand: #792998;
+  --post-brand: #4a0157;
   --post-brand-mid: #006b6b;
   min-height: 100vh;
   background: #f7faf9;
@@ -12,7 +12,7 @@
   padding: 24px 20px 56px;
 }
 
-/* Step 1 — “Post Your Ad” category grid (white + brand #792998) */
+/* Step 1 — “Post Your Ad” category grid (white + brand #4a0157) */
 .sell-pick-shell {
   width: 100%;
 }
@@ -318,7 +318,7 @@
 
   .sell-step-chip--active {
     border-color: transparent;
-    background: linear-gradient(135deg, #792998 0%, #5a1f73 100%);
+    background: linear-gradient(135deg, #4a0157 0%, #3b0146 100%);
     color: #ffffff;
     box-shadow: 0 8px 20px rgba(121, 41, 152, 0.25);
   }

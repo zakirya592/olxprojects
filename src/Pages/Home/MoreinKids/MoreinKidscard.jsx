@@ -168,7 +168,7 @@ const Hadersilder = () => {
 
   if (queryLoading && !dataToRender) return (
     <div className="flex justify-center items-center min-h-[200px]">
-      <CircularProgress sx={{ color: "#792998" }} />
+      <CircularProgress sx={{ color: "#4a0157" }} />
     </div>
   );
   
@@ -198,7 +198,7 @@ const Hadersilder = () => {
               </h6>
               <button
                 type="button"
-                className="border-0 bg-transparent text-sm font-medium text-gray-900 underline decoration-gray-900 underline-offset-[4px] transition hover:text-[#792998] hover:decoration-[#792998]"
+                className="border-0 bg-transparent text-sm font-medium text-gray-900 underline decoration-gray-900 underline-offset-[4px] transition hover:text-[#4a0157] hover:decoration-[#4a0157]"
                 onClick={() => viewMore(category)}
               >
                 View more
@@ -275,10 +275,10 @@ const Hadersilder = () => {
             onClick={handleLoadMore}
             disabled={isLoadingMore || queryLoading}
             sx={{ 
-              bgcolor: '#792998',
+              bgcolor: '#4a0157',
               color: 'white',
               '&:hover': { 
-                bgcolor: '#5f2077',
+                bgcolor: '#3b0146',
                 transform: 'translateY(-2px)',
                 boxShadow: '0 4px 8px rgba(0,0,0,0.2)'
               },

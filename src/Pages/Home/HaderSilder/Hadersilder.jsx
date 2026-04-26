@@ -138,7 +138,7 @@ const Hadersilder = () => {
         >
           {isLoading ? (
             <div className="flex h-[300px] items-center justify-center rounded-xl bg-[#f5f6f7] lg:h-[380px]">
-              <CircularProgress sx={{ color: "#792998" }} />
+              <CircularProgress sx={{ color: "#4a0157" }} />
             </div>
           ) : error ? (
             <div className="flex h-[300px] items-center justify-center rounded-xl bg-[#f5f6f7] text-red-500 lg:h-[380px]">
@@ -183,7 +183,7 @@ const Hadersilder = () => {
                           </p>
                           <button
                             type="button"
-                            className="mt-8 inline-flex w-fit rounded-full bg-[#792998] px-8 py-2.5 text-sm font-semibold text-white shadow-sm transition hover:bg-[#5f2077]"
+                            className="mt-8 inline-flex w-fit rounded-full bg-[#4a0157] px-8 py-2.5 text-sm font-semibold text-white shadow-sm transition hover:bg-[#3b0146]"
                             onClick={() => openLink(item?.url)}
                           >
                             Shop Now

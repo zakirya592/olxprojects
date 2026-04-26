@@ -36,7 +36,7 @@ function Headerpost() {
             gap: "8px",
             border: "none",
             background: "transparent",
-            color: "#792998",
+            color: "#4a0157",
             fontWeight: 700,
             cursor: "pointer",
             padding: "8px 0",
